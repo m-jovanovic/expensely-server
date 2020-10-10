@@ -1,0 +1,21 @@
+name: Server - Build
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.402
+    
+    - name: Install dependencies
+      run: dotnet restore ./server/Expensely.sln
+
+    - name: Build
+      run: dotnet build ./server/Expensely.sln -c Release --no-restore

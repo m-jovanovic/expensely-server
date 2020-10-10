@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Custom Ruleset" Description="Custom Ruleset" ToolsVersion="16.0">
+  <IncludeAll Action="Error" />
+  <Rules AnalyzerId="Roslyn" RuleNamespace="Roslyn">
+  </Rules>
+  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
+  </Rules>
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+  </Rules>
+</RuleSet>
