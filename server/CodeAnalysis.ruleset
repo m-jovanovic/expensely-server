@@ -2,6 +2,7 @@
 <RuleSet Name="Custom Ruleset" Description="Custom Ruleset" ToolsVersion="16.0">
   <IncludeAll Action="Error" />
   <Rules AnalyzerId="Roslyn" RuleNamespace="Roslyn">
+    <Rule Id="IDE0007" Action="None" />
     <Rule Id="IDE0046" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
@@ -14,6 +15,8 @@
     <Rule Id="CA1062" Action="None" />
     <Rule Id="CA1716" Action="None" />
     <Rule Id="CA1724" Action="None" />
+    <Rule Id="CA1812" Action="None" />
+    <Rule Id="CA2007" Action="None" />
     <Rule Id="CA2225" Action="None" />
     <Rule Id="SA0001" Action="None" />
     <Rule Id="SA1027" Action="None" />
