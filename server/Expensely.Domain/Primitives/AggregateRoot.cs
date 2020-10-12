@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Expensely.Domain.Primitives
 {
@@ -13,7 +14,7 @@ namespace Expensely.Domain.Primitives
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.
         /// </summary>
         /// <param name="id">The aggregate root identifier.</param>
-        protected AggregateRoot(int id)
+        protected AggregateRoot(Guid id)
             : base(id)
         {
         }

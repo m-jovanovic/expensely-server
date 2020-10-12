@@ -33,14 +33,7 @@ namespace Expensely.Domain.Primitives
         /// </summary>
         internal static Error None => new Error(string.Empty, string.Empty);
 
-        /// <summary>
-        /// Converts the error to its respective string representation.
-        /// </summary>
-        /// <param name="error">The error.</param>
         public static implicit operator string(Error error) => error?.Code ?? string.Empty;
-
-        /// <inheritdoc />
-        public override string ToString() => $"{Code}, {Message}";
 
         /// <inheritdoc />
         protected override IEnumerable<object> GetAtomicValues()

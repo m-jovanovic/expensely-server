@@ -29,10 +29,6 @@ namespace Expensely.Domain.Primitives.Result
             ? _value
             : throw new InvalidOperationException("The value of a failure result can not be accessed.");
 
-        /// <summary>
-        /// Converts the specified value to the result instance.
-        /// </summary>
-        /// <param name="value">The value.</param>
         public static implicit operator Result<TValue>(TValue value) => Success(value);
     }
 }

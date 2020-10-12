@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.Primitives
 {
@@ -10,8 +11,13 @@ namespace Expensely.Domain.Primitives
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
-        /// <param name="id">The identifier.</param>
-        protected Entity(int id) => Id = id;
+        /// <param name="id">The entity identifier.</param>
+        protected Entity(Guid id)
+        {
+            Ensure.NotEmpty(id, "The entity identifier is required.", nameof(id));
+
+            Id = id;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
@@ -26,14 +32,8 @@ namespace Expensely.Domain.Primitives
         /// <summary>
         /// Gets the entity identifier.
         /// </summary>
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
 
-        /// <summary>
-        /// Determines whether the specified entities are equal.
-        /// </summary>
-        /// <param name="a">The first entity.</param>
-        /// <param name="b">The second entity.</param>
-        /// <returns>True if the entities are equal, otherwise false.</returns>
         public static bool operator ==(Entity a, Entity b)
         {
             if (a is null && b is null)
@@ -49,12 +49,6 @@ namespace Expensely.Domain.Primitives
             return a.Equals(b);
         }
 
-        /// <summary>
-        /// Determines whether the specified entities are not equal.
-        /// </summary>
-        /// <param name="a">The first entity.</param>
-        /// <param name="b">The second entity.</param>
-        /// <returns>True if the entities are not equal, otherwise false.</returns>
         public static bool operator !=(Entity a, Entity b) => !(a == b);
 
         /// <inheritdoc />
@@ -91,7 +85,7 @@ namespace Expensely.Domain.Primitives
                 return false;
             }
 
-            if (Id == default || other.Id == default)
+            if (Id == Guid.Empty || other.Id == Guid.Empty)
             {
                 return false;
             }

@@ -38,10 +38,6 @@ namespace Expensely.Domain.Primitives.Maybe
             ? _value
             : throw new InvalidOperationException("The value can not be accessed because it does not exist.");
 
-        /// <summary>
-        /// Converts the specified value to a maybe instance.
-        /// </summary>
-        /// <param name="value">The value.</param>
         public static implicit operator Maybe<T>(T value) => From(value);
 
         /// <summary>

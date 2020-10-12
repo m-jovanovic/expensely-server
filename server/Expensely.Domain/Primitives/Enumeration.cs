@@ -7,20 +7,20 @@ using Expensely.Domain.Primitives.Maybe;
 namespace Expensely.Domain.Primitives
 {
     /// <summary>
-    /// Represents an enumeration type.
+    /// Represents an enumeration of objects with a unique numeric value and a name.
     /// </summary>
     /// <typeparam name="TEnum">The type of the enumeration.</typeparam>
     public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComparable<Enumeration<TEnum>>
         where TEnum : Enumeration<TEnum>
     {
-        private static readonly Lazy<Dictionary<int, TEnum>> EnumerationsDictionary =
-            new Lazy<Dictionary<int, TEnum>>(() => GetAllEnumerationOptions(typeof(TEnum)).ToDictionary(item => item.Value));
+        private static readonly Lazy<Dictionary<int, TEnum>> EnumerationsDictionary = new Lazy<Dictionary<int, TEnum>>(
+            () => GetAllEnumerationOptions(typeof(TEnum)).ToDictionary(enumeration => enumeration.Value));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Enumeration{TEnum}"/> class.
         /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="name">The name.</param>
+        /// <param name="value">The enumeration value.</param>
+        /// <param name="name">The enumeration name.</param>
         protected Enumeration(int value, string name)
         {
             Value = value;
@@ -55,12 +55,6 @@ namespace Expensely.Domain.Primitives
         /// </summary>
         public string Name { get; private set; }
 
-        /// <summary>
-        /// Determines whether the specified enumerations are equal.
-        /// </summary>
-        /// <param name="a">The first enumeration.</param>
-        /// <param name="b">The second enumeration.</param>
-        /// <returns>True if the enumerations are equal, otherwise false.</returns>
         public static bool operator ==(Enumeration<TEnum> a, Enumeration<TEnum> b)
         {
             if (a is null && b is null)
@@ -76,12 +70,6 @@ namespace Expensely.Domain.Primitives
             return a.Equals(b);
         }
 
-        /// <summary>
-        /// Determines whether the specified enumerations are not equal.
-        /// </summary>
-        /// <param name="a">The first enumeration.</param>
-        /// <param name="b">The second enumeration.</param>
-        /// <returns>True if the enumerations are not equal, otherwise false.</returns>
         public static bool operator !=(Enumeration<TEnum> a, Enumeration<TEnum> b) => !(a == b);
 
         /// <summary>
@@ -90,14 +78,13 @@ namespace Expensely.Domain.Primitives
         /// <param name="value">The enumeration value.</param>
         /// <returns>The enumeration instance that matches the specified value.</returns>
         public static Maybe<TEnum> FromValue(int value) =>
-            EnumerationsDictionary.Value.TryGetValue(value, out TEnum enumeration) ?
-                enumeration : Maybe<TEnum>.None;
+            EnumerationsDictionary.Value.TryGetValue(value, out TEnum enumeration) ? enumeration : Maybe<TEnum>.None;
 
         /// <summary>
-        /// Checks if the there is an enumeration with the specified value.
+        /// Checks if the enumeration with the specified value exists.
         /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>True if there is an enumeration with the specified value, otherwise false.</returns>
+        /// <param name="value">The enumeration value.</param>
+        /// <returns>True if an enumeration with the specified value exists, otherwise false.</returns>
         public static bool ContainsValue(int value) => EnumerationsDictionary.Value.ContainsKey(value);
 
         /// <inheritdoc />

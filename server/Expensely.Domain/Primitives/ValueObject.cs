@@ -9,12 +9,6 @@ namespace Expensely.Domain.Primitives
     /// </summary>
     public abstract class ValueObject : IEquatable<ValueObject>
     {
-        /// <summary>
-        /// Determines whether the specified value objects are equal.
-        /// </summary>
-        /// <param name="a">The first value object.</param>
-        /// <param name="b">The second value object.</param>
-        /// <returns>True if the value objects are equal, otherwise false.</returns>
         public static bool operator ==(ValueObject a, ValueObject b)
         {
             if (a is null && b is null)
@@ -30,12 +24,6 @@ namespace Expensely.Domain.Primitives
             return a.Equals(b);
         }
 
-        /// <summary>
-        /// Determines whether the specified value objects are not equal.
-        /// </summary>
-        /// <param name="a">The first value object.</param>
-        /// <param name="b">The second value object.</param>
-        /// <returns>True if the value objects are not equal, otherwise false.</returns>
         public static bool operator !=(ValueObject a, ValueObject b) => !(a == b);
 
         /// <inheritdoc />
