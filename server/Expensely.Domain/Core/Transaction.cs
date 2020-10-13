@@ -45,7 +45,7 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Gets the money.
         /// </summary>
-        public Money Money { get; private set; }
+        public Money Money { get; protected set; }
 
         /// <summary>
         /// Gets the transaction type.
