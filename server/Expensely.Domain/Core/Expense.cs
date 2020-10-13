@@ -15,6 +15,6 @@ namespace Expensely.Domain.Core
         /// <param name="money">The monetary amount.</param>
         public Expense(Guid userId, Money money)
             : base(userId, money, TransactionType.Expense) =>
-            Ensure.NotGreaterThanZero(money.Amount, "The monetary amount must be less than zero", nameof(money));
+            Ensure.NotGreaterThanZero(money.Amount, "The monetary amount must be less than or equal to zero", nameof(money));
     }
 }
