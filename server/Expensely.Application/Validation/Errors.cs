@@ -43,6 +43,13 @@ namespace Expensely.Application.Validation
                 "The expense amount can not be greater than zero.");
 
             /// <summary>
+            /// Gets the expense occurred on date is required error.
+            /// </summary>
+            internal static Error OccurredOnDateIsRequired => new Error(
+                "Expense.OccurredOnDateIsRequired",
+                "The date the expense occurred on is required.");
+
+            /// <summary>
             /// Gets the expense not found error.
             /// </summary>
             internal static Error NotFound => new Error("Expense.NotFound", "The expense with the specified value was not found.");

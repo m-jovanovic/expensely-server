@@ -13,13 +13,15 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         /// Initializes a new instance of the <see cref="CreateExpenseCommand"/> class.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <param name="currency">The currency value.</param>
         /// <param name="amount">The monetary amount.</param>
-        public CreateExpenseCommand(Guid userId, int currency, decimal amount)
+        /// <param name="currency">The currency value.</param>
+        /// <param name="occurredOn">The date the expense occurred on.</param>
+        public CreateExpenseCommand(Guid userId, decimal amount, int currency, DateTime occurredOn)
         {
             UserId = userId;
-            Currency = currency;
             Amount = amount;
+            Currency = currency;
+            OccurredOn = occurredOn;
         }
 
         /// <summary>
@@ -28,13 +30,18 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         public Guid UserId { get; }
 
         /// <summary>
+        /// Gets the monetary amount.
+        /// </summary>
+        public decimal Amount { get; }
+
+        /// <summary>
         /// Gets the currency value.
         /// </summary>
         public int Currency { get; }
 
         /// <summary>
-        /// Gets the monetary amount.
+        /// Gets the date the expense occurred on.
         /// </summary>
-        public decimal Amount { get; }
+        public DateTime OccurredOn { get; }
     }
 }

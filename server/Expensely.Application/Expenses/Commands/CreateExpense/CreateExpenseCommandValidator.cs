@@ -17,9 +17,11 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         {
             RuleFor(x => x.UserId).NotEmpty().WithError(Errors.User.IdentifierIsRequired);
 
+            RuleFor(x => x.Amount).LessThanOrEqualTo(0).WithError(Errors.Expense.AmountGreaterThanZero);
+
             RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(Errors.Currency.NotFound);
 
-            RuleFor(x => x.Amount).LessThanOrEqualTo(0).WithError(Errors.Expense.AmountGreaterThanZero);
+            RuleFor(x => x.OccurredOn).NotEmpty().WithError(Errors.Expense.OccurredOnDateIsRequired);
         }
     }
 }

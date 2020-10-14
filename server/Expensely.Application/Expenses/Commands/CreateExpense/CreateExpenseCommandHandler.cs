@@ -47,7 +47,7 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
                 return Result.Failure(Errors.Currency.NotFound);
             }
 
-            var expense = new Expense(request.UserId, new Money(request.Amount, maybeCurrency.Value));
+            var expense = new Expense(request.UserId, new Money(request.Amount, maybeCurrency.Value), request.OccurredOn);
 
             _dbContext.Insert(expense);
 

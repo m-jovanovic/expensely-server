@@ -58,6 +58,8 @@ namespace Expensely.Application.Expenses.Commands.UpdateExpense
 
             expense.ChangeMoney(new Money(request.Amount, maybeCurrency.Value));
 
+            expense.ChangeOccurredOnDate(request.OccurredOn);
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();

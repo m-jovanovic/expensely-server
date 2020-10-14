@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Domain.Events;
 using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.Core
@@ -13,8 +14,9 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="money">The monetary amount.</param>
-        public Expense(Guid userId, Money money)
-            : base(userId, money, TransactionType.Expense) =>
+        /// <param name="occurredOn">The date the expense occurred on.</param>
+        public Expense(Guid userId, Money money, DateTime occurredOn)
+            : base(userId, money, occurredOn, TransactionType.Expense) =>
             AssertMoneyIsLessThanOrEqualToZero(money);
 
         /// <summary>
@@ -25,8 +27,14 @@ namespace Expensely.Domain.Core
         {
             AssertMoneyIsLessThanOrEqualToZero(money);
 
-            // TODO: Add domain event.
+            if (Money == money)
+            {
+                return;
+            }
+
             Money = money;
+
+            AddDomainEvent(new ExpenseMoneyChangedDomainEvent(this));
         }
 
         /// <summary>
