@@ -16,8 +16,7 @@ namespace Expensely.Domain.Core
         /// <param name="userId">The user identifier.</param>
         /// <param name="money">The monetary amount of the transaction.</param>
         /// <param name="occurredOn">The date the transaction occurred on.</param>
-        /// <param name="transactionType">The transaction type.</param>
-        protected Transaction(Guid userId, Money money, DateTime occurredOn, TransactionType transactionType)
+        protected Transaction(Guid userId, Money money, DateTime occurredOn)
             : base(Guid.NewGuid())
         {
             Ensure.NotEmpty(userId, "The user identifier is required.", nameof(userId));
@@ -27,7 +26,6 @@ namespace Expensely.Domain.Core
             UserId = userId;
             Money = money;
             OccurredOn = occurredOn.Date;
-            TransactionType = transactionType;
         }
 
         /// <summary>
@@ -54,11 +52,6 @@ namespace Expensely.Domain.Core
         /// Gets the date the transaction occurred on.
         /// </summary>
         public DateTime OccurredOn { get; private set; }
-
-        /// <summary>
-        /// Gets the transaction type.
-        /// </summary>
-        public TransactionType TransactionType { get; private set; }
 
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; }

@@ -16,7 +16,7 @@ namespace Expensely.Domain.Core
         /// <param name="money">The monetary amount.</param>
         /// <param name="occurredOn">The date the expense occurred on.</param>
         public Expense(Guid userId, Money money, DateTime occurredOn)
-            : base(userId, money, occurredOn, TransactionType.Expense) =>
+            : base(userId, money, occurredOn) =>
             AssertMoneyIsLessThanOrEqualToZero(money);
 
         /// <summary>
