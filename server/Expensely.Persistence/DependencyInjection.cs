@@ -15,7 +15,8 @@ namespace Expensely.Persistence
         /// </summary>
         /// <param name="services">The service collection.</param>
         /// <param name="configuration">The configuration.</param>
-        public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
+        /// <returns>The same service collection.</returns>
+        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ExpenselyDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -23,6 +24,8 @@ namespace Expensely.Persistence
             services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<ExpenselyDbContext>());
 
             services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<ExpenselyDbContext>());
+
+            return services;
         }
     }
 }

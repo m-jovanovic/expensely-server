@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>b69d9cf6-5e14-43dd-82b1-b77bacfbbb2f</UserSecretsId>
+  </PropertyGroup>
+
+  <Import Project="..\CodeAnalysis.targets" />
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0-rc.2.20475.6" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Expensely.Application\Expensely.Application.csproj" />
+    <ProjectReference Include="..\Expensely.Infrastructure\Expensely.Infrastructure.csproj" />
+    <ProjectReference Include="..\Expensely.Persistence\Expensely.Persistence.csproj" />
+  </ItemGroup>
+
+
+</Project>

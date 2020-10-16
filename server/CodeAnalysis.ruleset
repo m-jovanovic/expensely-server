@@ -9,6 +9,7 @@
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="CA1000" Action="None" />
+    <Rule Id="CA1031" Action="None" />
     <Rule Id="CA1032" Action="None" />
     <Rule Id="CA1036" Action="None" />
     <Rule Id="CA1040" Action="None" />
@@ -16,6 +17,7 @@
     <Rule Id="CA1716" Action="None" />
     <Rule Id="CA1724" Action="None" />
     <Rule Id="CA1812" Action="None" />
+    <Rule Id="CA1822" Action="None" />
     <Rule Id="CA2007" Action="None" />
     <Rule Id="CA2225" Action="None" />
     <Rule Id="SA0001" Action="None" />

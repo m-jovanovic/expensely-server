@@ -1,5 +1,7 @@
-﻿using Expensely.Application.Abstractions.Common;
+﻿using Expensely.Application.Abstractions.Authentication;
+using Expensely.Application.Abstractions.Common;
 using Expensely.Infrastructure.Common;
+using Expensely.Infrastructure.Providers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.Infrastructure
@@ -13,6 +15,16 @@ namespace Expensely.Infrastructure
         /// Registers the necessary services with the DI framework.
         /// </summary>
         /// <param name="services">The service collection.</param>
-        public static void AddInfrastructure(this IServiceCollection services) => services.AddTransient<IDateTime, MachineDateTime>();
+        /// <returns>The same service collection.</returns>
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+        {
+            services.AddTransient<IDateTime, MachineDateTime>();
+
+            services.AddHttpContextAccessor();
+
+            services.AddScoped<IUserIdentifierProvider, UserIdentifierProvider>();
+
+            return services;
+        }
     }
 }

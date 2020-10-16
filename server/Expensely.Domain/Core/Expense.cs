@@ -20,6 +20,16 @@ namespace Expensely.Domain.Core
             AssertMoneyIsLessThanOrEqualToZero(money);
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Expense"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Required by EF Core.
+        /// </remarks>
+        private Expense()
+        {
+        }
+
+        /// <summary>
         /// Changes the monetary amount of the expense.
         /// </summary>
         /// <param name="money">The money amount.</param>

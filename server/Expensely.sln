@@ -12,9 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application", "Expensely.Application\Expensely.Application.csproj", "{6EB19C30-F0E7-4C2D-9C62-154AAAF317FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Persistence", "Expensely.Persistence\Expensely.Persistence.csproj", "{92EA6CEB-40F1-44D9-8D99-09A20C47C279}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Persistence", "Expensely.Persistence\Expensely.Persistence.csproj", "{92EA6CEB-40F1-44D9-8D99-09A20C47C279}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Infrastructure", "Expensely.Infrastructure\Expensely.Infrastructure.csproj", "{8A887C18-8839-4CF9-B60E-5CD4D7A6A7D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Infrastructure", "Expensely.Infrastructure\Expensely.Infrastructure.csproj", "{8A887C18-8839-4CF9-B60E-5CD4D7A6A7D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Api", "Expensely.Api\Expensely.Api.csproj", "{5A240AB3-CC83-43F4-AB31-D4685AC7FC10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{8A887C18-8839-4CF9-B60E-5CD4D7A6A7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A887C18-8839-4CF9-B60E-5CD4D7A6A7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A887C18-8839-4CF9-B60E-5CD4D7A6A7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A240AB3-CC83-43F4-AB31-D4685AC7FC10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A240AB3-CC83-43F4-AB31-D4685AC7FC10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A240AB3-CC83-43F4-AB31-D4685AC7FC10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A240AB3-CC83-43F4-AB31-D4685AC7FC10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

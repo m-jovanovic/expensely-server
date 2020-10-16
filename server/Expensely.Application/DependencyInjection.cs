@@ -15,13 +15,16 @@ namespace Expensely.Application
         /// Registers the necessary services with the DI framework.
         /// </summary>
         /// <param name="services">The service collection.</param>
-        public static void AddApplication(this IServiceCollection services)
+        /// <returns>The same service collection.</returns>
+        public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+            return services;
         }
     }
 }

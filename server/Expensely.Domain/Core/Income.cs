@@ -17,5 +17,15 @@ namespace Expensely.Domain.Core
         public Income(Guid userId, Money money, DateTime occurredOn)
             : base(userId, money, occurredOn) =>
             Ensure.NotLessThanZero(money.Amount, "The monetary amount must be greater than or equal to zero", nameof(money));
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Income"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Required by EF Core.
+        /// </remarks>
+        private Income()
+        {
+        }
     }
 }

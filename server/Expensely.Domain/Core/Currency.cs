@@ -38,6 +38,16 @@ namespace Expensely.Domain.Core
             Code = code;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Currency"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Required by EF Core.
+        /// </remarks>
+        private Currency()
+        {
+        }
+
+        /// <summary>
         /// Gets the currency code.
         /// </summary>
         public string Code { get; private set; }
