@@ -23,6 +23,27 @@ namespace Expensely.Application.Validation
             internal static Error InvalidPermissions => new Error(
                 "User.InvalidPermissions",
                 "The current user does not have sufficient permissions to perform this operation.");
+
+            /// <summary>
+            /// Gets the user email is required error.
+            /// </summary>
+            internal static Error EmailIsRequired => new Error(
+                "User.EmailIsRequired",
+                "The user email is required.");
+
+            /// <summary>
+            /// Gets the use email is already in use error.
+            /// </summary>
+            internal static Error EmailAlreadyInUse => new Error(
+                "User.EmailAlreadyInUse",
+                "The specified email is already in use.");
+
+            /// <summary>
+            /// Gets the user email is invalid error.
+            /// </summary>
+            internal static Error InvalidEmail => new Error(
+                "User.InvalidEmail",
+                "The provided email is invalid.");
         }
 
         /// <summary>

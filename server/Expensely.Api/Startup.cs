@@ -1,12 +1,10 @@
 using Expensely.Api.Extensions;
-using Expensely.Api.Middleware;
 using Expensely.Application;
 using Expensely.Infrastructure;
 using Expensely.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -40,7 +38,7 @@ namespace Expensely.Api
         {
             services
                 .AddApplication()
-                .AddInfrastructure()
+                .AddInfrastructure(Configuration)
                 .AddPersistence(Configuration);
 
             services.AddControllers();
@@ -66,16 +64,10 @@ namespace Expensely.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwagger();
-
-                app.UseSwaggerUI(swaggerUiOptions => swaggerUiOptions.SwaggerEndpoint("/swagger/v1/swagger.json", "Expensely API"));
+                app.ConfigureSwagger();
             }
 
-            using IServiceScope serviceScope = app.ApplicationServices.CreateScope();
-
-            using ExpenselyDbContext dbContext = serviceScope.ServiceProvider.GetRequiredService<ExpenselyDbContext>();
-
-            dbContext.Database.Migrate();
+            app.ApplyMigrations();
 
             app.UseCustomExceptionHandler();
 

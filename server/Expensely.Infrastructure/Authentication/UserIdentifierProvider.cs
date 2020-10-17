@@ -3,7 +3,7 @@ using System.Security.Claims;
 using Expensely.Application.Abstractions.Authentication;
 using Microsoft.AspNetCore.Http;
 
-namespace Expensely.Infrastructure.Providers
+namespace Expensely.Infrastructure.Authentication
 {
     /// <summary>
     /// Represents the user identifier provider.

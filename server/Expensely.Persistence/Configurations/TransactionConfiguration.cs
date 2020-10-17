@@ -41,6 +41,11 @@ namespace Expensely.Persistence.Configurations
             builder.Property(transaction => transaction.CreatedOnUtc).IsRequired();
 
             builder.Property(transaction => transaction.ModifiedOnUtc).IsRequired(false);
+
+            builder.HasOne<User>()
+                .WithMany()
+                .HasForeignKey(transaction => transaction.UserId)
+                .IsRequired();
         }
     }
 }
