@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
 [assembly: ApiController]
 
@@ -45,12 +44,7 @@ namespace Expensely.Api
 
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
-            services.AddSwaggerGen(swaggerGenOptions =>
-                swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Expensely API",
-                    Version = "v1"
-                }));
+            services.AddSwagger();
         }
 
         /// <summary>
@@ -74,6 +68,8 @@ namespace Expensely.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

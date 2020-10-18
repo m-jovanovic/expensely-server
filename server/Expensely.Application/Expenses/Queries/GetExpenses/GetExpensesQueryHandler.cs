@@ -43,7 +43,7 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
             ExpenseListResponseItem[] expenses = await _dbContext.Set<Expense>()
                 .Where(e => e.UserId == _userIdentifierProvider.UserId &&
                             e.OccurredOn < request.OccurredOn ||
-                            e.OccurredOn == request.OccurredOn && e.CreatedOnUtc < request.CreatedOnUtc)
+                            e.OccurredOn == request.OccurredOn && e.CreatedOnUtc <= request.CreatedOnUtc)
                 .OrderByDescending(e => e.OccurredOn)
                 .ThenByDescending(e => e.CreatedOnUtc)
                 .Select(e => new ExpenseListResponseItem(e.Id, e.Money.Amount, e.Money.Currency.Value, e.OccurredOn, e.CreatedOnUtc))
