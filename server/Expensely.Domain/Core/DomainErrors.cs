@@ -101,5 +101,21 @@ namespace Expensely.Domain.Core
                 "Password.MissingNonAlphaNumeric",
                 "The password requires at least one non-alphanumeric.");
         }
+
+        /// <summary>
+        /// Contains the description errors.
+        /// </summary>
+        public static class Description
+        {
+            /// <summary>
+            /// Gets the description is null or empty error.
+            /// </summary>
+            public static Error NullOrEmpty => new Error("Description.NullOrEmpty", "The description is required.");
+
+            /// <summary>
+            /// Gets the description is longer than allowed error.
+            /// </summary>
+            public static Error LongerThanAllowed => new Error("Description.LongerThanAllowed", "The description is longer than allowed.");
+        }
     }
 }

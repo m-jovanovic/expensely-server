@@ -38,10 +38,7 @@ namespace Expensely.Domain.Core
                 .Ensure(x => x.Length <= MaxLength, DomainErrors.FirstName.LongerThanAllowed)
                 .Map(x => new FirstName(x));
 
-        /// <summary>
-        /// Gets the atomic values of the value object.
-        /// </summary>
-        /// <returns>The collection of objects representing the value object values.</returns>
+        /// <inheritdoc />
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return Value;
