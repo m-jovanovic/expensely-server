@@ -42,8 +42,6 @@ namespace Expensely.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionType");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Transaction");
@@ -60,8 +58,20 @@ namespace Expensely.Persistence.Migrations
                     b.Property<DateTime>("CreatedOnUtc")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasComputedColumnSql("[FirstName] + ' ' + [LastName]", true);
+
                     b.Property<DateTime?>("ModifiedOnUtc")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("_passwordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("PasswordHash");
 
                     b.HasKey("Id");
 
@@ -124,10 +134,12 @@ namespace Expensely.Persistence.Migrations
                                         .HasForeignKey("MoneyTransactionId");
                                 });
 
-                            b1.Navigation("Currency");
+                            b1.Navigation("Currency")
+                                .IsRequired();
                         });
 
-                    b.Navigation("Money");
+                    b.Navigation("Money")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Expensely.Domain.Core.User", b =>
@@ -154,7 +166,52 @@ namespace Expensely.Persistence.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.Navigation("Email");
+                    b.OwnsOne("Expensely.Domain.Core.FirstName", "FirstName", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("FirstName");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("User");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.OwnsOne("Expensely.Domain.Core.LastName", "LastName", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("LastName");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("User");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.Navigation("Email")
+                        .IsRequired();
+
+                    b.Navigation("FirstName")
+                        .IsRequired();
+
+                    b.Navigation("LastName")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -12,11 +12,21 @@ namespace Expensely.Application.Users.Commands.CreateTokenForUser
         /// Initializes a new instance of the <see cref="CreateTokenForUserCommand"/> class.
         /// </summary>
         /// <param name="email">The user email.</param>
-        public CreateTokenForUserCommand(string email) => Email = email;
+        /// <param name="password">The password.</param>
+        public CreateTokenForUserCommand(string email, string password)
+        {
+            Email = email;
+            Password = password;
+        }
 
         /// <summary>
         /// Gets the email.
         /// </summary>
         public string Email { get; }
+
+        /// <summary>
+        /// Gets the password.
+        /// </summary>
+        public string Password { get; }
     }
 }

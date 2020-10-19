@@ -27,23 +27,39 @@ namespace Expensely.Application.Validation
             /// <summary>
             /// Gets the user email is required error.
             /// </summary>
-            internal static Error EmailIsRequired => new Error(
-                "User.EmailIsRequired",
-                "The user email is required.");
+            internal static Error EmailIsRequired => new Error("User.EmailIsRequired", "The user email is required.");
+
+            /// <summary>
+            /// Gets the user first name is required error.
+            /// </summary>
+            internal static Error FirstNameIsRequired => new Error("User.FirstNameIsRequired", "The user first name is required.");
+
+            /// <summary>
+            /// Gets the user last name is required error.
+            /// </summary>
+            internal static Error LastNameIsRequired => new Error("User.LastNameIsRequired", "The user last name is required.");
 
             /// <summary>
             /// Gets the use email is already in use error.
             /// </summary>
-            internal static Error EmailAlreadyInUse => new Error(
-                "User.EmailAlreadyInUse",
-                "The specified email is already in use.");
+            internal static Error EmailAlreadyInUse => new Error("User.EmailAlreadyInUse", "The specified email is already in use.");
 
             /// <summary>
-            /// Gets the user email is invalid error.
+            /// Gets the user password is required error.
             /// </summary>
-            internal static Error InvalidEmail => new Error(
-                "User.InvalidEmail",
-                "The provided email is invalid.");
+            internal static Error PasswordIsRequired => new Error("User.PasswordIsRequired", "The user password is required.");
+
+            /// <summary>
+            /// Gets the user password and confirmation password must match error.
+            /// </summary>
+            internal static Error PasswordAndConfirmationPasswordMustMatch => new Error(
+                "User.PasswordAndConfirmationPasswordMustMatch",
+                "The provided password and confirmation password must match.");
+
+            /// <summary>
+            /// Gets the user email or password is invalid error.
+            /// </summary>
+            internal static Error InvalidEmailOrPassword => new Error("User.InvalidEmail", "The provided email or password is invalid.");
         }
 
         /// <summary>

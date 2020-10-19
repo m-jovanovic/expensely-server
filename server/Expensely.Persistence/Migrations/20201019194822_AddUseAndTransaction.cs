@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Expensely.Persistence.Migrations
 {
-    public partial class AddUserAndTransaction : Migration
+    public partial class AddUseAndTransaction : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,9 +13,13 @@ namespace Expensely.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false, computedColumnSql: "[FirstName] + ' ' + [LastName]", stored: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,14 +51,12 @@ namespace Expensely.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transaction_TransactionType",
-                table: "Transaction",
-                column: "TransactionType");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Transaction_UserId",
                 table: "Transaction",
                 column: "UserId");
+
+            migrationBuilder.Sql(
+                @"CREATE INDEX [IX_Transaction_OccurredOn_CreatedOnUtc] ON [Transaction] ([OccurredOn] DESC, [CreatedOnUtc] DESC);");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_Email",

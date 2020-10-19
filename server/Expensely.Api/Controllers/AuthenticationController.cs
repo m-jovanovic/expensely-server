@@ -38,7 +38,7 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest) =>
             await Result.Create(loginRequest, Errors.UnProcessableRequest)
-                .Map(request => new CreateTokenForUserCommand(request.Email))
+                .Map(request => new CreateTokenForUserCommand(request.Email, request.Password))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
 
@@ -53,7 +53,12 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest) =>
             await Result.Create(registerRequest, Errors.UnProcessableRequest)
-                .Map(request => new CreateUserCommand(request.Email))
+                .Map(request => new CreateUserCommand(
+                    request.FirstName,
+                    request.LastName,
+                    request.Email,
+                    request.Password,
+                    request.ConfirmationPassword))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
     }

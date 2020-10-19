@@ -127,5 +127,20 @@ namespace Expensely.Domain.Utility
                 throw new ArgumentException(message, argumentName);
             }
         }
+
+        /// <summary>
+        /// Ensures that the specified value is not null.
+        /// </summary>
+        /// <param name="value">The value to check.</param>
+        /// <param name="message">The message to show if the check fails.</param>
+        /// <param name="argumentName">The name of the argument being checked.</param>
+        /// <exception cref="ArgumentNullException"> if the specified value is null.</exception>
+        public static void NotNull(object value, string message, string argumentName)
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(message, argumentName);
+            }
+        }
     }
 }

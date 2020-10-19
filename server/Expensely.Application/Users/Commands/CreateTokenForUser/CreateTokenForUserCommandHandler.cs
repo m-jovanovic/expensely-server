@@ -7,6 +7,7 @@ using Expensely.Application.Validation;
 using Expensely.Domain.Core;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
+using Expensely.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Users.Commands.CreateTokenForUser
@@ -17,16 +18,19 @@ namespace Expensely.Application.Users.Commands.CreateTokenForUser
     internal sealed class CreateTokenForUserCommandHandler : ICommandHandler<CreateTokenForUserCommand, Result<string>>
     {
         private readonly IDbContext _dbContext;
+        private readonly IPasswordService _passwordService;
         private readonly IJwtProvider _jwtProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateTokenForUserCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
+        /// <param name="passwordService">The password service.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
-        public CreateTokenForUserCommandHandler(IDbContext dbContext, IJwtProvider jwtProvider)
+        public CreateTokenForUserCommandHandler(IDbContext dbContext, IJwtProvider jwtProvider, IPasswordService passwordService)
         {
             _dbContext = dbContext;
+            _passwordService = passwordService;
             _jwtProvider = jwtProvider;
         }
 
@@ -34,22 +38,31 @@ namespace Expensely.Application.Users.Commands.CreateTokenForUser
         public async Task<Result<string>> Handle(CreateTokenForUserCommand request, CancellationToken cancellationToken)
         {
             Result<Email> emailResult = Email.Create(request.Email);
+            Result<Password> passwordResult = Password.Create(request.Password);
 
-            if (emailResult.IsFailure)
+            var result = Result.FirstFailureOrSuccess(emailResult, passwordResult);
+
+            if (result.IsFailure)
             {
-                return Result.Failure<string>(emailResult.Error);
+                return Result.Failure<string>(result.Error);
             }
 
-            Email email = emailResult.Value;
-
-            Maybe<User> maybeUser = await _dbContext.Set<User>().FirstOrDefaultAsync(u => u.Email.Value == email, cancellationToken);
+            Maybe<User> maybeUser = await _dbContext.Set<User>()
+                .FirstOrDefaultAsync(u => u.Email.Value == emailResult.Value, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure<string>(Errors.User.InvalidEmail);
+                return Result.Failure<string>(Errors.User.InvalidEmailOrPassword);
             }
 
-            string token = _jwtProvider.CreateToken(maybeUser.Value);
+            User user = maybeUser.Value;
+
+            if (!user.VerifyPassword(passwordResult.Value, _passwordService))
+            {
+                return Result.Failure<string>(Errors.User.InvalidEmailOrPassword);
+            }
+
+            string token = _jwtProvider.CreateToken(user);
 
             return token;
         }

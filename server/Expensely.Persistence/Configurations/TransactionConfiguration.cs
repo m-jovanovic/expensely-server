@@ -16,25 +16,23 @@ namespace Expensely.Persistence.Configurations
                 .HasValue<Expense>((int)TransactionType.Expense)
                 .HasValue<Income>((int)TransactionType.Income);
 
-            builder.HasIndex(nameof(TransactionType));
-
             builder.OwnsOne(transaction => transaction.Money, moneyBuilder =>
             {
-                moneyBuilder.WithOwner();
-
                 moneyBuilder.Property(money => money.Amount).HasColumnName(nameof(Money.Amount)).HasPrecision(12, 4).IsRequired();
 
                 moneyBuilder.OwnsOne(money => money.Currency, currencyBuilder =>
                 {
-                    currencyBuilder.WithOwner();
-
                     currencyBuilder.Property(currency => currency.Value).HasColumnName(nameof(Money.Currency)).IsRequired();
 
                     currencyBuilder.Ignore(currency => currency.Code);
 
                     currencyBuilder.Ignore(currency => currency.Name);
                 });
+
+                moneyBuilder.Navigation(money => money.Currency).IsRequired();
             });
+
+            builder.Navigation(transaction => transaction.Money).IsRequired();
 
             builder.Property(transaction => transaction.OccurredOn).HasColumnType("date").IsRequired();
 

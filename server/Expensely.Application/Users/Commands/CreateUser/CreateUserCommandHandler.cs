@@ -6,7 +6,7 @@ using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Validation;
 using Expensely.Domain.Core;
 using Expensely.Domain.Primitives.Result;
-using Microsoft.EntityFrameworkCore;
+using Expensely.Domain.Services;
 
 namespace Expensely.Application.Users.Commands.CreateUser
 {
@@ -17,6 +17,7 @@ namespace Expensely.Application.Users.Commands.CreateUser
     {
         private readonly IDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPasswordService _passwordService;
         private readonly IJwtProvider _jwtProvider;
 
         /// <summary>
@@ -24,34 +25,39 @@ namespace Expensely.Application.Users.Commands.CreateUser
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="unitOfWork">The unit of work.</param>
+        /// <param name="passwordService">The password service.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
-        public CreateUserCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IJwtProvider jwtProvider)
+        public CreateUserCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IPasswordService passwordService, IJwtProvider jwtProvider)
         {
             _dbContext = dbContext;
             _unitOfWork = unitOfWork;
+            _passwordService = passwordService;
             _jwtProvider = jwtProvider;
         }
 
         /// <inheritdoc />
         public async Task<Result<string>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
+            Result<FirstName> firstNameResult = FirstName.Create(request.FirstName);
+            Result<LastName> lastNameResult = LastName.Create(request.LastName);
             Result<Email> emailResult = Email.Create(request.Email);
+            Result<Password> passwordResult = Password.Create(request.Password);
 
-            if (emailResult.IsFailure)
+            var result = Result.FirstFailureOrSuccess(firstNameResult, lastNameResult, emailResult, passwordResult);
+
+            if (result.IsFailure)
             {
-                return Result.Failure<string>(emailResult.Error);
+                return Result.Failure<string>(result.Error);
             }
 
-            Email email = emailResult.Value;
-
-            bool emailAlreadyExists = await _dbContext.Set<User>().AnyAsync(u => u.Email.Value == email, cancellationToken);
+            bool emailAlreadyExists = await _dbContext.AnyAsync<User>(x => x.Email.Value == emailResult.Value);
 
             if (emailAlreadyExists)
             {
                 return Result.Failure<string>(Errors.User.EmailAlreadyInUse);
             }
 
-            var user = new User(email);
+            var user = new User(firstNameResult.Value, lastNameResult.Value, emailResult.Value, passwordResult.Value, _passwordService);
 
             _dbContext.Insert(user);
 

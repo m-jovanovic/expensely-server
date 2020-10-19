@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Primitives.Maybe;
@@ -26,6 +27,15 @@ namespace Expensely.Application.Abstractions.Data
         /// <param name="id">The entity identifier.</param>
         /// <returns>The maybe instance that may contain the <typeparamref name="TEntity"/> with the specified identifier.</returns>
         Task<Maybe<TEntity>> GetBydIdAsync<TEntity>(Guid id)
+            where TEntity : Entity;
+
+        /// <summary>
+        /// Checks if any entity satisfies the specified predicate.
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>True if any entity satisfies the specified predicate, otherwise false.</returns>
+        Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> predicate)
             where TEntity : Entity;
 
         /// <summary>

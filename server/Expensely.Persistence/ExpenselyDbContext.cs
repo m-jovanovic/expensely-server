@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,6 +46,11 @@ namespace Expensely.Persistence
 
             return await Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
         }
+
+        /// <inheritdoc />
+        public async Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> predicate)
+            where TEntity : Entity =>
+            await Set<TEntity>().AnyAsync(predicate);
 
         /// <inheritdoc />
         public void Insert<TEntity>(TEntity entity)
