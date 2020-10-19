@@ -2,7 +2,7 @@
 using Expensely.Domain.Primitives;
 using FluentValidation;
 
-namespace Expensely.Application.Utility
+namespace Expensely.Application.Extensions
 {
     /// <summary>
     /// Contains extension methods for fluent validations.

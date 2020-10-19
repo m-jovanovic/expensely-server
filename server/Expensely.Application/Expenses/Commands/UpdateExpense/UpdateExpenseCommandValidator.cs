@@ -1,4 +1,5 @@
-﻿using Expensely.Application.Utility;
+﻿using Expensely.Application.Extensions;
+using Expensely.Application.Utility;
 using Expensely.Application.Validation;
 using Expensely.Domain.Core;
 using FluentValidation;
