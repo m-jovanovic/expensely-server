@@ -12,9 +12,18 @@ namespace Expensely.Persistence.Configurations
         /// <inheritdoc />
         public void Configure(EntityTypeBuilder<Transaction> builder)
         {
+            builder.HasKey(transaction => transaction.Id);
+
             builder.HasDiscriminator<int>(nameof(TransactionType))
                 .HasValue<Expense>((int)TransactionType.Expense)
                 .HasValue<Income>((int)TransactionType.Income);
+
+            builder.OwnsOne(transaction => transaction.Name, nameBuilder =>
+                nameBuilder
+                    .Property(name => name.Value)
+                    .HasColumnName(nameof(Transaction.Name))
+                    .HasMaxLength(Name.MaxLength)
+                    .IsRequired());
 
             builder.OwnsOne(transaction => transaction.Money, moneyBuilder =>
             {
@@ -32,7 +41,18 @@ namespace Expensely.Persistence.Configurations
                 moneyBuilder.Navigation(money => money.Currency).IsRequired();
             });
 
+            builder.OwnsOne(transaction => transaction.Description, descriptionBuilder =>
+                descriptionBuilder
+                    .Property(name => name.Value)
+                    .HasColumnName(nameof(Transaction.Description))
+                    .HasMaxLength(Description.MaxLength)
+                    .IsRequired());
+
             builder.Navigation(transaction => transaction.Money).IsRequired();
+
+            builder.Navigation(transaction => transaction.Name).IsRequired();
+
+            builder.Navigation(transaction => transaction.Description).IsRequired();
 
             builder.Property(transaction => transaction.OccurredOn).HasColumnType("date").IsRequired();
 

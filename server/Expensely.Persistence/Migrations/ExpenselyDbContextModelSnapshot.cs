@@ -19,6 +19,37 @@ namespace Expensely.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0-rc.2.20475.6");
 
+            modelBuilder.Entity("Expensely.Domain.Core.Budget", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("Expired")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Budget");
+                });
+
             modelBuilder.Entity("Expensely.Domain.Core.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -61,8 +92,8 @@ namespace Expensely.Persistence.Migrations
                     b.Property<string>("FullName")
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(201)
+                        .HasColumnType("nvarchar(201)")
                         .HasComputedColumnSql("[FirstName] + ' ' + [LastName]", true);
 
                     b.Property<DateTime?>("ModifiedOnUtc")
@@ -92,6 +123,78 @@ namespace Expensely.Persistence.Migrations
                     b.HasDiscriminator().HasValue(2);
                 });
 
+            modelBuilder.Entity("Expensely.Domain.Core.Budget", b =>
+                {
+                    b.HasOne("Expensely.Domain.Core.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Expensely.Domain.Core.Money", "Money", b1 =>
+                        {
+                            b1.Property<Guid>("BudgetId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<decimal>("Amount")
+                                .HasPrecision(12, 4)
+                                .HasColumnType("decimal(12,4)")
+                                .HasColumnName("Amount");
+
+                            b1.HasKey("BudgetId");
+
+                            b1.ToTable("Budget");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BudgetId");
+
+                            b1.OwnsOne("Expensely.Domain.Core.Currency", "Currency", b2 =>
+                                {
+                                    b2.Property<Guid>("MoneyBudgetId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<int>("Value")
+                                        .HasColumnType("int")
+                                        .HasColumnName("Currency");
+
+                                    b2.HasKey("MoneyBudgetId");
+
+                                    b2.ToTable("Budget");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("MoneyBudgetId");
+                                });
+
+                            b1.Navigation("Currency")
+                                .IsRequired();
+                        });
+
+                    b.OwnsOne("Expensely.Domain.Core.Name", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("BudgetId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("Name");
+
+                            b1.HasKey("BudgetId");
+
+                            b1.ToTable("Budget");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BudgetId");
+                        });
+
+                    b.Navigation("Money")
+                        .IsRequired();
+
+                    b.Navigation("Name")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Expensely.Domain.Core.Transaction", b =>
                 {
                     b.HasOne("Expensely.Domain.Core.User", null)
@@ -99,6 +202,25 @@ namespace Expensely.Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.OwnsOne("Expensely.Domain.Core.Description", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("TransactionId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("Description");
+
+                            b1.HasKey("TransactionId");
+
+                            b1.ToTable("Transaction");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TransactionId");
+                        });
 
                     b.OwnsOne("Expensely.Domain.Core.Money", "Money", b1 =>
                         {
@@ -138,7 +260,32 @@ namespace Expensely.Persistence.Migrations
                                 .IsRequired();
                         });
 
+                    b.OwnsOne("Expensely.Domain.Core.Name", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("TransactionId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("Name");
+
+                            b1.HasKey("TransactionId");
+
+                            b1.ToTable("Transaction");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TransactionId");
+                        });
+
+                    b.Navigation("Description")
+                        .IsRequired();
+
                     b.Navigation("Money")
+                        .IsRequired();
+
+                    b.Navigation("Name")
                         .IsRequired();
                 });
 

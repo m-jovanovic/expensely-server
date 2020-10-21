@@ -12,7 +12,7 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// The description maximum length.
         /// </summary>
-        public const int MaxLength = 200;
+        public const int MaxLength = 500;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Description"/> class.
@@ -33,8 +33,7 @@ namespace Expensely.Domain.Core
         /// <param name="firstName">The description value.</param>
         /// <returns>The result of the description creation process containing the description or an error.</returns>
         public static Result<Description> Create(string firstName) =>
-            Result.Create(firstName, DomainErrors.Description.NullOrEmpty)
-                .Ensure(x => !string.IsNullOrWhiteSpace(x), DomainErrors.Description.NullOrEmpty)
+            Result.Success(firstName ?? string.Empty)
                 .Ensure(x => x.Length <= MaxLength, DomainErrors.Description.LongerThanAllowed)
                 .Map(x => new Description(x));
 

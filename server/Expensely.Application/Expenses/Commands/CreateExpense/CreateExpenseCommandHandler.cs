@@ -40,6 +40,16 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
                 return Result.Failure(Errors.User.InvalidPermissions);
             }
 
+            Result<Name> nameResult = Name.Create(request.Name);
+            Result<Description> descriptionResult = Description.Create(request.Description);
+
+            var result = Result.FirstFailureOrSuccess(nameResult, descriptionResult);
+
+            if (result.IsFailure)
+            {
+                return Result.Failure(result.Error);
+            }
+
             Maybe<Currency> maybeCurrency = Currency.FromValue(request.Currency);
 
             if (maybeCurrency.HasNoValue)
@@ -47,7 +57,12 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
                 return Result.Failure(Errors.Currency.NotFound);
             }
 
-            var expense = new Expense(request.UserId, new Money(request.Amount, maybeCurrency.Value), request.OccurredOn);
+            var expense = new Expense(
+                request.UserId,
+                nameResult.Value,
+                new Money(request.Amount, maybeCurrency.Value),
+                request.OccurredOn,
+                descriptionResult.Value);
 
             _dbContext.Insert(expense);
 

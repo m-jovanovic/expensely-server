@@ -1,6 +1,4 @@
-﻿using Expensely.Domain.Primitives;
-
-namespace Expensely.Domain.Core
+﻿namespace Expensely.Domain.Core
 {
     /// <summary>
     /// Represents the enumeration of the supported transaction types.

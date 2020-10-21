@@ -43,14 +43,14 @@ namespace Expensely.Domain.Core
 
         public static Money operator +(Money left, Money right)
         {
-            AssertCurrenciesAreEqual(left, right);
+            EnsureCurrenciesAreEqual(left, right);
 
             return new Money(left.Amount + right.Amount, left.Currency);
         }
 
         public static Money operator -(Money left, Money right)
         {
-            AssertCurrenciesAreEqual(left, right);
+            EnsureCurrenciesAreEqual(left, right);
 
             return new Money(left.Amount - right.Amount, left.Currency);
         }
@@ -63,15 +63,16 @@ namespace Expensely.Domain.Core
         }
 
         /// <summary>
-        /// Asserts that the specified currencies are the same currency.
+        /// Ensures that the specified currencies are the same currency, otherwise throws an exception.
         /// </summary>
         /// <param name="left">The first currency.</param>
         /// <param name="right">The second currency.</param>
-        private static void AssertCurrenciesAreEqual(Money left, Money right)
+        /// <exception cref="MoneyCurrenciesNotEqualDomainException"> when the specified currencies are not the same.</exception>
+        private static void EnsureCurrenciesAreEqual(Money left, Money right)
         {
             if (left.Currency != right.Currency)
             {
-                throw new CurrenciesNotEqualDomainException(left.Currency, right.Currency);
+                throw new MoneyCurrenciesNotEqualDomainException(left.Currency, right.Currency);
             }
         }
     }

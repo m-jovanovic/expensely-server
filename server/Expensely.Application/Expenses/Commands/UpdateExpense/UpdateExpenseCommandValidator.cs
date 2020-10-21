@@ -1,5 +1,4 @@
 ﻿using Expensely.Application.Extensions;
-using Expensely.Application.Utility;
 using Expensely.Application.Validation;
 using Expensely.Domain.Core;
 using FluentValidation;
@@ -18,7 +17,9 @@ namespace Expensely.Application.Expenses.Commands.UpdateExpense
         {
             RuleFor(x => x.ExpenseId).NotEmpty().WithError(Errors.Expense.IdentifierIsRequired);
 
-            RuleFor(x => x.Amount).LessThanOrEqualTo(0).WithError(Errors.Expense.AmountGreaterThanZero);
+            RuleFor(x => x.Name).NotEmpty().WithError(Errors.Expense.NameIsRequired);
+
+            RuleFor(x => x.Amount).LessThanOrEqualTo(0).WithError(Errors.Expense.AmountGreaterThanOrEqualToZero);
 
             RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(Errors.Currency.NotFound);
 

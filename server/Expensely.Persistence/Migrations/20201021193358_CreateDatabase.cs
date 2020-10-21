@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Expensely.Persistence.Migrations
 {
-    public partial class AddUseAndTransaction : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,7 @@ namespace Expensely.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false, computedColumnSql: "[FirstName] + ' ' + [LastName]", stored: true),
+                    FullName = table.Column<string>(type: "nvarchar(201)", maxLength: 201, nullable: false, computedColumnSql: "[FirstName] + ' ' + [LastName]", stored: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -27,14 +27,42 @@ namespace Expensely.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Budget",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(12,4)", precision: 12, scale: 4, nullable: false),
+                    Currency = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "date", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "date", nullable: false),
+                    Expired = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Budget", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Budget_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transaction",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(12,4)", precision: 12, scale: 4, nullable: false),
                     Currency = table.Column<int>(type: "int", nullable: false),
                     OccurredOn = table.Column<DateTime>(type: "date", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TransactionType = table.Column<int>(type: "int", nullable: false)
@@ -50,13 +78,10 @@ namespace Expensely.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Transaction_UserId",
-                table: "Transaction",
-                column: "UserId");
+            migrationBuilder.Sql(@"CREATE INDEX [IX_Budget_UserId] ON [Budget] ([UserId]) WHERE [Expired] = 0;");
 
             migrationBuilder.Sql(
-                @"CREATE INDEX [IX_Transaction_OccurredOn_CreatedOnUtc] ON [Transaction] ([OccurredOn] DESC, [CreatedOnUtc] DESC);");
+                @"CREATE INDEX [IX_Transaction_UserId_OccurredOn_CreatedOnUtc] ON [Transaction] ([UserId], [OccurredOn] DESC, [CreatedOnUtc] DESC);");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_Email",
@@ -67,6 +92,9 @@ namespace Expensely.Persistence.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Budget");
+
             migrationBuilder.DropTable(
                 name: "Transaction");
 

@@ -51,7 +51,7 @@ namespace Expensely.Persistence.Configurations
 
             builder.Property(user => user.FullName)
                 .HasComputedColumnSql($"[{nameof(User.FirstName)}] + ' ' + [{nameof(User.LastName)}]", true)
-                .HasMaxLength(FirstName.MaxLength + LastName.MaxLength)
+                .HasMaxLength(FirstName.MaxLength + LastName.MaxLength + 1)
                 .IsRequired();
 
             builder.Property(transaction => transaction.CreatedOnUtc).IsRequired();

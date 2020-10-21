@@ -49,6 +49,16 @@ namespace Expensely.Application.Expenses.Commands.UpdateExpense
                 return Result.Failure(Errors.User.InvalidPermissions);
             }
 
+            Result<Name> nameResult = Name.Create(request.Name);
+            Result<Description> descriptionResult = Description.Create(request.Description);
+
+            var result = Result.FirstFailureOrSuccess(nameResult, descriptionResult);
+
+            if (result.IsFailure)
+            {
+                return Result.Failure(result.Error);
+            }
+
             Maybe<Currency> maybeCurrency = Currency.FromValue(request.Currency);
 
             if (maybeCurrency.HasNoValue)
@@ -56,9 +66,13 @@ namespace Expensely.Application.Expenses.Commands.UpdateExpense
                 return Result.Failure(Errors.Currency.NotFound);
             }
 
+            expense.ChangeName(nameResult.Value);
+
             expense.ChangeMoney(new Money(request.Amount, maybeCurrency.Value));
 
             expense.ChangeOccurredOnDate(request.OccurredOn);
+
+            expense.ChangeDescription(descriptionResult.Value);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

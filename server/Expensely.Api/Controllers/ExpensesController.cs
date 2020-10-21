@@ -12,7 +12,6 @@ using Expensely.Application.Expenses.Queries.GetExpenses;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -60,7 +59,13 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateExpenseRequest request) =>
             await Result.Create(request, Errors.UnProcessableRequest)
-                .Map(value => new CreateExpenseCommand(value.UserId, value.Amount, value.Currency, value.OccurredOn))
+                .Map(value => new CreateExpenseCommand(
+                    value.UserId,
+                    value.Name,
+                    value.Amount,
+                    value.Currency,
+                    value.OccurredOn,
+                    value.Description))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
 
@@ -76,7 +81,13 @@ namespace Expensely.Api.Controllers
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateExpenseRequest request) =>
             await Result.Create(request, Errors.UnProcessableRequest)
                 .Ensure(value => value.ExpenseId == id, Errors.UnProcessableRequest)
-                .Map(value => new UpdateExpenseCommand(value.ExpenseId, value.Amount, value.Currency, value.OccurredOn))
+                .Map(value => new UpdateExpenseCommand(
+                    value.ExpenseId,
+                    value.Name,
+                    value.Amount,
+                    value.Currency,
+                    value.OccurredOn,
+                    value.Description))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
 

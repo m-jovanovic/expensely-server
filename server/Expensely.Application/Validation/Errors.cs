@@ -73,11 +73,16 @@ namespace Expensely.Application.Validation
             internal static Error IdentifierIsRequired => new Error("Expense.IdentifierIsRequired", "The expense identifier is required.");
 
             /// <summary>
-            /// Gets the expense amount greater than zero error.
+            /// Gets the expense name is required error.
             /// </summary>
-            internal static Error AmountGreaterThanZero => new Error(
-                "Expense.AmountGreaterThanZero",
-                "The expense amount can not be greater than zero.");
+            internal static Error NameIsRequired => new Error("Expense.NameIsRequired", "The expense name is required.");
+
+            /// <summary>
+            /// Gets the expense amount greater than or equal to zero error.
+            /// </summary>
+            internal static Error AmountGreaterThanOrEqualToZero => new Error(
+                "Expense.AmountGreaterThanOrEqualToZero",
+                "The expense amount can not be greater than or equal to zero.");
 
             /// <summary>
             /// Gets the expense occurred on date is required error.

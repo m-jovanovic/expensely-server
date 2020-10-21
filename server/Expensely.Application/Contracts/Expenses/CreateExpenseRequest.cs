@@ -13,6 +13,11 @@ namespace Expensely.Application.Contracts.Expenses
         public Guid UserId { get; set; }
 
         /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or sets the amount.
         /// </summary>
         public decimal Amount { get; set; }
@@ -26,5 +31,10 @@ namespace Expensely.Application.Contracts.Expenses
         /// Gets or sets the occurred on date.
         /// </summary>
         public DateTime OccurredOn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        public string Description { get; set; }
     }
 }
