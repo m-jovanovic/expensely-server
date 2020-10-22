@@ -46,5 +46,26 @@
             /// </summary>
             internal const string Delete = "expenses/{id:guid}";
         }
+
+        /// <summary>
+        /// Contains the budgets routes.
+        /// </summary>
+        internal static class Budgets
+        {
+            /// <summary>
+            /// The create route.
+            /// </summary>
+            internal const string Create = "budgets";
+
+            /// <summary>
+            /// The update route.
+            /// </summary>
+            internal const string Update = "budgets/{id:guid}";
+
+            /// <summary>
+            /// The delete route.
+            /// </summary>
+            internal const string Delete = "budgets/{id:guid}";
+        }
     }
 }

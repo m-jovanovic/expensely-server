@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Domain.Events;
 using Expensely.Domain.Exceptions;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
@@ -83,6 +84,54 @@ namespace Expensely.Domain.Core
         public DateTime? ModifiedOnUtc { get; }
 
         /// <summary>
+        /// Changes the name of the budget.
+        /// </summary>
+        /// <param name="name">The new name.</param>
+        public void ChangeName(Name name)
+        {
+            if (name == Name)
+            {
+                return;
+            }
+
+            Name = name;
+        }
+
+        /// <summary>
+        /// Changes the monetary amount of the budget.
+        /// </summary>
+        /// <param name="money">The new money amount.</param>
+        public void ChangeMoney(Money money)
+        {
+            EnsureMoneyIsGreaterThanZero(money);
+
+            if (Money == money)
+            {
+                return;
+            }
+
+            Money = money;
+        }
+
+        /// <summary>
+        /// Changes the dates of the budget.
+        /// </summary>
+        /// <param name="startDate">The new start date.</param>
+        /// <param name="endDate">The new end date.</param>
+        public void ChangeDates(DateTime startDate, DateTime endDate)
+        {
+            EnsureStartDatePrecedesEndDate(startDate, endDate);
+
+            if (startDate == StartDate && endDate == EndDate)
+            {
+                return;
+            }
+
+            StartDate = startDate;
+            EndDate = endDate;
+        }
+
+        /// <summary>
         /// Marks the budget as expired.
         /// </summary>
         /// <exception cref="BudgetAlreadyExpiredDomainException"> when the budget is already expired.</exception>
@@ -109,5 +158,13 @@ namespace Expensely.Domain.Core
                 throw new BudgetEndDatePrecedesStartDateDomainException(startDate, endDate);
             }
         }
+
+        /// <summary>
+        /// Ensures that the specified money amount is greater than zero.
+        /// </summary>
+        /// <param name="money">The monetary amount.</param>
+        /// <exception cref="ArgumentException"> if the monetary amount is less than or equal to zero.</exception>
+        private static void EnsureMoneyIsGreaterThanZero(Money money) =>
+            Ensure.NotLessThanOrEqualToZero(money.Amount, "The monetary amount must be greater than zero", nameof(money));
     }
 }

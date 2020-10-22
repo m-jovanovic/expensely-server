@@ -1,6 +1,5 @@
 ﻿using Expensely.Application.Extensions;
 using Expensely.Application.Users.Commands.CreateUser;
-using Expensely.Application.Utility;
 using Expensely.Application.Validation;
 using FluentValidation;
 
