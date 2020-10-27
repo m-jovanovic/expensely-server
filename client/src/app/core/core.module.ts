@@ -1,10 +1,11 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EmptyLayoutComponent } from './components';
 
 @NgModule({
   declarations: [EmptyLayoutComponent],
-  imports: [RouterModule],
+  imports: [RouterModule, HttpClientModule],
   providers: [],
   exports: [EmptyLayoutComponent]
 })
