@@ -1,13 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { CoreModule } from './core/core.module';
-import { NgxsModule } from '@ngxs/store/src/module';
-import { NgxsStoragePluginModule } from '@ngxs/storage-plugin/src/storage.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,9 +20,7 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin/src/storage.module
     NgxsModule.forRoot([], {
       developmentMode: !environment.production
     }),
-    NgxsStoragePluginModule.forRoot({
-      key: []
-    }),
+    NgxsStoragePluginModule.forRoot(),
     CoreModule
   ],
   providers: [],
