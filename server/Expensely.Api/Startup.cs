@@ -63,6 +63,12 @@ namespace Expensely.Api
 
             app.ApplyMigrations();
 
+            app.UseCors(configure =>
+                configure
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+
             app.UseCustomExceptionHandler();
 
             app.UseHttpsRedirection();

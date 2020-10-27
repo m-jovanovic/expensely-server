@@ -1,4 +1,5 @@
 ﻿using Expensely.Application.Abstractions.Messaging;
+using Expensely.Application.Contracts.Users;
 using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Application.Users.Commands.CreateTokenForUser
@@ -6,7 +7,7 @@ namespace Expensely.Application.Users.Commands.CreateTokenForUser
     /// <summary>
     /// Represents the command for creating a JWT token for a user.
     /// </summary>
-    public sealed class CreateTokenForUserCommand : ICommand<Result<string>>
+    public sealed class CreateTokenForUserCommand : ICommand<Result<TokenResponse>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateTokenForUserCommand"/> class.

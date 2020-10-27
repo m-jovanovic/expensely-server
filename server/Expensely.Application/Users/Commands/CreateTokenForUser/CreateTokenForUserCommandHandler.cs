@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
+using Expensely.Application.Contracts.Users;
 using Expensely.Application.Validation;
 using Expensely.Domain.Core;
 using Expensely.Domain.Primitives.Maybe;
@@ -15,7 +16,7 @@ namespace Expensely.Application.Users.Commands.CreateTokenForUser
     /// <summary>
     /// Represents the <see cref="CreateTokenForUserCommand"/> handler.
     /// </summary>
-    internal sealed class CreateTokenForUserCommandHandler : ICommandHandler<CreateTokenForUserCommand, Result<string>>
+    internal sealed class CreateTokenForUserCommandHandler : ICommandHandler<CreateTokenForUserCommand, Result<TokenResponse>>
     {
         private readonly IDbContext _dbContext;
         private readonly IPasswordService _passwordService;
@@ -35,7 +36,7 @@ namespace Expensely.Application.Users.Commands.CreateTokenForUser
         }
 
         /// <inheritdoc />
-        public async Task<Result<string>> Handle(CreateTokenForUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<TokenResponse>> Handle(CreateTokenForUserCommand request, CancellationToken cancellationToken)
         {
             Result<Email> emailResult = Email.Create(request.Email);
             Result<Password> passwordResult = Password.Create(request.Password);
@@ -44,7 +45,7 @@ namespace Expensely.Application.Users.Commands.CreateTokenForUser
 
             if (result.IsFailure)
             {
-                return Result.Failure<string>(result.Error);
+                return Result.Failure<TokenResponse>(result.Error);
             }
 
             Maybe<User> maybeUser = await _dbContext.Set<User>()
@@ -52,19 +53,19 @@ namespace Expensely.Application.Users.Commands.CreateTokenForUser
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure<string>(Errors.User.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(Errors.User.InvalidEmailOrPassword);
             }
 
             User user = maybeUser.Value;
 
             if (!user.VerifyPassword(passwordResult.Value, _passwordService))
             {
-                return Result.Failure<string>(Errors.User.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(Errors.User.InvalidEmailOrPassword);
             }
 
             string token = _jwtProvider.CreateToken(user);
 
-            return token;
+            return new TokenResponse(token);
         }
     }
 }
