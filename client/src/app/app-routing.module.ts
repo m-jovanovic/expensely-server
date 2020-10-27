@@ -4,24 +4,24 @@ import { EmptyLayoutComponent } from './core/components';
 
 const routes: Routes = [
   {
-		path: '',
-		redirectTo: 'dashboard',
-		pathMatch: 'full'
-	},
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
+  },
   {
     path: '',
     component: EmptyLayoutComponent,
     children: [
       {
         path: '',
-        loadChildren: () => import('./modules/authentication').then((m) => m.AuthenticationModule),
-      },
-    ],
-  },
+        loadChildren: () => import('./modules/authentication').then((m) => m.AuthenticationModule)
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

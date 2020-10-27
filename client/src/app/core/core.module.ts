@@ -6,7 +6,7 @@ import { EmptyLayoutComponent } from './components';
   declarations: [EmptyLayoutComponent],
   imports: [RouterModule],
   providers: [],
-  exports: [EmptyLayoutComponent],
+  exports: [EmptyLayoutComponent]
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
