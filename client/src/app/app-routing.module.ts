@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EmptyLayoutComponent } from './core/components';
+import { AuthenticationGuard } from './core';
+import { EmptyLayoutComponent, MainLayoutComponent } from './core/components';
 
 const routes: Routes = [
   {
@@ -10,11 +11,22 @@ const routes: Routes = [
   },
   {
     path: '',
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: 'dashboard',
+        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
+        canLoad: [AuthenticationGuard]
+      }
+    ]
+  },
+  {
+    path: '',
     component: EmptyLayoutComponent,
     children: [
       {
         path: '',
-        loadChildren: () => import('./modules/authentication').then((m) => m.AuthenticationModule)
+        loadChildren: () => import('./modules').then((m) => m.AuthenticationModule)
       }
     ]
   }

@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { CoreModule } from './core/core.module';
-import { AuthenticationState } from './core';
+import { AuthenticationState } from '@expensely/core';
 
 @NgModule({
   declarations: [AppComponent],

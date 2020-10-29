@@ -1,0 +1,1 @@
+<p>Dashboard works!</p>
