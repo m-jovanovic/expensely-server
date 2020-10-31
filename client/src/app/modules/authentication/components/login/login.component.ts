@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { ApiErrorResponse, AuthenticationFacade, ErrorCodes } from '@expensely/core';
+import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
 
 @Component({
   selector: 'exp-login',
@@ -16,11 +16,11 @@ export class LoginComponent implements OnInit {
   submitted = false;
   invalidEmailOrPassword = false;
 
-  constructor(private formBuilder: FormBuilder, private authenticationFacade: AuthenticationFacade) {}
+  constructor(private formBuilder: FormBuilder, private authenticationFacade: AuthenticationFacade, private routerService: RouterService) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.email],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
@@ -29,11 +29,11 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     this.invalidEmailOrPassword = false;
 
-    const value = this.loginForm.value;
-
     if (this.loginForm.invalid) {
       return;
     }
+
+    const value = this.loginForm.value;
 
     this.authenticationFacade
       .login(value.email, value.password)
@@ -45,6 +45,10 @@ export class LoginComponent implements OnInit {
         })
       )
       .subscribe(() => (this.submitted = false));
+  }
+
+  redirectToRegister(): void {
+    this.routerService.navigate(['/register']);
   }
 
   handleLoginError(errorResponse: ApiErrorResponse): void {

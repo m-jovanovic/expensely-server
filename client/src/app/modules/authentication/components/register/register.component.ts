@@ -1,4 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ApiErrorResponse, AuthenticationFacade, ErrorCodes } from '@expensely/core';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { PasswordValidators } from '../../validation/password-validators';
 
 @Component({
   selector: 'exp-register',
@@ -6,7 +12,43 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  constructor() {}
+  registerForm: FormGroup;
+  submitted = false;
 
-  ngOnInit(): void {}
+  constructor(private formBuilder: FormBuilder, private authenticationFacade: AuthenticationFacade) {}
+
+  ngOnInit(): void {
+    this.registerForm = this.formBuilder.group({
+      firstName: ['', [Validators.required, Validators.maxLength(100)]],
+      lastName: ['', [Validators.required, Validators.maxLength(100)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6), PasswordValidators.passwordStrength]],
+      confirmationPassword: ['', [Validators.required, PasswordValidators.confirmationPasswordMustMatch]]
+    });
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    const value = this.registerForm.value;
+
+    this.authenticationFacade
+      .register(value.firstName, value.lastName, value.email, value.password, value.confirmationPassword)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.handleRegisterError(new ApiErrorResponse(error));
+
+          return of(true);
+        })
+      )
+      .subscribe(() => (this.submitted = false));
+  }
+
+  handleRegisterError(errorResponse: ApiErrorResponse): void {
+    // TODO: Handle API errors.
+  }
 }

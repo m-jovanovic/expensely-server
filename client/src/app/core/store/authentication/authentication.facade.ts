@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Login, Logout } from './authentication.actions';
+import { Login, Logout, Register } from './authentication.actions';
 import { AuthenticationState } from './authentication.state';
 
 @Injectable({
@@ -17,8 +17,12 @@ export class AuthenticationFacade {
     return this.store.dispatch(new Login(email, password));
   }
 
-  logout(): void {
-    this.store.dispatch(new Logout());
+  logout(): Observable<any> {
+    return this.store.dispatch(new Logout());
+  }
+
+  register(firstName: string, lastName: string, email: string, password: string, confirmationPassword: string): Observable<any> {
+    return this.store.dispatch(new Register(firstName, lastName, email, password, confirmationPassword));
   }
 
   get token(): string {

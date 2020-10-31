@@ -26,7 +26,7 @@
         <div class="mb-6">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> Password </label>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             [ngClass]="{ 'border-4 border-red-500': submitted && loginForm.controls.password.errors }"
             id="password"
             name="password"
@@ -49,7 +49,16 @@
           >
             Sign In
           </button>
-          <a class="inline-block align-baseline font-bold text-sm text-gray-500 hover:text-black" href="#"> Forgot Password? </a>
+          <a class="inline-block align-baseline font-bold text-sm text-gray-500 hover:text-black" href="#">Forgot Password? </a>
+        </div>
+        <div class="mt-6 border-t border-black text-center">
+          <p class="mt-4 text-sm text-gray-500">Don't have an account yet?</p>
+          <button
+            class="inline-block mt-2 py-2 px-4 font-bold text-gray-500 hover:text-black border border-transparent hover:border-teal-500 rounded"
+            (click)="redirectToRegister()"
+          >
+            Sign Up
+          </button>
         </div>
       </form>
     </div>

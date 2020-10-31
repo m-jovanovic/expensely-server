@@ -4,8 +4,8 @@ import { tap } from 'rxjs/operators';
 import { State, StateContext, Action, Selector } from '@ngxs/store';
 
 import { AuthenticationStateModel } from './authentication-state.model';
-import { Login, Logout } from './authentication.actions';
-import { TokenResponse, LoginRequest } from '../../contracts';
+import { Login, Logout, Register } from './authentication.actions';
+import { TokenResponse, LoginRequest, RegisterRequest } from '../../contracts';
 import { AuthenticationService } from '../../services';
 
 @State<AuthenticationStateModel>({
@@ -40,7 +40,7 @@ export class AuthenticationState {
   }
 
   @Action(Logout)
-  logout(context: StateContext<AuthenticationStateModel>): Observable<boolean> {
+  logout(context: StateContext<AuthenticationStateModel>): Observable<any> {
     return this.authenticationService.logout().pipe(
       tap(() => {
         context.patchState({
@@ -48,5 +48,18 @@ export class AuthenticationState {
         });
       })
     );
+  }
+
+  @Action(Register)
+  register(context: StateContext<AuthenticationStateModel>, action: Register): Observable<TokenResponse> {
+    return this.authenticationService
+      .register(new RegisterRequest(action.firstName, action.lastName, action.email, action.password, action.confirmationPassword))
+      .pipe(
+        tap((response: TokenResponse) => {
+          context.patchState({
+            token: response.token
+          });
+        })
+      );
   }
 }

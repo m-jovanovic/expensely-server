@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 
 import { ApiService } from '../api/api.service';
-import { LoginRequest, TokenResponse } from '../../contracts';
+import { LoginRequest, RegisterRequest, TokenResponse } from '../../contracts';
 import { RouterService } from '../common/router.service';
 
 @Injectable({
@@ -28,5 +28,16 @@ export class AuthenticationService extends ApiService {
 
   logout(): Observable<any> {
     return this.routerService.navigate(['/login']);
+  }
+
+  register(request: RegisterRequest): Observable<any> {
+    return this.post<TokenResponse>('authentication/register', request).pipe(
+      first(),
+      tap((response: TokenResponse) => {
+        if (response.token) {
+          this.routerService.navigate(['']);
+        }
+      })
+    );
   }
 }
