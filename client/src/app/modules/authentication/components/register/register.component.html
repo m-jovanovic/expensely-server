@@ -102,6 +102,7 @@
               The password and confirmation password must match.
             </div>
           </div>
+          <div *ngIf="emailAlreadyInUse" class="mt-2 text-sm text-red-500 text-center">The email you provided is already in use.</div>
         </div>
         <div class="text-center">
           <button
@@ -109,6 +110,15 @@
             type="submit"
           >
             Sign Up
+          </button>
+        </div>
+        <div class="mt-6 border-t border-black text-center">
+          <p class="mt-4 text-sm text-gray-500">Already have an account?</p>
+          <button
+            class="inline-block mt-2 py-2 px-4 font-bold text-gray-500 hover:text-black border border-transparent hover:border-teal-500 rounded"
+            (click)="redirectToLogin()"
+          >
+            Sign In
           </button>
         </div>
       </form>

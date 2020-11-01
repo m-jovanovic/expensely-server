@@ -13,4 +13,8 @@ export class ApiErrorResponse {
   hasError(errorCode: ErrorCodes): boolean {
     return this.errors.some((e) => e.code === errorCode);
   }
+
+  hasErrors(): boolean {
+    return this.errors.length !== 0;
+  }
 }

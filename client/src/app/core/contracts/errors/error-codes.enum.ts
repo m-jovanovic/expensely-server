@@ -1,3 +1,4 @@
 export enum ErrorCodes {
-  UserEmailOrPasswordInvalid = 'User.InvalidEmailOrPassword'
+  UserEmailOrPasswordInvalid = 'User.InvalidEmailOrPassword',
+  UserEmailAlreadyInUse = 'User.EmailAlreadyInUse'
 }

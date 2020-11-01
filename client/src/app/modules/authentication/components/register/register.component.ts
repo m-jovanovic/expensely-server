@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiErrorResponse, AuthenticationFacade, ErrorCodes } from '@expensely/core';
+import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { PasswordValidators } from '../../validation/password-validators';
@@ -14,8 +14,9 @@ import { PasswordValidators } from '../../validation/password-validators';
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
+  emailAlreadyInUse = false;
 
-  constructor(private formBuilder: FormBuilder, private authenticationFacade: AuthenticationFacade) {}
+  constructor(private formBuilder: FormBuilder, private authenticationFacade: AuthenticationFacade, private routerService: RouterService) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -29,6 +30,7 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
+    this.emailAlreadyInUse = false;
 
     if (this.registerForm.invalid) {
       return;
@@ -49,6 +51,12 @@ export class RegisterComponent implements OnInit {
   }
 
   handleRegisterError(errorResponse: ApiErrorResponse): void {
-    // TODO: Handle API errors.
+    if (errorResponse.hasError(ErrorCodes.UserEmailAlreadyInUse)) {
+      this.emailAlreadyInUse = true;
+    }
+  }
+
+  redirectToLogin(): void {
+    this.routerService.navigate(['/login']);
   }
 }

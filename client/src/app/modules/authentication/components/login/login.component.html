@@ -18,7 +18,7 @@
             placeholder="Email"
             required
           />
-          <div *ngIf="submitted && loginForm.controls.email.errors" class="mt-2 text-sm text-red-500">
+          <div *ngIf="submitted && loginForm.controls.email.errors" class="mt-2 text-xs text-red-500">
             <div *ngIf="loginForm.controls.email.errors.required">The email is required.</div>
             <div *ngIf="loginForm.controls.email.errors.email">The email must be a valid email address.</div>
           </div>
@@ -35,11 +35,11 @@
             placeholder="Password"
             required
           />
-          <div *ngIf="submitted && loginForm.controls.password.errors" class="mt-2 text-sm text-red-500">
+          <div *ngIf="submitted && loginForm.controls.password.errors" class="mt-2 text-xs text-red-500">
             <div *ngIf="loginForm.controls.password.errors.required">The password is required.</div>
           </div>
-          <div class="mt-2 text-sm text-red-500 text-center">
-            <div *ngIf="invalidEmailOrPassword">The email or password is incorrect.</div>
+          <div *ngIf="invalidEmailOrPassword" class="mt-2 text-xs text-red-500 text-center">
+            The provided email or password is incorrect.
           </div>
         </div>
         <div class="flex items-center justify-between">

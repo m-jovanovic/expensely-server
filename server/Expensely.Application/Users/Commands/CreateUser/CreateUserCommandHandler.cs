@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
+using Expensely.Application.Contracts.Users;
 using Expensely.Application.Validation;
 using Expensely.Domain.Core;
 using Expensely.Domain.Primitives.Result;
@@ -13,7 +14,7 @@ namespace Expensely.Application.Users.Commands.CreateUser
     /// <summary>
     /// Represents the <see cref="CreateUserCommand"/> handler.
     /// </summary>
-    internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Result<string>>
+    internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Result<TokenResponse>>
     {
         private readonly IDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
@@ -36,7 +37,7 @@ namespace Expensely.Application.Users.Commands.CreateUser
         }
 
         /// <inheritdoc />
-        public async Task<Result<string>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<TokenResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             Result<FirstName> firstNameResult = FirstName.Create(request.FirstName);
             Result<LastName> lastNameResult = LastName.Create(request.LastName);
@@ -47,14 +48,14 @@ namespace Expensely.Application.Users.Commands.CreateUser
 
             if (result.IsFailure)
             {
-                return Result.Failure<string>(result.Error);
+                return Result.Failure<TokenResponse>(result.Error);
             }
 
             bool emailAlreadyExists = await _dbContext.AnyAsync<User>(x => x.Email.Value == emailResult.Value);
 
             if (emailAlreadyExists)
             {
-                return Result.Failure<string>(Errors.User.EmailAlreadyInUse);
+                return Result.Failure<TokenResponse>(Errors.User.EmailAlreadyInUse);
             }
 
             var user = new User(firstNameResult.Value, lastNameResult.Value, emailResult.Value, passwordResult.Value, _passwordService);
@@ -65,7 +66,7 @@ namespace Expensely.Application.Users.Commands.CreateUser
 
             string token = _jwtProvider.CreateToken(user);
 
-            return token;
+            return new TokenResponse(token);
         }
     }
 }

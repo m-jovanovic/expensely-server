@@ -49,7 +49,7 @@ namespace Expensely.Api.Controllers
         /// <returns>The JWT if the registration was successful, or an error response otherwise.</returns>
         [AllowAnonymous]
         [HttpPost(ApiRoutes.Authentication.Register)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest) =>
             await Result.Create(registerRequest, Errors.UnProcessableRequest)

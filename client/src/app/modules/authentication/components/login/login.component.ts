@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
   }
 
   handleLoginError(errorResponse: ApiErrorResponse): void {
-    if (errorResponse.hasError(ErrorCodes.UserEmailOrPasswordInvalid)) {
+    if (errorResponse.hasErrors()) {
       this.invalidEmailOrPassword = true;
     }
   }
