@@ -1,15 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { EmptyLayoutComponent } from './components';
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+import { MainLayoutComponent, EmptyLayoutComponent, NavBarComponent } from './components';
 
 @NgModule({
-  declarations: [EmptyLayoutComponent, MainLayoutComponent],
+  declarations: [EmptyLayoutComponent, MainLayoutComponent, NavBarComponent],
   imports: [RouterModule, HttpClientModule],
   providers: [],
-  exports: [EmptyLayoutComponent]
+  exports: [MainLayoutComponent, EmptyLayoutComponent]
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
