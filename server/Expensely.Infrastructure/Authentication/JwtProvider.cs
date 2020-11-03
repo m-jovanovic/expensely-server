@@ -40,7 +40,8 @@ namespace Expensely.Infrastructure.Authentication
             Claim[] claims =
             {
                 new Claim("userId", user.Id.ToString()),
-                new Claim("email", user.Email)
+                new Claim("email", user.Email),
+                new Claim("fullName", user.FullName)
             };
 
             DateTime tokenExpirationTime = _dateTime.UtcNow.AddMinutes(_jwtSettings.TokenExpirationInMinutes);
