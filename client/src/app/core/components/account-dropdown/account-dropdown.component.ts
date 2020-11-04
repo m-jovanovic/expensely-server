@@ -18,11 +18,11 @@ export class AccountDropdownComponent implements OnInit {
     }
   }
 
-  constructor(private elementRef: ElementRef, private authenticationFacade: AuthenticationFacade) {
+  constructor(private elementRef: ElementRef, private authenticationFacade: AuthenticationFacade) {}
+
+  ngOnInit(): void {
     this.userInitials = this.parseUserInitials(this.authenticationFacade.tokenInfo);
   }
-
-  ngOnInit(): void {}
 
   toggleDropdownMenu(): void {
     this.isDropdownMenuOpen = !this.isDropdownMenuOpen;

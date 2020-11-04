@@ -1,4 +1,9 @@
-<div class="bg-gray-300 min-h-screen">
+<div class="flex flex-col bg-gray-200 min-h-screen">
   <exp-nav-bar></exp-nav-bar>
-  <router-outlet></router-outlet>
+  <div class="flex flex-grow">
+    <exp-side-navigation></exp-side-navigation>
+    <main class="m-4 p-4 w-full bg-white shadow-lg rounded-lg">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>
