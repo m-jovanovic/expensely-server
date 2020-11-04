@@ -17,6 +17,31 @@ const routes: Routes = [
         path: 'dashboard',
         loadChildren: () => import('./modules').then((m) => m.DashboardModule),
         canLoad: [AuthenticationGuard]
+      },
+      {
+        path: 'transactions',
+        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
+        canLoad: [AuthenticationGuard]
+      },
+      {
+        path: 'budgets',
+        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
+        canLoad: [AuthenticationGuard]
+      },
+      {
+        path: 'subscription',
+        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
+        canLoad: [AuthenticationGuard]
+      },
+      {
+        path: 'account',
+        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
+        canLoad: [AuthenticationGuard]
+      },
+      {
+        path: 'settings',
+        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
+        canLoad: [AuthenticationGuard]
       }
     ]
   },
