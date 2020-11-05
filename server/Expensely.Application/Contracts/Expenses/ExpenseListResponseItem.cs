@@ -22,7 +22,7 @@ namespace Expensely.Application.Contracts.Expenses
 
             Currency currency = Currency.FromValue(currencyValue).Value;
 
-            Value = $"{amount} {currency.Code}";
+            FormattedExpense = $"{amount} {currency.Code}";
 
             OccurredOn = occurredOn;
 
@@ -35,9 +35,9 @@ namespace Expensely.Application.Contracts.Expenses
         public Guid Id { get; }
 
         /// <summary>
-        /// Gets the formatted expense value.
+        /// Gets the formatted expense.
         /// </summary>
-        public string Value { get; }
+        public string FormattedExpense { get; }
 
         /// <summary>
         /// Gets the occurred on date.
