@@ -32,6 +32,13 @@ namespace Expensely.Domain.Core.Errors
             public static Error CurrencyDoesNotExist => new Error(
                 "User.CurrencyDoesNotExist",
                 "The specified currency does not exist in the users currencies.");
+
+            /// <summary>
+            /// Gets the user primary currency is identical error.
+            /// </summary>
+            public static Error PrimaryCurrencyIsIdentical => new Error(
+                "User.PrimaryCurrencyIsIdentical",
+                "The specified currency is identical to the users primary currency.");
         }
     }
 }

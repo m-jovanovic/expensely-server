@@ -98,6 +98,11 @@ namespace Expensely.Domain.Core
                 return Result.Failure(DomainErrors.User.CurrencyDoesNotExist);
             }
 
+            if (_primaryCurrency == currency)
+            {
+                return Result.Failure(DomainErrors.User.PrimaryCurrencyIsIdentical);
+            }
+
             _primaryCurrency = currency;
 
             // TODO: Add domain event.
