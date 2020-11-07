@@ -9,9 +9,6 @@ namespace Expensely.Persistence.Configurations
     /// </summary>
     internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        private const string PasswordHashField = "_passwordHash";
-        private const string PasswordHashColumn = "PasswordHash";
-
         /// <inheritdoc />
         public void Configure(EntityTypeBuilder<User> builder)
         {
@@ -24,12 +21,16 @@ namespace Expensely.Persistence.Configurations
                     .HasMaxLength(FirstName.MaxLength)
                     .IsRequired());
 
+            builder.Navigation(user => user.FirstName).IsRequired();
+
             builder.OwnsOne(user => user.LastName, lastNameBuilder =>
                 lastNameBuilder
                     .Property(lastName => lastName.Value)
                     .HasColumnName(nameof(User.LastName))
                     .HasMaxLength(LastName.MaxLength)
                     .IsRequired());
+
+            builder.Navigation(user => user.LastName).IsRequired();
 
             builder.OwnsOne(user => user.Email, emailBuilder =>
             {
@@ -38,15 +39,40 @@ namespace Expensely.Persistence.Configurations
                 emailBuilder.HasIndex(email => email.Value).IsUnique();
             });
 
-            builder.Navigation(user => user.FirstName).IsRequired();
-
-            builder.Navigation(user => user.LastName).IsRequired();
-
             builder.Navigation(user => user.Email).IsRequired();
 
-            builder.Property<string>(PasswordHashField)
-                .HasField(PasswordHashField)
-                .HasColumnName(PasswordHashColumn)
+            builder.OwnsOne<Currency>("_primaryCurrency", currencyBuilder =>
+            {
+                currencyBuilder.Property(currency => currency.Value).HasColumnName("PrimaryCurrency").IsRequired();
+
+                currencyBuilder.Ignore(currency => currency.Code);
+
+                currencyBuilder.Ignore(currency => currency.Name);
+            });
+
+            builder.Navigation("_primaryCurrency").IsRequired(false);
+
+            builder.Ignore(user => user.PrimaryCurrency);
+
+            builder.OwnsMany(user => user.Currencies, currencyBuilder =>
+            {
+                currencyBuilder.ToTable("UserCurrency");
+
+                currencyBuilder.HasKey("UserId", "Value");
+
+                currencyBuilder
+                    .Property(currency => currency.Value)
+                    .HasColumnName(nameof(Money.Currency))
+                    .ValueGeneratedNever()
+                    .IsRequired();
+
+                currencyBuilder.Ignore(currency => currency.Code);
+
+                currencyBuilder.Ignore(currency => currency.Name);
+            });
+
+            builder.Property<string>("_passwordHash")
+                .HasColumnName("PasswordHash")
                 .IsRequired();
 
             builder.Property(user => user.FullName)
