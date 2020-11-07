@@ -20,8 +20,8 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
         /// <param name="utcNow">The current date and time in UTC format.</param>
         public GetExpensesQuery(Guid userId, int limit, string cursor, DateTime utcNow)
         {
-            Limit = LimitFactory.GetLimit(limit);
             UserId = userId;
+            Limit = LimitFactory.GetLimit(limit);
             (OccurredOn, CreatedOnUtc) = ParseCursor(cursor, utcNow);
         }
 

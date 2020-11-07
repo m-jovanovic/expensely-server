@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Expensely.Domain.Core.Errors;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Primitives.Result;
 

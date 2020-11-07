@@ -1,5 +1,7 @@
 ﻿using System;
+using Expensely.Domain.Core.Errors;
 using Expensely.Domain.Primitives;
+using Expensely.Domain.Primitives.Result;
 using Expensely.Domain.Services;
 using Expensely.Domain.Utility;
 
@@ -85,11 +87,20 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="password">The new password.</param>
         /// <param name="passwordService">The password service.</param>
-        public void ChangePassword(Password password, IPasswordService passwordService)
+        /// <returns>The success result if the password was changed, otherwise an error result.</returns>
+        public Result ChangePassword(Password password, IPasswordService passwordService)
         {
             string passwordHash = passwordService.Hash(password);
 
+            if (_passwordHash == passwordHash)
+            {
+                return Result.Failure(DomainErrors.User.PasswordIsIdentical);
+            }
+
             _passwordHash = passwordHash;
+
+            // TODO: Add domain event.
+            return Result.Success();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Expensely.Domain.Core.Errors;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Primitives.Result;
 
