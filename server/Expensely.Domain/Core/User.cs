@@ -138,14 +138,14 @@ namespace Expensely.Domain.Core
         /// <returns>The success result if the currency was removed, otherwise an error result.</returns>
         public Result RemoveCurrency(Currency currency)
         {
+            if (_primaryCurrency == currency)
+            {
+                return Result.Failure(DomainErrors.User.RemovingPrimaryCurrency);
+            }
+
             if (!_currencies.Remove(currency))
             {
                 return Result.Failure(DomainErrors.User.CurrencyDoesNotExist);
-            }
-
-            if (_primaryCurrency == currency)
-            {
-                _primaryCurrency = null;
             }
 
             // TODO: What if this is the only currency being removed?
