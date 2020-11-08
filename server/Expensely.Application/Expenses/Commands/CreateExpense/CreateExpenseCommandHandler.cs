@@ -17,25 +17,25 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
     {
         private readonly IDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserIdentifierProvider _userIdentifierProvider;
+        private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateExpenseCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="unitOfWork">The unit of work.</param>
-        /// <param name="userIdentifierProvider">The user identifier provider.</param>
-        public CreateExpenseCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserIdentifierProvider userIdentifierProvider)
+        /// <param name="userInformationProvider">The user information provider.</param>
+        public CreateExpenseCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
             _unitOfWork = unitOfWork;
-            _userIdentifierProvider = userIdentifierProvider;
+            _userInformationProvider = userInformationProvider;
         }
 
         /// <inheritdoc />
         public async Task<Result> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
         {
-            if (request.UserId != _userIdentifierProvider.UserId)
+            if (request.UserId != _userInformationProvider.UserId)
             {
                 return Result.Failure(Errors.User.InvalidPermissions);
             }

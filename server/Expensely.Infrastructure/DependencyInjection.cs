@@ -44,7 +44,7 @@ namespace Expensely.Infrastructure
 
             services.AddTransient<IDateTime, MachineDateTime>();
 
-            services.AddScoped<IUserIdentifierProvider, UserIdentifierProvider>();
+            services.AddScoped<IUserInformationProvider, UserInformationProvider>();
 
             services.AddScoped<IJwtProvider, JwtProvider>();
 

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
-using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.Validation;
 using Expensely.Domain.Core;
 using Expensely.Domain.Primitives.Maybe;
@@ -18,26 +17,25 @@ namespace Expensely.Application.Budgets.Commands.CreateBudget
     {
         private readonly IDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserIdentifierProvider _userIdentifierProvider;
+        private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateBudgetCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="unitOfWork">The unit of work.</param>
-        /// <param name="userIdentifierProvider">The user identifier provider.</param>
-        public CreateBudgetCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserIdentifierProvider userIdentifierProvider)
+        /// <param name="userInformationProvider">The user information provider.</param>
+        public CreateBudgetCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
             _unitOfWork = unitOfWork;
-            _userIdentifierProvider = userIdentifierProvider;
+            _userInformationProvider = userInformationProvider;
         }
 
         /// <inheritdoc />
         public async Task<Result> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
         {
-            // TODO: Add domain rule about the allowed # of budgets.
-            if (request.UserId != _userIdentifierProvider.UserId)
+            if (request.UserId != _userInformationProvider.UserId)
             {
                 return Result.Failure(Errors.User.InvalidPermissions);
             }
@@ -63,6 +61,7 @@ namespace Expensely.Application.Budgets.Commands.CreateBudget
                 request.StartDate,
                 request.EndDate);
 
+            // TODO: Add domain rule about the allowed # of budgets.
             _dbContext.Insert(budget);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);

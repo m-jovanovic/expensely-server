@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
-using Expensely.Application.Expenses.Commands.UpdateExpense;
 using Expensely.Application.Validation;
 using Expensely.Domain.Core;
 using Expensely.Domain.Primitives.Maybe;
@@ -18,19 +17,19 @@ namespace Expensely.Application.Budgets.Commands.UpdateBudget
     {
         private readonly IDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserIdentifierProvider _userIdentifierProvider;
+        private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateBudgetCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="unitOfWork">The unit of work.</param>
-        /// <param name="userIdentifierProvider">The user identifier provider.</param>
-        public UpdateBudgetCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserIdentifierProvider userIdentifierProvider)
+        /// <param name="userInformationProvider">The user information provider.</param>
+        public UpdateBudgetCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
             _unitOfWork = unitOfWork;
-            _userIdentifierProvider = userIdentifierProvider;
+            _userInformationProvider = userInformationProvider;
         }
 
         /// <inheritdoc />
@@ -45,7 +44,7 @@ namespace Expensely.Application.Budgets.Commands.UpdateBudget
 
             Budget budget = maybeBudget.Value;
 
-            if (budget.UserId != _userIdentifierProvider.UserId)
+            if (budget.UserId != _userInformationProvider.UserId)
             {
                 return Result.Failure(Errors.User.InvalidPermissions);
             }

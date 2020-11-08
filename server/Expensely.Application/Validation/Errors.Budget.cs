@@ -53,7 +53,7 @@ namespace Expensely.Application.Validation
             /// <summary>
             /// Gets the budget not found error.
             /// </summary>
-            internal static Error NotFound => new Error("Budget.NotFound", "The budget with the specified value was not found.");
+            internal static Error NotFound => new Error("Budget.NotFound", "The budget with the specified identifier was not found.");
         }
     }
 }

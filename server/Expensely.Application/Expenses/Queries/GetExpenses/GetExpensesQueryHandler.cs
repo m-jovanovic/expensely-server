@@ -19,23 +19,23 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
     internal sealed class GetExpensesQueryHandler : IQueryHandler<GetExpensesQuery, Maybe<ExpenseListResponse>>
     {
         private readonly IDbContext _dbContext;
-        private readonly IUserIdentifierProvider _userIdentifierProvider;
+        private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetExpensesQueryHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        /// <param name="userIdentifierProvider">The user identifier provider.</param>
-        public GetExpensesQueryHandler(IDbContext dbContext, IUserIdentifierProvider userIdentifierProvider)
+        /// <param name="userInformationProvider">The user information provider.</param>
+        public GetExpensesQueryHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
-            _userIdentifierProvider = userIdentifierProvider;
+            _userInformationProvider = userInformationProvider;
         }
 
         /// <inheritdoc />
         public async Task<Maybe<ExpenseListResponse>> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
         {
-            if (request.UserId != _userIdentifierProvider.UserId)
+            if (request.UserId != _userInformationProvider.UserId)
             {
                 return Maybe<ExpenseListResponse>.None;
             }

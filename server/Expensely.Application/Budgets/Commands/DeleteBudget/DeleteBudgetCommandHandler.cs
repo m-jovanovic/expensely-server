@@ -17,19 +17,19 @@ namespace Expensely.Application.Budgets.Commands.DeleteBudget
     {
         private readonly IDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserIdentifierProvider _userIdentifierProvider;
+        private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteBudgetCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="unitOfWork">The unit of work.</param>
-        /// <param name="userIdentifierProvider">The user identifier provider.</param>
-        public DeleteBudgetCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserIdentifierProvider userIdentifierProvider)
+        /// <param name="userInformationProvider">The user information provider.</param>
+        public DeleteBudgetCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
             _unitOfWork = unitOfWork;
-            _userIdentifierProvider = userIdentifierProvider;
+            _userInformationProvider = userInformationProvider;
         }
 
         /// <inheritdoc />
@@ -44,7 +44,7 @@ namespace Expensely.Application.Budgets.Commands.DeleteBudget
 
             Budget budget = maybeBudget.Value;
 
-            if (budget.UserId != _userIdentifierProvider.UserId)
+            if (budget.UserId != _userInformationProvider.UserId)
             {
                 return Result.Failure(Errors.User.InvalidPermissions);
             }

@@ -17,19 +17,19 @@ namespace Expensely.Application.Expenses.Commands.DeleteExpense
     {
         private readonly IDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserIdentifierProvider _userIdentifierProvider;
+        private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteExpenseCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="unitOfWork">The unit of work.</param>
-        /// <param name="userIdentifierProvider">The user identifier provider.</param>
-        public DeleteExpenseCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserIdentifierProvider userIdentifierProvider)
+        /// <param name="userInformationProvider">The user information provider.</param>
+        public DeleteExpenseCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
             _unitOfWork = unitOfWork;
-            _userIdentifierProvider = userIdentifierProvider;
+            _userInformationProvider = userInformationProvider;
         }
 
         /// <inheritdoc />
@@ -44,7 +44,7 @@ namespace Expensely.Application.Expenses.Commands.DeleteExpense
 
             Expense expense = maybeExpense.Value;
 
-            if (expense.UserId != _userIdentifierProvider.UserId)
+            if (expense.UserId != _userInformationProvider.UserId)
             {
                 return Result.Failure(Errors.User.InvalidPermissions);
             }

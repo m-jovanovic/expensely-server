@@ -71,7 +71,7 @@ namespace Expensely.Domain.Core
         public Email Email { get; private set; }
 
         /// <summary>
-        /// Gets the primary currency.
+        /// Gets the maybe instance that may contain the primary currency.
         /// </summary>
         public Maybe<Currency> PrimaryCurrency => _primaryCurrency == Currency.None ? Maybe<Currency>.None : _primaryCurrency;
 

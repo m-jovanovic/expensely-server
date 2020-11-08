@@ -39,7 +39,7 @@ namespace Expensely.Application.Validation
             /// <summary>
             /// Gets the expense not found error.
             /// </summary>
-            internal static Error NotFound => new Error("Expense.NotFound", "The expense with the specified value was not found.");
+            internal static Error NotFound => new Error("Expense.NotFound", "The expense with the specified identifier was not found.");
         }
     }
 }
