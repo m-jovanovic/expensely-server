@@ -123,7 +123,7 @@ namespace Expensely.Domain.Core
 
             if (_currencies.Count == 1 && _primaryCurrency == Currency.None)
             {
-                ChangePrimaryCurrency(currency);
+                _primaryCurrency = currency;
             }
 
             // TODO: Check domain rules to see if it is allowed to add another currency? Could be based on the subscription.
@@ -143,7 +143,11 @@ namespace Expensely.Domain.Core
                 return Result.Failure(DomainErrors.User.CurrencyDoesNotExist);
             }
 
-            // TODO: What if this is the primary currency being removed?
+            if (_primaryCurrency == currency)
+            {
+                _primaryCurrency = null;
+            }
+
             // TODO: What if this is the only currency being removed?
             // TODO: Add domain event.
             return Result.Success();

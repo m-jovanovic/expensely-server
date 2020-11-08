@@ -22,50 +22,61 @@
         }
 
         /// <summary>
-        /// Contains the expenses routes.
-        /// </summary>
-        internal static class Expenses
-        {
-            /// <summary>
-            /// The get route.
-            /// </summary>
-            internal const string Get = "expenses";
-
-            /// <summary>
-            /// The create route.
-            /// </summary>
-            internal const string Create = "expenses";
-
-            /// <summary>
-            /// The update route.
-            /// </summary>
-            internal const string Update = "expenses/{id:guid}";
-
-            /// <summary>
-            /// The delete route.
-            /// </summary>
-            internal const string Delete = "expenses/{id:guid}";
-        }
-
-        /// <summary>
         /// Contains the budgets routes.
         /// </summary>
         internal static class Budgets
         {
             /// <summary>
-            /// The create route.
+            /// The create budget route.
             /// </summary>
-            internal const string Create = "budgets";
+            internal const string CreateBudget = "budgets";
 
             /// <summary>
-            /// The update route.
+            /// The update budget route.
             /// </summary>
-            internal const string Update = "budgets/{id:guid}";
+            internal const string UpdateBudget = "budgets/{id:guid}";
 
             /// <summary>
-            /// The delete route.
+            /// The delete budget route.
             /// </summary>
-            internal const string Delete = "budgets/{id:guid}";
+            internal const string DeleteBudget = "budgets/{id:guid}";
+        }
+
+        /// <summary>
+        /// Contains the expenses routes.
+        /// </summary>
+        internal static class Expenses
+        {
+            /// <summary>
+            /// The get expenses route.
+            /// </summary>
+            internal const string GetExpenses = "expenses";
+
+            /// <summary>
+            /// The create expense route.
+            /// </summary>
+            internal const string CreateExpense = "expenses";
+
+            /// <summary>
+            /// The update expense route.
+            /// </summary>
+            internal const string UpdateExpense = "expenses/{id:guid}";
+
+            /// <summary>
+            /// The delete expense route.
+            /// </summary>
+            internal const string DeleteExpense = "expenses/{id:guid}";
+        }
+
+        /// <summary>
+        /// Contains the users routes.
+        /// </summary>
+        internal static class Users
+        {
+            /// <summary>
+            /// The add user currency route.
+            /// </summary>
+            internal const string AddUserCurrency = "users/{id:guid}/currencies/{currency:int}";
         }
     }
 }

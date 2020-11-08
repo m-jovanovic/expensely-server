@@ -32,9 +32,9 @@ namespace Expensely.Api.Controllers
         /// Creates the budget based on the specified request.
         /// </summary>
         /// <param name="request">The create budget request.</param>
-        /// <returns>201 - Created if the budget was created successfully, otherwise 400 - Bad Request.</returns>
-        [HttpPost(ApiRoutes.Budgets.Create)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        /// <returns>200 - OK if the budget was created successfully, otherwise 400 - Bad Request.</returns>
+        [HttpPost(ApiRoutes.Budgets.CreateBudget)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateBudget([FromBody] CreateBudgetRequest request) =>
             await Result.Create(request, Errors.UnProcessableRequest)
@@ -54,7 +54,7 @@ namespace Expensely.Api.Controllers
         /// <param name="id">The budget identifier.</param>
         /// <param name="request">The create budget request.</param>
         /// <returns>200 - OK if the budget was updated successfully, otherwise 400 - Bad Request.</returns>
-        [HttpPut(ApiRoutes.Budgets.Update)]
+        [HttpPut(ApiRoutes.Budgets.UpdateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateBudget(Guid id, [FromBody] UpdateBudgetRequest request) =>
@@ -75,7 +75,7 @@ namespace Expensely.Api.Controllers
         /// </summary>
         /// <param name="id">The budget identifier.</param>
         /// <returns>204 - No Content if the budget was deleted successfully, otherwise 404 - Not Found.</returns>
-        [HttpDelete(ApiRoutes.Budgets.Delete)]
+        [HttpDelete(ApiRoutes.Budgets.DeleteBudget)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteBudget(Guid id) =>

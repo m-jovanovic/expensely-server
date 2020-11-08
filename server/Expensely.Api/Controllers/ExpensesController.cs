@@ -40,10 +40,10 @@ namespace Expensely.Api.Controllers
         /// <param name="limit">The limit.</param>
         /// <param name="cursor">The cursor.</param>
         /// <returns>200 - OK if any expenses are found, otherwise 404 - Not Found.</returns>
-        [HttpGet(ApiRoutes.Expenses.Get)]
+        [HttpGet(ApiRoutes.Expenses.GetExpenses)]
         [ProducesResponseType(typeof(ExpenseListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(Guid userId, int limit, string cursor) =>
+        public async Task<IActionResult> GetExpenses(Guid userId, int limit, string cursor) =>
             await Maybe<GetExpensesQuery>
                 .From(new GetExpensesQuery(userId, limit, cursor, _dateTime.UtcNow))
                 .Bind(query => Sender.Send(query))
@@ -53,9 +53,9 @@ namespace Expensely.Api.Controllers
         /// Creates the expense based on the specified request.
         /// </summary>
         /// <param name="request">The create expense request.</param>
-        /// <returns>201 - Created if the expense was created successfully, otherwise 400 - Bad Request.</returns>
-        [HttpPost(ApiRoutes.Expenses.Create)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        /// <returns>200 - OK if the expense was created successfully, otherwise 400 - Bad Request.</returns>
+        [HttpPost(ApiRoutes.Expenses.CreateExpense)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseRequest request) =>
             await Result.Create(request, Errors.UnProcessableRequest)
@@ -70,12 +70,12 @@ namespace Expensely.Api.Controllers
                 .Match(Ok, BadRequest);
 
         /// <summary>
-        /// Creates the expense based on the specified request.
+        /// Updates the expense based on the specified request.
         /// </summary>
         /// <param name="id">The expense identifier.</param>
         /// <param name="request">The create expense request.</param>
         /// <returns>200 - OK if the expense was updated successfully, otherwise 400 - Bad Request.</returns>
-        [HttpPut(ApiRoutes.Expenses.Update)]
+        [HttpPut(ApiRoutes.Expenses.UpdateExpense)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateExpense(Guid id, [FromBody] UpdateExpenseRequest request) =>
@@ -96,7 +96,7 @@ namespace Expensely.Api.Controllers
         /// </summary>
         /// <param name="id">The expense identifier.</param>
         /// <returns>204 - No Content if the expense was deleted successfully, otherwise 404 - Not Found.</returns>
-        [HttpDelete(ApiRoutes.Expenses.Delete)]
+        [HttpDelete(ApiRoutes.Expenses.DeleteExpense)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteExpense(Guid id) =>

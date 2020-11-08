@@ -59,7 +59,14 @@ namespace Expensely.Application.Validation
             /// <summary>
             /// Gets the user email or password is invalid error.
             /// </summary>
-            internal static Error InvalidEmailOrPassword => new Error("User.InvalidEmailOrPassword", "The provided email or password is invalid.");
+            internal static Error InvalidEmailOrPassword => new Error(
+                "User.InvalidEmailOrPassword",
+                "The provided email or password is invalid.");
+
+            /// <summary>
+            /// Gets the user not found error.
+            /// </summary>
+            internal static Error NotFound => new Error("User.NotFound", "The user with the specified identifier was not found.");
         }
     }
 }
