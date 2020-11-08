@@ -8,24 +8,24 @@ using Expensely.Domain.Core;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
 
-namespace Expensely.Application.Users.Commands.AddUserCurrency
+namespace Expensely.Application.Users.Commands.RemoveUserCurrency
 {
     /// <summary>
-    /// Represents the <see cref="AddUserCurrencyCommand"/> handler.
+    /// Represents the <see cref="RemoveUserCurrencyCommand"/> handler.
     /// </summary>
-    internal sealed class AddUserCurrencyCommandHandler : ICommandHandler<AddUserCurrencyCommand, Result>
+    internal sealed class RemoveUserCurrencyCommandHandler : ICommandHandler<RemoveUserCurrencyCommand, Result>
     {
         private readonly IDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddUserCurrencyCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="RemoveUserCurrencyCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public AddUserCurrencyCommandHandler(
+        public RemoveUserCurrencyCommandHandler(
             IDbContext dbContext,
             IUnitOfWork unitOfWork,
             IUserInformationProvider userInformationProvider)
@@ -36,7 +36,7 @@ namespace Expensely.Application.Users.Commands.AddUserCurrency
         }
 
         /// <inheritdoc />
-        public async Task<Result> Handle(AddUserCurrencyCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(RemoveUserCurrencyCommand request, CancellationToken cancellationToken)
         {
             if (request.UserId != _userInformationProvider.UserId)
             {
@@ -52,7 +52,7 @@ namespace Expensely.Application.Users.Commands.AddUserCurrency
 
             Currency currency = Currency.FromValue(request.Currency).Value;
 
-            Result result = maybeUser.Value.AddCurrency(currency);
+            Result result = maybeUser.Value.RemoveCurrency(currency);
 
             if (result.IsFailure)
             {

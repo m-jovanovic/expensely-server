@@ -4,6 +4,7 @@ using Expensely.Api.Constants;
 using Expensely.Api.Contracts;
 using Expensely.Api.Infrastructure;
 using Expensely.Application.Users.Commands.AddUserCurrency;
+using Expensely.Application.Users.Commands.RemoveUserCurrency;
 using Expensely.Domain.Primitives.Result;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -38,5 +39,19 @@ namespace Expensely.Api.Controllers
             await Result.Success(new AddUserCurrencyCommand(id, currency))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
+
+        /// <summary>
+        /// Removes the specified currency from the users currencies.
+        /// </summary>
+        /// <param name="id">The user identifier.</param>
+        /// <param name="currency">The currency value.</param>
+        /// <returns>204 - No Content if the currency was removed from the users currencies successfully, otherwise 400 - Bad Request.</returns>
+        [HttpDelete(ApiRoutes.Users.RemoveUserCurrency)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RemoveUserCurrency(Guid id, int currency) =>
+            await Result.Success(new RemoveUserCurrencyCommand(id, currency))
+                .Bind(command => Sender.Send(command))
+                .Match(NoContent, BadRequest);
     }
 }
