@@ -43,9 +43,9 @@ namespace Expensely.Domain.Core
         /// <remarks>
         /// Required by EF Core.
         /// </remarks>
-        private Currency()
-        {
-        }
+        private Currency(int value)
+            : base(value, ContainsValue(value) ? FromValue(value).Value.Name : None.Name) =>
+            Code = ContainsValue(value) ? FromValue(value).Value.Code : None.Code;
 
         /// <summary>
         /// Gets the currency code.
