@@ -2,19 +2,19 @@
 using Expensely.Application.Contracts.Users;
 using Expensely.Domain.Primitives.Result;
 
-namespace Expensely.Application.Users.Commands.CreateTokenForUser
+namespace Expensely.Application.Users.Commands.CreateUserToken
 {
     /// <summary>
     /// Represents the command for creating a JWT token for a user.
     /// </summary>
-    public sealed class CreateTokenForUserCommand : ICommand<Result<TokenResponse>>
+    public sealed class CreateUserTokenCommand : ICommand<Result<TokenResponse>>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateTokenForUserCommand"/> class.
+        /// Initializes a new instance of the <see cref="CreateUserTokenCommand"/> class.
         /// </summary>
         /// <param name="email">The user email.</param>
         /// <param name="password">The password.</param>
-        public CreateTokenForUserCommand(string email, string password)
+        public CreateUserTokenCommand(string email, string password)
         {
             Email = email;
             Password = password;

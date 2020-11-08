@@ -11,24 +11,24 @@ using Expensely.Domain.Primitives.Result;
 using Expensely.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Expensely.Application.Users.Commands.CreateTokenForUser
+namespace Expensely.Application.Users.Commands.CreateUserToken
 {
     /// <summary>
-    /// Represents the <see cref="CreateTokenForUserCommand"/> handler.
+    /// Represents the <see cref="CreateUserTokenCommand"/> handler.
     /// </summary>
-    internal sealed class CreateTokenForUserCommandHandler : ICommandHandler<CreateTokenForUserCommand, Result<TokenResponse>>
+    internal sealed class CreateUserTokenCommandHandler : ICommandHandler<CreateUserTokenCommand, Result<TokenResponse>>
     {
         private readonly IDbContext _dbContext;
         private readonly IPasswordService _passwordService;
         private readonly IJwtProvider _jwtProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateTokenForUserCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="CreateUserTokenCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="passwordService">The password service.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
-        public CreateTokenForUserCommandHandler(IDbContext dbContext, IJwtProvider jwtProvider, IPasswordService passwordService)
+        public CreateUserTokenCommandHandler(IDbContext dbContext, IJwtProvider jwtProvider, IPasswordService passwordService)
         {
             _dbContext = dbContext;
             _passwordService = passwordService;
@@ -36,7 +36,7 @@ namespace Expensely.Application.Users.Commands.CreateTokenForUser
         }
 
         /// <inheritdoc />
-        public async Task<Result<TokenResponse>> Handle(CreateTokenForUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<TokenResponse>> Handle(CreateUserTokenCommand request, CancellationToken cancellationToken)
         {
             Result<Email> emailResult = Email.Create(request.Email);
             Result<Password> passwordResult = Password.Create(request.Password);

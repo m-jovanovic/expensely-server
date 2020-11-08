@@ -3,8 +3,8 @@ using Expensely.Api.Constants;
 using Expensely.Api.Contracts;
 using Expensely.Api.Infrastructure;
 using Expensely.Application.Contracts.Users;
-using Expensely.Application.Users.Commands.CreateTokenForUser;
 using Expensely.Application.Users.Commands.CreateUser;
+using Expensely.Application.Users.Commands.CreateUserToken;
 using Expensely.Domain.Primitives.Result;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -38,7 +38,7 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest) =>
             await Result.Create(loginRequest, Errors.UnProcessableRequest)
-                .Map(request => new CreateTokenForUserCommand(request.Email, request.Password))
+                .Map(request => new CreateUserTokenCommand(request.Email, request.Password))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
 

@@ -3,17 +3,17 @@ using Expensely.Application.Users.Commands.CreateUser;
 using Expensely.Application.Validation;
 using FluentValidation;
 
-namespace Expensely.Application.Users.Commands.CreateTokenForUser
+namespace Expensely.Application.Users.Commands.CreateUserToken
 {
     /// <summary>
     /// Represents the <see cref="CreateUserCommand"/> validator.
     /// </summary>
-    public sealed class CreateTokenForUserCommandValidator : AbstractValidator<CreateTokenForUserCommand>
+    public sealed class CreateUserTokenCommandValidator : AbstractValidator<CreateUserTokenCommand>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateTokenForUserCommandValidator "/> class.
+        /// Initializes a new instance of the <see cref="CreateUserTokenCommandValidator "/> class.
         /// </summary>
-        public CreateTokenForUserCommandValidator()
+        public CreateUserTokenCommandValidator()
         {
             RuleFor(x => x.Email).NotEmpty().WithError(Errors.User.EmailIsRequired);
 
