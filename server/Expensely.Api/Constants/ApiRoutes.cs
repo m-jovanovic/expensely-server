@@ -82,6 +82,11 @@
             /// The remove user currency route.
             /// </summary>
             internal const string RemoveUserCurrency = "users/{id:guid}/currencies/{currency:int}";
+
+            /// <summary>
+            /// The change user primary currency route.
+            /// </summary>
+            internal const string ChangeUserPrimaryCurrency = "users/{id}/currencies/{currency:int}/primary";
         }
     }
 }
