@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -42,7 +43,9 @@ namespace Expensely.Infrastructure.Authentication
                 new Claim("userId", user.Id.ToString()),
                 new Claim("email", user.Email),
                 new Claim("fullName", user.FullName),
-                new Claim("primaryCurrency", user.PrimaryCurrency.HasValue ? user.PrimaryCurrency.Value.ToString() : string.Empty),
+                new Claim(
+                    "primaryCurrency",
+                    user.PrimaryCurrency.HasValue ? user.PrimaryCurrency.Value.Value.ToString(CultureInfo.InvariantCulture) : string.Empty)
             };
 
             DateTime tokenExpirationTime = _dateTime.UtcNow.AddMinutes(_jwtSettings.TokenExpirationInMinutes);

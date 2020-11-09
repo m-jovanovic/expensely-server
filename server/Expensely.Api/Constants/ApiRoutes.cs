@@ -69,6 +69,17 @@
         }
 
         /// <summary>
+        /// Contains the currencies routes.
+        /// </summary>
+        internal static class Currencies
+        {
+            /// <summary>
+            /// The get currencies route.
+            /// </summary>
+            internal const string GetCurrencies = "currencies";
+        }
+
+        /// <summary>
         /// Contains the users routes.
         /// </summary>
         internal static class Users

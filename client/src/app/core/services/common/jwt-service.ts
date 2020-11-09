@@ -8,7 +8,14 @@ import jwt_decode from 'jwt-decode';
 export class JwtService {
   decodeToken(token: string): TokenInfo | null {
     try {
-      return jwt_decode(token) as TokenInfo;
+      const decodedToken = jwt_decode(token);
+
+      return {
+        userId: decodedToken.userId,
+        email: decodedToken.email,
+        fullName: decodedToken.fullName,
+        primaryCurrency: +decodedToken.primaryCurrency
+      } as TokenInfo;
     } catch {
       return null;
     }

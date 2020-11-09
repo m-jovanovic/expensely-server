@@ -8,9 +8,9 @@ namespace Expensely.Domain.Core
     public sealed class Currency : Enumeration<Currency>
     {
         /// <summary>
-        /// The United States dollar.
+        /// The United States Dollar.
         /// </summary>
-        public static readonly Currency Usd = new Currency(1, "Dollar", "USD");
+        public static readonly Currency Usd = new Currency(1, "US Dollar", "USD");
 
         /// <summary>
         /// The euro.
@@ -18,9 +18,9 @@ namespace Expensely.Domain.Core
         public static readonly Currency Eur = new Currency(2, "Euro", "EUR");
 
         /// <summary>
-        /// The Serbian dinar.
+        /// The Serbian Dinar.
         /// </summary>
-        public static readonly Currency Rsd = new Currency(3, "Serbian dinar", "RSD");
+        public static readonly Currency Rsd = new Currency(3, "Serbian Dinar", "RSD");
 
         /// <summary>
         /// The empty currency instance.
