@@ -13,6 +13,11 @@ namespace Expensely.Domain.Core.Errors
         public static class User
         {
             /// <summary>
+            /// Gets the user not found error.
+            /// </summary>
+            public static Error NotFound => new Error("User.NotFound", "The user with the specified identifier was not found.");
+
+            /// <summary>
             /// Gets the user password is identical error.
             /// </summary>
             public static Error PasswordIsIdentical => new Error(
@@ -46,6 +51,18 @@ namespace Expensely.Domain.Core.Errors
             public static Error RemovingPrimaryCurrency => new Error(
                 "User.RemovingPrimaryCurrency",
                 "The specified currency is the user's primary currency and can not be removed.");
+
+            /// <summary>
+            /// Gets the user email or password is invalid error.
+            /// </summary>
+            public static Error InvalidEmailOrPassword => new Error(
+                "User.InvalidEmailOrPassword",
+                "The provided email or password is invalid.");
+
+            /// <summary>
+            /// Gets the use email is already in use error.
+            /// </summary>
+            public static Error EmailAlreadyInUse => new Error("User.EmailAlreadyInUse", "The specified email is already in use.");
         }
     }
 }

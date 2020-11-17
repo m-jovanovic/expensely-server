@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Validation;
@@ -16,27 +15,16 @@ namespace Expensely.Application.Budgets.Commands.CreateBudget
     internal sealed class CreateBudgetCommandHandler : ICommandHandler<CreateBudgetCommand, Result>
     {
         private readonly IDbContext _dbContext;
-        private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateBudgetCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        /// <param name="userInformationProvider">The user information provider.</param>
-        public CreateBudgetCommandHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
-        {
-            _dbContext = dbContext;
-            _userInformationProvider = userInformationProvider;
-        }
+        public CreateBudgetCommandHandler(IDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
         public async Task<Result> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
         {
-            if (request.UserId != _userInformationProvider.UserId)
-            {
-                return Result.Failure(ValidationErrors.User.InvalidPermissions);
-            }
-
             Result<Name> nameResult = Name.Create(request.Name);
 
             if (nameResult.IsFailure)

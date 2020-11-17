@@ -1,4 +1,6 @@
-﻿using Expensely.Application.Extensions;
+﻿using System;
+using Expensely.Application.Abstractions.Authentication;
+using Expensely.Application.Extensions;
 using Expensely.Application.Validation;
 using Expensely.Domain.Core;
 using FluentValidation;
@@ -13,9 +15,15 @@ namespace Expensely.Application.Budgets.Commands.CreateBudget
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateBudgetCommandValidator"/> class.
         /// </summary>
-        public CreateBudgetCommandValidator()
+        /// <param name="userInformationProvider">The user identifier provider.</param>
+        public CreateBudgetCommandValidator(IUserInformationProvider userInformationProvider)
         {
             RuleFor(x => x.UserId).NotEmpty().WithError(ValidationErrors.User.IdentifierIsRequired);
+
+            RuleFor(x => x.UserId)
+                .Must(x => x == userInformationProvider.UserId)
+                .When(x => x.UserId != Guid.Empty)
+                .WithError(ValidationErrors.User.InvalidPermissions);
 
             RuleFor(x => x.Name).NotEmpty().WithError(ValidationErrors.Budget.NameIsRequired);
 

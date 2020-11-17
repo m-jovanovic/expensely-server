@@ -35,11 +35,6 @@ namespace Expensely.Application.Validation
             internal static Error OccurredOnDateIsRequired => new Error(
                 "Expense.OccurredOnDateIsRequired",
                 "The date the expense occurred on is required.");
-
-            /// <summary>
-            /// Gets the expense not found error.
-            /// </summary>
-            internal static Error NotFound => new Error("Expense.NotFound", "The expense with the specified identifier was not found.");
         }
     }
 }

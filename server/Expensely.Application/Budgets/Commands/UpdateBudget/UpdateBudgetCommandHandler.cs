@@ -5,6 +5,7 @@ using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Validation;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Errors;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
 
@@ -36,7 +37,7 @@ namespace Expensely.Application.Budgets.Commands.UpdateBudget
 
             if (maybeBudget.HasNoValue)
             {
-                return Result.Failure(ValidationErrors.Budget.NotFound);
+                return Result.Failure(DomainErrors.Budget.NotFound);
             }
 
             Budget budget = maybeBudget.Value;
@@ -53,16 +54,9 @@ namespace Expensely.Application.Budgets.Commands.UpdateBudget
                 return Result.Failure(nameResult.Error);
             }
 
-            Maybe<Currency> maybeCurrency = Currency.FromValue(request.Currency);
-
-            if (maybeCurrency.HasNoValue)
-            {
-                return Result.Failure(ValidationErrors.Currency.NotFound);
-            }
-
             budget.ChangeName(nameResult.Value);
 
-            budget.ChangeMoney(new Money(request.Amount, maybeCurrency.Value));
+            budget.ChangeMoney(new Money(request.Amount, Currency.FromValue(request.Currency).Value));
 
             budget.ChangeDates(request.StartDate, request.EndDate);
 

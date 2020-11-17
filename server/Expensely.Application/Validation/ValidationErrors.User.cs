@@ -40,11 +40,6 @@ namespace Expensely.Application.Validation
             internal static Error LastNameIsRequired => new Error("User.LastNameIsRequired", "The user last name is required.");
 
             /// <summary>
-            /// Gets the use email is already in use error.
-            /// </summary>
-            internal static Error EmailAlreadyInUse => new Error("User.EmailAlreadyInUse", "The specified email is already in use.");
-
-            /// <summary>
             /// Gets the user password is required error.
             /// </summary>
             internal static Error PasswordIsRequired => new Error("User.PasswordIsRequired", "The user password is required.");
@@ -55,18 +50,6 @@ namespace Expensely.Application.Validation
             internal static Error PasswordAndConfirmationPasswordMustMatch => new Error(
                 "User.PasswordAndConfirmationPasswordMustMatch",
                 "The provided password and confirmation password must match.");
-
-            /// <summary>
-            /// Gets the user email or password is invalid error.
-            /// </summary>
-            internal static Error InvalidEmailOrPassword => new Error(
-                "User.InvalidEmailOrPassword",
-                "The provided email or password is invalid.");
-
-            /// <summary>
-            /// Gets the user not found error.
-            /// </summary>
-            internal static Error NotFound => new Error("User.NotFound", "The user with the specified identifier was not found.");
         }
     }
 }

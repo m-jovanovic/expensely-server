@@ -4,8 +4,8 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Users;
-using Expensely.Application.Validation;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Errors;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
 using Expensely.Domain.Services;
@@ -57,14 +57,14 @@ namespace Expensely.Application.Users.Commands.CreateUserTokenForCredentials
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure<TokenResponse>(ValidationErrors.User.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(DomainErrors.User.InvalidEmailOrPassword);
             }
 
             User user = maybeUser.Value;
 
             if (!user.VerifyPassword(passwordResult.Value, _passwordService))
             {
-                return Result.Failure<TokenResponse>(ValidationErrors.User.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(DomainErrors.User.InvalidEmailOrPassword);
             }
 
             string token = _jwtProvider.CreateToken(user);

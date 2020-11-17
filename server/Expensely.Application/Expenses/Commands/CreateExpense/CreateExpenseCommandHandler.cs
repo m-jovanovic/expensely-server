@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Validation;
@@ -16,27 +15,16 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
     internal sealed class CreateExpenseCommandHandler : ICommandHandler<CreateExpenseCommand, Result>
     {
         private readonly IDbContext _dbContext;
-        private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateExpenseCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        /// <param name="userInformationProvider">The user information provider.</param>
-        public CreateExpenseCommandHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
-        {
-            _dbContext = dbContext;
-            _userInformationProvider = userInformationProvider;
-        }
+        public CreateExpenseCommandHandler(IDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
         public async Task<Result> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
         {
-            if (request.UserId != _userInformationProvider.UserId)
-            {
-                return Result.Failure(ValidationErrors.User.InvalidPermissions);
-            }
-
             Result<Name> nameResult = Name.Create(request.Name);
             Result<Description> descriptionResult = Description.Create(request.Description);
 
@@ -47,17 +35,10 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
                 return Result.Failure(result.Error);
             }
 
-            Maybe<Currency> maybeCurrency = Currency.FromValue(request.Currency);
-
-            if (maybeCurrency.HasNoValue)
-            {
-                return Result.Failure(ValidationErrors.Currency.NotFound);
-            }
-
             var expense = new Expense(
                 request.UserId,
                 nameResult.Value,
-                new Money(request.Amount, maybeCurrency.Value),
+                new Money(request.Amount, Currency.FromValue(request.Currency).Value),
                 request.OccurredOn,
                 descriptionResult.Value);
 
