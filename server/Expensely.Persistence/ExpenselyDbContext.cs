@@ -16,7 +16,7 @@ namespace Expensely.Persistence
     /// <summary>
     /// Represents the applications database context.
     /// </summary>
-    public sealed class ExpenselyDbContext : DbContext, IDbContext, IUnitOfWork
+    public sealed class ExpenselyDbContext : DbContext, IDbContext
     {
         private readonly IDateTime _dateTime;
 

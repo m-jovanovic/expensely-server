@@ -16,22 +16,18 @@ namespace Expensely.Application.Users.Commands.RemoveUserCurrency
     internal sealed class RemoveUserCurrencyCommandHandler : ICommandHandler<RemoveUserCurrencyCommand, Result>
     {
         private readonly IDbContext _dbContext;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoveUserCurrencyCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
         public RemoveUserCurrencyCommandHandler(
             IDbContext dbContext,
-            IUnitOfWork unitOfWork,
             IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
-            _unitOfWork = unitOfWork;
             _userInformationProvider = userInformationProvider;
         }
 
@@ -40,14 +36,14 @@ namespace Expensely.Application.Users.Commands.RemoveUserCurrency
         {
             if (request.UserId != _userInformationProvider.UserId)
             {
-                return Result.Failure(Errors.User.InvalidPermissions);
+                return Result.Failure(ValidationErrors.User.InvalidPermissions);
             }
 
             Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(request.UserId);
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure(Errors.User.NotFound);
+                return Result.Failure(ValidationErrors.User.NotFound);
             }
 
             Currency currency = Currency.FromValue(request.Currency).Value;
@@ -59,7 +55,7 @@ namespace Expensely.Application.Users.Commands.RemoveUserCurrency
                 return Result.Failure(result.Error);
             }
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

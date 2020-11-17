@@ -23,8 +23,6 @@ namespace Expensely.Persistence
 
             services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<ExpenselyDbContext>());
 
-            services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<ExpenselyDbContext>());
-
             return services;
         }
     }

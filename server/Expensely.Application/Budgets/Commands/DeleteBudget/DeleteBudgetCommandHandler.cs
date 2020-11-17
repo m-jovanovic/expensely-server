@@ -16,19 +16,16 @@ namespace Expensely.Application.Budgets.Commands.DeleteBudget
     internal sealed class DeleteBudgetCommandHandler : ICommandHandler<DeleteBudgetCommand, Result>
     {
         private readonly IDbContext _dbContext;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteBudgetCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public DeleteBudgetCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserInformationProvider userInformationProvider)
+        public DeleteBudgetCommandHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
-            _unitOfWork = unitOfWork;
             _userInformationProvider = userInformationProvider;
         }
 
@@ -39,19 +36,19 @@ namespace Expensely.Application.Budgets.Commands.DeleteBudget
 
             if (maybeBudget.HasNoValue)
             {
-                return Result.Failure(Errors.Budget.NotFound);
+                return Result.Failure(ValidationErrors.Budget.NotFound);
             }
 
             Budget budget = maybeBudget.Value;
 
             if (budget.UserId != _userInformationProvider.UserId)
             {
-                return Result.Failure(Errors.User.InvalidPermissions);
+                return Result.Failure(ValidationErrors.User.InvalidPermissions);
             }
 
             _dbContext.Remove(budget);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

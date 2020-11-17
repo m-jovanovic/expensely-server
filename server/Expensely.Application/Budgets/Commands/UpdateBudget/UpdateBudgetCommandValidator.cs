@@ -16,22 +16,22 @@ namespace Expensely.Application.Budgets.Commands.UpdateBudget
         /// </summary>
         public UpdateBudgetCommandValidator()
         {
-            RuleFor(x => x.BudgetId).NotEmpty().WithError(Errors.Budget.IdentifierIsRequired);
+            RuleFor(x => x.BudgetId).NotEmpty().WithError(ValidationErrors.Budget.IdentifierIsRequired);
 
-            RuleFor(x => x.Name).NotEmpty().WithError(Errors.Budget.NameIsRequired);
+            RuleFor(x => x.Name).NotEmpty().WithError(ValidationErrors.Budget.NameIsRequired);
 
-            RuleFor(x => x.Amount).GreaterThan(0).WithError(Errors.Budget.AmountLessThanOrEqualToZero);
+            RuleFor(x => x.Amount).GreaterThan(0).WithError(ValidationErrors.Budget.AmountLessThanOrEqualToZero);
 
-            RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(Errors.Currency.NotFound);
+            RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(ValidationErrors.Currency.NotFound);
 
-            RuleFor(x => x.StartDate).NotEmpty().WithError(Errors.Budget.StartDateIsRequired);
+            RuleFor(x => x.StartDate).NotEmpty().WithError(ValidationErrors.Budget.StartDateIsRequired);
 
-            RuleFor(x => x.EndDate).NotEmpty().WithError(Errors.Budget.EndDateIsRequired);
+            RuleFor(x => x.EndDate).NotEmpty().WithError(ValidationErrors.Budget.EndDateIsRequired);
 
             RuleFor(x => x.StartDate)
                 .LessThanOrEqualTo(x => x.EndDate)
                 .When(x => x.StartDate != default && x.EndDate != default)
-                .WithError(Errors.Budget.EndDatePrecedesStartDate);
+                .WithError(ValidationErrors.Budget.EndDatePrecedesStartDate);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Expensely.Application.Validation
     /// <summary>
     /// Contains the application layer errors.
     /// </summary>
-    internal static partial class Errors
+    internal static partial class ValidationErrors
     {
         /// <summary>
         /// Contains the user errors.

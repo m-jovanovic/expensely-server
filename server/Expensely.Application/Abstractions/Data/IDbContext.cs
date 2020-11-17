@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Primitives.Maybe;
@@ -53,5 +54,12 @@ namespace Expensely.Application.Abstractions.Data
         /// <param name="entity">The entity to be removed from the database.</param>
         void Remove<TEntity>(TEntity entity)
             where TEntity : Entity;
+
+        /// <summary>
+        /// Saves all of the pending changes in the unit of work.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The number of entities that have been saved.</returns>
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

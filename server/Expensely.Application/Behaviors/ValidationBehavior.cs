@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Messaging;
 using FluentValidation;
 using MediatR;
 using ValidationException = Expensely.Application.Exceptions.ValidationException;
@@ -29,7 +28,7 @@ namespace Expensely.Application.Behaviors
         /// <inheritdoc />
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            if (request is IQuery<TResponse>)
+            if (!_validators.Any())
             {
                 return await next();
             }

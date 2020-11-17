@@ -15,19 +15,19 @@ namespace Expensely.Application.Budgets.Commands.CreateBudget
         /// </summary>
         public CreateBudgetCommandValidator()
         {
-            RuleFor(x => x.UserId).NotEmpty().WithError(Errors.User.IdentifierIsRequired);
+            RuleFor(x => x.UserId).NotEmpty().WithError(ValidationErrors.User.IdentifierIsRequired);
 
-            RuleFor(x => x.Name).NotEmpty().WithError(Errors.Budget.NameIsRequired);
+            RuleFor(x => x.Name).NotEmpty().WithError(ValidationErrors.Budget.NameIsRequired);
 
-            RuleFor(x => x.Amount).GreaterThan(0).WithError(Errors.Budget.AmountLessThanOrEqualToZero);
+            RuleFor(x => x.Amount).GreaterThan(0).WithError(ValidationErrors.Budget.AmountLessThanOrEqualToZero);
 
-            RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(Errors.Currency.NotFound);
+            RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(ValidationErrors.Currency.NotFound);
 
-            RuleFor(x => x.StartDate).NotEmpty().WithError(Errors.Budget.StartDateIsRequired);
+            RuleFor(x => x.StartDate).NotEmpty().WithError(ValidationErrors.Budget.StartDateIsRequired);
 
-            RuleFor(x => x.EndDate).NotEmpty().WithError(Errors.Budget.EndDateIsRequired);
+            RuleFor(x => x.EndDate).NotEmpty().WithError(ValidationErrors.Budget.EndDateIsRequired);
 
-            RuleFor(x => x.StartDate).LessThanOrEqualTo(x => x.EndDate).WithError(Errors.Budget.EndDatePrecedesStartDate);
+            RuleFor(x => x.StartDate).LessThanOrEqualTo(x => x.EndDate).WithError(ValidationErrors.Budget.EndDatePrecedesStartDate);
         }
     }
 }

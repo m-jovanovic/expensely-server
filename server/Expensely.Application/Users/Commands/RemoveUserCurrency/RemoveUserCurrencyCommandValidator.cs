@@ -15,9 +15,9 @@ namespace Expensely.Application.Users.Commands.RemoveUserCurrency
         /// </summary>
         public RemoveUserCurrencyCommandValidator()
         {
-            RuleFor(x => x.UserId).NotEmpty().WithError(Errors.User.IdentifierIsRequired);
+            RuleFor(x => x.UserId).NotEmpty().WithError(ValidationErrors.User.IdentifierIsRequired);
 
-            RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(Errors.Currency.NotFound);
+            RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(ValidationErrors.Currency.NotFound);
         }
     }
 }

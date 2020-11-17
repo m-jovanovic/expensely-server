@@ -15,15 +15,15 @@ namespace Expensely.Application.Expenses.Commands.UpdateExpense
         /// </summary>
         public UpdateExpenseCommandValidator()
         {
-            RuleFor(x => x.ExpenseId).NotEmpty().WithError(Errors.Expense.IdentifierIsRequired);
+            RuleFor(x => x.ExpenseId).NotEmpty().WithError(ValidationErrors.Expense.IdentifierIsRequired);
 
-            RuleFor(x => x.Name).NotEmpty().WithError(Errors.Expense.NameIsRequired);
+            RuleFor(x => x.Name).NotEmpty().WithError(ValidationErrors.Expense.NameIsRequired);
 
-            RuleFor(x => x.Amount).LessThanOrEqualTo(0).WithError(Errors.Expense.AmountGreaterThanOrEqualToZero);
+            RuleFor(x => x.Amount).LessThanOrEqualTo(0).WithError(ValidationErrors.Expense.AmountGreaterThanOrEqualToZero);
 
-            RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(Errors.Currency.NotFound);
+            RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(ValidationErrors.Currency.NotFound);
 
-            RuleFor(x => x.OccurredOn).NotEmpty().WithError(Errors.Expense.OccurredOnDateIsRequired);
+            RuleFor(x => x.OccurredOn).NotEmpty().WithError(ValidationErrors.Expense.OccurredOnDateIsRequired);
         }
     }
 }

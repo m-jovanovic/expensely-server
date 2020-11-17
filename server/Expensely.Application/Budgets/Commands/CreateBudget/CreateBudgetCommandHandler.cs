@@ -16,19 +16,16 @@ namespace Expensely.Application.Budgets.Commands.CreateBudget
     internal sealed class CreateBudgetCommandHandler : ICommandHandler<CreateBudgetCommand, Result>
     {
         private readonly IDbContext _dbContext;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateBudgetCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public CreateBudgetCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserInformationProvider userInformationProvider)
+        public CreateBudgetCommandHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
-            _unitOfWork = unitOfWork;
             _userInformationProvider = userInformationProvider;
         }
 
@@ -37,7 +34,7 @@ namespace Expensely.Application.Budgets.Commands.CreateBudget
         {
             if (request.UserId != _userInformationProvider.UserId)
             {
-                return Result.Failure(Errors.User.InvalidPermissions);
+                return Result.Failure(ValidationErrors.User.InvalidPermissions);
             }
 
             Result<Name> nameResult = Name.Create(request.Name);
@@ -51,7 +48,7 @@ namespace Expensely.Application.Budgets.Commands.CreateBudget
 
             if (maybeCurrency.HasNoValue)
             {
-                return Result.Failure(Errors.Currency.NotFound);
+                return Result.Failure(ValidationErrors.Currency.NotFound);
             }
 
             var budget = new Budget(
@@ -64,7 +61,7 @@ namespace Expensely.Application.Budgets.Commands.CreateBudget
             // TODO: Add domain rule about the allowed # of budgets.
             _dbContext.Insert(budget);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

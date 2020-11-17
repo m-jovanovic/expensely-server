@@ -16,19 +16,16 @@ namespace Expensely.Application.Expenses.Commands.DeleteExpense
     internal sealed class DeleteExpenseCommandHandler : ICommandHandler<DeleteExpenseCommand, Result>
     {
         private readonly IDbContext _dbContext;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteExpenseCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public DeleteExpenseCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserInformationProvider userInformationProvider)
+        public DeleteExpenseCommandHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
-            _unitOfWork = unitOfWork;
             _userInformationProvider = userInformationProvider;
         }
 
@@ -39,19 +36,19 @@ namespace Expensely.Application.Expenses.Commands.DeleteExpense
 
             if (maybeExpense.HasNoValue)
             {
-                return Result.Failure(Errors.Expense.NotFound);
+                return Result.Failure(ValidationErrors.Expense.NotFound);
             }
 
             Expense expense = maybeExpense.Value;
 
             if (expense.UserId != _userInformationProvider.UserId)
             {
-                return Result.Failure(Errors.User.InvalidPermissions);
+                return Result.Failure(ValidationErrors.User.InvalidPermissions);
             }
 
             _dbContext.Remove(expense);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

@@ -16,19 +16,16 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
     internal sealed class CreateExpenseCommandHandler : ICommandHandler<CreateExpenseCommand, Result>
     {
         private readonly IDbContext _dbContext;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateExpenseCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public CreateExpenseCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserInformationProvider userInformationProvider)
+        public CreateExpenseCommandHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
-            _unitOfWork = unitOfWork;
             _userInformationProvider = userInformationProvider;
         }
 
@@ -37,7 +34,7 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         {
             if (request.UserId != _userInformationProvider.UserId)
             {
-                return Result.Failure(Errors.User.InvalidPermissions);
+                return Result.Failure(ValidationErrors.User.InvalidPermissions);
             }
 
             Result<Name> nameResult = Name.Create(request.Name);
@@ -54,7 +51,7 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
 
             if (maybeCurrency.HasNoValue)
             {
-                return Result.Failure(Errors.Currency.NotFound);
+                return Result.Failure(ValidationErrors.Currency.NotFound);
             }
 
             var expense = new Expense(
@@ -66,7 +63,7 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
 
             _dbContext.Insert(expense);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

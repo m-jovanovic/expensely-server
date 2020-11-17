@@ -13,6 +13,6 @@ namespace Expensely.Application.Expenses.Commands.DeleteExpense
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteExpenseCommandValidator"/> class.
         /// </summary>
-        public DeleteExpenseCommandValidator() => RuleFor(x => x.ExpenseId).NotEmpty().WithError(Errors.Expense.IdentifierIsRequired);
+        public DeleteExpenseCommandValidator() => RuleFor(x => x.ExpenseId).NotEmpty().WithError(ValidationErrors.Expense.IdentifierIsRequired);
     }
 }

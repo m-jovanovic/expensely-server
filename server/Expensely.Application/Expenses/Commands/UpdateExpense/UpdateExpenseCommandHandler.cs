@@ -16,19 +16,16 @@ namespace Expensely.Application.Expenses.Commands.UpdateExpense
     internal sealed class UpdateExpenseCommandHandler : ICommandHandler<UpdateExpenseCommand, Result>
     {
         private readonly IDbContext _dbContext;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateExpenseCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public UpdateExpenseCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserInformationProvider userInformationProvider)
+        public UpdateExpenseCommandHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
-            _unitOfWork = unitOfWork;
             _userInformationProvider = userInformationProvider;
         }
 
@@ -39,14 +36,14 @@ namespace Expensely.Application.Expenses.Commands.UpdateExpense
 
             if (maybeExpense.HasNoValue)
             {
-                return Result.Failure(Errors.Expense.NotFound);
+                return Result.Failure(ValidationErrors.Expense.NotFound);
             }
 
             Expense expense = maybeExpense.Value;
 
             if (expense.UserId != _userInformationProvider.UserId)
             {
-                return Result.Failure(Errors.User.InvalidPermissions);
+                return Result.Failure(ValidationErrors.User.InvalidPermissions);
             }
 
             Result<Name> nameResult = Name.Create(request.Name);
@@ -63,7 +60,7 @@ namespace Expensely.Application.Expenses.Commands.UpdateExpense
 
             if (maybeCurrency.HasNoValue)
             {
-                return Result.Failure(Errors.Currency.NotFound);
+                return Result.Failure(ValidationErrors.Currency.NotFound);
             }
 
             expense.ChangeName(nameResult.Value);
@@ -74,7 +71,7 @@ namespace Expensely.Application.Expenses.Commands.UpdateExpense
 
             expense.ChangeDescription(descriptionResult.Value);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

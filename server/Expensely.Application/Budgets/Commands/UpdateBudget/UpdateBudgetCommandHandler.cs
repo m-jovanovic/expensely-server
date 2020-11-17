@@ -16,19 +16,16 @@ namespace Expensely.Application.Budgets.Commands.UpdateBudget
     internal sealed class UpdateBudgetCommandHandler : ICommandHandler<UpdateBudgetCommand, Result>
     {
         private readonly IDbContext _dbContext;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateBudgetCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public UpdateBudgetCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IUserInformationProvider userInformationProvider)
+        public UpdateBudgetCommandHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
-            _unitOfWork = unitOfWork;
             _userInformationProvider = userInformationProvider;
         }
 
@@ -39,14 +36,14 @@ namespace Expensely.Application.Budgets.Commands.UpdateBudget
 
             if (maybeBudget.HasNoValue)
             {
-                return Result.Failure(Errors.Budget.NotFound);
+                return Result.Failure(ValidationErrors.Budget.NotFound);
             }
 
             Budget budget = maybeBudget.Value;
 
             if (budget.UserId != _userInformationProvider.UserId)
             {
-                return Result.Failure(Errors.User.InvalidPermissions);
+                return Result.Failure(ValidationErrors.User.InvalidPermissions);
             }
 
             Result<Name> nameResult = Name.Create(request.Name);
@@ -60,7 +57,7 @@ namespace Expensely.Application.Budgets.Commands.UpdateBudget
 
             if (maybeCurrency.HasNoValue)
             {
-                return Result.Failure(Errors.Currency.NotFound);
+                return Result.Failure(ValidationErrors.Currency.NotFound);
             }
 
             budget.ChangeName(nameResult.Value);
@@ -69,7 +66,7 @@ namespace Expensely.Application.Budgets.Commands.UpdateBudget
 
             budget.ChangeDates(request.StartDate, request.EndDate);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

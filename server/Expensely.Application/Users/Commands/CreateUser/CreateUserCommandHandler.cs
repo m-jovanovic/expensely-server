@@ -17,7 +17,6 @@ namespace Expensely.Application.Users.Commands.CreateUser
     internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Result<TokenResponse>>
     {
         private readonly IDbContext _dbContext;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordService _passwordService;
         private readonly IJwtProvider _jwtProvider;
 
@@ -25,13 +24,11 @@ namespace Expensely.Application.Users.Commands.CreateUser
         /// Initializes a new instance of the <see cref="CreateUserCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="passwordService">The password service.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
-        public CreateUserCommandHandler(IDbContext dbContext, IUnitOfWork unitOfWork, IPasswordService passwordService, IJwtProvider jwtProvider)
+        public CreateUserCommandHandler(IDbContext dbContext, IPasswordService passwordService, IJwtProvider jwtProvider)
         {
             _dbContext = dbContext;
-            _unitOfWork = unitOfWork;
             _passwordService = passwordService;
             _jwtProvider = jwtProvider;
         }
@@ -55,14 +52,14 @@ namespace Expensely.Application.Users.Commands.CreateUser
 
             if (emailAlreadyExists)
             {
-                return Result.Failure<TokenResponse>(Errors.User.EmailAlreadyInUse);
+                return Result.Failure<TokenResponse>(ValidationErrors.User.EmailAlreadyInUse);
             }
 
             var user = new User(firstNameResult.Value, lastNameResult.Value, emailResult.Value, passwordResult.Value, _passwordService);
 
             _dbContext.Insert(user);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             string token = _jwtProvider.CreateToken(user);
 

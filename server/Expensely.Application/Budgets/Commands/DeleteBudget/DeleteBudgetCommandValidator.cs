@@ -12,6 +12,6 @@ namespace Expensely.Application.Budgets.Commands.DeleteBudget
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteBudgetCommandValidator"/> class.
         /// </summary>
-        public DeleteBudgetCommandValidator() => RuleFor(x => x.BudgetId).NotEmpty().WithError(Errors.Budget.IdentifierIsRequired);
+        public DeleteBudgetCommandValidator() => RuleFor(x => x.BudgetId).NotEmpty().WithError(ValidationErrors.Budget.IdentifierIsRequired);
     }
 }

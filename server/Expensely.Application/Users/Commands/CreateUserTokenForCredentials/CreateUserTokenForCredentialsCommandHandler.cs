@@ -11,24 +11,28 @@ using Expensely.Domain.Primitives.Result;
 using Expensely.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Expensely.Application.Users.Commands.CreateUserToken
+namespace Expensely.Application.Users.Commands.CreateUserTokenForCredentials
 {
     /// <summary>
-    /// Represents the <see cref="CreateUserTokenCommand"/> handler.
+    /// Represents the <see cref="CreateUserTokenForCredentialsCommand"/> handler.
     /// </summary>
-    internal sealed class CreateUserTokenCommandHandler : ICommandHandler<CreateUserTokenCommand, Result<TokenResponse>>
+    internal sealed class CreateUserTokenForCredentialsCommandHandler
+        : ICommandHandler<CreateUserTokenForCredentialsCommand, Result<TokenResponse>>
     {
         private readonly IDbContext _dbContext;
         private readonly IPasswordService _passwordService;
         private readonly IJwtProvider _jwtProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserTokenCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="CreateUserTokenForCredentialsCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="passwordService">The password service.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
-        public CreateUserTokenCommandHandler(IDbContext dbContext, IJwtProvider jwtProvider, IPasswordService passwordService)
+        public CreateUserTokenForCredentialsCommandHandler(
+            IDbContext dbContext,
+            IJwtProvider jwtProvider,
+            IPasswordService passwordService)
         {
             _dbContext = dbContext;
             _passwordService = passwordService;
@@ -36,7 +40,7 @@ namespace Expensely.Application.Users.Commands.CreateUserToken
         }
 
         /// <inheritdoc />
-        public async Task<Result<TokenResponse>> Handle(CreateUserTokenCommand request, CancellationToken cancellationToken)
+        public async Task<Result<TokenResponse>> Handle(CreateUserTokenForCredentialsCommand request, CancellationToken cancellationToken)
         {
             Result<Email> emailResult = Email.Create(request.Email);
             Result<Password> passwordResult = Password.Create(request.Password);
@@ -53,14 +57,14 @@ namespace Expensely.Application.Users.Commands.CreateUserToken
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure<TokenResponse>(Errors.User.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(ValidationErrors.User.InvalidEmailOrPassword);
             }
 
             User user = maybeUser.Value;
 
             if (!user.VerifyPassword(passwordResult.Value, _passwordService))
             {
-                return Result.Failure<TokenResponse>(Errors.User.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(ValidationErrors.User.InvalidEmailOrPassword);
             }
 
             string token = _jwtProvider.CreateToken(user);
