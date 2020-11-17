@@ -58,7 +58,7 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseRequest request) =>
-            await Result.Create(request, Errors.UnProcessableRequest)
+            await Result.Create(request, ApiErrors.UnProcessableRequest)
                 .Map(value => new CreateExpenseCommand(
                     value.UserId,
                     value.Name,
@@ -79,8 +79,8 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateExpense(Guid id, [FromBody] UpdateExpenseRequest request) =>
-            await Result.Create(request, Errors.UnProcessableRequest)
-                .Ensure(value => value.ExpenseId == id, Errors.UnProcessableRequest)
+            await Result.Create(request, ApiErrors.UnProcessableRequest)
+                .Ensure(value => value.ExpenseId == id, ApiErrors.UnProcessableRequest)
                 .Map(value => new UpdateExpenseCommand(
                     value.ExpenseId,
                     value.Name,

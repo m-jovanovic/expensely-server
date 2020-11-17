@@ -37,7 +37,7 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest) =>
-            await Result.Create(loginRequest, Errors.UnProcessableRequest)
+            await Result.Create(loginRequest, ApiErrors.UnProcessableRequest)
                 .Map(request => new CreateUserTokenForCredentialsCommand(request.Email, request.Password))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
@@ -52,7 +52,7 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest) =>
-            await Result.Create(registerRequest, Errors.UnProcessableRequest)
+            await Result.Create(registerRequest, ApiErrors.UnProcessableRequest)
                 .Map(request => new CreateUserCommand(
                     request.FirstName,
                     request.LastName,

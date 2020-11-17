@@ -37,7 +37,7 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateBudget([FromBody] CreateBudgetRequest request) =>
-            await Result.Create(request, Errors.UnProcessableRequest)
+            await Result.Create(request, ApiErrors.UnProcessableRequest)
                 .Map(value => new CreateBudgetCommand(
                     value.UserId,
                     value.Name,
@@ -58,8 +58,8 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateBudget(Guid id, [FromBody] UpdateBudgetRequest request) =>
-            await Result.Create(request, Errors.UnProcessableRequest)
-                .Ensure(value => value.BudgetId == id, Errors.UnProcessableRequest)
+            await Result.Create(request, ApiErrors.UnProcessableRequest)
+                .Ensure(value => value.BudgetId == id, ApiErrors.UnProcessableRequest)
                 .Map(value => new UpdateBudgetCommand(
                     value.BudgetId,
                     value.Name,

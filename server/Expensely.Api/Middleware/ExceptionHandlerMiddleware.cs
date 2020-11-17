@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Expensely.Api.Constants;
 using Expensely.Api.Contracts;
 using Expensely.Application.Exceptions;
 using Expensely.Domain.Exceptions;
@@ -79,11 +80,7 @@ namespace Expensely.Api.Middleware
             {
                 ValidationException validationException => (HttpStatusCode.BadRequest, validationException.Errors),
                 DomainException domainException => (HttpStatusCode.BadRequest, new[] { domainException.Error }),
-                _ => (HttpStatusCode.InternalServerError, new[]
-                {
-                    // TODO: Create a static field or property for this.
-                    new Error("General.ServerError", "The server encountered an unrecoverable error.")
-                })
+                _ => (HttpStatusCode.InternalServerError, new[] { ApiErrors.ServerError })
             };
     }
 }
