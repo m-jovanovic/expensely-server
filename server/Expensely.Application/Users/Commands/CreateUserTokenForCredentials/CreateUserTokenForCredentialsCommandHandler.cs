@@ -4,12 +4,12 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Users;
+using Expensely.Application.Specifications.Users;
 using Expensely.Domain.Core;
 using Expensely.Domain.Core.Errors;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
 using Expensely.Domain.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Users.Commands.CreateUserTokenForCredentials
 {
@@ -52,8 +52,7 @@ namespace Expensely.Application.Users.Commands.CreateUserTokenForCredentials
                 return Result.Failure<TokenResponse>(result.Error);
             }
 
-            Maybe<User> maybeUser = await _dbContext.Set<User>()
-                .FirstOrDefaultAsync(u => u.Email.Value == emailResult.Value, cancellationToken);
+            Maybe<User> maybeUser = await _dbContext.GetBySpecificationAsync(new UserWithEmailSpecification(emailResult.Value));
 
             if (maybeUser.HasNoValue)
             {

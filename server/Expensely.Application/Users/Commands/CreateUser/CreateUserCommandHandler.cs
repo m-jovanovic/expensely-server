@@ -4,6 +4,7 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Users;
+using Expensely.Application.Specifications.Users;
 using Expensely.Domain.Core;
 using Expensely.Domain.Core.Errors;
 using Expensely.Domain.Primitives.Result;
@@ -48,7 +49,7 @@ namespace Expensely.Application.Users.Commands.CreateUser
                 return Result.Failure<TokenResponse>(result.Error);
             }
 
-            bool emailAlreadyExists = await _dbContext.AnyAsync<User>(x => x.Email.Value == emailResult.Value);
+            bool emailAlreadyExists = await _dbContext.AnyAsync(new UserWithEmailSpecification(emailResult.Value));
 
             if (emailAlreadyExists)
             {

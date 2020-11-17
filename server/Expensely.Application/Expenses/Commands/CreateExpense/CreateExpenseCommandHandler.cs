@@ -2,9 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
-using Expensely.Application.Validation;
 using Expensely.Domain.Core;
-using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Application.Expenses.Commands.CreateExpense

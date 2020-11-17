@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Specifications;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Primitives.Maybe;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +22,7 @@ namespace Expensely.Application.Abstractions.Data
             where TEntity : Entity;
 
         /// <summary>
-        /// Gets the entity with the specified identifier.
+        /// Gets the entity with the specified identifier, if it exists.
         /// </summary>
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="id">The entity identifier.</param>
@@ -31,12 +31,23 @@ namespace Expensely.Application.Abstractions.Data
             where TEntity : Entity;
 
         /// <summary>
-        /// Checks if any entity satisfies the specified predicate.
+        /// Gets the entity that satisfies the specified specification, if it exists.
         /// </summary>
         /// <typeparam name="TEntity">The entity type.</typeparam>
-        /// <param name="predicate">The predicate.</param>
-        /// <returns>True if any entity satisfies the specified predicate, otherwise false.</returns>
-        Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> predicate)
+        /// <param name="specification">The specification.</param>
+        /// <returns>
+        /// The maybe instance that may contain the <typeparamref name="TEntity"/> that satisfies the specified specification.
+        /// </returns>
+        Task<Maybe<TEntity>> GetBySpecificationAsync<TEntity>(Specification<TEntity> specification)
+            where TEntity : Entity;
+
+        /// <summary>
+        /// Checks if any entity satisfies the specification.
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type.</typeparam>
+        /// <param name="specification">The specification.</param>
+        /// <returns>True if any entity satisfies the specification, otherwise false.</returns>
+        Task<bool> AnyAsync<TEntity>(Specification<TEntity> specification)
             where TEntity : Entity;
 
         /// <summary>

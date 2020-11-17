@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Common;
 using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Specifications;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Persistence.Extensions;
@@ -47,9 +47,14 @@ namespace Expensely.Persistence
         }
 
         /// <inheritdoc />
-        public async Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> predicate)
+        public async Task<Maybe<TEntity>> GetBySpecificationAsync<TEntity>(Specification<TEntity> specification)
             where TEntity : Entity =>
-            await Set<TEntity>().AnyAsync(predicate);
+            await Set<TEntity>().FirstOrDefaultAsync(specification);
+
+        /// <inheritdoc />
+        public async Task<bool> AnyAsync<TEntity>(Specification<TEntity> specification)
+            where TEntity : Entity =>
+            await Set<TEntity>().AnyAsync(specification);
 
         /// <inheritdoc />
         public void Insert<TEntity>(TEntity entity)
