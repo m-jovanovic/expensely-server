@@ -24,11 +24,13 @@ namespace Expensely.Domain.Core
             Ensure.NotEmpty(name, "The name is required.", nameof(name));
             Ensure.NotEmpty(money, "The monetary amount is required.", nameof(money));
             Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
-            Ensure.NotEmpty(description, "The description is required.", nameof(description));
+            Ensure.NotNull(description, "The description is required.", nameof(description));
 
             UserId = userId;
+            Name = name;
             Money = money;
             OccurredOn = occurredOn.Date;
+            Description = description;
         }
 
         /// <summary>
