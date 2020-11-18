@@ -31,7 +31,7 @@ namespace Expensely.Persistence
 
         /// <inheritdoc />
         public new DbSet<TEntity> Set<TEntity>()
-            where TEntity : Entity =>
+            where TEntity : class =>
             base.Set<TEntity>();
 
         /// <inheritdoc />
@@ -48,22 +48,22 @@ namespace Expensely.Persistence
 
         /// <inheritdoc />
         public async Task<Maybe<TEntity>> GetBySpecificationAsync<TEntity>(Specification<TEntity> specification)
-            where TEntity : Entity =>
+            where TEntity : class =>
             await Set<TEntity>().FirstOrDefaultAsync(specification);
 
         /// <inheritdoc />
         public async Task<bool> AnyAsync<TEntity>(Specification<TEntity> specification)
-            where TEntity : Entity =>
+            where TEntity : class =>
             await Set<TEntity>().AnyAsync(specification);
 
         /// <inheritdoc />
         public void Insert<TEntity>(TEntity entity)
-            where TEntity : Entity =>
+            where TEntity : class =>
             Set<TEntity>().Add(entity);
 
         /// <inheritdoc />
         public new void Remove<TEntity>(TEntity entity)
-            where TEntity : Entity =>
+            where TEntity : class =>
             Set<TEntity>().Remove(entity);
 
         /// <summary>

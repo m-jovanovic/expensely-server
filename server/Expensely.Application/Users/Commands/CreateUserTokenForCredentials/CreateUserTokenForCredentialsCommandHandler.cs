@@ -1,9 +1,11 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Users;
+using Expensely.Application.Specifications.RefreshTokens;
 using Expensely.Application.Specifications.Users;
 using Expensely.Domain.Core;
 using Expensely.Domain.Core.Errors;
@@ -52,7 +54,7 @@ namespace Expensely.Application.Users.Commands.CreateUserTokenForCredentials
                 return Result.Failure<TokenResponse>(result.Error);
             }
 
-            Maybe<User> maybeUser = await _dbContext.GetBySpecificationAsync(new UserWithEmailSpecification(emailResult.Value));
+            Maybe<User> maybeUser = await _dbContext.GetBySpecificationAsync(new UserByEmailSpecification(emailResult.Value));
 
             if (maybeUser.HasNoValue)
             {
@@ -66,9 +68,22 @@ namespace Expensely.Application.Users.Commands.CreateUserTokenForCredentials
                 return Result.Failure<TokenResponse>(DomainErrors.User.InvalidEmailOrPassword);
             }
 
+            Maybe<RefreshToken> maybeRefreshToken = await _dbContext.GetBySpecificationAsync(new RefreshTokenByUserSpecification(user));
+
+            if (maybeRefreshToken.HasValue)
+            {
+                _dbContext.Remove(maybeRefreshToken.Value);
+            }
+
             string token = _jwtProvider.CreateToken(user);
 
-            return new TokenResponse(token);
+            (string refreshToken, DateTime expiresOnUtc) = _jwtProvider.CreateRefreshToken();
+
+            _dbContext.Insert(new RefreshToken(user, refreshToken, expiresOnUtc));
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return new TokenResponse(token, refreshToken, expiresOnUtc);
         }
     }
 }

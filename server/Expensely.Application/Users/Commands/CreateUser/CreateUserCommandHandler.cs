@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Users;
@@ -15,27 +14,24 @@ namespace Expensely.Application.Users.Commands.CreateUser
     /// <summary>
     /// Represents the <see cref="CreateUserCommand"/> handler.
     /// </summary>
-    internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Result<TokenResponse>>
+    internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Result>
     {
         private readonly IDbContext _dbContext;
         private readonly IPasswordService _passwordService;
-        private readonly IJwtProvider _jwtProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateUserCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="passwordService">The password service.</param>
-        /// <param name="jwtProvider">The JWT provider.</param>
-        public CreateUserCommandHandler(IDbContext dbContext, IPasswordService passwordService, IJwtProvider jwtProvider)
+        public CreateUserCommandHandler(IDbContext dbContext, IPasswordService passwordService)
         {
             _dbContext = dbContext;
             _passwordService = passwordService;
-            _jwtProvider = jwtProvider;
         }
 
         /// <inheritdoc />
-        public async Task<Result<TokenResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             Result<FirstName> firstNameResult = FirstName.Create(request.FirstName);
             Result<LastName> lastNameResult = LastName.Create(request.LastName);
@@ -46,10 +42,10 @@ namespace Expensely.Application.Users.Commands.CreateUser
 
             if (result.IsFailure)
             {
-                return Result.Failure<TokenResponse>(result.Error);
+                return Result.Failure(result.Error);
             }
 
-            bool emailAlreadyExists = await _dbContext.AnyAsync(new UserWithEmailSpecification(emailResult.Value));
+            bool emailAlreadyExists = await _dbContext.AnyAsync(new UserByEmailSpecification(emailResult.Value));
 
             if (emailAlreadyExists)
             {
@@ -62,9 +58,7 @@ namespace Expensely.Application.Users.Commands.CreateUser
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            string token = _jwtProvider.CreateToken(user);
-
-            return new TokenResponse(token);
+            return Result.Success();
         }
     }
 }

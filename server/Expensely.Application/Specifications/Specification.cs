@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Expensely.Domain.Primitives;
 
 namespace Expensely.Application.Specifications
 {
@@ -9,9 +8,10 @@ namespace Expensely.Application.Specifications
     /// </summary>
     /// <typeparam name="TEntity">The entity type.</typeparam>
     public abstract class Specification<TEntity>
-        where TEntity : Entity
+        where TEntity : class
     {
-        public static implicit operator Expression<Func<TEntity, bool>>(Specification<TEntity> specification) => specification.ToExpression();
+        public static implicit operator Expression<Func<TEntity, bool>>(Specification<TEntity> specification) =>
+            specification.ToExpression();
 
         /// <summary>
         /// Converts the current specification instance to a boolean expression.

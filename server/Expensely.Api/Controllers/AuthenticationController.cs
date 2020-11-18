@@ -34,7 +34,7 @@ namespace Expensely.Api.Controllers
         /// <param name="loginRequest">The login request.</param>
         /// <returns>The JWT if the login was successful, or an error response otherwise.</returns>
         [HttpPost(ApiRoutes.Authentication.Login)]
-        [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest) =>
             await Result.Create(loginRequest, ApiErrors.UnProcessableRequest)

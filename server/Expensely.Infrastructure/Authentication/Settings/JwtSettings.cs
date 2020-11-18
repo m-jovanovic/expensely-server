@@ -29,5 +29,10 @@
         /// Gets or sets the token expiration time in minutes.
         /// </summary>
         public int TokenExpirationInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the refresh token expiration in minutes.
+        /// </summary>
+        public int RefreshTokenExpirationInMinutes { get; set; }
     }
 }

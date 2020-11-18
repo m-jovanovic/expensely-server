@@ -19,7 +19,7 @@ namespace Expensely.Application.Abstractions.Data
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <returns>The database set for the specified entity type.</returns>
         DbSet<TEntity> Set<TEntity>()
-            where TEntity : Entity;
+            where TEntity : class;
 
         /// <summary>
         /// Gets the entity with the specified identifier, if it exists.
@@ -39,7 +39,7 @@ namespace Expensely.Application.Abstractions.Data
         /// The maybe instance that may contain the <typeparamref name="TEntity"/> that satisfies the specified specification.
         /// </returns>
         Task<Maybe<TEntity>> GetBySpecificationAsync<TEntity>(Specification<TEntity> specification)
-            where TEntity : Entity;
+            where TEntity : class;
 
         /// <summary>
         /// Checks if any entity satisfies the specification.
@@ -48,7 +48,7 @@ namespace Expensely.Application.Abstractions.Data
         /// <param name="specification">The specification.</param>
         /// <returns>True if any entity satisfies the specification, otherwise false.</returns>
         Task<bool> AnyAsync<TEntity>(Specification<TEntity> specification)
-            where TEntity : Entity;
+            where TEntity : class;
 
         /// <summary>
         /// Inserts the specified entity into the database.
@@ -56,7 +56,7 @@ namespace Expensely.Application.Abstractions.Data
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="entity">The entity to be inserted into the database.</param>
         void Insert<TEntity>(TEntity entity)
-            where TEntity : Entity;
+            where TEntity : class;
 
         /// <summary>
         /// Removes the specified entity from the database.
@@ -64,7 +64,7 @@ namespace Expensely.Application.Abstractions.Data
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="entity">The entity to be removed from the database.</param>
         void Remove<TEntity>(TEntity entity)
-            where TEntity : Entity;
+            where TEntity : class;
 
         /// <summary>
         /// Saves all of the pending changes in the unit of work.

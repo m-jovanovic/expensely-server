@@ -1,5 +1,4 @@
 ﻿using Expensely.Application.Abstractions.Messaging;
-using Expensely.Application.Contracts.Users;
 using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Application.Users.Commands.CreateUser
@@ -7,7 +6,7 @@ namespace Expensely.Application.Users.Commands.CreateUser
     /// <summary>
     /// Represents the command for creating a user.
     /// </summary>
-    public sealed class CreateUserCommand : ICommand<Result<TokenResponse>>
+    public sealed class CreateUserCommand : ICommand<Result>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateUserCommand"/> class.

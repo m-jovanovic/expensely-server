@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Common;
@@ -61,6 +62,20 @@ namespace Expensely.Infrastructure.Authentication
             string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
 
             return tokenValue;
+        }
+
+        /// <inheritdoc />
+        public (string Token, DateTime ExpiresOnUtc) CreateRefreshToken()
+        {
+            var refreshTokenBytes = new byte[64];
+
+            using var rng = RandomNumberGenerator.Create();
+
+            rng.GetBytes(refreshTokenBytes);
+
+            return (
+                Convert.ToBase64String(refreshTokenBytes),
+                _dateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationInMinutes));
         }
     }
 }
