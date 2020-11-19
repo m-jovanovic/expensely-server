@@ -75,7 +75,7 @@ namespace Expensely.Infrastructure.Authentication
 
             return (
                 Convert.ToBase64String(refreshTokenBytes),
-                _dateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationInMinutes));
+                _dateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenExpirationInMinutes));
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Expensely.Application.Abstractions.Data
         /// <returns>
         /// The maybe instance that may contain the <typeparamref name="TEntity"/> that satisfies the specified specification.
         /// </returns>
-        Task<Maybe<TEntity>> GetBySpecificationAsync<TEntity>(Specification<TEntity> specification)
+        Task<Maybe<TEntity>> FirstOrDefaultAsync<TEntity>(Specification<TEntity> specification)
             where TEntity : class;
 
         /// <summary>

@@ -54,7 +54,7 @@ namespace Expensely.Application.Users.Commands.CreateUserTokenForCredentials
                 return Result.Failure<TokenResponse>(result.Error);
             }
 
-            Maybe<User> maybeUser = await _dbContext.GetBySpecificationAsync(new UserByEmailSpecification(emailResult.Value));
+            Maybe<User> maybeUser = await _dbContext.FirstOrDefaultAsync(new UserByEmailSpecification(emailResult.Value));
 
             if (maybeUser.HasNoValue)
             {
@@ -68,18 +68,20 @@ namespace Expensely.Application.Users.Commands.CreateUserTokenForCredentials
                 return Result.Failure<TokenResponse>(DomainErrors.User.InvalidEmailOrPassword);
             }
 
-            Maybe<RefreshToken> maybeRefreshToken = await _dbContext.GetBySpecificationAsync(new RefreshTokenByUserSpecification(user));
-
-            if (maybeRefreshToken.HasValue)
-            {
-                _dbContext.Remove(maybeRefreshToken.Value);
-            }
-
             string token = _jwtProvider.CreateToken(user);
 
             (string refreshToken, DateTime expiresOnUtc) = _jwtProvider.CreateRefreshToken();
 
-            _dbContext.Insert(new RefreshToken(user, refreshToken, expiresOnUtc));
+            Maybe<RefreshToken> maybeRefreshToken = await _dbContext.FirstOrDefaultAsync(new RefreshTokenByUserSpecification(user));
+
+            if (maybeRefreshToken.HasNoValue)
+            {
+                _dbContext.Insert(new RefreshToken(user, refreshToken, expiresOnUtc));
+            }
+            else
+            {
+                maybeRefreshToken.Value.ChangeValues(refreshToken, expiresOnUtc);
+            }
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 

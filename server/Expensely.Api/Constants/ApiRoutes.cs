@@ -19,6 +19,11 @@
             /// The registration route.
             /// </summary>
             internal const string Register = "authentication/register";
+
+            /// <summary>
+            /// The refresh token route.
+            /// </summary>
+            internal const string RefreshToken = "authentication/refresh_token";
         }
 
         /// <summary>

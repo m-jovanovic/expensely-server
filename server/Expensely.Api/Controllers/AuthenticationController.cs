@@ -5,6 +5,7 @@ using Expensely.Api.Infrastructure;
 using Expensely.Application.Contracts.Users;
 using Expensely.Application.Users.Commands.CreateUser;
 using Expensely.Application.Users.Commands.CreateUserTokenForCredentials;
+using Expensely.Application.Users.Commands.RefreshUserToken;
 using Expensely.Domain.Primitives.Result;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +30,7 @@ namespace Expensely.Api.Controllers
         }
 
         /// <summary>
-        /// Performs the login and returns a new JWT if successful.
+        /// Logs in the user based on the specified request and returns a new JWT if successful.
         /// </summary>
         /// <param name="loginRequest">The login request.</param>
         /// <returns>The JWT if the login was successful, or an error response otherwise.</returns>
@@ -43,11 +44,10 @@ namespace Expensely.Api.Controllers
                 .Match(Ok, BadRequest);
 
         /// <summary>
-        /// Performs the registration and returns a new JWT if successful.
+        /// Registers a user based on the specified request.
         /// </summary>
         /// <param name="registerRequest">The register request.</param>
         /// <returns>The JWT if the registration was successful, or an error response otherwise.</returns>
-        [AllowAnonymous]
         [HttpPost(ApiRoutes.Authentication.Register)]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
@@ -59,6 +59,19 @@ namespace Expensely.Api.Controllers
                     request.Email,
                     request.Password,
                     request.ConfirmationPassword))
+                .Bind(command => Sender.Send(command))
+                .Match(Ok, BadRequest);
+
+        /// <summary>
+        /// Refreshes the user's token based on the specified request and returns a new JWT if successful.
+        /// </summary>
+        /// <param name="refreshToken">The refresh token.</param>
+        /// <returns>The JWT if the token was refreshed successful, or an error response otherwise.</returns>
+        [HttpPost(ApiRoutes.Authentication.RefreshToken)]
+        [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RefreshToken([FromBody]string refreshToken) =>
+            await Result.Success(new RefreshUserTokenCommand(refreshToken))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
     }

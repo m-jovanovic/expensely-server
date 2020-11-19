@@ -47,7 +47,7 @@ namespace Expensely.Persistence
         }
 
         /// <inheritdoc />
-        public async Task<Maybe<TEntity>> GetBySpecificationAsync<TEntity>(Specification<TEntity> specification)
+        public async Task<Maybe<TEntity>> FirstOrDefaultAsync<TEntity>(Specification<TEntity> specification)
             where TEntity : class =>
             await Set<TEntity>().FirstOrDefaultAsync(specification);
 
