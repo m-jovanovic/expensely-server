@@ -65,13 +65,14 @@ namespace Expensely.Api.Controllers
         /// <summary>
         /// Refreshes the user's token based on the specified request and returns a new JWT if successful.
         /// </summary>
-        /// <param name="refreshToken">The refresh token.</param>
+        /// <param name="refreshTokenRequest">The refresh token request.</param>
         /// <returns>The JWT if the token was refreshed successful, or an error response otherwise.</returns>
         [HttpPost(ApiRoutes.Authentication.RefreshToken)]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RefreshToken([FromBody]string refreshToken) =>
-            await Result.Success(new RefreshUserTokenCommand(refreshToken))
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest refreshTokenRequest) =>
+            await Result.Create(refreshTokenRequest, ApiErrors.UnProcessableRequest)
+                .Map(value => new RefreshUserTokenCommand(value.RefreshToken))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
     }

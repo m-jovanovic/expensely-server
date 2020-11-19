@@ -6,28 +6,28 @@
     public sealed class RegisterRequest
     {
         /// <summary>
-        /// Gets or sets the first name.
+        /// Gets the first name.
         /// </summary>
-        public string FirstName { get; set; }
+        public string FirstName { get; init; }
 
         /// <summary>
-        /// Gets or sets the last name.
+        /// Gets the last name.
         /// </summary>
-        public string LastName { get; set; }
+        public string LastName { get; init; }
 
         /// <summary>
-        /// Gets or sets the email.
+        /// Gets the email.
         /// </summary>
-        public string Email { get; set; }
+        public string Email { get; init; }
 
         /// <summary>
-        /// Gets or sets the password.
+        /// Gets the password.
         /// </summary>
-        public string Password { get; set; }
+        public string Password { get; init; }
 
         /// <summary>
-        /// Gets or sets the confirmation password.
+        /// Gets the confirmation password.
         /// </summary>
-        public string ConfirmationPassword { get; set; }
+        public string ConfirmationPassword { get; init; }
     }
 }

@@ -11,28 +11,28 @@
         public const string SettingsKey = "Jwt";
 
         /// <summary>
-        /// Gets or sets the issuer.
+        /// Gets the issuer.
         /// </summary>
-        public string Issuer { get; set; }
+        public string Issuer { get; init; }
 
         /// <summary>
-        /// Gets or sets the audience.
+        /// Gets the audience.
         /// </summary>
-        public string Audience { get; set; }
+        public string Audience { get; init; }
 
         /// <summary>
-        /// Gets or sets the security key.
+        /// Gets the security key.
         /// </summary>
-        public string SecurityKey { get; set; }
+        public string SecurityKey { get; init; }
 
         /// <summary>
-        /// Gets or sets the token expiration time in minutes.
+        /// Gets the token expiration time in minutes.
         /// </summary>
-        public int TokenExpirationInMinutes { get; set; }
+        public int TokenExpirationInMinutes { get; init; }
 
         /// <summary>
-        /// Gets or sets the refresh token expiration in minutes.
+        /// Gets the refresh token expiration in minutes.
         /// </summary>
-        public int RefreshTokenExpirationInMinutes { get; set; }
+        public int RefreshTokenExpirationInMinutes { get; init; }
     }
 }

@@ -8,33 +8,28 @@ namespace Expensely.Application.Contracts.Budgets
     public sealed class UpdateBudgetRequest
     {
         /// <summary>
-        /// Gets or sets the budget identifier.
+        /// Gets the name.
         /// </summary>
-        public Guid BudgetId { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets the amount.
         /// </summary>
-        public string Name { get; set; }
+        public decimal Amount { get; init; }
 
         /// <summary>
-        /// Gets or sets the amount.
+        /// Gets the currency value.
         /// </summary>
-        public decimal Amount { get; set; }
+        public int Currency { get; init; }
 
         /// <summary>
-        /// Gets or sets the currency value.
+        /// Gets the start date.
         /// </summary>
-        public int Currency { get; set; }
+        public DateTime StartDate { get; init; }
 
         /// <summary>
-        /// Gets or sets the start date.
+        /// Gets the end date.
         /// </summary>
-        public DateTime StartDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the end date.
-        /// </summary>
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate { get; init; }
     }
 }

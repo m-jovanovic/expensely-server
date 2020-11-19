@@ -8,33 +8,28 @@ namespace Expensely.Application.Contracts.Expenses
     public sealed class UpdateExpenseRequest
     {
         /// <summary>
-        /// Gets or sets the expense identifier.
+        /// Gets the name.
         /// </summary>
-        public Guid ExpenseId { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets the amount.
         /// </summary>
-        public string Name { get; set; }
+        public decimal Amount { get; init; }
 
         /// <summary>
-        /// Gets or sets the amount.
+        /// Gets the currency value.
         /// </summary>
-        public decimal Amount { get; set; }
+        public int Currency { get; init; }
 
         /// <summary>
-        /// Gets or sets the currency value.
+        /// Gets the occurred on date.
         /// </summary>
-        public int Currency { get; set; }
+        public DateTime OccurredOn { get; init; }
 
         /// <summary>
-        /// Gets or sets the occurred on date.
+        /// Gets the description.
         /// </summary>
-        public DateTime OccurredOn { get; set; }
-
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
-        public string Description { get; set; }
+        public string Description { get; init; }
     }
 }

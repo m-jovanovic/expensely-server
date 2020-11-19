@@ -39,12 +39,12 @@
             /// <summary>
             /// The update budget route.
             /// </summary>
-            internal const string UpdateBudget = "budgets/{id:guid}";
+            internal const string UpdateBudget = "budgets/{budgetId:guid}";
 
             /// <summary>
             /// The delete budget route.
             /// </summary>
-            internal const string DeleteBudget = "budgets/{id:guid}";
+            internal const string DeleteBudget = "budgets/{budgetId:guid}";
         }
 
         /// <summary>
@@ -65,12 +65,12 @@
             /// <summary>
             /// The update expense route.
             /// </summary>
-            internal const string UpdateExpense = "expenses/{id:guid}";
+            internal const string UpdateExpense = "expenses/{expenseId:guid}";
 
             /// <summary>
             /// The delete expense route.
             /// </summary>
-            internal const string DeleteExpense = "expenses/{id:guid}";
+            internal const string DeleteExpense = "expenses/{expenseId:guid}";
         }
 
         /// <summary>
@@ -92,17 +92,17 @@
             /// <summary>
             /// The add user currency route.
             /// </summary>
-            internal const string AddUserCurrency = "users/{id:guid}/currencies/{currency:int}";
+            internal const string AddUserCurrency = "users/{userId:guid}/currencies/{currency:int}";
 
             /// <summary>
             /// The remove user currency route.
             /// </summary>
-            internal const string RemoveUserCurrency = "users/{id:guid}/currencies/{currency:int}";
+            internal const string RemoveUserCurrency = "users/{userId:guid}/currencies/{currency:int}";
 
             /// <summary>
             /// The change user primary currency route.
             /// </summary>
-            internal const string ChangeUserPrimaryCurrency = "users/{id}/currencies/{currency:int}/primary";
+            internal const string ChangeUserPrimaryCurrency = "users/{userId}/currencies/{currency:int}/primary";
         }
     }
 }

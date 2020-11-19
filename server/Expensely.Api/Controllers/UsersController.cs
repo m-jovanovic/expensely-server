@@ -30,42 +30,42 @@ namespace Expensely.Api.Controllers
         /// <summary>
         /// Adds the specified currency to the user's currencies.
         /// </summary>
-        /// <param name="id">The user identifier.</param>
+        /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
         /// <returns>200 - OK if the currency was added to the users currencies successfully, otherwise 400 - Bad Request.</returns>
         [HttpPost(ApiRoutes.Users.AddUserCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddUserCurrency(Guid id, int currency) =>
-            await Result.Success(new AddUserCurrencyCommand(id, currency))
+        public async Task<IActionResult> AddUserCurrency(Guid userId, int currency) =>
+            await Result.Success(new AddUserCurrencyCommand(userId, currency))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
 
         /// <summary>
         /// Removes the specified currency from the user's currencies.
         /// </summary>
-        /// <param name="id">The user identifier.</param>
+        /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
         /// <returns>204 - No Content if the currency was removed from the users currencies successfully, otherwise 400 - Bad Request.</returns>
         [HttpDelete(ApiRoutes.Users.RemoveUserCurrency)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RemoveUserCurrency(Guid id, int currency) =>
-            await Result.Success(new RemoveUserCurrencyCommand(id, currency))
+        public async Task<IActionResult> RemoveUserCurrency(Guid userId, int currency) =>
+            await Result.Success(new RemoveUserCurrencyCommand(userId, currency))
                 .Bind(command => Sender.Send(command))
                 .Match(NoContent, BadRequest);
 
         /// <summary>
         /// Changes the user's primary currency to the specified currency.
         /// </summary>
-        /// <param name="id">The user identifier.</param>
+        /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
         /// <returns>200 - OK if the user's primary currency was changed successfully, otherwise 400 - Bad Request.</returns>
         [HttpPut(ApiRoutes.Users.ChangeUserPrimaryCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ChangeUserPrimaryCurrency(Guid id, int currency) =>
-            await Result.Success(new ChangeUserPrimaryCurrencyCommand(id, currency))
+        public async Task<IActionResult> ChangeUserPrimaryCurrency(Guid userId, int currency) =>
+            await Result.Success(new ChangeUserPrimaryCurrencyCommand(userId, currency))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
     }

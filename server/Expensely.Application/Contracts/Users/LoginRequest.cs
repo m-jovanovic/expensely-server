@@ -6,13 +6,13 @@
     public sealed class LoginRequest
     {
         /// <summary>
-        /// Gets or sets the email.
+        /// Gets the email.
         /// </summary>
-        public string Email { get; set; }
+        public string Email { get; init; }
 
         /// <summary>
-        /// Gets or sets the password.
+        /// Gets the password.
         /// </summary>
-        public string Password { get; set; }
+        public string Password { get; init; }
     }
 }

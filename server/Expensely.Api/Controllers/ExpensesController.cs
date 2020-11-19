@@ -72,17 +72,16 @@ namespace Expensely.Api.Controllers
         /// <summary>
         /// Updates the expense based on the specified request.
         /// </summary>
-        /// <param name="id">The expense identifier.</param>
+        /// <param name="expenseId">The expense identifier.</param>
         /// <param name="request">The create expense request.</param>
         /// <returns>200 - OK if the expense was updated successfully, otherwise 400 - Bad Request.</returns>
         [HttpPut(ApiRoutes.Expenses.UpdateExpense)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateExpense(Guid id, [FromBody] UpdateExpenseRequest request) =>
+        public async Task<IActionResult> UpdateExpense(Guid expenseId, [FromBody] UpdateExpenseRequest request) =>
             await Result.Create(request, ApiErrors.UnProcessableRequest)
-                .Ensure(value => value.ExpenseId == id, ApiErrors.UnProcessableRequest)
                 .Map(value => new UpdateExpenseCommand(
-                    value.ExpenseId,
+                    expenseId,
                     value.Name,
                     value.Amount,
                     value.Currency,
@@ -94,13 +93,13 @@ namespace Expensely.Api.Controllers
         /// <summary>
         /// Deletes the expense with the specified identifier.
         /// </summary>
-        /// <param name="id">The expense identifier.</param>
+        /// <param name="expenseId">The expense identifier.</param>
         /// <returns>204 - No Content if the expense was deleted successfully, otherwise 404 - Not Found.</returns>
         [HttpDelete(ApiRoutes.Expenses.DeleteExpense)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteExpense(Guid id) =>
-            await Result.Success(new DeleteExpenseCommand(id))
+        public async Task<IActionResult> DeleteExpense(Guid expenseId) =>
+            await Result.Success(new DeleteExpenseCommand(expenseId))
                 .Bind(command => Sender.Send(command))
                 .Match(NoContent, _ => NotFound());
     }
