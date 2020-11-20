@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
     const value = this.loginForm.value;
 
     this.authenticationFacade

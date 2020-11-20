@@ -1,6 +1,7 @@
 export interface TokenInfo {
   userId: string;
   email: string;
-  fullName: string;
+  name: string;
   primaryCurrency: number;
+  exp: number;
 }

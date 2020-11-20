@@ -31,13 +31,6 @@ export class AuthenticationService extends ApiService {
   }
 
   register(request: RegisterRequest): Observable<any> {
-    return this.post<TokenResponse>('authentication/register', request).pipe(
-      first(),
-      tap((response: TokenResponse) => {
-        if (response.token) {
-          this.routerService.navigate(['']);
-        }
-      })
-    );
+    return this.post<TokenResponse>('authentication/register', request).pipe(first());
   }
 }

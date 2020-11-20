@@ -33,7 +33,7 @@ export class AccountDropdownComponent implements OnInit {
   }
 
   private parseUserInitials(tokenInfo: TokenInfo): string {
-    const nameParts = tokenInfo.fullName.split(' ');
+    const nameParts = tokenInfo.name.split(' ');
 
     if (nameParts.length === 0 || nameParts.some((x) => x.length === 0)) {
       return 'N/A';

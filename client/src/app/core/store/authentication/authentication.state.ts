@@ -11,7 +11,9 @@ import { AuthenticationService } from '../../services';
 @State<AuthenticationStateModel>({
   name: 'authentication',
   defaults: {
-    token: ''
+    token: '',
+    refreshToken: '',
+    refreshTokenExpiresOnUtc: null
   }
 })
 @Injectable()
@@ -33,7 +35,9 @@ export class AuthenticationState {
     return this.authenticationService.login(new LoginRequest(action.email, action.password)).pipe(
       tap((response: TokenResponse) => {
         context.patchState({
-          token: response.token
+          token: response.token,
+          refreshToken: response.refreshToken,
+          refreshTokenExpiresOnUtc: response.refreshTokenExpiresOnUtc
         });
       })
     );

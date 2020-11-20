@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
+import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
 import { PasswordValidators } from '../../validation/password-validators';
 
 @Component({
@@ -47,7 +48,20 @@ export class RegisterComponent implements OnInit {
           return of(true);
         })
       )
-      .subscribe(() => (this.submitted = false));
+      .subscribe(() => {
+        this.submitted = false;
+
+        this.authenticationFacade
+          .login(value.email, value.password)
+          .pipe(
+            catchError(() => {
+              this.redirectToLogin();
+
+              return of(true);
+            })
+          )
+          .subscribe();
+      });
   }
 
   handleRegisterError(errorResponse: ApiErrorResponse): void {
