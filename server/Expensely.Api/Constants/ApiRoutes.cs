@@ -23,7 +23,7 @@
             /// <summary>
             /// The refresh token route.
             /// </summary>
-            internal const string RefreshToken = "authentication/refresh_token";
+            internal const string RefreshToken = "authentication/refresh-token";
         }
 
         /// <summary>

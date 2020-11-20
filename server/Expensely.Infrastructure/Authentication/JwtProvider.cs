@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -39,22 +40,12 @@ namespace Expensely.Infrastructure.Authentication
 
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            Claim[] claims =
-            {
-                new Claim("userId", user.Id.ToString()),
-                new Claim("email", user.Email),
-                new Claim("fullName", user.FullName),
-                new Claim(
-                    "primaryCurrency",
-                    user.PrimaryCurrency.HasValue ? user.PrimaryCurrency.Value.Value.ToString(CultureInfo.InvariantCulture) : string.Empty)
-            };
-
             DateTime tokenExpirationTime = _dateTime.UtcNow.AddMinutes(_jwtSettings.TokenExpirationInMinutes);
 
             var token = new JwtSecurityToken(
                 _jwtSettings.Issuer,
                 _jwtSettings.Audience,
-                claims,
+                CreateClaims(user),
                 null,
                 tokenExpirationTime,
                 signingCredentials);
@@ -76,6 +67,21 @@ namespace Expensely.Infrastructure.Authentication
             return (
                 Convert.ToBase64String(refreshTokenBytes),
                 _dateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenExpirationInMinutes));
+        }
+
+        /// <summary>
+        /// Creates the collection of claims for the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>The collection of claims for the specified user.</returns>
+        private static IEnumerable<Claim> CreateClaims(User user)
+        {
+            yield return new Claim(JwtClaimTypes.UserId, user.Id.ToString());
+            yield return new Claim(JwtClaimTypes.Email, user.Email);
+            yield return new Claim(JwtClaimTypes.Name, user.FullName);
+            yield return new Claim(
+                JwtClaimTypes.PrimaryCurrency,
+                user.PrimaryCurrency.HasValue ? user.PrimaryCurrency.Value.Value.ToString(CultureInfo.InvariantCulture) : string.Empty);
         }
     }
 }
