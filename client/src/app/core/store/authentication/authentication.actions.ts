@@ -19,3 +19,7 @@ export class Register {
     public confirmationPassword: string
   ) {}
 }
+
+export class RefreshToken {
+  static readonly type = '[Authentication] RefreshToken';
+}

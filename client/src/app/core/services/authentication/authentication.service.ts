@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 
 import { ApiService } from '../api/api.service';
-import { LoginRequest, RegisterRequest, TokenResponse } from '../../contracts';
+import { LoginRequest, RefreshTokenRequest, RegisterRequest, TokenResponse } from '../../contracts';
 import { RouterService } from '../common/router.service';
 
 @Injectable({
@@ -32,5 +32,9 @@ export class AuthenticationService extends ApiService {
 
   register(request: RegisterRequest): Observable<any> {
     return this.post<TokenResponse>('authentication/register', request).pipe(first());
+  }
+
+  refreshToken(request: RefreshTokenRequest): Observable<TokenResponse> {
+    return this.post<TokenResponse>('authentication/refresh-token', request).pipe(first());
   }
 }

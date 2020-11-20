@@ -1,1 +1,1 @@
-export * from './jwt.interceptor';
+export * from './interceptors-provider';

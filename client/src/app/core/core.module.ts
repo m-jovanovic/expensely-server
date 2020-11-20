@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import {
   AccountDropdownComponent,
   MainLayoutComponent,
@@ -9,11 +10,12 @@ import {
   NavBarComponent,
   SideNavigationComponent
 } from './components';
+import { interceptorsProvider } from './interceptors';
 
 @NgModule({
   declarations: [AccountDropdownComponent, EmptyLayoutComponent, MainLayoutComponent, NavBarComponent, SideNavigationComponent],
   imports: [CommonModule, RouterModule, HttpClientModule],
-  providers: [],
+  providers: [interceptorsProvider],
   exports: [MainLayoutComponent, EmptyLayoutComponent]
 })
 export class CoreModule {
