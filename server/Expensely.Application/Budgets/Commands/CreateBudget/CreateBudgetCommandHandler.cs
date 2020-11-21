@@ -2,9 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
-using Expensely.Application.Validation;
 using Expensely.Domain.Core;
-using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Application.Budgets.Commands.CreateBudget
@@ -32,17 +30,10 @@ namespace Expensely.Application.Budgets.Commands.CreateBudget
                 return Result.Failure(nameResult.Error);
             }
 
-            Maybe<Currency> maybeCurrency = Currency.FromValue(request.Currency);
-
-            if (maybeCurrency.HasNoValue)
-            {
-                return Result.Failure(ValidationErrors.Currency.NotFound);
-            }
-
             var budget = new Budget(
                 request.UserId,
                 nameResult.Value,
-                new Money(request.Amount, maybeCurrency.Value),
+                new Money(request.Amount, Currency.FromValue(request.Currency).Value),
                 request.StartDate,
                 request.EndDate);
 
