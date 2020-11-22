@@ -163,21 +163,25 @@ namespace Expensely.Domain.Core
             => !string.IsNullOrWhiteSpace(password) && passwordService.HashesMatch(password, _passwordHash);
 
         /// <summary>
-        /// Changes the users password to the specified password.
+        /// Changes the user's password to the specified password.
         /// </summary>
-        /// <param name="password">The new password.</param>
+        /// <param name="currentPassword">The current password.</param>
+        /// <param name="newPassword">The new password.</param>
         /// <param name="passwordService">The password service.</param>
         /// <returns>The success result if the password was changed, otherwise an error result.</returns>
-        public Result ChangePassword(Password password, IPasswordService passwordService)
+        public Result ChangePassword(Password currentPassword, Password newPassword, IPasswordService passwordService)
         {
-            string passwordHash = passwordService.Hash(password);
+            if (!VerifyPassword(currentPassword, passwordService))
+            {
+                return Result.Failure(DomainErrors.User.InvalidEmailOrPassword);
+            }
 
-            if (_passwordHash == passwordHash)
+            if (passwordService.HashesMatch(newPassword, _passwordHash))
             {
                 return Result.Failure(DomainErrors.User.PasswordIsIdentical);
             }
 
-            _passwordHash = passwordHash;
+            _passwordHash = passwordService.Hash(newPassword);
 
             // TODO: Add domain event.
             return Result.Success();

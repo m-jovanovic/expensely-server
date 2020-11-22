@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using Expensely.Api.Constants;
 using Expensely.Api.Contracts;
 using Expensely.Api.Infrastructure;
+using Expensely.Application.Contracts.Users;
 using Expensely.Application.Users.Commands.AddUserCurrency;
+using Expensely.Application.Users.Commands.ChangeUserPassword;
 using Expensely.Application.Users.Commands.ChangeUserPrimaryCurrency;
 using Expensely.Application.Users.Commands.RemoveUserCurrency;
 using Expensely.Domain.Primitives.Result;
@@ -66,6 +68,21 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ChangeUserPrimaryCurrency(Guid userId, int currency) =>
             await Result.Success(new ChangeUserPrimaryCurrencyCommand(userId, currency))
+                .Bind(command => Sender.Send(command))
+                .Match(Ok, BadRequest);
+
+        /// <summary>
+        /// Changes the user's password based on the specified request.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="request">The change password request.</param>
+        /// <returns>200 - OK if the user's password was changed successfully, otherwise 400 - Bad Request.</returns>
+        [HttpPut(ApiRoutes.Users.ChangeUserPassword)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ChangeUserPassword(Guid userId, [FromBody] ChangePasswordRequest request) =>
+            await Result.Create(request, ApiErrors.UnProcessableRequest)
+                .Map(value => new ChangeUserPasswordCommand(userId, value.CurrentPassword, value.NewPassword, value.ConfirmationPassword))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
     }

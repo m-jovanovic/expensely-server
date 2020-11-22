@@ -103,6 +103,11 @@
             /// The change user primary currency route.
             /// </summary>
             internal const string ChangeUserPrimaryCurrency = "users/{userId}/currencies/{currency:int}/primary";
+
+            /// <summary>
+            /// The change user password route.
+            /// </summary>
+            internal const string ChangeUserPassword = "users/{userId}/change-password";
         }
     }
 }
