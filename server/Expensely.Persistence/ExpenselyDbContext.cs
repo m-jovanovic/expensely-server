@@ -73,9 +73,7 @@ namespace Expensely.Persistence
         /// <returns>The number of entities that have been saved.</returns>
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            DateTime utcNow = _dateTime.UtcNow;
-
-            UpdateAuditableEntities(utcNow);
+            UpdateAuditableEntities(_dateTime.UtcNow);
 
             return base.SaveChangesAsync(cancellationToken);
         }
