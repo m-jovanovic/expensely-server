@@ -4,8 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
-import { PasswordValidators } from '../../validation/password-validators';
+import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, PasswordValidators, RouterService } from '@expensely/core';
 
 @Component({
   selector: 'exp-register',

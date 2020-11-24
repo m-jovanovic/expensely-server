@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { Login, Logout, RefreshToken, Register } from './authentication.actions';
 import { AuthenticationState } from './authentication.state';
-import { TokenInfo } from '../../contracts/authentication/token-info';
+import { Login, Logout, RefreshToken, Register } from './authentication.actions';
 import { JwtService } from '../../services/common/jwt-service';
-import { map } from 'rxjs/internal/operators/map';
+import { TokenInfo } from '../../contracts/authentication/token-info';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +15,7 @@ export class AuthenticationFacade {
   isLoggedIn$: Observable<boolean>;
 
   constructor(private store: Store, private jwtService: JwtService) {
-    this.isLoggedIn$ = this.store.select(AuthenticationState.token).pipe(
-      map((token) => {
-        return this.decodeToken(token)?.exp > Date.now();
-      })
-    );
+    this.initializeIsLoggedIn();
   }
 
   login(email: string, password: string): Observable<any> {
@@ -48,5 +44,9 @@ export class AuthenticationFacade {
 
   private decodeToken(token: string): TokenInfo {
     return this.jwtService.decodeToken(token);
+  }
+
+  private initializeIsLoggedIn() {
+    this.isLoggedIn$ = this.store.select(AuthenticationState.token).pipe(map((token) => this.decodeToken(token)?.exp > Date.now()));
   }
 }

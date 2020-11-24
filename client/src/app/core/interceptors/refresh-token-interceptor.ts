@@ -9,14 +9,14 @@ import { catchError, mergeMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RefreshTokenInterceptor implements HttpInterceptor {
-  private readonly unauthorized = 401;
+  private readonly unauthorizedStatusCode = 401;
 
   constructor(private authenticationFacade: AuthenticationFacade) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status !== this.unauthorized) {
+        if (error.status !== this.unauthorizedStatusCode) {
           return throwError(error);
         }
 
