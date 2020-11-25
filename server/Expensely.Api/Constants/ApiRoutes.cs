@@ -48,6 +48,17 @@
         }
 
         /// <summary>
+        /// Contains the transactions routes.
+        /// </summary>
+        internal static class Transactions
+        {
+            /// <summary>
+            /// The get transaction summary route.
+            /// </summary>
+            internal const string GetTransactionSummary = "transactions/summary";
+        }
+
+        /// <summary>
         /// Contains the expenses routes.
         /// </summary>
         internal static class Expenses
