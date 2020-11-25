@@ -19,7 +19,7 @@ export class PasswordValidators {
   }
 
   public static confirmationPasswordMustMatch(control: AbstractControl): ValidationErrors | null {
-    const passwordControl = control.parent?.get('password');
+    const passwordControl: AbstractControl = control.parent?.get('password');
 
     if (!passwordControl) {
       return null;
