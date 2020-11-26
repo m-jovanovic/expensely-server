@@ -1,4 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+
 import { TokenInfo } from '@expensely/core/contracts';
 import { AuthenticationFacade } from '@expensely/core/store';
 
