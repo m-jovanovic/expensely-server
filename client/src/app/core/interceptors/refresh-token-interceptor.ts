@@ -15,17 +15,17 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status !== this.unauthorizedStatusCode) {
-          return throwError(error);
+      catchError((httpErrorResponse: HttpErrorResponse) => {
+        if (httpErrorResponse.status !== this.unauthorizedStatusCode) {
+          return throwError(httpErrorResponse);
         }
 
         return this.authenticationFacade.refreshToken().pipe(
           mergeMap(() => {
             return next.handle(req);
           }),
-          catchError((error: HttpErrorResponse) => {
-            return throwError(error);
+          catchError((innerHttpErrorResponse: HttpErrorResponse) => {
+            return throwError(innerHttpErrorResponse);
           })
         );
       })

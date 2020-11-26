@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export class PasswordValidators {
-  public static passwordStrength(control: AbstractControl) {
+  public static passwordStrength(control: AbstractControl): ValidationErrors | null {
     // Minimum one lowercase letter
     // Minimum one uppercase letter
     // Minimum one number

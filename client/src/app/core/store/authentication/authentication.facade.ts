@@ -46,7 +46,7 @@ export class AuthenticationFacade {
     return this.jwtService.decodeToken(token);
   }
 
-  private initializeIsLoggedIn() {
+  private initializeIsLoggedIn(): void {
     this.isLoggedIn$ = this.store.select(AuthenticationState.token).pipe(map((token) => this.decodeToken(token)?.exp > Date.now()));
   }
 }

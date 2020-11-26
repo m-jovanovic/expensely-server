@@ -2,14 +2,14 @@
   <div class="h-88 w-96 p-4 bg-white rounded-lg shadow-lg">
     <div class="block text-xl font-semibold text-gray-700 border-b pb-2">Expenses</div>
     <div class="mt-6">
-      <div class="text-2xl">$1,072.99</div>
+      <div class="text-2xl">{{ f.expense$ | async }}</div>
       <div class="text-sm text-gray-600">This month.</div>
     </div>
   </div>
   <div class="h-88 w-96 p-4 ml-8 bg-white rounded-lg shadow-lg">
     <div class="block text-xl font-semibold text-gray-700 border-b pb-2">Income</div>
     <div class="mt-6">
-      <div class="text-2xl">$1,072.99</div>
+      <div class="text-2xl">{{ f.income$ | async }}</div>
       <div class="text-sm text-gray-600">This month.</div>
     </div>
   </div>
