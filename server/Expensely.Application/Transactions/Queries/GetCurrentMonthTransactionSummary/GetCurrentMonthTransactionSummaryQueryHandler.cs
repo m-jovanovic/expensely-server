@@ -11,23 +11,23 @@ using Expensely.Application.Contracts.Transactions;
 using Expensely.Domain.Core;
 using Expensely.Domain.Primitives.Maybe;
 
-namespace Expensely.Application.Transactions.Queries.GetTransactionSummary
+namespace Expensely.Application.Transactions.Queries.GetCurrentMonthTransactionSummary
 {
     /// <summary>
-    /// Represents the <see cref="GetTransactionSummaryQuery"/> handler.
+    /// Represents the <see cref="GetCurrentMonthTransactionSummaryQuery"/> handler.
     /// </summary>
-    internal sealed class GetTransactionSummaryQueryHandler
-        : IQueryHandler<GetTransactionSummaryQuery, Maybe<TransactionSummaryResponse>>
+    internal sealed class GetCurrentMonthTransactionSummaryQueryHandler
+        : IQueryHandler<GetCurrentMonthTransactionSummaryQuery, Maybe<TransactionSummaryResponse>>
     {
         private readonly IUserInformationProvider _userInformationProvider;
         private readonly IDbConnectionProvider _dbConnectionProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetTransactionSummaryQueryHandler"/> class.
+        /// Initializes a new instance of the <see cref="GetCurrentMonthTransactionSummaryQueryHandler"/> class.
         /// </summary>
         /// <param name="userInformationProvider">The user information provider.</param>
         /// <param name="dbConnectionProvider">The database connection provider.</param>
-        public GetTransactionSummaryQueryHandler(IUserInformationProvider userInformationProvider, IDbConnectionProvider dbConnectionProvider)
+        public GetCurrentMonthTransactionSummaryQueryHandler(IUserInformationProvider userInformationProvider, IDbConnectionProvider dbConnectionProvider)
         {
             _userInformationProvider = userInformationProvider;
             _dbConnectionProvider = dbConnectionProvider;
@@ -35,7 +35,7 @@ namespace Expensely.Application.Transactions.Queries.GetTransactionSummary
 
         /// <inheritdoc />
         public async Task<Maybe<TransactionSummaryResponse>> Handle(
-            GetTransactionSummaryQuery request, CancellationToken cancellationToken)
+            GetCurrentMonthTransactionSummaryQuery request, CancellationToken cancellationToken)
         {
             if (request.UserId != _userInformationProvider.UserId ||
                 _userInformationProvider.PrimaryCurrency.HasNoValue ||
@@ -48,7 +48,7 @@ namespace Expensely.Application.Transactions.Queries.GetTransactionSummary
 
             const string sql = @"
                 SELECT TransactionType, SUM(Amount) AS Amount
-                FROM [Transaction] WHERE UserId = @UserId AND Currency = @PrimaryCurrency
+                FROM [Transaction] WHERE UserId = @UserId AND OccurredOn >= @StartOfMonth AND Currency = @PrimaryCurrency
                 GROUP BY TransactionType";
 
             IEnumerable<TransactionAmountPerType> transactionAmountPerType = await dbConnection.QueryAsync<TransactionAmountPerType>(
@@ -56,6 +56,7 @@ namespace Expensely.Application.Transactions.Queries.GetTransactionSummary
                 new
                 {
                     request.UserId,
+                    request.StartOfMonth,
                     request.PrimaryCurrency
                 });
 

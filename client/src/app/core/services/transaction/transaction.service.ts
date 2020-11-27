@@ -14,6 +14,6 @@ export class TransactionService extends ApiService {
   }
 
   getTransactionSummary(userId: string, primaryCurrency: number): Observable<TransactionSummaryResponse> {
-    return this.get(`transactions/summary?userId=${userId}&primaryCurrency=${primaryCurrency}`);
+    return this.get(`transactions/summary/current-month?userId=${userId}&primaryCurrency=${primaryCurrency}`);
   }
 }

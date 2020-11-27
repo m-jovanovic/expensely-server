@@ -53,9 +53,9 @@
         internal static class Transactions
         {
             /// <summary>
-            /// The get transaction summary route.
+            /// The get current month transaction summary route.
             /// </summary>
-            internal const string GetTransactionSummary = "transactions/summary";
+            internal const string GetCurrentMonthTransactionSummary = "transactions/summary/current-month";
         }
 
         /// <summary>

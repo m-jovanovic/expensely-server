@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 using Expensely.Api.Constants;
 using Expensely.Api.Infrastructure;
+using Expensely.Application.Abstractions.Common;
 using Expensely.Application.Contracts.Transactions;
-using Expensely.Application.Transactions.Queries.GetTransactionSummary;
+using Expensely.Application.Transactions.Queries.GetCurrentMonthTransactionSummary;
 using Expensely.Domain.Primitives.Maybe;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -16,27 +17,29 @@ namespace Expensely.Api.Controllers
     /// </summary>
     public sealed class TransactionController : ApiController
     {
+        private readonly IDateTime _dateTime;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionController"/> class.
         /// </summary>
         /// <param name="sender">The sender.</param>
-        public TransactionController(ISender sender)
-            : base(sender)
-        {
-        }
+        /// <param name="dateTime">The date and time.</param>
+        public TransactionController(ISender sender, IDateTime dateTime)
+            : base(sender) =>
+            _dateTime = dateTime;
 
         /// <summary>
-        /// Gets the transaction summary for the specified parameters.
+        /// Gets the current month transaction summary for the specified parameters.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="primaryCurrency">The primary currency.</param>
         /// <returns>200 - OK if the transaction summary is found, otherwise 404 - Not Found.</returns>
-        [HttpGet(ApiRoutes.Transactions.GetTransactionSummary)]
+        [HttpGet(ApiRoutes.Transactions.GetCurrentMonthTransactionSummary)]
         [ProducesResponseType(typeof(TransactionSummaryResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetTransactionSummary(Guid userId, int primaryCurrency) =>
-            await Maybe<GetTransactionSummaryQuery>
-                .From(new GetTransactionSummaryQuery(userId, primaryCurrency))
+        public async Task<IActionResult> GetCurrentMonthTransactionSummary(Guid userId, int primaryCurrency) =>
+            await Maybe<GetCurrentMonthTransactionSummaryQuery>
+                .From(new GetCurrentMonthTransactionSummaryQuery(userId, primaryCurrency, _dateTime.UtcNow))
                 .Bind(query => Sender.Send(query))
                 .Match(Ok, NotFound);
     }
