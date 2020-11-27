@@ -37,7 +37,9 @@ namespace Expensely.Application.Transactions.Queries.GetTransactionSummary
         public async Task<Maybe<TransactionSummaryResponse>> Handle(
             GetTransactionSummaryQuery request, CancellationToken cancellationToken)
         {
-            if (request.UserId != _userInformationProvider.UserId)
+            if (request.UserId != _userInformationProvider.UserId ||
+                _userInformationProvider.PrimaryCurrency.HasNoValue ||
+                request.PrimaryCurrency != _userInformationProvider.PrimaryCurrency.Value.Value)
             {
                 return Maybe<TransactionSummaryResponse>.None;
             }

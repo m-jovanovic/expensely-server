@@ -15,5 +15,13 @@ namespace Expensely.Infrastructure.Extensions
         /// <returns>The user identifier claim value if it exists, otherwise null.</returns>
         internal static string GetUserId(this ClaimsPrincipal claimsPrincipal) =>
             claimsPrincipal.FindFirstValue(JwtClaimTypes.UserId);
+
+        /// <summary>
+        /// Gets the primary currency claim value if it exists.
+        /// </summary>
+        /// <param name="claimsPrincipal">The claims principal.</param>
+        /// <returns>The primary currency claim value if it exists, otherwise null.</returns>
+        internal static string GetPrimaryCurrency(this ClaimsPrincipal claimsPrincipal) =>
+            claimsPrincipal.FindFirstValue(JwtClaimTypes.PrimaryCurrency);
     }
 }
