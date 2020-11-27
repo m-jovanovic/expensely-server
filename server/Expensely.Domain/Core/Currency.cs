@@ -51,5 +51,12 @@ namespace Expensely.Domain.Core
         /// Gets the currency code.
         /// </summary>
         public string Code { get; private set; }
+
+        /// <summary>
+        /// Formats the specified amount.
+        /// </summary>
+        /// <param name="amount">The amount to be formatted.</param>
+        /// <returns>The formatted amount along with the currency.</returns>
+        public string Format(decimal amount) => $"{amount:n2} {Code}";
     }
 }

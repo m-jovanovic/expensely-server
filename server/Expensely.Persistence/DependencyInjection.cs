@@ -1,4 +1,6 @@
 ﻿using Expensely.Application.Abstractions.Data;
+using Expensely.Persistence.Configuraiton;
+using Expensely.Persistence.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,10 +20,15 @@ namespace Expensely.Persistence
         /// <returns>The same service collection.</returns>
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ExpenselyDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            string connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            services.AddSingleton(new ConnectionString { Value = connectionString });
+
+            services.AddDbContext<ExpenselyDbContext>(options => options.UseSqlServer(connectionString));
 
             services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<ExpenselyDbContext>());
+
+            services.AddScoped<IDbConnectionProvider, DbConnectionProvider>();
 
             return services;
         }
