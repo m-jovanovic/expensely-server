@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Abstr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Common", "Expensely.Common\Expensely.Common.csproj", "{C628A227-ECA8-4A12-B6BD-DB9BAC96F926}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Application.Commands.Handlers", "Expensely.Application.Commands.Handlers\Expensely.Application.Commands.Handlers.csproj", "{27C8AEB0-5550-400E-BE74-73D4778A99D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{C628A227-ECA8-4A12-B6BD-DB9BAC96F926}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C628A227-ECA8-4A12-B6BD-DB9BAC96F926}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C628A227-ECA8-4A12-B6BD-DB9BAC96F926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27C8AEB0-5550-400E-BE74-73D4778A99D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27C8AEB0-5550-400E-BE74-73D4778A99D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27C8AEB0-5550-400E-BE74-73D4778A99D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27C8AEB0-5550-400E-BE74-73D4778A99D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
