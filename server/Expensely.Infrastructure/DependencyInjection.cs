@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Common;
+using Expensely.Common.Clock;
 using Expensely.Domain.Services;
 using Expensely.Infrastructure.Authentication;
 using Expensely.Infrastructure.Authentication.Settings;

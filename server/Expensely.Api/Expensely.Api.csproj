@@ -8,11 +8,16 @@
   <Import Project="..\CodeAnalysis.targets" />
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.3.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Expensely.Api.Controllers\Expensely.Api.Controllers.csproj" />
+    <ProjectReference Include="..\Expensely.Application.Commands.Handlers\Expensely.Application.Commands.Handlers.csproj" />
+    <ProjectReference Include="..\Expensely.Application.Queries.Handlers\Expensely.Application.Queries.Handlers.csproj" />
     <ProjectReference Include="..\Expensely.Infrastructure\Expensely.Infrastructure.csproj" />
     <ProjectReference Include="..\Expensely.Persistence\Expensely.Persistence.csproj" />
   </ItemGroup>
