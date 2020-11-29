@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <Import Project="..\CodeAnalysis.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Expensely.Application.Commands\Expensely.Application.Commands.csproj" />
+    <ProjectReference Include="..\Expensely.Application.Queries\Expensely.Application.Queries.csproj" />
+  </ItemGroup>
+
+</Project>
