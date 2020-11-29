@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Application.Abstractions.Messaging;
+using Expensely.Common.Messaging;
 using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Application.Commands.Users.RemoveUserCurrency

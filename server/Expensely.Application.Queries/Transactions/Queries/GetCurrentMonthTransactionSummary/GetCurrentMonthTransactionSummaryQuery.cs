@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Application.Abstractions.Messaging;
+using Expensely.Common.Messaging;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Primitives.Maybe;
 

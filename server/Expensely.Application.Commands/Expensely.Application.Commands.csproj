@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Expensely.Contracts\Expensely.Contracts.csproj" />
-    <ProjectReference Include="..\Expensely.Application.Abstractions\Expensely.Application.Abstractions.csproj" />
+    <ProjectReference Include="..\Expensely.Common\Expensely.Common.csproj" />
   </ItemGroup>
 
 </Project>

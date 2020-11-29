@@ -1,4 +1,4 @@
-﻿using Expensely.Application.Abstractions.Messaging;
+﻿using Expensely.Common.Messaging;
 using Expensely.Contracts.Users;
 using Expensely.Domain.Primitives.Result;
 

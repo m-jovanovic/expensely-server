@@ -18,13 +18,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Infrastructure", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Api", "Expensely.Api\Expensely.Api.csproj", "{5A240AB3-CC83-43F4-AB31-D4685AC7FC10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Application.Commands", "Expensely.Application.Commands\Expensely.Application.Commands.csproj", "{74C450AD-5A2C-4588-9C57-E8363DE28F72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Commands", "Expensely.Application.Commands\Expensely.Application.Commands.csproj", "{74C450AD-5A2C-4588-9C57-E8363DE28F72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Application.Queries", "Expensely.Application.Queries\Expensely.Application.Queries.csproj", "{A7EDE859-A98F-4581-9698-8622B83D5590}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Queries", "Expensely.Application.Queries\Expensely.Application.Queries.csproj", "{A7EDE859-A98F-4581-9698-8622B83D5590}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Contracts", "Expensely.Contracts\Expensely.Contracts.csproj", "{53D7DCAC-6838-42BB-860D-E6E8DED12402}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Contracts", "Expensely.Contracts\Expensely.Contracts.csproj", "{53D7DCAC-6838-42BB-860D-E6E8DED12402}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Application.Abstractions", "Expensely.Application.Abstractions\Expensely.Application.Abstractions.csproj", "{A41910FF-6FC5-42C3-A25C-6241A9DAC4BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Abstractions", "Expensely.Application.Abstractions\Expensely.Application.Abstractions.csproj", "{A41910FF-6FC5-42C3-A25C-6241A9DAC4BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Common", "Expensely.Common\Expensely.Common.csproj", "{C628A227-ECA8-4A12-B6BD-DB9BAC96F926}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,10 @@ Global
 		{A41910FF-6FC5-42C3-A25C-6241A9DAC4BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A41910FF-6FC5-42C3-A25C-6241A9DAC4BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A41910FF-6FC5-42C3-A25C-6241A9DAC4BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C628A227-ECA8-4A12-B6BD-DB9BAC96F926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C628A227-ECA8-4A12-B6BD-DB9BAC96F926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C628A227-ECA8-4A12-B6BD-DB9BAC96F926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C628A227-ECA8-4A12-B6BD-DB9BAC96F926}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Expensely.Application.Abstractions.Messaging
+namespace Expensely.Common.Messaging
 {
     /// <summary>
     /// Represents the command interface.
