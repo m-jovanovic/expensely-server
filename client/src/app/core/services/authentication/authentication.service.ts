@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 
+import { ApiRoutes } from '../../constants/api-routes';
 import { ApiService } from '../api/api.service';
 import { LoginRequest, RefreshTokenRequest, RegisterRequest, TokenResponse } from '../../contracts';
 import { RouterService } from '../common/router.service';

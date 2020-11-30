@@ -1,4 +1,4 @@
-namespace ApiRoutes {
+export namespace ApiRoutes {
   export class Authentication {
     public static readonly login = 'authentication/login';
     public static readonly register = 'authentication/register';
