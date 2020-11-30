@@ -14,4 +14,10 @@ namespace ApiRoutes {
     public static readonly updateExpense = 'expenses/{expenseId}';
     public static readonly deleteExpense = 'expenses/{expenseId}';
   }
+
+  export class Incomes {
+    public static readonly createIncome = 'incomes';
+    public static readonly updateIncome = 'incomes/{incomeId}';
+    public static readonly deleteIncome = 'incomes/{incomeId}';
+  }
 }
