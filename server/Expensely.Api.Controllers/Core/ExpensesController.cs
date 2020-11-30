@@ -73,7 +73,7 @@ namespace Expensely.Api.Controllers.Core
         /// Updates the expense based on the specified request.
         /// </summary>
         /// <param name="expenseId">The expense identifier.</param>
-        /// <param name="request">The create expense request.</param>
+        /// <param name="request">The update expense request.</param>
         /// <returns>200 - OK if the expense was updated successfully, otherwise 400 - Bad Request.</returns>
         [HttpPut(ApiRoutes.Expenses.UpdateExpense)]
         [ProducesResponseType(StatusCodes.Status200OK)]

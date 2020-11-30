@@ -32,20 +32,6 @@ namespace Expensely.Domain.Core
         }
 
         /// <summary>
-        /// Changes the name of the expense.
-        /// </summary>
-        /// <param name="name">The new name.</param>
-        public void ChangeName(Name name)
-        {
-            if (name == Name)
-            {
-                return;
-            }
-
-            Name = name;
-        }
-
-        /// <summary>
         /// Changes the monetary amount of the expense.
         /// </summary>
         /// <param name="money">The new money amount.</param>
@@ -53,43 +39,28 @@ namespace Expensely.Domain.Core
         {
             EnsureMoneyIsLessThanZero(money);
 
-            if (Money == money)
-            {
-                return;
-            }
-
-            Money = money;
+            ChangeMoneyInternal(money);
 
             AddDomainEvent(new ExpenseMoneyChangedDomainEvent(this));
         }
 
         /// <summary>
-        /// Changes the occurred on date of the expense.
+        /// Changes the name of the expense.
         /// </summary>
-        /// <param name="occurredOn">The new occurred on date.</param>
-        public void ChangeOccurredOnDate(DateTime occurredOn)
-        {
-            if (OccurredOn == occurredOn)
-            {
-                return;
-            }
-
-            OccurredOn = occurredOn.Date;
-        }
+        /// <param name="name">The new name.</param>
+        public void ChangeName(Name name) => ChangeNameInternal(name);
 
         /// <summary>
         /// Changes the description of the expense.
         /// </summary>
         /// <param name="description">The new description.</param>
-        public void ChangeDescription(Description description)
-        {
-            if (description == Description)
-            {
-                return;
-            }
+        public void ChangeDescription(Description description) => ChangeDescriptionInternal(description);
 
-            Description = description;
-        }
+        /// <summary>
+        /// Changes the occurred on date of the expense.
+        /// </summary>
+        /// <param name="occurredOn">The new occurred on date.</param>
+        public void ChangeOccurredOnDate(DateTime occurredOn) => ChangeOccurredOnDateInternal(occurredOn);
 
         /// <summary>
         /// Ensures that the specified money amount is less than zero.
@@ -97,6 +68,6 @@ namespace Expensely.Domain.Core
         /// <param name="money">The monetary amount.</param>
         /// <exception cref="ArgumentException"> if the monetary amount is greater than or equal to zero.</exception>
         private static void EnsureMoneyIsLessThanZero(Money money) =>
-            Ensure.NotGreaterThanOrEqualToZero(money.Amount, "The monetary amount must be less than zero", nameof(money));
+            Ensure.NotGreaterThanOrEqualToZero(money.Amount, "The monetary amount must be less than zero.", nameof(money));
     }
 }

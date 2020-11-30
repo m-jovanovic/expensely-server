@@ -52,7 +52,7 @@ namespace Expensely.Api.Controllers.Core
         /// Creates the budget based on the specified request.
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
-        /// <param name="request">The create budget request.</param>
+        /// <param name="request">The update budget request.</param>
         /// <returns>200 - OK if the budget was updated successfully, otherwise 400 - Bad Request.</returns>
         [HttpPut(ApiRoutes.Budgets.UpdateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]

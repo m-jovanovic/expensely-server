@@ -49,29 +49,85 @@ namespace Expensely.Domain.Core
         public Guid UserId { get; private set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets the name.
         /// </summary>
-        public Name Name { get; protected set; }
+        public Name Name { get; private set; }
 
         /// <summary>
-        /// Gets or sets the money.
+        /// Gets the money.
         /// </summary>
-        public Money Money { get; protected set; }
+        public Money Money { get; private set; }
 
         /// <summary>
-        /// Gets or sets the date the transaction occurred on.
+        /// Gets the date the transaction occurred on.
         /// </summary>
-        public DateTime OccurredOn { get; protected set; }
+        public DateTime OccurredOn { get; private set; }
 
         /// <summary>
-        /// Gets or sets the description.
+        /// Gets the description.
         /// </summary>
-        public Description Description { get; protected set; }
+        public Description Description { get; private set; }
 
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; }
 
         /// <inheritdoc />
         public DateTime? ModifiedOnUtc { get; }
+
+        /// <summary>
+        /// Changes the monetary amount of the transaction.
+        /// </summary>
+        /// <param name="money">The new money amount.</param>
+        protected void ChangeMoneyInternal(Money money)
+        {
+            if (Money == money)
+            {
+                return;
+            }
+
+            Money = money;
+        }
+
+        /// <summary>
+        /// Changes the name of the transaction.
+        /// </summary>
+        /// <param name="name">The new name.</param>
+        protected void ChangeNameInternal(Name name)
+        {
+            if (name == Name)
+            {
+                return;
+            }
+
+            Name = name;
+        }
+
+        /// <summary>
+        /// Changes the description of the transaction.
+        /// </summary>
+        /// <param name="description">The new description.</param>
+        protected void ChangeDescriptionInternal(Description description)
+        {
+            if (description == Description)
+            {
+                return;
+            }
+
+            Description = description;
+        }
+
+        /// <summary>
+        /// Changes the occurred on date of the transaction.
+        /// </summary>
+        /// <param name="occurredOn">The new occurred on date.</param>
+        protected void ChangeOccurredOnDateInternal(DateTime occurredOn)
+        {
+            if (OccurredOn == occurredOn)
+            {
+                return;
+            }
+
+            OccurredOn = occurredOn.Date;
+        }
     }
 }
