@@ -16,7 +16,7 @@ namespace Expensely.Api.Middleware
     /// <summary>
     /// Represents the exception handler middleware.
     /// </summary>
-    internal class ExceptionHandlerMiddleware
+    public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionHandlerMiddleware> _logger;

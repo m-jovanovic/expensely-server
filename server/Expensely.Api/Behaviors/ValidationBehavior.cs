@@ -13,7 +13,7 @@ namespace Expensely.Api.Behaviors
     /// </summary>
     /// <typeparam name="TRequest">The request type.</typeparam>
     /// <typeparam name="TResponse">The response type.</typeparam>
-    internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : class, IRequest<TResponse>
         where TResponse : class
     {
@@ -36,9 +36,9 @@ namespace Expensely.Api.Behaviors
             var context = new ValidationContext<TRequest>(request);
 
             var failures = _validators
-                .Select(v => v.Validate(context))
-                .SelectMany(result => result.Errors)
-                .Where(f => f != null)
+                .Select(x => x.Validate(context))
+                .SelectMany(x => x.Errors)
+                .Where(x => x != null)
                 .ToList();
 
             if (failures.Count != 0)

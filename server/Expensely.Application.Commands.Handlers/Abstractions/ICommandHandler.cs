@@ -1,6 +1,7 @@
-﻿using MediatR;
+﻿using Expensely.Common.Messaging;
+using MediatR;
 
-namespace Expensely.Common.Messaging
+namespace Expensely.Application.Commands.Handlers.Abstractions
 {
     /// <summary>
     /// Represents the command handler interface.

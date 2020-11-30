@@ -8,7 +8,7 @@ namespace Expensely.Api.Controllers
     public static class ControllersAssembly
     {
         /// <summary>
-        /// Gets the controllers assembly.
+        /// The controllers assembly.
         /// </summary>
         public static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
     }

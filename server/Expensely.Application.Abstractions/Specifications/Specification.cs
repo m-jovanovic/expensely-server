@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 namespace Expensely.Application.Abstractions.Specifications
 {
     /// <summary>
-    /// Represents the base specification class.
+    /// Represents the base class for a specification.
     /// </summary>
     /// <typeparam name="TEntity">The entity type.</typeparam>
     public abstract class Specification<TEntity>

@@ -1,6 +1,7 @@
-﻿using MediatR;
+﻿using Expensely.Common.Messaging;
+using MediatR;
 
-namespace Expensely.Common.Messaging
+namespace Expensely.Application.Queries.Handlers.Abstractions
 {
     /// <summary>
     /// Represents the query interface.

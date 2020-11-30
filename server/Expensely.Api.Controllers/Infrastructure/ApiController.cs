@@ -13,6 +13,7 @@ namespace Expensely.Api.Controllers.Infrastructure
     /// </summary>
     [Authorize]
     [Route("api")]
+    [ApiController]
     public class ApiController : ControllerBase
     {
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Commands.Handlers.Abstractions;
 using Expensely.Application.Commands.Users.ChangeUserPrimaryCurrency;
 using Expensely.Common.Messaging;
 using Expensely.Domain.Core;

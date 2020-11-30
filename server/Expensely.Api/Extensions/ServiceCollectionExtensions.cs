@@ -7,14 +7,14 @@ namespace Expensely.Api.Extensions
     /// <summary>
     /// Contains extensions methods for the service collection class.
     /// </summary>
-    internal static class ServiceCollectionExtensions
+    public static class ServiceCollectionExtensions
     {
         /// <summary>
         /// Configures the Swagger services.
         /// </summary>
         /// <param name="services">The service collection.</param>
         /// <returns>The same service collection.</returns>
-        internal static IServiceCollection AddSwagger(this IServiceCollection services)
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(swaggerGenOptions =>
             {
