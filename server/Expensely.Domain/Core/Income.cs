@@ -18,7 +18,7 @@ namespace Expensely.Domain.Core
         /// <param name="description">The description of the income.</param>
         public Income(Guid userId, Name name, Money money, DateTime occurredOn, Description description)
             : base(userId, name, money, occurredOn, description) =>
-            Ensure.NotLessThanOrEqualToZero(money.Amount, "The monetary amount must be greater than zero", nameof(money));
+            EnsureMoneyIsGreaterThanZero(money);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Income"/> class.
@@ -29,5 +29,43 @@ namespace Expensely.Domain.Core
         private Income()
         {
         }
+
+        /// <summary>
+        /// Changes the monetary amount of the expense.
+        /// </summary>
+        /// <param name="money">The new money amount.</param>
+        public void ChangeMoney(Money money)
+        {
+            EnsureMoneyIsGreaterThanZero(money);
+
+            // TODO: Add domain event.
+            ChangeMoneyInternal(money);
+        }
+
+        /// <summary>
+        /// Changes the name of the expense.
+        /// </summary>
+        /// <param name="name">The new name.</param>
+        public void ChangeName(Name name) => ChangeNameInternal(name);
+
+        /// <summary>
+        /// Changes the description of the expense.
+        /// </summary>
+        /// <param name="description">The new description.</param>
+        public void ChangeDescription(Description description) => ChangeDescriptionInternal(description);
+
+        /// <summary>
+        /// Changes the occurred on date of the expense.
+        /// </summary>
+        /// <param name="occurredOn">The new occurred on date.</param>
+        public void ChangeOccurredOnDate(DateTime occurredOn) => ChangeOccurredOnDateInternal(occurredOn);
+
+        /// <summary>
+        /// Ensures that the specified money amount is greater than zero.
+        /// </summary>
+        /// <param name="money">The monetary amount.</param>
+        /// <exception cref="ArgumentException"> if the monetary amount is less than or equal to zero.</exception>
+        private static void EnsureMoneyIsGreaterThanZero(Money money) =>
+            Ensure.NotLessThanOrEqualToZero(money.Amount, "The monetary amount must be greater than zero.", nameof(money));
     }
 }

@@ -93,6 +93,11 @@
             /// The create income route.
             /// </summary>
             public const string CreateIncome = "incomes";
+
+            /// <summary>
+            /// The update income route.
+            /// </summary>
+            public const string UpdateIncome = "incomes/{incomeId:guid}";
         }
 
         /// <summary>

@@ -48,5 +48,25 @@ namespace Expensely.Api.Controllers.Core
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
 
+        /// <summary>
+        /// Updates the income based on the specified request.
+        /// </summary>
+        /// <param name="incomeId">The income identifier.</param>
+        /// <param name="request">The update income request.</param>
+        /// <returns>200 - OK if the income was updated successfully, otherwise 400 - Bad Request.</returns>
+        [HttpPut(ApiRoutes.Incomes.UpdateIncome)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateIncome(Guid incomeId, [FromBody] UpdateIncomeRequest request) =>
+            await Result.Create(request, ApiErrors.UnProcessableRequest)
+                .Map(x => new UpdateIncomeCommand(
+                    incomeId,
+                    x.Name,
+                    x.Amount,
+                    x.Currency,
+                    x.OccurredOn,
+                    x.Description))
+                .Bind(command => Sender.Send(command))
+                .Match(Ok, BadRequest);
     }
 }
