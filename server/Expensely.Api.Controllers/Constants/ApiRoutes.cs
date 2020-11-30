@@ -85,6 +85,17 @@
         }
 
         /// <summary>
+        /// Contains the incomes routes.
+        /// </summary>
+        public static class Incomes
+        {
+            /// <summary>
+            /// The create income route.
+            /// </summary>
+            public const string CreateIncome = "incomes";
+        }
+
+        /// <summary>
         /// Contains the currencies routes.
         /// </summary>
         public static class Currencies
