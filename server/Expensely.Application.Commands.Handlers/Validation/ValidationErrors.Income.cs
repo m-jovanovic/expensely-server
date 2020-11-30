@@ -26,7 +26,7 @@ namespace Expensely.Application.Commands.Handlers.Validation
             /// Gets the income amount less than or equal to zero error.
             /// </summary>
             internal static Error AmountLessThanOrEqualToZero => new Error(
-                "Income.AmountGreaterThanOrEqualToZero",
+                "Income.AmountLessThanOrEqualToZero",
                 "The income amount can not be less than or equal to zero.");
 
             /// <summary>
