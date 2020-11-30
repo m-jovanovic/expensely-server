@@ -68,5 +68,18 @@ namespace Expensely.Api.Controllers.Core
                     x.Description))
                 .Bind(command => Sender.Send(command))
                 .Match(Ok, BadRequest);
+
+        /// <summary>
+        /// Deletes the income with the specified identifier.
+        /// </summary>
+        /// <param name="incomeId">The income identifier.</param>
+        /// <returns>204 - No Content if the income was deleted successfully, otherwise 404 - Not Found.</returns>
+        [HttpDelete(ApiRoutes.Incomes.DeleteIncome)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteIncome(Guid incomeId) =>
+            await Result.Success(new DeleteIncomeCommand(incomeId))
+                .Bind(command => Sender.Send(command))
+                .Match(NoContent, _ => NotFound());
     }
 }

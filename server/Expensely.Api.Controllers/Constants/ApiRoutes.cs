@@ -98,6 +98,11 @@
             /// The update income route.
             /// </summary>
             public const string UpdateIncome = "incomes/{incomeId:guid}";
+
+            /// <summary>
+            /// The delete income route.
+            /// </summary>
+            public const string DeleteIncome = "incomes/{incomeId:guid}";
         }
 
         /// <summary>
