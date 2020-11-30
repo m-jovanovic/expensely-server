@@ -16,7 +16,7 @@ export class AuthenticationService extends ApiService {
   }
 
   login(request: LoginRequest): Observable<TokenResponse> {
-    return this.post<TokenResponse>('authentication/login', request).pipe(
+    return this.post<TokenResponse>(ApiRoutes.Authentication.login, request).pipe(
       first(),
       tap((response: TokenResponse) => {
         if (response.token) {
@@ -31,10 +31,10 @@ export class AuthenticationService extends ApiService {
   }
 
   register(request: RegisterRequest): Observable<any> {
-    return this.post<TokenResponse>('authentication/register', request).pipe(first());
+    return this.post<TokenResponse>(ApiRoutes.Authentication.register, request).pipe(first());
   }
 
   refreshToken(request: RefreshTokenRequest): Observable<TokenResponse> {
-    return this.post<TokenResponse>('authentication/refresh-token', request).pipe(first());
+    return this.post<TokenResponse>(ApiRoutes.Authentication.refreshToken, request).pipe(first());
   }
 }

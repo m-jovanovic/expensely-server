@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
-import { TransactionSummaryResponse } from '@expensely/core/contracts';
+import { TransactionSummaryResponse } from '../../contracts/transaction/transaction-summary-response';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class TransactionService extends ApiService {
     super(client);
   }
 
-  getTransactionSummary(userId: string, primaryCurrency: number): Observable<TransactionSummaryResponse> {
-    return this.get(`transactions/summary/current-month?userId=${userId}&primaryCurrency=${primaryCurrency}`);
+  getCurrentMonthTransactionSummary(userId: string, primaryCurrency: number): Observable<TransactionSummaryResponse> {
+    return this.get(`${ApiRoutes.Transactions.getCurrentMonthTransactionSummary}?userId=${userId}&primaryCurrency=${primaryCurrency}`);
   }
 }

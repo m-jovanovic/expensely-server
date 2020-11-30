@@ -44,7 +44,7 @@ export class TransactionSummaryState {
       isLoading: true
     });
 
-    return this.transactionService.getTransactionSummary(action.userId, action.primaryCurrency).pipe(
+    return this.transactionService.getCurrentMonthTransactionSummary(action.userId, action.primaryCurrency).pipe(
       tap((response: TransactionSummaryResponse) => {
         context.patchState({
           expense: response.formattedExpense,

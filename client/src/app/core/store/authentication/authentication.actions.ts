@@ -1,15 +1,15 @@
 export class Login {
-  static readonly type = '[Authentication] Login';
+  public static readonly type = '[Authentication] Login';
 
   constructor(public email: string, public password: string) {}
 }
 
 export class Logout {
-  static readonly type = '[Authentication] Logout';
+  public static readonly type = '[Authentication] Logout';
 }
 
 export class Register {
-  static readonly type = '[Authentication] Register';
+  public static readonly type = '[Authentication] Register';
 
   constructor(
     public firstName: string,
@@ -21,5 +21,5 @@ export class Register {
 }
 
 export class RefreshToken {
-  static readonly type = '[Authentication] RefreshToken';
+  public static readonly type = '[Authentication] RefreshToken';
 }
