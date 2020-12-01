@@ -34,15 +34,19 @@ export class AuthenticationFacade {
     return this.store.dispatch(new RefreshToken());
   }
 
-  get token(): string {
+  get token(): string | null {
     return this.store.selectSnapshot(AuthenticationState.token);
   }
 
-  get tokenInfo(): TokenInfo {
+  get tokenInfo(): TokenInfo | null {
     return this.decodeToken(this.token);
   }
 
-  private decodeToken(token: string): TokenInfo {
+  get userId(): string | null {
+    return this.tokenInfo?.userId;
+  }
+
+  private decodeToken(token: string): TokenInfo | null {
     return this.jwtService.decodeToken(token);
   }
 
