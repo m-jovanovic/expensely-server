@@ -5,7 +5,6 @@ using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Budgets.DeleteBudget;
 using Expensely.Application.Commands.Handlers.Abstractions;
 using Expensely.Application.Commands.Handlers.Validation;
-using Expensely.Common.Messaging;
 using Expensely.Domain.Core;
 using Expensely.Domain.Core.Errors;
 using Expensely.Domain.Primitives.Maybe;

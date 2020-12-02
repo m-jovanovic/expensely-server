@@ -7,7 +7,6 @@ using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Queries.Expenses.Queries.GetExpenses;
 using Expensely.Application.Queries.Handlers.Abstractions;
 using Expensely.Application.Queries.Utility;
-using Expensely.Common.Messaging;
 using Expensely.Contracts.Expenses;
 using Expensely.Domain.Core;
 using Expensely.Domain.Primitives.Maybe;

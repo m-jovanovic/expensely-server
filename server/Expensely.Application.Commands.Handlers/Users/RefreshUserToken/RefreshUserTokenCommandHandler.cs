@@ -7,7 +7,6 @@ using Expensely.Application.Commands.Handlers.Abstractions;
 using Expensely.Application.Commands.Handlers.Specifications.RefreshTokens;
 using Expensely.Application.Commands.Users.RefreshUserToken;
 using Expensely.Common.Clock;
-using Expensely.Common.Messaging;
 using Expensely.Contracts.Users;
 using Expensely.Domain.Core;
 using Expensely.Domain.Core.Errors;

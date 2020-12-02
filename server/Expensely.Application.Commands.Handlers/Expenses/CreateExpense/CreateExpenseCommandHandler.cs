@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Expenses.CreateExpense;
 using Expensely.Application.Commands.Handlers.Abstractions;
-using Expensely.Common.Messaging;
 using Expensely.Domain.Core;
 using Expensely.Domain.Primitives.Result;
 
