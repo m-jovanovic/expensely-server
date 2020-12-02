@@ -4,6 +4,8 @@ using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Handlers.Abstractions;
 using Expensely.Application.Commands.Incomes.CreateIncome;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Errors;
+using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
@@ -27,17 +29,31 @@ namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
             Result<Name> nameResult = Name.Create(request.Name);
             Result<Description> descriptionResult = Description.Create(request.Description);
 
-            var result = Result.FirstFailureOrSuccess(nameResult, descriptionResult);
+            var firstFailureOrSuccess = Result.FirstFailureOrSuccess(nameResult, descriptionResult);
 
-            if (result.IsFailure)
+            if (firstFailureOrSuccess.IsFailure)
             {
-                return Result.Failure(result.Error);
+                return Result.Failure(firstFailureOrSuccess.Error);
+            }
+
+            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(request.UserId);
+
+            if (maybeUser.HasNoValue)
+            {
+                return Result.Failure(DomainErrors.User.NotFound);
+            }
+
+            Currency currency = Currency.FromValue(request.Currency).Value;
+
+            if (!maybeUser.Value.HasCurrency(currency))
+            {
+                return Result.Failure(DomainErrors.User.CurrencyDoesNotExist);
             }
 
             var income = new Income(
-                request.UserId,
+                maybeUser.Value.Id,
                 nameResult.Value,
-                new Money(request.Amount, Currency.FromValue(request.Currency).Value),
+                new Money(request.Amount, currency),
                 request.OccurredOn,
                 descriptionResult.Value);
 
