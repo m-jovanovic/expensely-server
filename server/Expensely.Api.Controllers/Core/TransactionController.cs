@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Api.Controllers.Constants;
 using Expensely.Api.Controllers.Infrastructure;
-using Expensely.Application.Queries.Transactions.Queries.GetCurrentMonthTransactionSummary;
+using Expensely.Application.Queries.Transactions.GetCurrentMonthTransactionSummary;
 using Expensely.Common.Clock;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Primitives.Maybe;

@@ -4,7 +4,7 @@ using Expensely.Common.Messaging;
 using Expensely.Contracts.Expenses;
 using Expensely.Domain.Primitives.Maybe;
 
-namespace Expensely.Application.Queries.Expenses.Queries.GetExpenses
+namespace Expensely.Application.Queries.Expenses.GetExpenses
 {
     /// <summary>
     /// Represents the query for getting a list of expenses.

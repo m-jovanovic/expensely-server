@@ -3,7 +3,7 @@ using Expensely.Common.Messaging;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Primitives.Maybe;
 
-namespace Expensely.Application.Queries.Transactions.Queries.GetCurrentMonthTransactionSummary
+namespace Expensely.Application.Queries.Transactions.GetCurrentMonthTransactionSummary
 {
     /// <summary>
     /// Represents the query for getting the monthly transaction summary.
