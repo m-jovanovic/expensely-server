@@ -34,6 +34,16 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
         /// <inheritdoc />
         public async Task<Result> Handle(UpdateExpenseCommand request, CancellationToken cancellationToken)
         {
+            Result<Name> nameResult = Name.Create(request.Name);
+            Result<Description> descriptionResult = Description.Create(request.Description);
+
+            var firstFailureOrSuccess = Result.FirstFailureOrSuccess(nameResult, descriptionResult);
+
+            if (firstFailureOrSuccess.IsFailure)
+            {
+                return Result.Failure(firstFailureOrSuccess.Error);
+            }
+
             Maybe<Expense> maybeExpense = await _dbContext.GetBydIdAsync<Expense>(request.ExpenseId);
 
             if (maybeExpense.HasNoValue)
@@ -48,17 +58,21 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
                 return Result.Failure(ValidationErrors.User.InvalidPermissions);
             }
 
-            Result<Name> nameResult = Name.Create(request.Name);
-            Result<Description> descriptionResult = Description.Create(request.Description);
+            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(expense.UserId);
 
-            var result = Result.FirstFailureOrSuccess(nameResult, descriptionResult);
-
-            if (result.IsFailure)
+            if (maybeUser.HasNoValue)
             {
-                return Result.Failure(result.Error);
+                return Result.Failure(DomainErrors.User.NotFound);
             }
 
-            expense.ChangeMoney(new Money(request.Amount, Currency.FromValue(request.Currency).Value));
+            Currency currency = Currency.FromValue(request.Currency).Value;
+
+            if (!maybeUser.Value.HasCurrency(currency))
+            {
+                return Result.Failure(DomainErrors.User.CurrencyDoesNotExist);
+            }
+
+            expense.ChangeMoney(new Money(request.Amount, currency));
 
             expense.ChangeName(nameResult.Value);
 

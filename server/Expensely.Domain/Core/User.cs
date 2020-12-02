@@ -87,13 +87,20 @@ namespace Expensely.Domain.Core
         public DateTime? ModifiedOnUtc { get; }
 
         /// <summary>
-        /// Changes the users primary currency.
+        /// Checks if the user's currencies contain the specified currency.
+        /// </summary>
+        /// <param name="currency">The currency to be checked.</param>
+        /// <returns>True if the currency is within the user's currencies, otherwise false.</returns>
+        public bool HasCurrency(Currency currency) => _currencies.Contains(currency);
+
+        /// <summary>
+        /// Changes the user's primary currency.
         /// </summary>
         /// <param name="currency">The new primary currency.</param>
         /// <returns>The success result if the primary currency was changed, otherwise an error result.</returns>
         public Result ChangePrimaryCurrency(Currency currency)
         {
-            if (!_currencies.Contains(currency))
+            if (!HasCurrency(currency))
             {
                 return Result.Failure(DomainErrors.User.CurrencyDoesNotExist);
             }
@@ -110,7 +117,7 @@ namespace Expensely.Domain.Core
         }
 
         /// <summary>
-        /// Adds the specified currency to the users currencies.
+        /// Adds the specified currency to the user's currencies.
         /// </summary>
         /// <param name="currency">The currency to be added.</param>
         /// <returns>The success result if the currency was added, otherwise an error result.</returns>
@@ -132,7 +139,7 @@ namespace Expensely.Domain.Core
         }
 
         /// <summary>
-        /// Removes the specified currency from the users currencies.
+        /// Removes the specified currency from the user's currencies.
         /// </summary>
         /// <param name="currency">The currency to be removed.</param>
         /// <returns>The success result if the currency was removed, otherwise an error result.</returns>
