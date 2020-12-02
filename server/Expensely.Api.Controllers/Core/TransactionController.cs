@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Api.Controllers.Constants;
 using Expensely.Api.Controllers.Infrastructure;
 using Expensely.Application.Queries.Transactions.GetCurrentMonthTransactionSummary;
+using Expensely.Application.Queries.Transactions.GetTransactions;
 using Expensely.Common.Clock;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Primitives.Maybe;
@@ -27,6 +28,22 @@ namespace Expensely.Api.Controllers.Core
         public TransactionController(ISender sender, IDateTime dateTime)
             : base(sender) =>
             _dateTime = dateTime;
+
+        /// <summary>
+        /// Gets the transactions for the specified parameters.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="cursor">The cursor.</param>
+        /// <returns>200 - OK if any transactions are found, otherwise 404 - Not Found.</returns>
+        [HttpGet(ApiRoutes.Transactions.GetTransactions)]
+        [ProducesResponseType(typeof(TransactionListResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetTransactions(Guid userId, int limit, string cursor) =>
+            await Maybe<GetTransactionsQuery>
+                .From(new GetTransactionsQuery(userId, limit, cursor, _dateTime.UtcNow))
+                .Bind(query => Sender.Send(query))
+                .Match(Ok, NotFound);
 
         /// <summary>
         /// Gets the current month transaction summary for the specified parameters.

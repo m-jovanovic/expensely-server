@@ -1,22 +1,22 @@
 ﻿using System;
 using Expensely.Domain.Core;
 
-namespace Expensely.Contracts.Expenses
+namespace Expensely.Contracts.Transactions
 {
     /// <summary>
-    /// Represents the expense response.
+    /// Represents the transaction response.
     /// </summary>
-    public sealed class ExpenseResponse
+    public sealed class TransactionResponse
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpenseResponse"/> class.
+        /// Initializes a new instance of the <see cref="TransactionResponse"/> class.
         /// </summary>
-        /// <param name="id">The expense identifier.</param>
+        /// <param name="id">The transaction identifier.</param>
         /// <param name="amount">The monetary amount.</param>
         /// <param name="currency">The currency.</param>
         /// <param name="occurredOn">The occurred on date.</param>
         /// <param name="createdOnUtc">The created on date and time in UTC format.</param>
-        public ExpenseResponse(Guid id, decimal amount, int currency, DateTime occurredOn, DateTime createdOnUtc)
+        public TransactionResponse(Guid id, decimal amount, int currency, DateTime occurredOn, DateTime createdOnUtc)
         {
             Id = id;
 

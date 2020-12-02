@@ -53,6 +53,11 @@
         public static class Transactions
         {
             /// <summary>
+            /// The get transactions route.
+            /// </summary>
+            public const string GetTransactions = "transactions";
+
+            /// <summary>
             /// The get current month transaction summary route.
             /// </summary>
             public const string GetCurrentMonthTransactionSummary = "transactions/summary/current-month";
