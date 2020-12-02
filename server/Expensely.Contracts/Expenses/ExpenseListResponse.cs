@@ -12,7 +12,7 @@ namespace Expensely.Contracts.Expenses
         /// </summary>
         /// <param name="items">The expenses.</param>
         /// <param name="cursor">The cursor.</param>
-        public ExpenseListResponse(IReadOnlyCollection<ExpenseListResponseItem> items, string cursor = "")
+        public ExpenseListResponse(IReadOnlyCollection<ExpenseResponse> items, string cursor = "")
         {
             Cursor = cursor;
             Items = items;
@@ -21,7 +21,7 @@ namespace Expensely.Contracts.Expenses
         /// <summary>
         /// Gets the items.
         /// </summary>
-        public IReadOnlyCollection<ExpenseListResponseItem> Items { get; }
+        public IReadOnlyCollection<ExpenseResponse> Items { get; }
 
         /// <summary>
         /// Gets the cursor.

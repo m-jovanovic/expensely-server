@@ -1,7 +1,9 @@
-﻿using System.Globalization;
+﻿using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Dapper;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Queries.Expenses.GetExpenses;
@@ -10,7 +12,6 @@ using Expensely.Application.Queries.Utility;
 using Expensely.Contracts.Expenses;
 using Expensely.Domain.Core;
 using Expensely.Domain.Primitives.Maybe;
-using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Queries.Handlers.Expenses.GetExpenses
 {
@@ -19,18 +20,18 @@ namespace Expensely.Application.Queries.Handlers.Expenses.GetExpenses
     /// </summary>
     internal sealed class GetExpensesQueryHandler : IQueryHandler<GetExpensesQuery, Maybe<ExpenseListResponse>>
     {
-        private readonly IDbContext _dbContext;
         private readonly IUserInformationProvider _userInformationProvider;
+        private readonly IDbConnectionProvider _dbConnectionProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetExpensesQueryHandler"/> class.
         /// </summary>
-        /// <param name="dbContext">The database context.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public GetExpensesQueryHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
+        /// <param name="dbConnectionProvider">The database connection provider.</param>
+        public GetExpensesQueryHandler(IUserInformationProvider userInformationProvider, IDbConnectionProvider dbConnectionProvider)
         {
-            _dbContext = dbContext;
             _userInformationProvider = userInformationProvider;
+            _dbConnectionProvider = dbConnectionProvider;
         }
 
         /// <inheritdoc />
@@ -41,22 +42,35 @@ namespace Expensely.Application.Queries.Handlers.Expenses.GetExpenses
                 return Maybe<ExpenseListResponse>.None;
             }
 
-            ExpenseListResponseItem[] expenses = await _dbContext.Set<Expense>()
-                .Where(e => e.UserId == request.UserId &&
-                            e.OccurredOn < request.OccurredOn ||
-                            e.OccurredOn == request.OccurredOn && e.CreatedOnUtc <= request.CreatedOnUtc)
-                .OrderByDescending(e => e.OccurredOn)
-                .ThenByDescending(e => e.CreatedOnUtc)
-                .Select(e => new ExpenseListResponseItem(e.Id, e.Money.Amount, e.Money.Currency.Value, e.OccurredOn, e.CreatedOnUtc))
-                .Take(request.Limit)
-                .ToArrayAsync(cancellationToken);
+            using IDbConnection dbConnection = _dbConnectionProvider.Create();
+
+            const string sql = @"
+                SELECT TOP(@Limit) Id, Amount, Currency, OccurredOn, CreatedOnUtc
+                FROM [Transaction]
+                WHERE
+                    TransactionType = @TransactionType AND
+                    UserId = @UserId AND
+                    (OccurredOn < @OccurredOn OR (OccurredOn = @OccurredOn AND CreatedOnUtc <= @CreatedOnUtc))
+                ORDER BY OccurredOn DESC, CreatedOnUtc DESC";
+
+            ExpenseResponse[] expenses = (
+                await dbConnection.QueryAsync<ExpenseResponse>(
+                    sql,
+                    new
+                    {
+                        TransactionType = (int)TransactionType.Expense,
+                        request.UserId,
+                        request.OccurredOn,
+                        request.CreatedOnUtc,
+                        request.Limit
+                    })).ToArray();
 
             if (expenses.Length < request.Limit)
             {
                 return new ExpenseListResponse(expenses);
             }
 
-            ExpenseListResponseItem lastExpense = expenses[^1];
+            ExpenseResponse lastExpense = expenses[^1];
 
             string cursor = Cursor.Create(
                 lastExpense.OccurredOn.ToString(DateTimeFormats.Date, CultureInfo.InvariantCulture),

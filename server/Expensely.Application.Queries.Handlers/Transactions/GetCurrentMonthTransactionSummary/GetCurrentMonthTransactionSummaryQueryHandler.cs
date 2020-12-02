@@ -51,7 +51,8 @@ namespace Expensely.Application.Queries.Handlers.Transactions.GetCurrentMonthTra
 
             const string sql = @"
                 SELECT TransactionType, SUM(Amount) AS Amount
-                FROM [Transaction] WHERE UserId = @UserId AND OccurredOn >= @StartOfMonth AND Currency = @PrimaryCurrency
+                FROM [Transaction]
+                WHERE UserId = @UserId AND OccurredOn >= @StartOfMonth AND Currency = @PrimaryCurrency
                 GROUP BY TransactionType";
 
             IEnumerable<TransactionAmountPerType> transactionAmountPerType = await dbConnection.QueryAsync<TransactionAmountPerType>(

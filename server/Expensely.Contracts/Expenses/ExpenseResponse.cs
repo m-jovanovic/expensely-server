@@ -4,25 +4,23 @@ using Expensely.Domain.Core;
 namespace Expensely.Contracts.Expenses
 {
     /// <summary>
-    /// Represents the expense list response item.
+    /// Represents the expense response.
     /// </summary>
-    public sealed class ExpenseListResponseItem
+    public sealed class ExpenseResponse
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpenseListResponseItem"/> class.
+        /// Initializes a new instance of the <see cref="ExpenseResponse"/> class.
         /// </summary>
         /// <param name="id">The expense identifier.</param>
         /// <param name="amount">The monetary amount.</param>
-        /// <param name="currencyValue">The currency identifier.</param>
+        /// <param name="currency">The currency.</param>
         /// <param name="occurredOn">The occurred on date.</param>
         /// <param name="createdOnUtc">The created on date and time in UTC format.</param>
-        public ExpenseListResponseItem(Guid id, decimal amount, int currencyValue, DateTime occurredOn, DateTime createdOnUtc)
+        public ExpenseResponse(Guid id, decimal amount, int currency, DateTime occurredOn, DateTime createdOnUtc)
         {
             Id = id;
 
-            Currency currency = Currency.FromValue(currencyValue).Value;
-
-            FormattedExpense = $"{amount} {currency.Code}";
+            FormattedExpense = Currency.FromValue(currency).Value.Format(amount);
 
             OccurredOn = occurredOn;
 
