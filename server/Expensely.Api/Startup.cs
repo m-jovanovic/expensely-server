@@ -1,3 +1,6 @@
+using System;
+using System.Data;
+using Dapper;
 using Expensely.Api.Behaviors;
 using Expensely.Api.Controllers;
 using Expensely.Api.Extensions;
@@ -38,6 +41,8 @@ namespace Expensely.Api
         /// <param name="services">The service collection.</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            SqlMapper.AddTypeMap(typeof(DateTime), DbType.DateTime2);
+
             services
                 .AddInfrastructure(Configuration)
                 .AddPersistence(Configuration);
