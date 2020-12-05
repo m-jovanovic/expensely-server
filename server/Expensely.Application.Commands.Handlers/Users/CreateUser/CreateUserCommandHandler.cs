@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Commands.Handlers.Abstractions;
 using Expensely.Application.Commands.Handlers.Specifications.Users;
 using Expensely.Application.Commands.Users.CreateUser;
+using Expensely.Common.Messaging;
 using Expensely.Contracts.Users;
 using Expensely.Domain.Core;
 using Expensely.Domain.Core.Errors;

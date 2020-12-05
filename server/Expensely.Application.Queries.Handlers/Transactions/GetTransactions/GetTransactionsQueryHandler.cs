@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Dapper;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Queries.Handlers.Abstractions;
 using Expensely.Application.Queries.Transactions.GetTransactions;
 using Expensely.Application.Queries.Utility;
+using Expensely.Common.Messaging;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Primitives.Maybe;
 

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Queries.Currencies.GetCurrencies;
-using Expensely.Application.Queries.Handlers.Abstractions;
+using Expensely.Common.Messaging;
 using Expensely.Contracts.Currencies;
 using Expensely.Domain.Core;
 
