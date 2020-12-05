@@ -9,6 +9,8 @@ using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Models;
+using Expensely.Domain.Services;
 
 namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
 {
@@ -34,16 +36,6 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
         /// <inheritdoc />
         public async Task<Result> Handle(UpdateExpenseCommand request, CancellationToken cancellationToken)
         {
-            Result<Name> nameResult = Name.Create(request.Name);
-            Result<Description> descriptionResult = Description.Create(request.Description);
-
-            var firstFailureOrSuccess = Result.FirstFailureOrSuccess(nameResult, descriptionResult);
-
-            if (firstFailureOrSuccess.IsFailure)
-            {
-                return Result.Failure(firstFailureOrSuccess.Error);
-            }
-
             Maybe<Expense> maybeExpense = await _dbContext.GetBydIdAsync<Expense>(request.ExpenseId);
 
             if (maybeExpense.HasNoValue)
@@ -65,18 +57,22 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
                 return Result.Failure(DomainErrors.User.NotFound);
             }
 
-            Currency currency = Currency.FromValue(request.Currency).Value;
+            Result<TransactionInformation> transactionInformationResult = new TransactionInformationService().Validate(
+                maybeUser.Value,
+                request.Name,
+                request.Description,
+                request.Currency);
 
-            if (!maybeUser.Value.HasCurrency(currency))
+            if (transactionInformationResult.IsFailure)
             {
-                return Result.Failure(DomainErrors.User.CurrencyDoesNotExist);
+                return Result.Failure(transactionInformationResult.Error);
             }
 
-            expense.ChangeMoney(new Money(request.Amount, currency));
+            expense.ChangeMoney(new Money(request.Amount, transactionInformationResult.Value.Currency));
 
-            expense.ChangeName(nameResult.Value);
+            expense.ChangeName(transactionInformationResult.Value.Name);
 
-            expense.ChangeDescription(descriptionResult.Value);
+            expense.ChangeDescription(transactionInformationResult.Value.Description);
 
             expense.ChangeOccurredOnDate(request.OccurredOn);
 
