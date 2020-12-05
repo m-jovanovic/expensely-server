@@ -11,7 +11,7 @@ using Expensely.Contracts.Users;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
-using Expensely.Domain.Core.Errors;
+using Expensely.Domain.Errors;
 using Expensely.Domain.Services;
 
 namespace Expensely.Application.Commands.Handlers.Users.CreateUserTokenForCredentials

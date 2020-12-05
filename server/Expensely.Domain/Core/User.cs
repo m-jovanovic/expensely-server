@@ -4,7 +4,7 @@ using System.Linq;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
-using Expensely.Domain.Core.Errors;
+using Expensely.Domain.Errors;
 using Expensely.Domain.Services;
 using Expensely.Domain.Utility;
 
