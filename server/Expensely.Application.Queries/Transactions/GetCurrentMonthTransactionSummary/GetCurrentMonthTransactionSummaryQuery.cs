@@ -1,7 +1,7 @@
 ﻿using System;
 using Expensely.Common.Messaging;
 using Expensely.Contracts.Transactions;
-using Expensely.Domain.Primitives.Maybe;
+using Expensely.Domain.Abstractions.Maybe;
 
 namespace Expensely.Application.Queries.Transactions.GetCurrentMonthTransactionSummary
 {

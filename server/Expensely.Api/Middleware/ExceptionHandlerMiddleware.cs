@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Expensely.Api.Controllers.Constants;
 using Expensely.Api.Controllers.Contracts;
 using Expensely.Api.Exceptions;
+using Expensely.Domain.Abstractions.Exceptions;
+using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Exceptions;
-using Expensely.Domain.Primitives;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 

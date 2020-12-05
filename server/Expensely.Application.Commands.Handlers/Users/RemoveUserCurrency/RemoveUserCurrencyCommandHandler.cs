@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Users.RemoveUserCurrency;
 using Expensely.Common.Messaging;
+using Expensely.Domain.Abstractions.Maybe;
+using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Core.Errors;
-using Expensely.Domain.Primitives.Maybe;
-using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Application.Commands.Handlers.Users.RemoveUserCurrency
 {

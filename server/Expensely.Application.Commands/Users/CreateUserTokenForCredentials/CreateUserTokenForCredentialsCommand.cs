@@ -1,6 +1,6 @@
 ﻿using Expensely.Common.Messaging;
 using Expensely.Contracts.Users;
-using Expensely.Domain.Primitives.Result;
+using Expensely.Domain.Abstractions.Result;
 
 namespace Expensely.Application.Commands.Users.CreateUserTokenForCredentials
 {

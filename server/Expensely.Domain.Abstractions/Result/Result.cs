@@ -1,6 +1,7 @@
 ﻿using System;
+using Expensely.Domain.Abstractions.Primitives;
 
-namespace Expensely.Domain.Primitives.Result
+namespace Expensely.Domain.Abstractions.Result
 {
     /// <summary>
     /// Represents a result of some operation, with status information and possibly an error.

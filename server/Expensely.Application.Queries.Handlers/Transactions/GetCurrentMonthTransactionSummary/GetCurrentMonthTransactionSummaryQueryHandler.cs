@@ -9,8 +9,8 @@ using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Queries.Transactions.GetCurrentMonthTransactionSummary;
 using Expensely.Common.Messaging;
 using Expensely.Contracts.Transactions;
+using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
-using Expensely.Domain.Primitives.Maybe;
 
 namespace Expensely.Application.Queries.Handlers.Transactions.GetCurrentMonthTransactionSummary
 {

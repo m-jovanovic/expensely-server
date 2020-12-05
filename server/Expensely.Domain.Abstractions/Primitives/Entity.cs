@@ -1,7 +1,6 @@
 ﻿using System;
-using Expensely.Domain.Utility;
 
-namespace Expensely.Domain.Primitives
+namespace Expensely.Domain.Abstractions.Primitives
 {
     /// <summary>
     /// Represents the base class that all entities derive from.
@@ -14,7 +13,10 @@ namespace Expensely.Domain.Primitives
         /// <param name="id">The entity identifier.</param>
         protected Entity(Guid id)
         {
-            Ensure.NotEmpty(id, "The entity identifier is required.", nameof(id));
+            if (id == Guid.Empty)
+            {
+                throw new ArgumentException("The entity identifier is required.", nameof(id));
+            }
 
             Id = id;
         }

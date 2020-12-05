@@ -6,7 +6,7 @@ using Expensely.Application.Commands.Users.CreateUser;
 using Expensely.Application.Commands.Users.CreateUserTokenForCredentials;
 using Expensely.Application.Commands.Users.RefreshUserToken;
 using Expensely.Contracts.Users;
-using Expensely.Domain.Primitives.Result;
+using Expensely.Domain.Abstractions.Result;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

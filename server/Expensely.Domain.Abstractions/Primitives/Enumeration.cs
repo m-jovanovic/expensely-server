@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Expensely.Domain.Primitives.Maybe;
+using Expensely.Domain.Abstractions.Maybe;
 
-namespace Expensely.Domain.Primitives
+namespace Expensely.Domain.Abstractions.Primitives
 {
     /// <summary>
     /// Represents an enumeration of objects with a unique numeric value and a name.

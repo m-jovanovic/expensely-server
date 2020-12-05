@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Expensely.Domain.Abstractions.Primitives;
 
-namespace Expensely.Domain.Primitives.Result
+namespace Expensely.Domain.Abstractions.Result
 {
     /// <summary>
     /// Contains extension methods for the result class.

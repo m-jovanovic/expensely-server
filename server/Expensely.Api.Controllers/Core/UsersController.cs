@@ -8,7 +8,7 @@ using Expensely.Application.Commands.Users.ChangeUserPassword;
 using Expensely.Application.Commands.Users.ChangeUserPrimaryCurrency;
 using Expensely.Application.Commands.Users.RemoveUserCurrency;
 using Expensely.Contracts.Users;
-using Expensely.Domain.Primitives.Result;
+using Expensely.Domain.Abstractions.Result;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

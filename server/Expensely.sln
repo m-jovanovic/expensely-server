@@ -3,40 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain", "Expensely.Domain\Expensely.Domain.csproj", "{7D73DC06-BEED-4741-9F87-C16BDB198FD3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DAFB97D6-B863-4D9F-9412-B3F823B13C5D}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Persistence", "Expensely.Persistence\Expensely.Persistence.csproj", "{92EA6CEB-40F1-44D9-8D99-09A20C47C279}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Infrastructure", "Expensely.Infrastructure\Expensely.Infrastructure.csproj", "{8A887C18-8839-4CF9-B60E-5CD4D7A6A7D9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Api", "Expensely.Api\Expensely.Api.csproj", "{5A240AB3-CC83-43F4-AB31-D4685AC7FC10}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Commands", "Expensely.Application.Commands\Expensely.Application.Commands.csproj", "{74C450AD-5A2C-4588-9C57-E8363DE28F72}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Queries", "Expensely.Application.Queries\Expensely.Application.Queries.csproj", "{A7EDE859-A98F-4581-9698-8622B83D5590}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Contracts", "Expensely.Contracts\Expensely.Contracts.csproj", "{53D7DCAC-6838-42BB-860D-E6E8DED12402}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Abstractions", "Expensely.Application.Abstractions\Expensely.Application.Abstractions.csproj", "{A41910FF-6FC5-42C3-A25C-6241A9DAC4BA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Common", "Expensely.Common\Expensely.Common.csproj", "{C628A227-ECA8-4A12-B6BD-DB9BAC96F926}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Commands.Handlers", "Expensely.Application.Commands.Handlers\Expensely.Application.Commands.Handlers.csproj", "{27C8AEB0-5550-400E-BE74-73D4778A99D0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Queries.Handlers", "Expensely.Application.Queries.Handlers\Expensely.Application.Queries.Handlers.csproj", "{86A2B3EB-6313-4332-A387-5D3FA1B46D3B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Api.Controllers", "Expensely.Api.Controllers\Expensely.Api.Controllers.csproj", "{CF525E39-FEF7-41AE-A3E9-3EF355D97C29}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{58A54302-7A34-484E-8EEA-C65C791A4153}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{4E290B18-69E5-49B4-8B9D-70D64BEF994A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F0E7E0FF-247D-42A8-94A5-85B519DC5BF5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{288F5452-E668-4A6D-8FFF-5DF85F3E574D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{58A54302-7A34-484E-8EEA-C65C791A4153}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{DEEE07CB-8923-4363-8C40-345B3F243C98}"
 EndProject
@@ -44,7 +20,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{26F75744-12F6-4F06-9D83-7A9112723064}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F0E7E0FF-247D-42A8-94A5-85B519DC5BF5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{4E290B18-69E5-49B4-8B9D-70D64BEF994A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Domain.Abstractions", "Expensely.Domain.Abstractions\Expensely.Domain.Abstractions.csproj", "{953396FD-C7DD-404C-A57D-9DDE809BC03B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain", "Expensely.Domain\Expensely.Domain.csproj", "{7D73DC06-BEED-4741-9F87-C16BDB198FD3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Contracts", "Expensely.Contracts\Expensely.Contracts.csproj", "{53D7DCAC-6838-42BB-860D-E6E8DED12402}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Common", "Expensely.Common\Expensely.Common.csproj", "{C628A227-ECA8-4A12-B6BD-DB9BAC96F926}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Abstractions", "Expensely.Application.Abstractions\Expensely.Application.Abstractions.csproj", "{A41910FF-6FC5-42C3-A25C-6241A9DAC4BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Commands", "Expensely.Application.Commands\Expensely.Application.Commands.csproj", "{74C450AD-5A2C-4588-9C57-E8363DE28F72}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Queries", "Expensely.Application.Queries\Expensely.Application.Queries.csproj", "{A7EDE859-A98F-4581-9698-8622B83D5590}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Commands.Handlers", "Expensely.Application.Commands.Handlers\Expensely.Application.Commands.Handlers.csproj", "{27C8AEB0-5550-400E-BE74-73D4778A99D0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Queries.Handlers", "Expensely.Application.Queries.Handlers\Expensely.Application.Queries.Handlers.csproj", "{86A2B3EB-6313-4332-A387-5D3FA1B46D3B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Infrastructure", "Expensely.Infrastructure\Expensely.Infrastructure.csproj", "{8A887C18-8839-4CF9-B60E-5CD4D7A6A7D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Persistence", "Expensely.Persistence\Expensely.Persistence.csproj", "{92EA6CEB-40F1-44D9-8D99-09A20C47C279}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Api.Controllers", "Expensely.Api.Controllers\Expensely.Api.Controllers.csproj", "{CF525E39-FEF7-41AE-A3E9-3EF355D97C29}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Api", "Expensely.Api\Expensely.Api.csproj", "{5A240AB3-CC83-43F4-AB31-D4685AC7FC10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -100,6 +102,10 @@ Global
 		{CF525E39-FEF7-41AE-A3E9-3EF355D97C29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF525E39-FEF7-41AE-A3E9-3EF355D97C29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF525E39-FEF7-41AE-A3E9-3EF355D97C29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{953396FD-C7DD-404C-A57D-9DDE809BC03B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{953396FD-C7DD-404C-A57D-9DDE809BC03B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{953396FD-C7DD-404C-A57D-9DDE809BC03B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{953396FD-C7DD-404C-A57D-9DDE809BC03B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +129,7 @@ Global
 		{DEEE07CB-8923-4363-8C40-345B3F243C98} = {F0E7E0FF-247D-42A8-94A5-85B519DC5BF5}
 		{857A0DD3-628F-4F38-A9AE-218E89388729} = {F0E7E0FF-247D-42A8-94A5-85B519DC5BF5}
 		{26F75744-12F6-4F06-9D83-7A9112723064} = {F0E7E0FF-247D-42A8-94A5-85B519DC5BF5}
+		{953396FD-C7DD-404C-A57D-9DDE809BC03B} = {DEEE07CB-8923-4363-8C40-345B3F243C98}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB4933FD-6088-49D4-8154-2506F5D17543}

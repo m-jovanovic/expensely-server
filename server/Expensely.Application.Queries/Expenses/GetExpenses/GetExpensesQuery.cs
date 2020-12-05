@@ -2,7 +2,7 @@
 using Expensely.Application.Queries.Utility;
 using Expensely.Common.Messaging;
 using Expensely.Contracts.Expenses;
-using Expensely.Domain.Primitives.Maybe;
+using Expensely.Domain.Abstractions.Maybe;
 
 namespace Expensely.Application.Queries.Expenses.GetExpenses
 {

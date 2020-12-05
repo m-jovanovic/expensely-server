@@ -6,7 +6,7 @@ using Expensely.Application.Queries.Transactions.GetCurrentMonthTransactionSumma
 using Expensely.Application.Queries.Transactions.GetTransactions;
 using Expensely.Common.Clock;
 using Expensely.Contracts.Transactions;
-using Expensely.Domain.Primitives.Maybe;
+using Expensely.Domain.Abstractions.Maybe;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

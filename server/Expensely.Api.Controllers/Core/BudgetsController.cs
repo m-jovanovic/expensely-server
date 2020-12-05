@@ -7,7 +7,7 @@ using Expensely.Application.Commands.Budgets.CreateBudget;
 using Expensely.Application.Commands.Budgets.DeleteBudget;
 using Expensely.Application.Commands.Budgets.UpdateBudget;
 using Expensely.Contracts.Budgets;
-using Expensely.Domain.Primitives.Result;
+using Expensely.Domain.Abstractions.Result;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

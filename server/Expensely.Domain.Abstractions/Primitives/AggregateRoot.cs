@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Expensely.Domain.Abstractions.Events;
 
-namespace Expensely.Domain.Primitives
+namespace Expensely.Domain.Abstractions.Primitives
 {
     /// <summary>
     /// Represents the aggregate root.

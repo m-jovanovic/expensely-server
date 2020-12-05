@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Expensely.Domain.Primitives;
+using Expensely.Domain.Abstractions.Primitives;
 
 namespace Expensely.Api.Controllers.Contracts
 {

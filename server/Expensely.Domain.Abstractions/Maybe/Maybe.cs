@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Domain.Primitives.Maybe
+namespace Expensely.Domain.Abstractions.Maybe
 {
     /// <summary>
     /// Represents a wrapper around a value that may or may not be null.

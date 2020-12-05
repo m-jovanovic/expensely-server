@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Expensely.Domain.Abstractions.Maybe;
+using Expensely.Domain.Abstractions.Primitives;
+using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core.Errors;
-using Expensely.Domain.Primitives;
-using Expensely.Domain.Primitives.Maybe;
-using Expensely.Domain.Primitives.Result;
 using Expensely.Domain.Services;
 using Expensely.Domain.Utility;
 

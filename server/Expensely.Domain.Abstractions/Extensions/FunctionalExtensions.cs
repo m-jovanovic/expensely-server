@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Expensely.Domain.Extensions
+namespace Expensely.Domain.Abstractions.Extensions
 {
     /// <summary>
     /// Contains general functional extensions methods.

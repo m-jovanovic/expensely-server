@@ -7,7 +7,7 @@ using Expensely.Application.Commands.Incomes.CreateIncome;
 using Expensely.Application.Commands.Incomes.DeleteIncome;
 using Expensely.Application.Commands.Incomes.UpdateIncome;
 using Expensely.Contracts.Incomes;
-using Expensely.Domain.Primitives.Result;
+using Expensely.Domain.Abstractions.Result;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

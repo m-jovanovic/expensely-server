@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Expensely.Domain.Extensions;
+using Expensely.Domain.Abstractions.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 

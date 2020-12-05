@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Expensely.Domain.Primitives;
+using Expensely.Domain.Abstractions.Primitives;
 using FluentValidation.Results;
 
 namespace Expensely.Api.Exceptions

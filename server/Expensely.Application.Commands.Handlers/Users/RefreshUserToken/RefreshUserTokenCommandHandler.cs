@@ -8,10 +8,10 @@ using Expensely.Application.Commands.Users.RefreshUserToken;
 using Expensely.Common.Clock;
 using Expensely.Common.Messaging;
 using Expensely.Contracts.Users;
+using Expensely.Domain.Abstractions.Maybe;
+using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Core.Errors;
-using Expensely.Domain.Primitives.Maybe;
-using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Expensely.Domain.Primitives.Maybe
+namespace Expensely.Domain.Abstractions.Maybe
 {
     /// <summary>
     /// Contains extension methods for the maybe class.

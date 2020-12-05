@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Expensely.Domain.Primitives
+namespace Expensely.Domain.Abstractions.Events
 {
     /// <summary>
     /// Represents the domain event handler interface.

@@ -10,7 +10,7 @@ using Expensely.Application.Queries.Transactions.GetTransactions;
 using Expensely.Application.Queries.Utility;
 using Expensely.Common.Messaging;
 using Expensely.Contracts.Transactions;
-using Expensely.Domain.Primitives.Maybe;
+using Expensely.Domain.Abstractions.Maybe;
 
 namespace Expensely.Application.Queries.Handlers.Transactions.GetTransactions
 {

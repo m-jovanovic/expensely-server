@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Specifications;
-using Expensely.Domain.Primitives;
-using Expensely.Domain.Primitives.Maybe;
+using Expensely.Domain.Abstractions.Maybe;
+using Expensely.Domain.Abstractions.Primitives;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Abstractions.Data

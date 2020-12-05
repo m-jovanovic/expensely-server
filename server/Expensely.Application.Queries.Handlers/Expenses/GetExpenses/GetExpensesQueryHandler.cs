@@ -10,8 +10,8 @@ using Expensely.Application.Queries.Expenses.GetExpenses;
 using Expensely.Application.Queries.Utility;
 using Expensely.Common.Messaging;
 using Expensely.Contracts.Expenses;
+using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
-using Expensely.Domain.Primitives.Maybe;
 
 namespace Expensely.Application.Queries.Handlers.Expenses.GetExpenses
 {

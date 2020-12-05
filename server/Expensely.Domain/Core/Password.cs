@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Expensely.Domain.Abstractions.Primitives;
+using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core.Errors;
-using Expensely.Domain.Primitives;
-using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Domain.Core
 {

@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Expenses.CreateExpense;
-using Expensely.Application.Commands.Handlers.Abstractions;
+using Expensely.Common.Messaging;
+using Expensely.Domain.Abstractions.Maybe;
+using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Core.Errors;
-using Expensely.Domain.Primitives.Maybe;
-using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Application.Commands.Handlers.Expenses.CreateExpense
 {

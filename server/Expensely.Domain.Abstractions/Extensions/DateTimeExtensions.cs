@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Domain.Extensions
+namespace Expensely.Domain.Abstractions.Extensions
 {
     /// <summary>
     /// Contains extension methods for the <see cref="DateTime"/> class.

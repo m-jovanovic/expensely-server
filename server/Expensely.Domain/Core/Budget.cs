@@ -1,7 +1,6 @@
 ﻿using System;
-using Expensely.Domain.Events;
+using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Exceptions;
-using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.Core

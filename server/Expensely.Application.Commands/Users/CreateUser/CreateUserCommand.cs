@@ -1,5 +1,5 @@
 ﻿using Expensely.Common.Messaging;
-using Expensely.Domain.Primitives.Result;
+using Expensely.Domain.Abstractions.Result;
 
 namespace Expensely.Application.Commands.Users.CreateUser
 {
