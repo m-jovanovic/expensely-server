@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Specifications;
 using Expensely.Common.Clock;
+using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Persistence.Extensions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -19,15 +23,20 @@ namespace Expensely.Persistence
     public sealed class ExpenselyDbContext : DbContext, IDbContext
     {
         private readonly IDateTime _dateTime;
+        private readonly IPublisher _publisher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenselyDbContext"/> class.
         /// </summary>
         /// <param name="options">The database context options.</param>
         /// <param name="dateTime">The current date and time.</param>
-        public ExpenselyDbContext(DbContextOptions options, IDateTime dateTime)
-            : base(options) =>
+        /// <param name="publisher">The publisher.</param>
+        public ExpenselyDbContext(DbContextOptions options, IDateTime dateTime, IPublisher publisher)
+            : base(options)
+        {
             _dateTime = dateTime;
+            _publisher = publisher;
+        }
 
         /// <inheritdoc />
         public new DbSet<TEntity> Set<TEntity>()
@@ -67,15 +76,19 @@ namespace Expensely.Persistence
             Set<TEntity>().Remove(entity);
 
         /// <summary>
-        /// Saves all of the pending changes in the unit of work.
+        /// Saves all of the pending changes in the database context.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The number of entities that have been saved.</returns>
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             UpdateAuditableEntities(_dateTime.UtcNow);
 
-            return base.SaveChangesAsync(cancellationToken);
+            int numberOfChanges = await base.SaveChangesAsync(cancellationToken);
+
+            await PublishDomainEvents(cancellationToken);
+
+            return numberOfChanges;
         }
 
         /// <inheritdoc />
@@ -107,5 +120,25 @@ namespace Expensely.Persistence
                 }
             }
         }
+
+        /// <summary>
+        /// Publishes all of the domain events that have been raised during the current transaction.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The completed task.</returns>
+        private async Task PublishDomainEvents(CancellationToken cancellationToken) =>
+            await Task.WhenAll(
+                ChangeTracker
+                    .Entries<AggregateRoot>()
+                    .Where(x => x.Entity.DomainEvents.Any())
+                    .SelectMany(x =>
+                    {
+                        IReadOnlyCollection<IDomainEvent> domainEvents = x.Entity.DomainEvents;
+
+                        x.Entity.ClearDomainEvents();
+
+                        return domainEvents;
+                    })
+                    .Select(x => _publisher.Publish(x, cancellationToken)));
     }
 }
