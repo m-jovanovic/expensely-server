@@ -1,7 +1,7 @@
 ﻿using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Core;
 
-namespace Expensely.Domain.Events
+namespace Expensely.Domain.Events.Expenses
 {
     /// <summary>
     /// Represents the domain event that is raised when the monetary amount of an expense is changed.
@@ -12,11 +12,21 @@ namespace Expensely.Domain.Events
         /// Initializes a new instance of the <see cref="ExpenseMoneyChangedDomainEvent"/> class.
         /// </summary>
         /// <param name="expense">The expense.</param>
-        internal ExpenseMoneyChangedDomainEvent(Expense expense) => Expense = expense;
+        /// <param name="previousMoney">The previous money amount.</param>
+        internal ExpenseMoneyChangedDomainEvent(Expense expense, Money previousMoney)
+        {
+            Expense = expense;
+            PreviousMoney = previousMoney;
+        }
 
         /// <summary>
         /// Gets the expense.
         /// </summary>
         public Expense Expense { get; }
+
+        /// <summary>
+        /// Gets the previous money amount.
+        /// </summary>
+        public Money PreviousMoney { get; }
     }
 }

@@ -78,14 +78,17 @@ namespace Expensely.Domain.Core
         /// Changes the monetary amount of the transaction.
         /// </summary>
         /// <param name="money">The new money amount.</param>
-        protected void ChangeMoneyInternal(Money money)
+        /// <returns>True if the money has been changed, otherwise false.</returns>
+        protected bool ChangeMoneyInternal(Money money)
         {
             if (Money == money)
             {
-                return;
+                return false;
             }
 
             Money = money;
+
+            return true;
         }
 
         /// <summary>

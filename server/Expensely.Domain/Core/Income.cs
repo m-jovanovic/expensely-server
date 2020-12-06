@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Domain.Events.Incomes;
 using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.Core
@@ -38,8 +39,14 @@ namespace Expensely.Domain.Core
         {
             EnsureMoneyIsGreaterThanZero(money);
 
-            // TODO: Add domain event.
-            ChangeMoneyInternal(money);
+            Money currentMoney = Money;
+
+            if (!ChangeMoneyInternal(money))
+            {
+                return;
+            }
+
+            AddDomainEvent(new IncomeMoneyChangedDomainEvent(this, currentMoney));
         }
 
         /// <summary>
