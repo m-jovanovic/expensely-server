@@ -5,6 +5,7 @@ using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Events.Users;
 using Expensely.Domain.Services;
 using Expensely.Domain.Utility;
 
@@ -112,7 +113,8 @@ namespace Expensely.Domain.Core
 
             _primaryCurrency = currency;
 
-            // TODO: Add domain event.
+            AddDomainEvent(new UserPrimaryCurrencyChangedDomainEvent(this));
+
             return Result.Success();
         }
 
@@ -133,8 +135,9 @@ namespace Expensely.Domain.Core
                 _primaryCurrency = currency;
             }
 
+            AddDomainEvent(new UserCurrencyAddedDomainEvent(this, currency));
+
             // TODO: Check domain rules to see if it is allowed to add another currency? Could be based on the subscription.
-            // TODO: Add domain event.
             return Result.Success();
         }
 
@@ -155,8 +158,9 @@ namespace Expensely.Domain.Core
                 return Result.Failure(DomainErrors.User.CurrencyDoesNotExist);
             }
 
+            AddDomainEvent(new UserCurrencyRemovedDomainEvent(this, currency));
+
             // TODO: What if this is the only currency being removed?
-            // TODO: Add domain event.
             return Result.Success();
         }
 
@@ -167,7 +171,16 @@ namespace Expensely.Domain.Core
         /// <param name="passwordService">The password service.</param>
         /// <returns>True if the password hashes match, otherwise false.</returns>
         public bool VerifyPassword(Password password, IPasswordService passwordService)
-            => !string.IsNullOrWhiteSpace(password) && passwordService.HashesMatch(password, _passwordHash);
+        {
+            if (passwordService.HashesMatch(password, _passwordHash))
+            {
+                return true;
+            }
+
+            AddDomainEvent(new UserPasswordVerificationFailedDomainEvent(this));
+
+            return false;
+        }
 
         /// <summary>
         /// Changes the user's password to the specified password.
@@ -190,7 +203,8 @@ namespace Expensely.Domain.Core
 
             _passwordHash = passwordService.Hash(newPassword);
 
-            // TODO: Add domain event.
+            AddDomainEvent(new UserPasswordChangedDomainEvent(this));
+
             return Result.Success();
         }
     }
