@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { State, StateContext, Action, Selector } from '@ngxs/store';
 
 import { TransactionSummaryStateModel } from './transaction-summary-state.model';
 import { LoadTransactionSummary } from './transaction-summary.actions';
 import { TransactionService } from '@expensely/core/services/transaction/transaction.service';
 import { TransactionSummaryResponse } from '@expensely/core/contracts/transaction/transaction-summary-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @State<TransactionSummaryStateModel>({
   name: 'transactionSummary',
@@ -48,13 +49,18 @@ export class TransactionSummaryState {
       tap((response: TransactionSummaryResponse) => {
         context.patchState({
           expense: response.formattedExpense,
-          income: response.formattedIncome
-        });
-      }),
-      tap(() => {
-        context.patchState({
+          income: response.formattedIncome,
           isLoading: false
         });
+      }),
+      catchError((error: HttpErrorResponse) => {
+        context.patchState({
+          isLoading: false,
+          expense: 'Not available.',
+          income: 'Not available.'
+        });
+
+        return throwError(error);
       })
     );
   }

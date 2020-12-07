@@ -1,17 +1,17 @@
-<div class="flex">
-  <div class="h-88 w-96 p-4 bg-white rounded-lg shadow-lg">
-    <div class="block text-xl font-semibold text-gray-700 border-b pb-2">Expenses</div>
-    <div class="mt-6">
-      <div class="text-2xl">{{ f.expense$ | async }}</div>
-      <div class="text-sm text-gray-600">This month.</div>
-    </div>
-  </div>
-  <div class="h-88 w-96 p-4 ml-8 bg-white rounded-lg shadow-lg">
-    <div class="block text-xl font-semibold text-gray-700 border-b pb-2">Income</div>
-    <div class="mt-6">
-      <div class="text-2xl">{{ f.income$ | async }}</div>
-      <div class="text-sm text-gray-600">This month.</div>
-    </div>
-  </div>
-  <div class="flex-grow p-4 ml-8 bg-white rounded-lg shadow-lg"></div>
+<div class="inline-flex">
+  <exp-transaction-summary
+    [isLoading]="f.isLoading$ | async"
+    [title]="'Expense'"
+    [formattedTransaction]="f.expense$ | async"
+    timePeriod="This month."
+  >
+  </exp-transaction-summary>
+  <exp-transaction-summary
+    class="ml-8"
+    [isLoading]="f.isLoading$ | async"
+    [title]="'Income'"
+    [formattedTransaction]="f.income$ | async"
+    timePeriod="This month."
+  >
+  </exp-transaction-summary>
 </div>

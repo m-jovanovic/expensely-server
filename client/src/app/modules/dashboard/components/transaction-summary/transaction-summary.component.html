@@ -1,0 +1,8 @@
+<div class="p-4 bg-white rounded-lg shadow-lg">
+  <div class="block text-xl font-semibold text-gray-700 border-b pb-2">{{ title }}</div>
+  <div class="mt-6">
+    <div *ngIf="isLoading">Loading...</div>
+    <div class="text-2xl">{{ formattedTransaction }}</div>
+    <div class="mt-1 text-sm text-gray-600">{{ timePeriod }}</div>
+  </div>
+</div>
