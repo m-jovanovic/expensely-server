@@ -10,10 +10,12 @@ using Expensely.Common.Clock;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
+using Expensely.Persistence.Entities;
 using Expensely.Persistence.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Newtonsoft.Json;
 
 namespace Expensely.Persistence
 {
@@ -82,13 +84,11 @@ namespace Expensely.Persistence
         /// <returns>The number of entities that have been saved.</returns>
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            StoreDomainEvents();
+
             UpdateAuditableEntities(_dateTime.UtcNow);
 
-            int numberOfChanges = await base.SaveChangesAsync(cancellationToken);
-
-            await PublishDomainEvents(cancellationToken);
-
-            return numberOfChanges;
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         /// <inheritdoc />
@@ -121,24 +121,33 @@ namespace Expensely.Persistence
             }
         }
 
-        /// <summary>
-        /// Publishes all of the domain events that have been raised during the current transaction.
-        /// </summary>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The completed task.</returns>
-        private async Task PublishDomainEvents(CancellationToken cancellationToken) =>
-            await Task.WhenAll(
-                ChangeTracker
-                    .Entries<AggregateRoot>()
-                    .Where(x => x.Entity.DomainEvents.Any())
-                    .SelectMany(x =>
-                    {
-                        IReadOnlyCollection<IDomainEvent> domainEvents = x.Entity.DomainEvents;
+        private void StoreDomainEvents()
+        {
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            };
 
-                        x.Entity.ClearDomainEvents();
+            var events = ChangeTracker
+                .Entries<AggregateRoot>()
+                .Where(x => x.Entity.DomainEvents.Any())
+                .SelectMany(x =>
+                {
+                    IReadOnlyCollection<IDomainEvent> domainEvents = x.Entity.DomainEvents;
 
-                        return domainEvents;
-                    })
-                    .Select(x => _publisher.Publish(x, cancellationToken)));
+                    x.Entity.ClearDomainEvents();
+
+                    return domainEvents;
+                })
+                .Select(x => new DomainEvent
+                {
+                    Id = Guid.NewGuid(),
+                    Name = x.GetType().Name,
+                    Value = JsonConvert.SerializeObject(x, jsonSerializerSettings)
+                })
+                .ToList();
+
+            Set<DomainEvent>().AddRange(events);
+        }
     }
 }

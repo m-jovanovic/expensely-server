@@ -1,4 +1,4 @@
-﻿namespace Expensely.Persistence.Configuraiton
+﻿namespace Expensely.Persistence.Settings
 {
     /// <summary>
     /// Represents the connection string.

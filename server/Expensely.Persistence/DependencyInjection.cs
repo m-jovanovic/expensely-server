@@ -1,6 +1,6 @@
 ﻿using Expensely.Application.Abstractions.Data;
-using Expensely.Persistence.Configuraiton;
 using Expensely.Persistence.Providers;
+using Expensely.Persistence.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

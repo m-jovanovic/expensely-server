@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using Expensely.Application.Abstractions.Data;
-using Expensely.Persistence.Configuraiton;
+using Expensely.Persistence.Settings;
 using Microsoft.Data.SqlClient;
 
 namespace Expensely.Persistence.Providers
