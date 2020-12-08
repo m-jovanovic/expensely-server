@@ -13,22 +13,13 @@ namespace Expensely.Domain.Events.Incomes
         /// Initializes a new instance of the <see cref="IncomeMoneyChangedDomainEvent"/> class.
         /// </summary>
         /// <param name="income">The income.</param>
-        /// <param name="previousMoney">The previous money amount.</param>
-        internal IncomeMoneyChangedDomainEvent(Income income, Money previousMoney)
-            : base(Guid.NewGuid())
-        {
+        internal IncomeMoneyChangedDomainEvent(Income income)
+            : base(Guid.NewGuid()) =>
             IncomeId = income.Id;
-            PreviousMoney = previousMoney;
-        }
 
         /// <summary>
         /// Gets the income identifier.
         /// </summary>
         public Guid IncomeId { get; }
-
-        /// <summary>
-        /// Gets the previous money amount.
-        /// </summary>
-        public Money PreviousMoney { get; }
     }
 }

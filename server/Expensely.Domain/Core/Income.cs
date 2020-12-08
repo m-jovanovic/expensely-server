@@ -39,14 +39,10 @@ namespace Expensely.Domain.Core
         {
             EnsureMoneyIsGreaterThanZero(money);
 
-            Money currentMoney = Money;
-
             if (!ChangeMoneyInternal(money))
             {
-                return;
+                AddDomainEvent(new IncomeMoneyChangedDomainEvent(this));
             }
-
-            AddDomainEvent(new IncomeMoneyChangedDomainEvent(this, currentMoney));
         }
 
         /// <summary>
