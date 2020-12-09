@@ -10,7 +10,7 @@ using Expensely.Application.Abstractions.Specifications;
 using Expensely.Common.Clock;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
-using Expensely.Persistence.Entities;
+using Expensely.Messaging.Abstractions;
 using Expensely.Persistence.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -122,7 +122,7 @@ namespace Expensely.Persistence
 
         private void StoreDomainEvents()
         {
-            var domainEvents = ChangeTracker
+            var messages = ChangeTracker
                 .Entries<AggregateRoot>()
                 .Where(x => x.Entity.Events.Any())
                 .SelectMany(x =>
@@ -133,15 +133,15 @@ namespace Expensely.Persistence
 
                     return events;
                 })
-                .Select(x => new DomainEvent
+                .Select(x => new Message
                 {
                     Id = Guid.NewGuid(),
                     Name = x.GetType().Name,
-                    Value = JsonSerializer.Serialize(x)
+                    Content = JsonSerializer.Serialize(x)
                 })
                 .ToList();
 
-            Set<DomainEvent>().AddRange(domainEvents);
+            Set<Message>().AddRange(messages);
         }
     }
 }

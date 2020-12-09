@@ -42,7 +42,7 @@ namespace Expensely.Domain.Abstractions.Primitives
         /// <summary>
         /// Raises the specified <see cref="IEvent"/>.
         /// </summary>
-        /// <param name="event">The domain event.</param>
+        /// <param name="event">The event.</param>
         protected void Raise(IEvent @event) => _events.Add(@event);
     }
 }
