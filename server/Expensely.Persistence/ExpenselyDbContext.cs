@@ -15,6 +15,7 @@ using Expensely.Persistence.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Newtonsoft.Json;
 
 namespace Expensely.Persistence
 {
@@ -137,11 +138,17 @@ namespace Expensely.Persistence
                 {
                     Id = Guid.NewGuid(),
                     Name = x.GetType().Name,
-                    Content = JsonSerializer.Serialize(x)
+                    Content = JsonConvert.SerializeObject(x, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    })
                 })
                 .ToList();
 
-            Set<Message>().AddRange(messages);
+            if (messages.Any())
+            {
+                Set<Message>().AddRange(messages);
+            }
         }
     }
 }

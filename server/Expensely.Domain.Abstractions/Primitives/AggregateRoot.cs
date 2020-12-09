@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Expensely.Domain.Abstractions.Primitives
 {
@@ -32,7 +33,7 @@ namespace Expensely.Domain.Abstractions.Primitives
         /// <summary>
         /// Gets the events. This collection is readonly.
         /// </summary>
-        public IReadOnlyCollection<IEvent> Events => _events.AsReadOnly();
+        public IReadOnlyCollection<IEvent> Events => _events.ToList();
 
         /// <summary>
         /// Clears all the events.
