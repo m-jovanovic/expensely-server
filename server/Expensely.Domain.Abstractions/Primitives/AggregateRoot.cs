@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Expensely.Domain.Abstractions.Events;
 
 namespace Expensely.Domain.Abstractions.Primitives
 {
