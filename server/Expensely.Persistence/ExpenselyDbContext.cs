@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Specifications;
 using Expensely.Common.Clock;
-using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Persistence.Entities;
@@ -15,7 +15,6 @@ using Expensely.Persistence.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Newtonsoft.Json;
 
 namespace Expensely.Persistence
 {
@@ -123,31 +122,26 @@ namespace Expensely.Persistence
 
         private void StoreDomainEvents()
         {
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            };
-
-            var events = ChangeTracker
+            var domainEvents = ChangeTracker
                 .Entries<AggregateRoot>()
-                .Where(x => x.Entity.DomainEvents.Any())
+                .Where(x => x.Entity.Events.Any())
                 .SelectMany(x =>
                 {
-                    IReadOnlyCollection<IDomainEvent> domainEvents = x.Entity.DomainEvents;
+                    IReadOnlyCollection<IEvent> events = x.Entity.Events;
 
-                    x.Entity.ClearDomainEvents();
+                    x.Entity.ClearEvents();
 
-                    return domainEvents;
+                    return events;
                 })
                 .Select(x => new DomainEvent
                 {
                     Id = Guid.NewGuid(),
                     Name = x.GetType().Name,
-                    Value = JsonConvert.SerializeObject(x, jsonSerializerSettings)
+                    Value = JsonSerializer.Serialize(x)
                 })
                 .ToList();
 
-            Set<DomainEvent>().AddRange(events);
+            Set<DomainEvent>().AddRange(domainEvents);
         }
     }
 }

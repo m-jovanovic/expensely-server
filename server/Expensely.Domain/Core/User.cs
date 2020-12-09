@@ -113,7 +113,10 @@ namespace Expensely.Domain.Core
 
             _primaryCurrency = currency;
 
-            AddDomainEvent(new UserPrimaryCurrencyChangedDomainEvent(this));
+            Raise(new UserPrimaryCurrencyChangedEvent
+            {
+                UserId = Id
+            });
 
             return Result.Success();
         }
@@ -135,7 +138,11 @@ namespace Expensely.Domain.Core
                 _primaryCurrency = currency;
             }
 
-            AddDomainEvent(new UserCurrencyAddedDomainEvent(this, currency));
+            Raise(new UserCurrencyAddedEvent
+            {
+                UserId = Id,
+                Currency = currency
+            });
 
             // TODO: Check domain rules to see if it is allowed to add another currency? Could be based on the subscription.
             return Result.Success();
@@ -158,7 +165,11 @@ namespace Expensely.Domain.Core
                 return Result.Failure(DomainErrors.User.CurrencyDoesNotExist);
             }
 
-            AddDomainEvent(new UserCurrencyRemovedDomainEvent(this, currency));
+            Raise(new UserCurrencyRemovedEvent()
+            {
+                UserId = Id,
+                Currency = currency
+            });
 
             // TODO: What if this is the only currency being removed?
             return Result.Success();
@@ -177,7 +188,10 @@ namespace Expensely.Domain.Core
                 return true;
             }
 
-            AddDomainEvent(new UserPasswordVerificationFailedDomainEvent(this));
+            Raise(new UserPasswordVerificationFailedEvent
+            {
+                UserId = Id
+            });
 
             return false;
         }
@@ -203,7 +217,10 @@ namespace Expensely.Domain.Core
 
             _passwordHash = passwordService.Hash(newPassword);
 
-            AddDomainEvent(new UserPasswordChangedDomainEvent(this));
+            Raise(new UserPasswordChangedEvent
+            {
+                UserId = Id
+            });
 
             return Result.Success();
         }

@@ -41,7 +41,10 @@ namespace Expensely.Domain.Core
 
             if (ChangeMoneyInternal(money))
             {
-                AddDomainEvent(new ExpenseMoneyChangedDomainEvent(this));
+                Raise(new ExpenseMoneyChangedEvent
+                {
+                    ExpenseId = Id
+                });
             }
         }
 

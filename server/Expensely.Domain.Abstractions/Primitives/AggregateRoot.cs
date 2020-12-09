@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Expensely.Domain.Abstractions.Events;
 
 namespace Expensely.Domain.Abstractions.Primitives
 {
@@ -9,7 +8,7 @@ namespace Expensely.Domain.Abstractions.Primitives
     /// </summary>
     public abstract class AggregateRoot : Entity
     {
-        private readonly List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
+        private readonly List<IEvent> _events = new List<IEvent>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.
@@ -31,19 +30,19 @@ namespace Expensely.Domain.Abstractions.Primitives
         }
 
         /// <summary>
-        /// Gets the domain events. This collection is readonly.
+        /// Gets the events. This collection is readonly.
         /// </summary>
-        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+        public IReadOnlyCollection<IEvent> Events => _events.AsReadOnly();
 
         /// <summary>
-        /// Clears all the domain events from the <see cref="AggregateRoot"/>.
+        /// Clears all the events.
         /// </summary>
-        public void ClearDomainEvents() => _domainEvents.Clear();
+        public void ClearEvents() => _events.Clear();
 
         /// <summary>
-        /// Adds the specified <see cref="IDomainEvent"/> to the <see cref="AggregateRoot"/>.
+        /// Raises the specified <see cref="IEvent"/>.
         /// </summary>
-        /// <param name="domainEvent">The domain event.</param>
-        protected void AddDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
+        /// <param name="event">The domain event.</param>
+        protected void Raise(IEvent @event) => _events.Add(@event);
     }
 }

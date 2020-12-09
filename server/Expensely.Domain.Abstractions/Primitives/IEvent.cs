@@ -1,11 +1,9 @@
-﻿using MediatR;
-
-namespace Expensely.Domain.Abstractions.Events
+﻿namespace Expensely.Domain.Abstractions.Primitives
 {
     /// <summary>
     /// Represents the interface for an event that is raised within the domain.
     /// </summary>
-    public interface IDomainEvent : INotification
+    public interface IEvent
     {
     }
 }
