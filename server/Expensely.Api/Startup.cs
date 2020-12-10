@@ -8,6 +8,7 @@ using Expensely.Application.Commands.Handlers;
 using Expensely.Application.Events.Handlers;
 using Expensely.Application.Queries.Handlers;
 using Expensely.Infrastructure;
+using Expensely.Messaging.BackgroundServices;
 using Expensely.Persistence;
 using FluentValidation;
 using MediatR;
@@ -55,6 +56,8 @@ namespace Expensely.Api
             services.AddEventHandlers();
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+            services.AddHostedService<MessageProcessingBackgroundService>();
 
             services.AddControllers()
                 .AddApplicationPart(ControllersAssembly.Assembly);
