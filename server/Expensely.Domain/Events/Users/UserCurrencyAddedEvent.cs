@@ -1,7 +1,5 @@
 ﻿using System;
 using Expensely.Domain.Abstractions.Events;
-using Expensely.Domain.Abstractions.Primitives;
-using Expensely.Domain.Core;
 
 namespace Expensely.Domain.Events.Users
 {
@@ -18,6 +16,6 @@ namespace Expensely.Domain.Events.Users
         /// <summary>
         /// Gets the currency.
         /// </summary>
-        public Currency Currency { get; init; }
+        public int Currency { get; init; }
     }
 }

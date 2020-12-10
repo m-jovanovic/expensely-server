@@ -141,7 +141,7 @@ namespace Expensely.Domain.Core
             Raise(new UserCurrencyAddedEvent
             {
                 UserId = Id,
-                Currency = currency
+                Currency = currency.Value
             });
 
             // TODO: Check domain rules to see if it is allowed to add another currency? Could be based on the subscription.
@@ -165,10 +165,10 @@ namespace Expensely.Domain.Core
                 return Result.Failure(DomainErrors.User.CurrencyDoesNotExist);
             }
 
-            Raise(new UserCurrencyRemovedEvent()
+            Raise(new UserCurrencyRemovedEvent
             {
                 UserId = Id,
-                Currency = currency
+                Currency = currency.Value
             });
 
             // TODO: What if this is the only currency being removed?
