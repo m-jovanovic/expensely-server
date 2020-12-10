@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Messaging.Abstractions;
-using Microsoft.EntityFrameworkCore;
+using Expensely.Messaging.Infrastructure;
+using Expensely.Messaging.Specifications;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Expensely.Messaging.BackgroundServices
@@ -19,24 +20,48 @@ namespace Expensely.Messaging.BackgroundServices
     public sealed class MessageProcessingBackgroundService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly EventHandlerFactory _eventHandlerFactory;
+        private readonly ILogger<MessageProcessingBackgroundService> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageProcessingBackgroundService"/> class.
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
-        public MessageProcessingBackgroundService(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
+        /// <param name="logger">The logger.</param>
+        public MessageProcessingBackgroundService(
+            IServiceProvider serviceProvider,
+            ILogger<MessageProcessingBackgroundService> logger)
+        {
+            _serviceProvider = serviceProvider;
+            _eventHandlerFactory = new EventHandlerFactory();
+            _logger = logger;
+        }
 
         /// <inheritdoc />
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await ProcessMessagesAsync(stoppingToken);
+
+                // TODO: Make the delay configurable.
+                await Task.Delay(5000, stoppingToken);
+            }
+
+            await Task.CompletedTask;
+        }
+
+        private async Task ProcessMessagesAsync(CancellationToken cancellationToken)
         {
             using IServiceScope scope = _serviceProvider.CreateScope();
 
             IDbContext dbContext = scope.ServiceProvider.GetService<IDbContext>();
 
-            var unprocessedMessages = dbContext!.Set<Message>()
+            var unprocessedMessages = dbContext
+                .Set<Message>()
                 .Where(x => !x.Processed)
                 .OrderBy(x => x.CreatedOnUtc)
-                .Take(50)
+                .Take(10)
                 .ToList();
 
             foreach (Message message in unprocessedMessages)
@@ -46,17 +71,29 @@ namespace Expensely.Messaging.BackgroundServices
                     TypeNameHandling = TypeNameHandling.All
                 });
 
-                foreach (object handler in GetHandlers(@event))
+                bool handlerFailureOccurred = false;
+
+                foreach (object handler in _eventHandlerFactory.GetHandlers(@event, scope.ServiceProvider))
                 {
                     string consumerName = handler.GetType().Name;
 
-                    if (await dbContext.Set<MessageConsumer>()
-                        .AnyAsync(x => x.MessageId == message.Id && x.ConsumerName == consumerName, stoppingToken))
+                    if (await dbContext.AnyAsync(new MessageConsumerSpecification(message, consumerName)))
                     {
                         continue;
                     }
 
-                    await GetAwaitableTaskFromHandler(handler, new object[] { @event, stoppingToken });
+                    try
+                    {
+                        await HandleEvent(handler, new object[] { @event, cancellationToken });
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, e.Message);
+
+                        handlerFailureOccurred = true;
+
+                        continue;
+                    }
 
                     dbContext.Insert(new MessageConsumer
                     {
@@ -64,27 +101,23 @@ namespace Expensely.Messaging.BackgroundServices
                         ConsumerName = consumerName
                     });
 
-                    await dbContext.SaveChangesAsync(stoppingToken);
+                    await dbContext.SaveChangesAsync(cancellationToken);
                 }
 
-                message.MarkAsProcessed();
+                if (handlerFailureOccurred)
+                {
+                    message.RegisterFailure();
+                }
+                else
+                {
+                    message.MarkAsProcessed();
+                }
 
-                await dbContext.SaveChangesAsync(stoppingToken);
+                await dbContext.SaveChangesAsync(cancellationToken);
             }
         }
 
-        private static Task GetAwaitableTaskFromHandler(object handler, object[] parameters) =>
-            (Task)handler!.GetType()!.GetMethod("Handle")!.Invoke(handler, parameters);
-
-        private IEnumerable<object> GetHandlers(IEvent @event)
-        {
-            Type eventHandlerGenericType = typeof(IEventHandler<>).GetGenericTypeDefinition();
-
-            Type eventHandlerInterfaceDefinition = eventHandlerGenericType.MakeGenericType(@event.GetType());
-
-            IEnumerable<object> eventHandlers = _serviceProvider.GetServices(eventHandlerInterfaceDefinition);
-
-            return eventHandlers;
-        }
+        private Task HandleEvent(object handler, object[] parameters) =>
+            (Task)_eventHandlerFactory.GetHandleMethod(handler).Invoke(handler, parameters);
     }
 }

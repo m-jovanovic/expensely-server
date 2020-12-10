@@ -24,11 +24,11 @@ namespace Expensely.Persistence
 
             services.AddSingleton(new ConnectionString { Value = connectionString });
 
+            services.AddSingleton<IDbConnectionProvider, DbConnectionProvider>();
+
             services.AddDbContext<ExpenselyDbContext>(options => options.UseSqlServer(connectionString));
 
             services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<ExpenselyDbContext>());
-
-            services.AddScoped<IDbConnectionProvider, DbConnectionProvider>();
 
             return services;
         }

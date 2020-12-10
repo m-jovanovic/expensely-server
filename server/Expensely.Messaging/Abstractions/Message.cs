@@ -43,5 +43,10 @@ namespace Expensely.Messaging.Abstractions
         /// Marks the message as processed.
         /// </summary>
         public void MarkAsProcessed() => Processed = true;
+
+        /// <summary>
+        /// Registers that a failure has occurred while processing the message.
+        /// </summary>
+        public void RegisterFailure() => Retries += 1;
     }
 }
