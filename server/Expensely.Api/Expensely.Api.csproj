@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Expensely.Api.Controllers\Expensely.Api.Controllers.csproj" />
     <ProjectReference Include="..\Expensely.Application.Commands.Handlers\Expensely.Application.Commands.Handlers.csproj" />
+    <ProjectReference Include="..\Expensely.Application.Events.Handlers\Expensely.Application.Events.Handlers.csproj" />
     <ProjectReference Include="..\Expensely.Application.Queries.Handlers\Expensely.Application.Queries.Handlers.csproj" />
     <ProjectReference Include="..\Expensely.Infrastructure\Expensely.Infrastructure.csproj" />
     <ProjectReference Include="..\Expensely.Persistence\Expensely.Persistence.csproj" />

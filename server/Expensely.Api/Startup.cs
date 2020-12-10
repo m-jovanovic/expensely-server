@@ -5,6 +5,7 @@ using Expensely.Api.Behaviors;
 using Expensely.Api.Controllers;
 using Expensely.Api.Extensions;
 using Expensely.Application.Commands.Handlers;
+using Expensely.Application.Events.Handlers;
 using Expensely.Application.Queries.Handlers;
 using Expensely.Infrastructure;
 using Expensely.Persistence;
@@ -50,6 +51,8 @@ namespace Expensely.Api
             services.AddValidatorsFromAssembly(CommandHandlersAssembly.Assembly);
 
             services.AddMediatR(CommandHandlersAssembly.Assembly, QueryHandlersAssembly.Assembly);
+
+            services.AddEventHandlers();
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
