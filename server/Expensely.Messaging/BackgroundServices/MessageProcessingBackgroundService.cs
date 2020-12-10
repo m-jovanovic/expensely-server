@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Data;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Messaging.Abstractions;
 using Expensely.Messaging.Infrastructure;
-using Expensely.Messaging.Specifications;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -20,6 +18,7 @@ namespace Expensely.Messaging.BackgroundServices
     public sealed class MessageProcessingBackgroundService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly MessageRepository _messageRepository;
         private readonly EventHandlerFactory _eventHandlerFactory;
         private readonly ILogger<MessageProcessingBackgroundService> _logger;
 
@@ -27,12 +26,15 @@ namespace Expensely.Messaging.BackgroundServices
         /// Initializes a new instance of the <see cref="MessageProcessingBackgroundService"/> class.
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
+        /// <param name="messageRepository">The message repository.</param>
         /// <param name="logger">The logger.</param>
         public MessageProcessingBackgroundService(
             IServiceProvider serviceProvider,
+            MessageRepository messageRepository,
             ILogger<MessageProcessingBackgroundService> logger)
         {
             _serviceProvider = serviceProvider;
+            _messageRepository = messageRepository;
             _eventHandlerFactory = new EventHandlerFactory();
             _logger = logger;
         }
@@ -53,16 +55,7 @@ namespace Expensely.Messaging.BackgroundServices
 
         private async Task ProcessMessagesAsync(CancellationToken cancellationToken)
         {
-            using IServiceScope scope = _serviceProvider.CreateScope();
-
-            IDbContext dbContext = scope.ServiceProvider.GetService<IDbContext>();
-
-            var unprocessedMessages = dbContext
-                .Set<Message>()
-                .Where(x => !x.Processed)
-                .OrderBy(x => x.CreatedOnUtc)
-                .Take(10)
-                .ToList();
+            IEnumerable<Message> unprocessedMessages = await _messageRepository.GetUnprocessedAsync(20);
 
             foreach (Message message in unprocessedMessages)
             {
@@ -73,11 +66,13 @@ namespace Expensely.Messaging.BackgroundServices
 
                 bool handlerFailureOccurred = false;
 
+                using IServiceScope scope = _serviceProvider.CreateScope();
+
                 foreach (object handler in _eventHandlerFactory.GetHandlers(@event, scope.ServiceProvider))
                 {
                     string consumerName = handler.GetType().Name;
 
-                    if (await dbContext.AnyAsync(new MessageConsumerSpecification(message, consumerName)))
+                    if (await _messageRepository.CheckIfConsumerExistsAsync(message, consumerName))
                     {
                         continue;
                     }
@@ -95,25 +90,22 @@ namespace Expensely.Messaging.BackgroundServices
                         continue;
                     }
 
-                    dbContext.Insert(new MessageConsumer
+                    await _messageRepository.InsertConsumerAsync(new MessageConsumer
                     {
                         MessageId = message.Id,
                         ConsumerName = consumerName
                     });
-
-                    await dbContext.SaveChangesAsync(cancellationToken);
                 }
 
                 if (handlerFailureOccurred)
                 {
-                    message.RegisterFailure();
+                    // TODO: Add retry mechanism, and "dead" message queue.
+                    _logger.LogWarning($"Message {message.Id} encountered a handler failure.");
                 }
                 else
                 {
-                    message.MarkAsProcessed();
+                    await _messageRepository.MarkAsProcessedAsync(message);
                 }
-
-                await dbContext.SaveChangesAsync(cancellationToken);
             }
         }
 

@@ -26,27 +26,17 @@ namespace Expensely.Messaging.Abstractions
         /// <summary>
         /// Gets the number of retries.
         /// </summary>
-        public int Retries { get; private set; }
+        public int Retries { get; init; }
 
         /// <summary>
         /// Gets a value indicating whether or not the message has been processed.
         /// </summary>
-        public bool Processed { get; private set; }
+        public bool Processed { get; init; }
 
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; }
 
         /// <inheritdoc />
         public DateTime? ModifiedOnUtc { get; }
-
-        /// <summary>
-        /// Marks the message as processed.
-        /// </summary>
-        public void MarkAsProcessed() => Processed = true;
-
-        /// <summary>
-        /// Registers that a failure has occurred while processing the message.
-        /// </summary>
-        public void RegisterFailure() => Retries += 1;
     }
 }

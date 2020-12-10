@@ -1,4 +1,5 @@
 ﻿using Expensely.Application.Abstractions.Data;
+using Expensely.Messaging.Infrastructure;
 using Expensely.Persistence.Providers;
 using Expensely.Persistence.Settings;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,8 @@ namespace Expensely.Persistence
             services.AddDbContext<ExpenselyDbContext>(options => options.UseSqlServer(connectionString));
 
             services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<ExpenselyDbContext>());
+
+            services.AddTransient<MessageRepository>();
 
             return services;
         }
