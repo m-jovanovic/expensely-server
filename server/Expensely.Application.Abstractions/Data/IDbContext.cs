@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Specifications;
@@ -43,6 +44,15 @@ namespace Expensely.Application.Abstractions.Data
         Task<Maybe<TEntity>> FirstOrDefaultAsync<TEntity>(
             Specification<TEntity> specification, CancellationToken cancellationToken = default)
             where TEntity : class;
+
+        /// <summary>
+        /// Gets the entities that satisfy the specified specification, if any exist.
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type.</typeparam>
+        /// <param name="specification">The specification.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The entities that satisfy the specified specification.</returns>
+        Task<IEnumerable<TEntity>> ListAsync<TEntity>(Specification<TEntity> specification, CancellationToken cancellationToken = default)
             where TEntity : class;
 
         /// <summary>

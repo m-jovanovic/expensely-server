@@ -12,6 +12,7 @@ using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Messaging.Abstractions;
 using Expensely.Persistence.Extensions;
+using Expensely.Persistence.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
@@ -56,6 +57,12 @@ namespace Expensely.Persistence
             Specification<TEntity> specification, CancellationToken cancellationToken = default)
             where TEntity : class =>
             await Set<TEntity>().FirstOrDefaultAsync(specification, cancellationToken);
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<TEntity>> ListAsync<TEntity>(
+            Specification<TEntity> specification, CancellationToken cancellationToken = default)
+            where TEntity : class =>
+            await SpecificationEvaluator.GetQuery(Set<TEntity>(), specification).ToListAsync(cancellationToken);
 
         /// <inheritdoc />
         public async Task<bool> AnyAsync<TEntity>(Specification<TEntity> specification, CancellationToken cancellationToken = default)
