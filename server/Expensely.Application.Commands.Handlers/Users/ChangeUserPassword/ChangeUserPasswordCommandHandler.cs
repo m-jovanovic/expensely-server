@@ -43,7 +43,7 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPassword
                 return Result.Failure(result.Error);
             }
 
-            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(request.UserId);
+            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(request.UserId, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {

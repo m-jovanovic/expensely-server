@@ -36,7 +36,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
         /// <inheritdoc />
         public async Task<Result> Handle(UpdateExpenseCommand request, CancellationToken cancellationToken)
         {
-            Maybe<Expense> maybeExpense = await _dbContext.GetBydIdAsync<Expense>(request.ExpenseId);
+            Maybe<Expense> maybeExpense = await _dbContext.GetBydIdAsync<Expense>(request.ExpenseId, cancellationToken);
 
             if (maybeExpense.HasNoValue)
             {
@@ -50,7 +50,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
                 return Result.Failure(ValidationErrors.User.InvalidPermissions);
             }
 
-            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(expense.UserId);
+            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(expense.UserId, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {

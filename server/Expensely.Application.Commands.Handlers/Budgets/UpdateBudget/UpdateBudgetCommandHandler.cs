@@ -34,7 +34,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
         /// <inheritdoc />
         public async Task<Result> Handle(UpdateBudgetCommand request, CancellationToken cancellationToken)
         {
-            Maybe<Budget> maybeBudget = await _dbContext.GetBydIdAsync<Budget>(request.BudgetId);
+            Maybe<Budget> maybeBudget = await _dbContext.GetBydIdAsync<Budget>(request.BudgetId, cancellationToken);
 
             if (maybeBudget.HasNoValue)
             {

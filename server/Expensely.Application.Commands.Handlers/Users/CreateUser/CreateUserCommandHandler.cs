@@ -46,7 +46,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
                 return Result.Failure(result.Error);
             }
 
-            bool emailAlreadyExists = await _dbContext.AnyAsync(new UserByEmailSpecification(emailResult.Value));
+            bool emailAlreadyExists = await _dbContext.AnyAsync(new UserByEmailSpecification(emailResult.Value), cancellationToken);
 
             if (emailAlreadyExists)
             {

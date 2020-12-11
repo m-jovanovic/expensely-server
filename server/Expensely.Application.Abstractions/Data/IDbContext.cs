@@ -26,8 +26,9 @@ namespace Expensely.Application.Abstractions.Data
         /// </summary>
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="id">The entity identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The maybe instance that may contain the <typeparamref name="TEntity"/> with the specified identifier.</returns>
-        Task<Maybe<TEntity>> GetBydIdAsync<TEntity>(Guid id)
+        Task<Maybe<TEntity>> GetBydIdAsync<TEntity>(Guid id, CancellationToken cancellationToken = default)
             where TEntity : Entity;
 
         /// <summary>
@@ -35,10 +36,13 @@ namespace Expensely.Application.Abstractions.Data
         /// </summary>
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="specification">The specification.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
         /// The maybe instance that may contain the <typeparamref name="TEntity"/> that satisfies the specified specification.
         /// </returns>
-        Task<Maybe<TEntity>> FirstOrDefaultAsync<TEntity>(Specification<TEntity> specification)
+        Task<Maybe<TEntity>> FirstOrDefaultAsync<TEntity>(
+            Specification<TEntity> specification, CancellationToken cancellationToken = default)
+            where TEntity : class;
             where TEntity : class;
 
         /// <summary>
@@ -46,8 +50,9 @@ namespace Expensely.Application.Abstractions.Data
         /// </summary>
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="specification">The specification.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>True if any entity satisfies the specification, otherwise false.</returns>
-        Task<bool> AnyAsync<TEntity>(Specification<TEntity> specification)
+        Task<bool> AnyAsync<TEntity>(Specification<TEntity> specification, CancellationToken cancellationToken = default)
             where TEntity : class;
 
         /// <summary>

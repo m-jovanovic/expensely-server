@@ -55,7 +55,9 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserTokenForCreden
                 return Result.Failure<TokenResponse>(result.Error);
             }
 
-            Maybe<User> maybeUser = await _dbContext.FirstOrDefaultAsync(new UserByEmailSpecification(emailResult.Value));
+            Maybe<User> maybeUser = await _dbContext.FirstOrDefaultAsync(
+                new UserByEmailSpecification(emailResult.Value),
+                cancellationToken);
 
             if (maybeUser.HasNoValue)
             {
@@ -73,7 +75,9 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserTokenForCreden
 
             (string refreshToken, DateTime expiresOnUtc) = _jwtProvider.CreateRefreshToken();
 
-            Maybe<RefreshToken> maybeRefreshToken = await _dbContext.FirstOrDefaultAsync(new RefreshTokenByUserSpecification(user));
+            Maybe<RefreshToken> maybeRefreshToken = await _dbContext.FirstOrDefaultAsync(
+                new RefreshTokenByUserSpecification(user),
+                cancellationToken);
 
             if (maybeRefreshToken.HasNoValue)
             {

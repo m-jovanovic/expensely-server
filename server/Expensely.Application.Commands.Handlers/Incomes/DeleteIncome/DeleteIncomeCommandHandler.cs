@@ -34,7 +34,7 @@ namespace Expensely.Application.Commands.Handlers.Incomes.DeleteIncome
         /// <inheritdoc />
         public async Task<Result> Handle(DeleteIncomeCommand request, CancellationToken cancellationToken)
         {
-            Maybe<Income> maybeIncome = await _dbContext.GetBydIdAsync<Income>(request.IncomeId);
+            Maybe<Income> maybeIncome = await _dbContext.GetBydIdAsync<Income>(request.IncomeId, cancellationToken);
 
             if (maybeIncome.HasNoValue)
             {

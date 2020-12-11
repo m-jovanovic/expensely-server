@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Domain.Abstractions.Primitives;
 
 namespace Expensely.Domain.Abstractions.Events
 {

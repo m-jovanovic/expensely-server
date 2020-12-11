@@ -28,7 +28,7 @@ namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
         /// <inheritdoc />
         public async Task<Result> Handle(CreateIncomeCommand request, CancellationToken cancellationToken)
         {
-            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(request.UserId);
+            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(request.UserId, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {

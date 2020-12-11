@@ -12,7 +12,6 @@ using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Messaging.Abstractions;
 using Expensely.Persistence.Extensions;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
@@ -25,20 +24,15 @@ namespace Expensely.Persistence
     public sealed class ExpenselyDbContext : DbContext, IDbContext
     {
         private readonly IDateTime _dateTime;
-        private readonly IPublisher _publisher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenselyDbContext"/> class.
         /// </summary>
         /// <param name="options">The database context options.</param>
         /// <param name="dateTime">The current date and time.</param>
-        /// <param name="publisher">The publisher.</param>
-        public ExpenselyDbContext(DbContextOptions options, IDateTime dateTime, IPublisher publisher)
-            : base(options)
-        {
+        public ExpenselyDbContext(DbContextOptions options, IDateTime dateTime)
+            : base(options) =>
             _dateTime = dateTime;
-            _publisher = publisher;
-        }
 
         /// <inheritdoc />
         public new DbSet<TEntity> Set<TEntity>()
@@ -46,7 +40,7 @@ namespace Expensely.Persistence
             base.Set<TEntity>();
 
         /// <inheritdoc />
-        public async Task<Maybe<TEntity>> GetBydIdAsync<TEntity>(Guid id)
+        public async Task<Maybe<TEntity>> GetBydIdAsync<TEntity>(Guid id, CancellationToken cancellationToken = default)
             where TEntity : Entity
         {
             if (id == Guid.Empty)
@@ -54,18 +48,19 @@ namespace Expensely.Persistence
                 return Maybe<TEntity>.None;
             }
 
-            return await Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
+            return await Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
         /// <inheritdoc />
-        public async Task<Maybe<TEntity>> FirstOrDefaultAsync<TEntity>(Specification<TEntity> specification)
+        public async Task<Maybe<TEntity>> FirstOrDefaultAsync<TEntity>(
+            Specification<TEntity> specification, CancellationToken cancellationToken = default)
             where TEntity : class =>
-            await Set<TEntity>().FirstOrDefaultAsync(specification);
+            await Set<TEntity>().FirstOrDefaultAsync(specification, cancellationToken);
 
         /// <inheritdoc />
-        public async Task<bool> AnyAsync<TEntity>(Specification<TEntity> specification)
+        public async Task<bool> AnyAsync<TEntity>(Specification<TEntity> specification, CancellationToken cancellationToken = default)
             where TEntity : class =>
-            await Set<TEntity>().AnyAsync(specification);
+            await Set<TEntity>().AnyAsync(specification, cancellationToken);
 
         /// <inheritdoc />
         public void Insert<TEntity>(TEntity entity)

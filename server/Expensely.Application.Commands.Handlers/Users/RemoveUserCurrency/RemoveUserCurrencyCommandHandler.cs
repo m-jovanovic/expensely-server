@@ -26,7 +26,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RemoveUserCurrency
         /// <inheritdoc />
         public async Task<Result> Handle(RemoveUserCurrencyCommand request, CancellationToken cancellationToken)
         {
-            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(request.UserId);
+            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(request.UserId, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {

@@ -40,8 +40,9 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
         /// <inheritdoc />
         public async Task<Result<TokenResponse>> Handle(RefreshUserTokenCommand request, CancellationToken cancellationToken)
         {
-            Maybe<RefreshToken> maybeRefreshToken = await _dbContext
-                .FirstOrDefaultAsync(new RefreshTokenByValueSpecification(request.RefreshToken));
+            Maybe<RefreshToken> maybeRefreshToken = await _dbContext.FirstOrDefaultAsync(
+                new RefreshTokenByValueSpecification(request.RefreshToken),
+                cancellationToken);
 
             if (maybeRefreshToken.HasNoValue)
             {
@@ -55,7 +56,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
                 return Result.Failure<TokenResponse>(DomainErrors.RefreshToken.Expired);
             }
 
-            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(refreshTokenEntity.UserId);
+            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(refreshTokenEntity.UserId, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {
