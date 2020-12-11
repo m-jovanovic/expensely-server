@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Abstractions.Events;
-using Expensely.Messaging.Abstractions;
 using Expensely.Messaging.Abstractions.Entities;
+using Expensely.Messaging.Abstractions.Factories;
 using Expensely.Messaging.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Quartz;
 
-namespace Expensely.Messaging.BackgroundServices
+namespace Expensely.Messaging.Jobs
 {
     /// <summary>
     /// Represents the message processing background service.
     /// </summary>
+    [DisallowConcurrentExecution]
     public sealed class MessageProcessingJob : IJob
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly MessageRepository _messageRepository;
-        private readonly EventHandlerFactory _eventHandlerFactory;
+        private readonly IEventHandlerFactory _eventHandlerFactory;
         private readonly ILogger<MessageProcessingJob> _logger;
 
         /// <summary>
@@ -28,15 +29,17 @@ namespace Expensely.Messaging.BackgroundServices
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="messageRepository">The message repository.</param>
+        /// <param name="eventHandlerFactory">The event handler factory.</param>
         /// <param name="logger">The logger.</param>
         public MessageProcessingJob(
             IServiceProvider serviceProvider,
             MessageRepository messageRepository,
+            IEventHandlerFactory eventHandlerFactory,
             ILogger<MessageProcessingJob> logger)
         {
             _serviceProvider = serviceProvider;
             _messageRepository = messageRepository;
-            _eventHandlerFactory = new EventHandlerFactory();
+            _eventHandlerFactory = eventHandlerFactory;
             _logger = logger;
         }
 

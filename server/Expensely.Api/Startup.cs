@@ -8,7 +8,7 @@ using Expensely.Application.Commands.Handlers;
 using Expensely.Application.Events.Handlers;
 using Expensely.Application.Queries.Handlers;
 using Expensely.Infrastructure;
-using Expensely.Messaging.BackgroundServices;
+using Expensely.Messaging;
 using Expensely.Persistence;
 using FluentValidation;
 using MediatR;
@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Quartz;
 
 namespace Expensely.Api
 {
@@ -47,6 +46,7 @@ namespace Expensely.Api
             SqlMapper.AddTypeMap(typeof(DateTime), DbType.DateTime2);
 
             services
+                .AddMessaging()
                 .AddInfrastructure(Configuration)
                 .AddPersistence(Configuration);
 
@@ -57,20 +57,6 @@ namespace Expensely.Api
             services.AddEventHandlers();
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
-            services.AddQuartz(configurator =>
-            {
-                configurator.UseMicrosoftDependencyInjectionScopedJobFactory();
-
-                var jobKey = new JobKey(nameof(MessageProcessingJob));
-                configurator.AddJob<MessageProcessingJob>(jobKey);
-                configurator.AddTrigger(configure => configure
-                    .ForJob(jobKey)
-                    .WithIdentity($"{nameof(jobKey.Name)}-Trigger")
-                    .WithSimpleSchedule(x => x.WithIntervalInSeconds(5).RepeatForever()));
-            });
-
-            services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
 
             services.AddControllers()
                 .AddApplicationPart(ControllersAssembly.Assembly);
