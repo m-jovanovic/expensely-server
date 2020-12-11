@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Quartz;
 
 namespace Expensely.Api
 {
@@ -57,7 +58,19 @@ namespace Expensely.Api
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-            services.AddHostedService<MessageProcessingBackgroundService>();
+            services.AddQuartz(configurator =>
+            {
+                configurator.UseMicrosoftDependencyInjectionScopedJobFactory();
+
+                var jobKey = new JobKey(nameof(MessageProcessingJob));
+                configurator.AddJob<MessageProcessingJob>(jobKey);
+                configurator.AddTrigger(configure => configure
+                    .ForJob(jobKey)
+                    .WithIdentity($"{nameof(jobKey.Name)}-Trigger")
+                    .WithSimpleSchedule(x => x.WithIntervalInSeconds(5).RepeatForever()));
+            });
+
+            services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
 
             services.AddControllers()
                 .AddApplicationPart(ControllersAssembly.Assembly);

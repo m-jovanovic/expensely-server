@@ -6,32 +6,32 @@ using Expensely.Domain.Abstractions.Events;
 using Expensely.Messaging.Abstractions;
 using Expensely.Messaging.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Quartz;
 
 namespace Expensely.Messaging.BackgroundServices
 {
     /// <summary>
     /// Represents the message processing background service.
     /// </summary>
-    public sealed class MessageProcessingBackgroundService : BackgroundService
+    public sealed class MessageProcessingJob : IJob
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly MessageRepository _messageRepository;
         private readonly EventHandlerFactory _eventHandlerFactory;
-        private readonly ILogger<MessageProcessingBackgroundService> _logger;
+        private readonly ILogger<MessageProcessingJob> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageProcessingBackgroundService"/> class.
+        /// Initializes a new instance of the <see cref="MessageProcessingJob"/> class.
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="messageRepository">The message repository.</param>
         /// <param name="logger">The logger.</param>
-        public MessageProcessingBackgroundService(
+        public MessageProcessingJob(
             IServiceProvider serviceProvider,
             MessageRepository messageRepository,
-            ILogger<MessageProcessingBackgroundService> logger)
+            ILogger<MessageProcessingJob> logger)
         {
             _serviceProvider = serviceProvider;
             _messageRepository = messageRepository;
@@ -40,18 +40,7 @@ namespace Expensely.Messaging.BackgroundServices
         }
 
         /// <inheritdoc />
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await ProcessMessagesAsync(stoppingToken);
-
-                // TODO: Make the delay configurable.
-                await Task.Delay(5000, stoppingToken);
-            }
-
-            await Task.CompletedTask;
-        }
+        public async Task Execute(IJobExecutionContext context) => await ProcessMessagesAsync(context.CancellationToken);
 
         private async Task ProcessMessagesAsync(CancellationToken cancellationToken)
         {
