@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Messaging.Abstractions
+namespace Expensely.Messaging.Abstractions.Entities
 {
     /// <summary>
     /// Represents the consumer for the specific message.

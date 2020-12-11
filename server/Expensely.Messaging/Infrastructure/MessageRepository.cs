@@ -5,6 +5,7 @@ using Dapper;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Common.Clock;
 using Expensely.Messaging.Abstractions;
+using Expensely.Messaging.Abstractions.Entities;
 
 namespace Expensely.Messaging.Infrastructure
 {

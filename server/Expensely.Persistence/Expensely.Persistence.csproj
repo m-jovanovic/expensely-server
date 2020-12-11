@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Expensely.Application.Abstractions\Expensely.Application.Abstractions.csproj" />
     <ProjectReference Include="..\Expensely.Common\Expensely.Common.csproj" />
-    <ProjectReference Include="..\Expensely.Messaging\Expensely.Messaging.csproj" />
+    <ProjectReference Include="..\Expensely.Messaging.Abstractions\Expensely.Messaging.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

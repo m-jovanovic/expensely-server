@@ -11,6 +11,7 @@ using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Messaging.Abstractions;
+using Expensely.Messaging.Abstractions.Entities;
 using Expensely.Persistence.Extensions;
 using Expensely.Persistence.Infrastructure;
 using Microsoft.EntityFrameworkCore;

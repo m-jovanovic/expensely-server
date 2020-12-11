@@ -1,4 +1,5 @@
 ﻿using Expensely.Messaging.Abstractions;
+using Expensely.Messaging.Abstractions.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

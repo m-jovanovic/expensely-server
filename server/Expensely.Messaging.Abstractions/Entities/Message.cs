@@ -1,7 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Abstractions.Primitives;
 
-namespace Expensely.Messaging.Abstractions
+namespace Expensely.Messaging.Abstractions.Entities
 {
     /// <summary>
     /// Represents the message that can be published.

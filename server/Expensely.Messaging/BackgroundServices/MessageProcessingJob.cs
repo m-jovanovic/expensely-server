@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Messaging.Abstractions;
+using Expensely.Messaging.Abstractions.Entities;
 using Expensely.Messaging.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
