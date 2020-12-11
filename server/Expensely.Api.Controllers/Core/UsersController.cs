@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers.Constants;
 using Expensely.Api.Controllers.Contracts;
@@ -34,13 +35,14 @@ namespace Expensely.Api.Controllers.Core
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the currency was added to the users currencies successfully, otherwise 400 - Bad Request.</returns>
         [HttpPost(ApiRoutes.Users.AddUserCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddUserCurrency(Guid userId, int currency) =>
+        public async Task<IActionResult> AddUserCurrency(Guid userId, int currency, CancellationToken cancellationToken) =>
             await Result.Success(new AddUserCurrencyCommand(userId, currency))
-                .Bind(command => Sender.Send(command))
+                .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
         /// <summary>
@@ -48,13 +50,14 @@ namespace Expensely.Api.Controllers.Core
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>204 - No Content if the currency was removed from the users currencies successfully, otherwise 400 - Bad Request.</returns>
         [HttpDelete(ApiRoutes.Users.RemoveUserCurrency)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RemoveUserCurrency(Guid userId, int currency) =>
+        public async Task<IActionResult> RemoveUserCurrency(Guid userId, int currency, CancellationToken cancellationToken) =>
             await Result.Success(new RemoveUserCurrencyCommand(userId, currency))
-                .Bind(command => Sender.Send(command))
+                .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(NoContent, BadRequest);
 
         /// <summary>
@@ -62,13 +65,14 @@ namespace Expensely.Api.Controllers.Core
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the user's primary currency was changed successfully, otherwise 400 - Bad Request.</returns>
         [HttpPut(ApiRoutes.Users.ChangeUserPrimaryCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ChangeUserPrimaryCurrency(Guid userId, int currency) =>
+        public async Task<IActionResult> ChangeUserPrimaryCurrency(Guid userId, int currency, CancellationToken cancellationToken) =>
             await Result.Success(new ChangeUserPrimaryCurrencyCommand(userId, currency))
-                .Bind(command => Sender.Send(command))
+                .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
         /// <summary>
@@ -76,14 +80,16 @@ namespace Expensely.Api.Controllers.Core
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="request">The change password request.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the user's password was changed successfully, otherwise 400 - Bad Request.</returns>
         [HttpPut(ApiRoutes.Users.ChangeUserPassword)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ChangeUserPassword(Guid userId, [FromBody] ChangePasswordRequest request) =>
+        public async Task<IActionResult> ChangeUserPassword(
+            Guid userId, [FromBody] ChangePasswordRequest request, CancellationToken cancellationToken) =>
             await Result.Create(request, ApiErrors.UnProcessableRequest)
                 .Map(value => new ChangeUserPasswordCommand(userId, value.CurrentPassword, value.NewPassword, value.ConfirmationPassword))
-                .Bind(command => Sender.Send(command))
+                .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
     }
 }

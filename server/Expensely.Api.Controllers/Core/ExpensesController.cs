@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers.Constants;
 using Expensely.Api.Controllers.Contracts;
@@ -39,25 +40,27 @@ namespace Expensely.Api.Controllers.Core
         /// <param name="userId">The user identifier.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="cursor">The cursor.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if any expenses are found, otherwise 404 - Not Found.</returns>
         [HttpGet(ApiRoutes.Expenses.GetExpenses)]
         [ProducesResponseType(typeof(ExpenseListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetExpenses(Guid userId, int limit, string cursor) =>
+        public async Task<IActionResult> GetExpenses(Guid userId, int limit, string cursor, CancellationToken cancellationToken) =>
             await Maybe<GetExpensesQuery>
                 .From(new GetExpensesQuery(userId, limit, cursor, _dateTime.UtcNow))
-                .Bind(query => Sender.Send(query))
+                .Bind(query => Sender.Send(query, cancellationToken))
                 .Match(Ok, NotFound);
 
         /// <summary>
         /// Creates the expense based on the specified request.
         /// </summary>
         /// <param name="request">The create expense request.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the expense was created successfully, otherwise 400 - Bad Request.</returns>
         [HttpPost(ApiRoutes.Expenses.CreateExpense)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseRequest request) =>
+        public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseRequest request, CancellationToken cancellationToken) =>
             await Result.Create(request, ApiErrors.UnProcessableRequest)
                 .Map(value => new CreateExpenseCommand(
                     value.UserId,
@@ -66,7 +69,7 @@ namespace Expensely.Api.Controllers.Core
                     value.Currency,
                     value.OccurredOn,
                     value.Description))
-                .Bind(command => Sender.Send(command))
+                .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
         /// <summary>
@@ -74,11 +77,13 @@ namespace Expensely.Api.Controllers.Core
         /// </summary>
         /// <param name="expenseId">The expense identifier.</param>
         /// <param name="request">The update expense request.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the expense was updated successfully, otherwise 400 - Bad Request.</returns>
         [HttpPut(ApiRoutes.Expenses.UpdateExpense)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateExpense(Guid expenseId, [FromBody] UpdateExpenseRequest request) =>
+        public async Task<IActionResult> UpdateExpense(
+            Guid expenseId, [FromBody] UpdateExpenseRequest request, CancellationToken cancellationToken) =>
             await Result.Create(request, ApiErrors.UnProcessableRequest)
                 .Map(value => new UpdateExpenseCommand(
                     expenseId,
@@ -87,20 +92,21 @@ namespace Expensely.Api.Controllers.Core
                     value.Currency,
                     value.OccurredOn,
                     value.Description))
-                .Bind(command => Sender.Send(command))
+                .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
         /// <summary>
         /// Deletes the expense with the specified identifier.
         /// </summary>
         /// <param name="expenseId">The expense identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>204 - No Content if the expense was deleted successfully, otherwise 404 - Not Found.</returns>
         [HttpDelete(ApiRoutes.Expenses.DeleteExpense)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteExpense(Guid expenseId) =>
+        public async Task<IActionResult> DeleteExpense(Guid expenseId, CancellationToken cancellationToken) =>
             await Result.Success(new DeleteExpenseCommand(expenseId))
-                .Bind(command => Sender.Send(command))
+                .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(NoContent, _ => NotFound());
     }
 }

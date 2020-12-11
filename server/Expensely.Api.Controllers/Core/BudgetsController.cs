@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers.Constants;
 using Expensely.Api.Controllers.Contracts;
@@ -32,11 +33,12 @@ namespace Expensely.Api.Controllers.Core
         /// Creates the budget based on the specified request.
         /// </summary>
         /// <param name="request">The create budget request.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the budget was created successfully, otherwise 400 - Bad Request.</returns>
         [HttpPost(ApiRoutes.Budgets.CreateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateBudget([FromBody] CreateBudgetRequest request) =>
+        public async Task<IActionResult> CreateBudget([FromBody] CreateBudgetRequest request, CancellationToken cancellationToken) =>
             await Result.Create(request, ApiErrors.UnProcessableRequest)
                 .Map(value => new CreateBudgetCommand(
                     value.UserId,
@@ -45,7 +47,7 @@ namespace Expensely.Api.Controllers.Core
                     value.Currency,
                     value.StartDate,
                     value.EndDate))
-                .Bind(command => Sender.Send(command))
+                .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
         /// <summary>
@@ -53,11 +55,13 @@ namespace Expensely.Api.Controllers.Core
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
         /// <param name="request">The update budget request.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the budget was updated successfully, otherwise 400 - Bad Request.</returns>
         [HttpPut(ApiRoutes.Budgets.UpdateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateBudget(Guid budgetId, [FromBody] UpdateBudgetRequest request) =>
+        public async Task<IActionResult> UpdateBudget(
+            Guid budgetId, [FromBody] UpdateBudgetRequest request, CancellationToken cancellationToken) =>
             await Result.Create(request, ApiErrors.UnProcessableRequest)
                 .Map(value => new UpdateBudgetCommand(
                     budgetId,
@@ -66,20 +70,21 @@ namespace Expensely.Api.Controllers.Core
                     value.Currency,
                     value.StartDate,
                     value.EndDate))
-                .Bind(command => Sender.Send(command))
+                .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
         /// <summary>
         /// Deletes the budget with the specified identifier.
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>204 - No Content if the budget was deleted successfully, otherwise 404 - Not Found.</returns>
         [HttpDelete(ApiRoutes.Budgets.DeleteBudget)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteBudget(Guid budgetId) =>
+        public async Task<IActionResult> DeleteBudget(Guid budgetId, CancellationToken cancellationToken) =>
             await Result.Success(new DeleteBudgetCommand(budgetId))
-                .Bind(command => Sender.Send(command))
+                .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(NoContent, _ => NotFound());
     }
 }

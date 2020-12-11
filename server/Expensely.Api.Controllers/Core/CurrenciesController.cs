@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers.Constants;
 using Expensely.Api.Controllers.Infrastructure;
@@ -27,9 +28,11 @@ namespace Expensely.Api.Controllers.Core
         /// <summary>
         /// Gets the readonly collection of all supported currencies.
         /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The readonly collection of all supported currencies</returns>
         [HttpGet(ApiRoutes.Currencies.GetCurrencies)]
         [ProducesResponseType(typeof(IReadOnlyCollection<CurrencyResponse>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCurrencies() => Ok(await Sender.Send(new GetCurrenciesQuery()));
+        public async Task<IActionResult> GetCurrencies(CancellationToken cancellationToken) =>
+            Ok(await Sender.Send(new GetCurrenciesQuery(), cancellationToken));
     }
 }
