@@ -10,7 +10,6 @@ using Expensely.Common.Clock;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
-using Expensely.Messaging.Abstractions;
 using Expensely.Messaging.Abstractions.Entities;
 using Expensely.Persistence.Extensions;
 using Expensely.Persistence.Infrastructure;
@@ -60,7 +59,7 @@ namespace Expensely.Persistence
             await Set<TEntity>().FirstOrDefaultAsync(specification, cancellationToken);
 
         /// <inheritdoc />
-        public async Task<IEnumerable<TEntity>> ListAsync<TEntity>(
+        public async Task<IList<TEntity>> ListAsync<TEntity>(
             Specification<TEntity> specification, CancellationToken cancellationToken = default)
             where TEntity : class =>
             await SpecificationEvaluator.GetQuery(Set<TEntity>(), specification).ToListAsync(cancellationToken);

@@ -52,7 +52,7 @@ namespace Expensely.Application.Abstractions.Data
         /// <param name="specification">The specification.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The entities that satisfy the specified specification.</returns>
-        Task<IEnumerable<TEntity>> ListAsync<TEntity>(Specification<TEntity> specification, CancellationToken cancellationToken = default)
+        Task<IList<TEntity>> ListAsync<TEntity>(Specification<TEntity> specification, CancellationToken cancellationToken = default)
             where TEntity : class;
 
         /// <summary>
