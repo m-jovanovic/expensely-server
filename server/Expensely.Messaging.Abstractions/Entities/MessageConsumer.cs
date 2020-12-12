@@ -19,6 +19,16 @@ namespace Expensely.Messaging.Abstractions.Entities
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MessageConsumer"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Required by EF Core.
+        /// </remarks>
+        private MessageConsumer()
+        {
+        }
+
+        /// <summary>
         /// Gets the message identifier.
         /// </summary>
         public Guid MessageId { get; private set; }
