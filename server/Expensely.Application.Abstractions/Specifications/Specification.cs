@@ -16,9 +16,9 @@ namespace Expensely.Application.Abstractions.Specifications
         public Expression<Func<TEntity, object>> OrderByExpression { get; private set; }
 
         /// <summary>
-        /// Gets the take value.
+        /// Gets or sets the take value.
         /// </summary>
-        public int Take { get; }
+        public int Take { get; protected set; }
 
         public static implicit operator Expression<Func<TEntity, bool>>(Specification<TEntity> specification) =>
             specification.ToExpression();

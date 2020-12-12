@@ -1,7 +1,8 @@
 ﻿using Expensely.Messaging.Abstractions.Factories;
+using Expensely.Messaging.Abstractions.Services;
 using Expensely.Messaging.Factories;
-using Expensely.Messaging.Infrastructure;
 using Expensely.Messaging.Jobs;
+using Expensely.Messaging.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
@@ -40,7 +41,7 @@ namespace Expensely.Messaging
 
             services.AddTransient<IEventHandlerFactory, EventHandlerFactory>();
 
-            services.AddTransient<MessageRepository>();
+            services.AddScoped<IMessageDispatcher, MessageDispatcher>();
 
             return services;
         }

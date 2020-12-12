@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Domain.Abstractions.Events;
+using Expensely.Application.Abstractions.Data;
+using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Messaging.Abstractions.Entities;
-using Expensely.Messaging.Abstractions.Factories;
-using Expensely.Messaging.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
+using Expensely.Messaging.Abstractions.Services;
+using Expensely.Messaging.Specifications;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Quartz;
 
 namespace Expensely.Messaging.Jobs
@@ -19,28 +18,24 @@ namespace Expensely.Messaging.Jobs
     [DisallowConcurrentExecution]
     public sealed class MessageProcessingJob : IJob
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly MessageRepository _messageRepository;
-        private readonly IEventHandlerFactory _eventHandlerFactory;
+        private readonly IDbContext _dbContext;
+        private readonly IMessageDispatcher _messageDispatcher;
         private readonly ILogger<MessageProcessingJob> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageProcessingJob"/> class.
         /// </summary>
-        /// <param name="serviceProvider">The service provider.</param>
-        /// <param name="messageRepository">The message repository.</param>
-        /// <param name="eventHandlerFactory">The event handler factory.</param>
         /// <param name="logger">The logger.</param>
+        /// <param name="dbContext">The database context.</param>
+        /// <param name="messageDispatcher">The message dispatcher.</param>
         public MessageProcessingJob(
-            IServiceProvider serviceProvider,
-            MessageRepository messageRepository,
-            IEventHandlerFactory eventHandlerFactory,
+            IDbContext dbContext,
+            IMessageDispatcher messageDispatcher,
             ILogger<MessageProcessingJob> logger)
         {
-            _serviceProvider = serviceProvider;
-            _messageRepository = messageRepository;
-            _eventHandlerFactory = eventHandlerFactory;
             _logger = logger;
+            _dbContext = dbContext;
+            _messageDispatcher = messageDispatcher;
         }
 
         /// <inheritdoc />
@@ -48,61 +43,20 @@ namespace Expensely.Messaging.Jobs
 
         private async Task ProcessMessagesAsync(CancellationToken cancellationToken)
         {
-            IEnumerable<Message> unprocessedMessages = await _messageRepository.GetUnprocessedAsync(20);
+            IList<Message> unprocessedMessages = await _dbContext.ListAsync(new UnprocessedMessageSpecification(20), cancellationToken);
 
             foreach (Message message in unprocessedMessages)
             {
-                IEvent @event = JsonConvert.DeserializeObject<IEvent>(message.Content, new JsonSerializerSettings
+                Maybe<Exception> maybeException = await _messageDispatcher.DispatchAsync(message, cancellationToken);
+
+                if (maybeException.HasNoValue)
                 {
-                    TypeNameHandling = TypeNameHandling.All
-                });
-
-                bool handlerFailureOccurred = false;
-
-                using IServiceScope scope = _serviceProvider.CreateScope();
-
-                foreach (object handler in _eventHandlerFactory.GetHandlers(@event, scope.ServiceProvider))
-                {
-                    string consumerName = handler.GetType().Name;
-
-                    if (await _messageRepository.CheckIfConsumerExistsAsync(message, consumerName))
-                    {
-                        continue;
-                    }
-
-                    try
-                    {
-                        await HandleEvent(handler, new object[] { @event, cancellationToken });
-                    }
-                    catch (Exception e)
-                    {
-                        _logger.LogError(e, e.Message);
-
-                        handlerFailureOccurred = true;
-
-                        continue;
-                    }
-
-                    await _messageRepository.InsertConsumerAsync(new MessageConsumer
-                    {
-                        MessageId = message.Id,
-                        ConsumerName = consumerName
-                    });
+                    continue;
                 }
 
-                if (handlerFailureOccurred)
-                {
-                    // TODO: Add retry mechanism, and "dead" message queue.
-                    _logger.LogWarning($"Message {message.Id} encountered a handler failure.");
-                }
-                else
-                {
-                    await _messageRepository.MarkAsProcessedAsync(message);
-                }
+                // TODO: Register an error has occurred with the message instance.
+                _logger.LogError(maybeException.Value, maybeException.Value.Message);
             }
         }
-
-        private Task HandleEvent(object handler, object[] parameters) =>
-            (Task)_eventHandlerFactory.GetHandleMethod(handler).Invoke(handler, parameters);
     }
 }

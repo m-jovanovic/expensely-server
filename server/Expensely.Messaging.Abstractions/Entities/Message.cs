@@ -31,12 +31,17 @@ namespace Expensely.Messaging.Abstractions.Entities
         /// <summary>
         /// Gets a value indicating whether or not the message has been processed.
         /// </summary>
-        public bool Processed { get; init; }
+        public bool Processed { get; private set; }
 
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; }
 
         /// <inheritdoc />
         public DateTime? ModifiedOnUtc { get; }
+
+        /// <summary>
+        /// Marks the message as processed.
+        /// </summary>
+        public void MarkAsProcessed() => Processed = true;
     }
 }
