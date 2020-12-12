@@ -6,6 +6,11 @@
     public enum TransactionType
     {
         /// <summary>
+        /// The non-existing transaction type.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// The expense transaction type.
         /// </summary>
         Expense = 1,

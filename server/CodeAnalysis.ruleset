@@ -11,6 +11,7 @@
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="CA1000" Action="None" />
+    <Rule Id="CA1014" Action="None" />
     <Rule Id="CA1030" Action="None" />
     <Rule Id="CA1031" Action="None" />
     <Rule Id="CA1032" Action="None" />
@@ -18,12 +19,16 @@
     <Rule Id="CA1036" Action="None" />
     <Rule Id="CA1040" Action="None" />
     <Rule Id="CA1062" Action="None" />
+    <Rule Id="CA1508" Action="None" />
+    <Rule Id="CA1711" Action="None" />
     <Rule Id="CA1716" Action="None" />
     <Rule Id="CA1724" Action="None" />
     <Rule Id="CA1812" Action="None" />
     <Rule Id="CA1822" Action="None" />
     <Rule Id="CA2007" Action="None" />
     <Rule Id="CA2225" Action="None" />
+    <Rule Id="CA2326" Action="None" />
+    <Rule Id="CA2327" Action="None" />
     <Rule Id="SA0001" Action="None" />
     <Rule Id="SA1027" Action="None" />
     <Rule Id="SA1101" Action="None" />
