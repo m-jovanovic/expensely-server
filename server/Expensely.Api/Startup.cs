@@ -57,6 +57,7 @@ namespace Expensely.Api
 
             services.AddEventHandlers();
 
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             services.AddControllers()
