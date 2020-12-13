@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Common.Messaging;
 using FluentValidation;
 using MediatR;
 using ValidationException = Expensely.Api.Exceptions.ValidationException;
@@ -14,7 +15,7 @@ namespace Expensely.Api.Behaviors
     /// <typeparam name="TRequest">The request type.</typeparam>
     /// <typeparam name="TResponse">The response type.</typeparam>
     public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : class, IRequest<TResponse>
+        where TRequest : class, ICommand<TResponse>
         where TResponse : class
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
