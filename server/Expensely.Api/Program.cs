@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Expensely.Api
 {
@@ -20,6 +21,10 @@ namespace Expensely.Api
         /// <param name="args">The arguments.</param>
         /// <returns>The host builder.</returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                    webBuilder
+                        .UseSerilog()
+                        .UseStartup<Startup>());
     }
 }

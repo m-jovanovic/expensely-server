@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Expensely.Api
 {
@@ -64,6 +65,10 @@ namespace Expensely.Api
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
             services.AddSwagger();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .CreateLogger();
         }
 
         /// <summary>
@@ -89,6 +94,8 @@ namespace Expensely.Api
                     .AllowAnyMethod());
 
             app.UseCustomExceptionHandler();
+
+            app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
 
