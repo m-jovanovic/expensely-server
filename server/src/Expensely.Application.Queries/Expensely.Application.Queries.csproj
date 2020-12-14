@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <Import Project="..\..\CodeAnalysis.targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Expensely.Contracts\Expensely.Contracts.csproj" />
+    <ProjectReference Include="..\Expensely.Common\Expensely.Common.csproj" />
+  </ItemGroup>
+
+</Project>
