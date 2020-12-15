@@ -6,7 +6,7 @@ import { State, StateContext, Action, Selector } from '@ngxs/store';
 
 import { AuthenticationFacade } from '../authentication';
 import { TransactionStateModel } from './transaction-state.model';
-import { GetTransactions } from './transaction.actions';
+import { LoadTransactions } from './transaction.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
 import { TransactionListResponse, TransactionResponse } from '../../contracts/transaction';
 
@@ -38,8 +38,8 @@ export class TransactionState {
 
   constructor(private transactionService: TransactionService, private authenticationFacade: AuthenticationFacade) {}
 
-  @Action(GetTransactions)
-  getTransactions(context: StateContext<TransactionStateModel>, action: GetTransactions): Observable<any> {
+  @Action(LoadTransactions)
+  loadTransactions(context: StateContext<TransactionStateModel>, action: LoadTransactions): Observable<any> {
     context.patchState({
       isLoading: true
     });

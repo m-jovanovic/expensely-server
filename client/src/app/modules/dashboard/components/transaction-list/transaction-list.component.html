@@ -1,0 +1,11 @@
+<div class="p-4 bg-white rounded-lg shadow-lg">
+  <ul>
+    <p *ngIf="isLoading">Loading...</p>
+    <li *ngFor="let transaction of transactions">
+      {{ transaction.id }}
+      {{ transaction.formattedAmount }}
+      {{ transaction.occurredOn }}
+      {{ transaction.createdOnUtc }}
+    </li>
+  </ul>
+</div>

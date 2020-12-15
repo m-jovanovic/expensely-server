@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TransactionSummaryFacade } from '@expensely/core';
+import { TransactionFacade, TransactionSummaryFacade } from '@expensely/core';
 
 @Component({
   selector: 'exp-dashboard',
@@ -8,13 +8,20 @@ import { TransactionSummaryFacade } from '@expensely/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private transactionSummaryFacade: TransactionSummaryFacade) {}
+  private readonly numberOfTransactions = 10;
+
+  constructor(private transactionFacade: TransactionFacade, private transactionSummaryFacade: TransactionSummaryFacade) {}
 
   ngOnInit(): void {
+    this.transactionFacade.loadTransactions(this.numberOfTransactions).subscribe();
     this.transactionSummaryFacade.loadTransactionSummary().subscribe();
   }
 
-  get f(): TransactionSummaryFacade {
+  get transaction(): TransactionFacade {
+    return this.transactionFacade;
+  }
+
+  get transactionSummary(): TransactionSummaryFacade {
     return this.transactionSummaryFacade;
   }
 }
