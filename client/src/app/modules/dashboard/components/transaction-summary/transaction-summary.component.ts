@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'exp-transaction-summary',
@@ -8,9 +8,6 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class TransactionSummaryComponent implements OnInit {
   @Input()
-  isLoading: boolean;
-
-  @Input()
   title: string;
 
   @Input()
@@ -18,6 +15,12 @@ export class TransactionSummaryComponent implements OnInit {
 
   @Input()
   timePeriod: string;
+
+  @Input()
+  isLoading: boolean;
+
+  @Input()
+  error: boolean;
 
   constructor() {}
 

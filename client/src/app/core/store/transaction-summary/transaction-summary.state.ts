@@ -10,20 +10,16 @@ import { TransactionSummaryResponse } from '@expensely/core/contracts/transactio
 import { HttpErrorResponse } from '@angular/common/http';
 
 @State<TransactionSummaryStateModel>({
-  name: 'transactionSummary',
+  name: 'transaction_summary',
   defaults: {
     expense: '',
     income: '',
-    isLoading: false
+    isLoading: false,
+    error: false
   }
 })
 @Injectable()
 export class TransactionSummaryState {
-  @Selector()
-  static isLoading(state: TransactionSummaryStateModel): boolean {
-    return state.isLoading;
-  }
-
   @Selector()
   static expense(state: TransactionSummaryStateModel): string {
     return state.expense;
@@ -32,6 +28,16 @@ export class TransactionSummaryState {
   @Selector()
   static income(state: TransactionSummaryStateModel): string {
     return state.income;
+  }
+
+  @Selector()
+  static isLoading(state: TransactionSummaryStateModel): boolean {
+    return state.isLoading;
+  }
+
+  @Selector()
+  static error(state: TransactionSummaryStateModel): boolean {
+    return state.error;
   }
 
   constructor(private transactionService: TransactionService) {}
@@ -50,14 +56,14 @@ export class TransactionSummaryState {
         context.patchState({
           expense: response.formattedExpense,
           income: response.formattedIncome,
-          isLoading: false
+          isLoading: false,
+          error: false
         });
       }),
       catchError((error: HttpErrorResponse) => {
         context.patchState({
           isLoading: false,
-          expense: 'Not available.',
-          income: 'Not available.'
+          error: true
         });
 
         return throwError(error);

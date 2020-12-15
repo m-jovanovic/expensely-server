@@ -1,17 +1,19 @@
 <div class="inline-flex">
   <exp-transaction-summary
-    [isLoading]="f.isLoading$ | async"
     [title]="'Expense'"
     [formattedTransaction]="f.expense$ | async"
     timePeriod="This month."
+    [isLoading]="f.isLoading$ | async"
+    [error]="f.error$ | async"
   >
   </exp-transaction-summary>
   <exp-transaction-summary
     class="ml-8"
-    [isLoading]="f.isLoading$ | async"
     [title]="'Income'"
     [formattedTransaction]="f.income$ | async"
     timePeriod="This month."
+    [isLoading]="f.isLoading$ | async"
+    [error]="f.error$ | async"
   >
   </exp-transaction-summary>
 </div>

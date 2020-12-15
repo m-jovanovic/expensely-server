@@ -10,14 +10,17 @@ import { TransactionSummaryState } from './transaction-summary.state';
   providedIn: 'root'
 })
 export class TransactionSummaryFacade {
-  @Select(TransactionSummaryState.isLoading)
-  isLoading$: Observable<boolean>;
-
   @Select(TransactionSummaryState.income)
   income$: Observable<string>;
 
   @Select(TransactionSummaryState.expense)
   expense$: Observable<string>;
+
+  @Select(TransactionSummaryState.isLoading)
+  isLoading$: Observable<boolean>;
+
+  @Select(TransactionSummaryState.error)
+  error$: Observable<boolean>;
 
   constructor(private store: Store, private authenticationFacade: AuthenticationFacade) {}
 
