@@ -3,7 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'exp-transaction-summary',
   templateUrl: './transaction-summary.component.html',
-  styleUrls: ['./transaction-summary.component.scss']
+  styleUrls: ['./transaction-summary.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TransactionSummaryComponent implements OnInit {
   @Input()
