@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/internal/operators/tap';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { State, StateContext, Action } from '@ngxs/store';
 
 import { AuthenticationFacade } from '../authentication';
@@ -42,6 +43,13 @@ export class ExpenseState {
           context.patchState({
             isLoading: false
           });
+        }),
+        catchError((error: HttpErrorResponse) => {
+          context.patchState({
+            isLoading: false
+          });
+
+          return throwError(error);
         })
       );
   }
@@ -62,6 +70,13 @@ export class ExpenseState {
           context.patchState({
             isLoading: false
           });
+        }),
+        catchError((error: HttpErrorResponse) => {
+          context.patchState({
+            isLoading: false
+          });
+
+          return throwError(error);
         })
       );
   }
@@ -77,6 +92,13 @@ export class ExpenseState {
         context.patchState({
           isLoading: false
         });
+      }),
+      catchError((error: HttpErrorResponse) => {
+        context.patchState({
+          isLoading: false
+        });
+
+        return throwError(error);
       })
     );
   }
