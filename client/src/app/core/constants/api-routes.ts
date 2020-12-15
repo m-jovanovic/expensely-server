@@ -6,6 +6,7 @@ export namespace ApiRoutes {
   }
 
   export class Transactions {
+    public static readonly getTransactions = 'transactions';
     public static readonly getCurrentMonthTransactionSummary = 'transactions/summary/current-month';
   }
 
