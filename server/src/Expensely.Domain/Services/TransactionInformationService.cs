@@ -1,7 +1,7 @@
 ﻿using Expensely.Domain.Abstractions.Result;
+using Expensely.Domain.Contracts;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Models;
 
 namespace Expensely.Domain.Services
 {

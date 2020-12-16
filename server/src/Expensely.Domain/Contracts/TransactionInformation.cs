@@ -1,6 +1,6 @@
 ﻿using Expensely.Domain.Core;
 
-namespace Expensely.Domain.Models
+namespace Expensely.Domain.Contracts
 {
     /// <summary>
     /// Represents the transaction information.

@@ -5,9 +5,9 @@ using Expensely.Application.Commands.Incomes.CreateIncome;
 using Expensely.Common.Messaging;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;
+using Expensely.Domain.Contracts;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Models;
 using Expensely.Domain.Services;
 
 namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
