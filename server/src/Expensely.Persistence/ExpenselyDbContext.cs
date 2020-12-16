@@ -123,6 +123,9 @@ namespace Expensely.Persistence
             }
         }
 
+        /// <summary>
+        /// Stores the domain events present on the entities.
+        /// </summary>
         private void StoreDomainEvents()
         {
             var messages = ChangeTracker

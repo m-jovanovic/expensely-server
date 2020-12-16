@@ -1,6 +1,5 @@
 ﻿using System;
 using Expensely.Domain.Abstractions.Events;
-using Expensely.Domain.Abstractions.Primitives;
 
 namespace Expensely.Domain.Events.Users
 {

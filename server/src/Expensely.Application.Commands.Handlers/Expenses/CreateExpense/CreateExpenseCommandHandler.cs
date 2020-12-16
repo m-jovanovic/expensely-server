@@ -46,7 +46,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.CreateExpense
                 return Result.Failure(transactionInformationResult.Error);
             }
 
-            var expense = new Expense(
+            var expense = Expense.Create(
                 maybeUser.Value.Id,
                 transactionInformationResult.Value.Name,
                 new Money(request.Amount, transactionInformationResult.Value.Currency),

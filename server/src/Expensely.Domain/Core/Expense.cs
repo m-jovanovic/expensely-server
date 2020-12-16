@@ -17,7 +17,7 @@ namespace Expensely.Domain.Core
         /// <param name="money">The monetary amount of the expense.</param>
         /// <param name="occurredOn">The date the expense occurred on.</param>
         /// <param name="description">The description of the expense.</param>
-        public Expense(Guid userId, Name name, Money money, DateTime occurredOn, Description description)
+        private Expense(Guid userId, Name name, Money money, DateTime occurredOn, Description description)
             : base(userId, name, money, occurredOn, description) =>
             EnsureMoneyIsLessThanZero(money);
 
@@ -29,6 +29,27 @@ namespace Expensely.Domain.Core
         /// </remarks>
         private Expense()
         {
+        }
+
+        /// <summary>
+        /// Creates a new expense based on the specified parameters.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="name">The name of the expense.</param>
+        /// <param name="money">The monetary amount of the expense.</param>
+        /// <param name="occurredOn">The date the expense occurred on.</param>
+        /// <param name="description">The description of the expense.</param>
+        /// <returns>The newly created expense.</returns>
+        public static Expense Create(Guid userId, Name name, Money money, DateTime occurredOn, Description description)
+        {
+            var expense = new Expense(userId, name, money, occurredOn, description);
+
+            expense.Raise(new ExpenseCreatedEvent
+            {
+                ExpenseId = expense.Id
+            });
+
+            return expense;
         }
 
         /// <summary>
