@@ -17,7 +17,7 @@ namespace Expensely.Domain.Core
         /// <param name="money">The monetary amount of the income.</param>
         /// <param name="occurredOn">The date the income occurred on.</param>
         /// <param name="description">The description of the income.</param>
-        public Income(Guid userId, Name name, Money money, DateTime occurredOn, Description description)
+        private Income(Guid userId, Name name, Money money, DateTime occurredOn, Description description)
             : base(userId, name, money, occurredOn, description) =>
             EnsureMoneyIsGreaterThanZero(money);
 
@@ -29,6 +29,27 @@ namespace Expensely.Domain.Core
         /// </remarks>
         private Income()
         {
+        }
+
+        /// <summary>
+        /// Creates a new income based on the specified parameters.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="name">The name of the income.</param>
+        /// <param name="money">The monetary amount of the income.</param>
+        /// <param name="occurredOn">The date the income occurred on.</param>
+        /// <param name="description">The description of the income.</param>
+        /// <returns>The newly created income.</returns>
+        public static Income Create(Guid userId, Name name, Money money, DateTime occurredOn, Description description)
+        {
+            var income = new Income(userId, name, money, occurredOn, description);
+
+            income.Raise(new IncomeCreatedEvent
+            {
+                IncomeId = income.Id
+            });
+
+            return income;
         }
 
         /// <summary>

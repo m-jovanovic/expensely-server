@@ -46,7 +46,7 @@ namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
                 return Result.Failure(transactionInformationResult.Error);
             }
 
-            var income = new Income(
+            var income = Income.Create(
                 maybeUser.Value.Id,
                 transactionInformationResult.Value.Name,
                 new Money(request.Amount, transactionInformationResult.Value.Currency),
