@@ -60,7 +60,7 @@ namespace Expensely.Domain.Abstractions.Primitives
 
         /// <inheritdoc />
         public override int GetHashCode() =>
-            GetAtomicValues().Aggregate(default(int), (obj, hashCode) => HashCode.Combine(obj.GetHashCode()));
+            GetAtomicValues().Aggregate(default(int), (obj, _) => HashCode.Combine(obj.GetHashCode()));
 
         /// <summary>
         /// Gets the atomic values of the value object.

@@ -16,7 +16,7 @@ namespace Expensely.Domain.Core
     /// </summary>
     public sealed class User : AggregateRoot, IAuditableEntity
     {
-        private readonly HashSet<Currency> _currencies = new HashSet<Currency>();
+        private readonly HashSet<Currency> _currencies = new();
         private Currency _primaryCurrency;
         private string _passwordHash;
 

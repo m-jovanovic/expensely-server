@@ -12,7 +12,7 @@ namespace Expensely.Persistence.Extensions
     internal static class ModelBuilderExtensions
     {
         private static readonly ValueConverter<DateTime, DateTime> UtcValueConverter =
-            new ValueConverter<DateTime, DateTime>(outside => outside, inside => DateTime.SpecifyKind(inside, DateTimeKind.Utc));
+            new(outside => outside, inside => DateTime.SpecifyKind(inside, DateTimeKind.Utc));
 
         /// <summary>
         /// Applies the UTC date-time converter to all of the properties that are <see cref="DateTime"/> and end with Utc.

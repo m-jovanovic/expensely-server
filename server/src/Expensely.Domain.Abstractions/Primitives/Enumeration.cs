@@ -13,7 +13,7 @@ namespace Expensely.Domain.Abstractions.Primitives
     public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComparable<Enumeration<TEnum>>
         where TEnum : Enumeration<TEnum>
     {
-        private static readonly Lazy<Dictionary<int, TEnum>> EnumerationsDictionary = new Lazy<Dictionary<int, TEnum>>(
+        private static readonly Lazy<Dictionary<int, TEnum>> EnumerationsDictionary = new(
             () => GetAllEnumerationOptions(typeof(TEnum)).ToDictionary(enumeration => enumeration.Value));
 
         /// <summary>
