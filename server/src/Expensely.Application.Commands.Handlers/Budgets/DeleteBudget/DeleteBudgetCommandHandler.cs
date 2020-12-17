@@ -17,7 +17,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.DeleteBudget
     /// </summary>
     internal sealed class DeleteBudgetCommandHandler : ICommandHandler<DeleteBudgetCommand, Result>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.DeleteBudget
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public DeleteBudgetCommandHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
+        public DeleteBudgetCommandHandler(IApplicationDbContext dbContext, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
             _userInformationProvider = userInformationProvider;

@@ -18,7 +18,7 @@ namespace Expensely.Messaging.Jobs
     [DisallowConcurrentExecution]
     public sealed class MessageProcessingJob : IJob
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IMessageDispatcher _messageDispatcher;
         private readonly ILogger<MessageProcessingJob> _logger;
 
@@ -29,7 +29,7 @@ namespace Expensely.Messaging.Jobs
         /// <param name="dbContext">The database context.</param>
         /// <param name="messageDispatcher">The message dispatcher.</param>
         public MessageProcessingJob(
-            IDbContext dbContext,
+            IApplicationDbContext dbContext,
             IMessageDispatcher messageDispatcher,
             ILogger<MessageProcessingJob> logger)
         {

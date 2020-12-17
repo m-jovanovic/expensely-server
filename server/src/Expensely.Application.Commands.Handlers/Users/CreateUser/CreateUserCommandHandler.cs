@@ -17,7 +17,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
     /// </summary>
     internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Result>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IPasswordService _passwordService;
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="passwordService">The password service.</param>
-        public CreateUserCommandHandler(IDbContext dbContext, IPasswordService passwordService)
+        public CreateUserCommandHandler(IApplicationDbContext dbContext, IPasswordService passwordService)
         {
             _dbContext = dbContext;
             _passwordService = passwordService;

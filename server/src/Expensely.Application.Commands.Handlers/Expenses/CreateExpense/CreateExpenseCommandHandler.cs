@@ -17,13 +17,13 @@ namespace Expensely.Application.Commands.Handlers.Expenses.CreateExpense
     /// </summary>
     internal sealed class CreateExpenseCommandHandler : ICommandHandler<CreateExpenseCommand, Result>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateExpenseCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        public CreateExpenseCommandHandler(IDbContext dbContext) => _dbContext = dbContext;
+        public CreateExpenseCommandHandler(IApplicationDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
         public async Task<Result> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)

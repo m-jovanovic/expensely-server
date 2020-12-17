@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Expensely.Application.Abstractions.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,8 @@ namespace Expensely.Persistence.Reporting
 
                     optionsBuilder.MigrationsHistoryTable("__ReportingMigrationsHistory");
                 }));
+
+            services.AddScoped<IReportingDbContext>(serviceProvider => serviceProvider.GetRequiredService<ReportingDbContext>());
 
             return services;
         }

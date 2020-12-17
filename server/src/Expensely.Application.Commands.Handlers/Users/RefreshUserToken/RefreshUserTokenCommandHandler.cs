@@ -20,7 +20,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
     /// </summary>
     internal sealed class RefreshUserTokenCommandHandler : ICommandHandler<RefreshUserTokenCommand, Result<TokenResponse>>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IJwtProvider _jwtProvider;
         private readonly IDateTime _dateTime;
 
@@ -30,7 +30,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
         /// <param name="dbContext">The database context.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
         /// <param name="dateTime">The date and time.</param>
-        public RefreshUserTokenCommandHandler(IDbContext dbContext, IJwtProvider jwtProvider, IDateTime dateTime)
+        public RefreshUserTokenCommandHandler(IApplicationDbContext dbContext, IJwtProvider jwtProvider, IDateTime dateTime)
         {
             _dbContext = dbContext;
             _jwtProvider = jwtProvider;

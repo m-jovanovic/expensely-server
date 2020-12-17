@@ -13,13 +13,13 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
     /// </summary>
     internal sealed class CreateBudgetCommandHandler : ICommandHandler<CreateBudgetCommand, Result>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateBudgetCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        public CreateBudgetCommandHandler(IDbContext dbContext) => _dbContext = dbContext;
+        public CreateBudgetCommandHandler(IApplicationDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
         public async Task<Result> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)

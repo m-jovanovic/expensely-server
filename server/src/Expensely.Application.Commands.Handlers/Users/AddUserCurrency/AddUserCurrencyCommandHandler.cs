@@ -15,13 +15,13 @@ namespace Expensely.Application.Commands.Handlers.Users.AddUserCurrency
     /// </summary>
     internal sealed class AddUserCurrencyCommandHandler : ICommandHandler<AddUserCurrencyCommand, Result>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddUserCurrencyCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        public AddUserCurrencyCommandHandler(IDbContext dbContext) => _dbContext = dbContext;
+        public AddUserCurrencyCommandHandler(IApplicationDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
         public async Task<Result> Handle(AddUserCurrencyCommand request, CancellationToken cancellationToken)

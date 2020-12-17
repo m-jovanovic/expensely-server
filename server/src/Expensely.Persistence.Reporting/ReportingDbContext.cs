@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using Expensely.Application.Abstractions.Data;
+using Expensely.Persistence.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Persistence.Reporting
@@ -6,7 +8,7 @@ namespace Expensely.Persistence.Reporting
     /// <summary>
     /// Represents the reporting database context.
     /// </summary>
-    public sealed class ReportingDbContext : DbContext
+    public sealed class ReportingDbContext : BaseDbContext, IReportingDbContext
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReportingDbContext"/> class.

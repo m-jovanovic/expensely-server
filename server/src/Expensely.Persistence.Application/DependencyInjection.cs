@@ -27,7 +27,7 @@ namespace Expensely.Persistence.Application
                    optionsBuilder.MigrationsHistoryTable("__ApplicationMigrationsHistory");
                }));
 
-            services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<ApplicationDbContext>());
+            services.AddScoped<IApplicationDbContext>(serviceProvider => serviceProvider.GetRequiredService<ApplicationDbContext>());
 
             return services;
         }

@@ -19,7 +19,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
     /// </summary>
     internal sealed class UpdateExpenseCommandHandler : ICommandHandler<UpdateExpenseCommand, Result>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public UpdateExpenseCommandHandler(IDbContext dbContext, IUserInformationProvider userInformationProvider)
+        public UpdateExpenseCommandHandler(IApplicationDbContext dbContext, IUserInformationProvider userInformationProvider)
         {
             _dbContext = dbContext;
             _userInformationProvider = userInformationProvider;

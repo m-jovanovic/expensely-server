@@ -15,13 +15,13 @@ namespace Expensely.Application.Commands.Handlers.Users.RemoveUserCurrency
     /// </summary>
     internal sealed class RemoveUserCurrencyCommandHandler : ICommandHandler<RemoveUserCurrencyCommand, Result>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoveUserCurrencyCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        public RemoveUserCurrencyCommandHandler(IDbContext dbContext) => _dbContext = dbContext;
+        public RemoveUserCurrencyCommandHandler(IApplicationDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
         public async Task<Result> Handle(RemoveUserCurrencyCommand request, CancellationToken cancellationToken)

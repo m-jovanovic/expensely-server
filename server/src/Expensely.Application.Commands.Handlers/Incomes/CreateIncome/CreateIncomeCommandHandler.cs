@@ -17,13 +17,13 @@ namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
     /// </summary>
     internal sealed class CreateIncomeCommandHandler : ICommandHandler<CreateIncomeCommand, Result>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateIncomeCommandHandler"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        public CreateIncomeCommandHandler(IDbContext dbContext) => _dbContext = dbContext;
+        public CreateIncomeCommandHandler(IApplicationDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
         public async Task<Result> Handle(CreateIncomeCommand request, CancellationToken cancellationToken)

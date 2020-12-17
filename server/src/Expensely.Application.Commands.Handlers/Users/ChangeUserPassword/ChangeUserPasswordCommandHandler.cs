@@ -16,7 +16,7 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPassword
     /// </summary>
     internal sealed class ChangeUserPasswordCommandHandler : ICommandHandler<ChangeUserPasswordCommand, Result>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IPasswordService _passwordService;
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPassword
         /// </summary>
         /// <param name="dbContext">The database context.</param>
         /// <param name="passwordService">The password service.</param>
-        public ChangeUserPasswordCommandHandler(IDbContext dbContext, IPasswordService passwordService)
+        public ChangeUserPasswordCommandHandler(IApplicationDbContext dbContext, IPasswordService passwordService)
         {
             _dbContext = dbContext;
             _passwordService = passwordService;

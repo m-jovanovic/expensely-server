@@ -22,7 +22,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserTokenForCreden
     internal sealed class CreateUserTokenForCredentialsCommandHandler
         : ICommandHandler<CreateUserTokenForCredentialsCommand, Result<TokenResponse>>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IPasswordService _passwordService;
         private readonly IJwtProvider _jwtProvider;
 
@@ -33,7 +33,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserTokenForCreden
         /// <param name="passwordService">The password service.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
         public CreateUserTokenForCredentialsCommandHandler(
-            IDbContext dbContext,
+            IApplicationDbContext dbContext,
             IJwtProvider jwtProvider,
             IPasswordService passwordService)
         {
