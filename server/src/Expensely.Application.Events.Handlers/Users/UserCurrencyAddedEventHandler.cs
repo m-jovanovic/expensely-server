@@ -11,6 +11,6 @@ namespace Expensely.Application.Events.Handlers.Users
     public sealed class UserCurrencyAddedEventHandler : IEventHandler<UserCurrencyAddedEvent>
     {
         /// <inheritdoc />
-        public Task Handle(UserCurrencyAddedEvent @event, CancellationToken cancellationToken = default) => Task.CompletedTask;
+        public Task Handle(UserCurrencyAddedEvent @event, CancellationToken cancellationToken) => Task.CompletedTask;
     }
 }

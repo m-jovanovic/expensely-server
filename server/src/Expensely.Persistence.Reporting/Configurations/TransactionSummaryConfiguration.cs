@@ -29,7 +29,7 @@ namespace Expensely.Persistence.Reporting.Configurations
 
             builder.HasOne<User>()
                 .WithMany()
-                .HasForeignKey(x => x.UserId)
+                .HasForeignKey(transactionSummary => transactionSummary.UserId)
                 .IsRequired();
         }
     }
