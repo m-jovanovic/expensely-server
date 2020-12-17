@@ -1,4 +1,5 @@
-﻿using Expensely.Application.Abstractions.Data;
+﻿using System.Reflection;
+using Expensely.Application.Abstractions.Data;
 using Expensely.Persistence.Providers;
 using Expensely.Persistence.Settings;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,13 @@ namespace Expensely.Persistence
 
             services.AddSingleton<IDbConnectionProvider, DbConnectionProvider>();
 
-            services.AddDbContext<ExpenselyDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<ExpenselyDbContext>(options =>
+               options.UseSqlServer(connectionString, optionsBuilder =>
+               {
+                   optionsBuilder.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+
+                   optionsBuilder.MigrationsHistoryTable("__ApplicationMigrationsHistory");
+               }));
 
             services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<ExpenselyDbContext>());
 
