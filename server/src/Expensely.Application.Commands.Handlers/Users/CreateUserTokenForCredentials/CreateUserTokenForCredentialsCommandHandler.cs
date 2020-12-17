@@ -6,7 +6,7 @@ using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Handlers.Specifications.RefreshTokens;
 using Expensely.Application.Commands.Handlers.Specifications.Users;
 using Expensely.Application.Commands.Users.CreateUserTokenForCredentials;
-using Expensely.Common.Messaging;
+using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Users;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;

@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Common.Clock;
+using Expensely.Common.Abstractions.Clock;
 
 namespace Expensely.Infrastructure.Common
 {

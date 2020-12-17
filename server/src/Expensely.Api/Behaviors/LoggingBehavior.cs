@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Queries.Utility;
-using Expensely.Common.Clock;
-using Expensely.Common.Messaging;
+using Expensely.Common.Abstractions.Clock;
+using Expensely.Common.Abstractions.Messaging;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

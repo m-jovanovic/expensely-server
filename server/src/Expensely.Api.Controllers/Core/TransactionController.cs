@@ -5,7 +5,7 @@ using Expensely.Api.Controllers.Constants;
 using Expensely.Api.Controllers.Infrastructure;
 using Expensely.Application.Queries.Transactions.GetCurrentMonthTransactionSummary;
 using Expensely.Application.Queries.Transactions.GetTransactions;
-using Expensely.Common.Clock;
+using Expensely.Common.Abstractions.Clock;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
 using MediatR;

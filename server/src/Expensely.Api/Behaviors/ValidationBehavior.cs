@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Common.Messaging;
+using Expensely.Common.Abstractions.Messaging;
 using FluentValidation;
 using MediatR;
 using ValidationException = Expensely.Api.Exceptions.ValidationException;

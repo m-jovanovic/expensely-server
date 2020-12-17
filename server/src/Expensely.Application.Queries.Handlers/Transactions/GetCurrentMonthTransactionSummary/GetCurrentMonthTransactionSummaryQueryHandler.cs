@@ -7,7 +7,7 @@ using Dapper;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Queries.Transactions.GetCurrentMonthTransactionSummary;
-using Expensely.Common.Messaging;
+using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;

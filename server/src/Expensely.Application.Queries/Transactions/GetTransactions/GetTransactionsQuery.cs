@@ -1,6 +1,6 @@
 ﻿using System;
 using Expensely.Application.Queries.Utility;
-using Expensely.Common.Messaging;
+using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
 

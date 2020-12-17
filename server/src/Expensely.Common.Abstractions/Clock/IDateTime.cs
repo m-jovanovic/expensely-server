@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Common.Clock
+namespace Expensely.Common.Abstractions.Clock
 {
     /// <summary>
     /// Represents the interface for getting the current date and time.

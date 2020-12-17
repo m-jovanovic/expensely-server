@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Budgets.CreateBudget;
-using Expensely.Common.Messaging;
+using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 

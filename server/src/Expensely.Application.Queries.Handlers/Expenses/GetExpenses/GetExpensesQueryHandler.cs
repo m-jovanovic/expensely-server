@@ -8,7 +8,7 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Queries.Expenses.GetExpenses;
 using Expensely.Application.Queries.Utility;
-using Expensely.Common.Messaging;
+using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Expenses;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;

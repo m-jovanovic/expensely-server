@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Common.Messaging;
+using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 
 namespace Expensely.Application.Commands.Users.ChangeUserPassword

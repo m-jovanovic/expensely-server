@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Specifications;
-using Expensely.Common.Clock;
+using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;

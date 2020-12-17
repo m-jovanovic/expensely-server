@@ -4,7 +4,7 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Budgets.DeleteBudget;
 using Expensely.Application.Commands.Handlers.Validation;
-using Expensely.Common.Messaging;
+using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;

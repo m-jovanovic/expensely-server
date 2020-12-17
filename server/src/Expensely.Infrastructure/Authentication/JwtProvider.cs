@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Expensely.Application.Abstractions.Authentication;
-using Expensely.Common.Clock;
+using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Core;
 using Expensely.Infrastructure.Authentication.Settings;
 using Microsoft.Extensions.Options;
