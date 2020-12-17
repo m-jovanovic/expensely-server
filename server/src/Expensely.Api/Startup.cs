@@ -10,6 +10,7 @@ using Expensely.Application.Queries.Handlers;
 using Expensely.Infrastructure;
 using Expensely.Messaging;
 using Expensely.Persistence;
+using Expensely.Persistence.Reporting;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -49,7 +50,8 @@ namespace Expensely.Api
             services
                 .AddMessaging()
                 .AddInfrastructure(Configuration)
-                .AddPersistence(Configuration);
+                .AddPersistence(Configuration)
+                .AddReporting(Configuration);
 
             services.AddValidatorsFromAssembly(CommandHandlersAssembly.Assembly);
 

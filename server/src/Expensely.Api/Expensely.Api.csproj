@@ -24,6 +24,7 @@
     <ProjectReference Include="..\Expensely.Application.Queries.Handlers\Expensely.Application.Queries.Handlers.csproj" />
     <ProjectReference Include="..\Expensely.Infrastructure\Expensely.Infrastructure.csproj" />
     <ProjectReference Include="..\Expensely.Messaging\Expensely.Messaging.csproj" />
+    <ProjectReference Include="..\Expensely.Persistence.Reporting\Expensely.Persistence.Reporting.csproj" />
     <ProjectReference Include="..\Expensely.Persistence\Expensely.Persistence.csproj" />
   </ItemGroup>
 
