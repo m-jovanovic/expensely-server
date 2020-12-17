@@ -1,9 +1,8 @@
-﻿using Expensely.Messaging.Abstractions;
-using Expensely.Messaging.Abstractions.Entities;
+﻿using Expensely.Messaging.Abstractions.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Expensely.Persistence.Configurations
+namespace Expensely.Persistence.Application.Configurations
 {
     /// <summary>
     /// Contains the <see cref="Message"/> entity configuration.

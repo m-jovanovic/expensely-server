@@ -4,7 +4,7 @@ using Expensely.Domain.Abstractions.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Expensely.Persistence.Extensions
+namespace Expensely.Persistence.Application.Extensions
 {
     /// <summary>
     /// Contains extensions methods for the <see cref="ModelBuilder"/> class.

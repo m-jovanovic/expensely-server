@@ -16,12 +16,10 @@ namespace Expensely.Persistence.Reporting
         /// <param name="services">The service collection.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns>The same service collection.</returns>
-        public static IServiceCollection AddReporting(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddReportingDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            string connectionString = configuration.GetConnectionString("DefaultConnection");
-
             services.AddDbContext<ReportingDbContext>(options =>
-                options.UseSqlServer(connectionString, optionsBuilder =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), optionsBuilder =>
                 {
                     optionsBuilder.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
 

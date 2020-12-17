@@ -11,27 +11,27 @@ using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Messaging.Abstractions.Entities;
-using Expensely.Persistence.Extensions;
+using Expensely.Persistence.Application.Extensions;
 using Expensely.Persistence.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 
-namespace Expensely.Persistence
+namespace Expensely.Persistence.Application
 {
     /// <summary>
     /// Represents the applications database context.
     /// </summary>
-    public sealed class ExpenselyDbContext : DbContext, IDbContext
+    public sealed class ApplicationDbContext : DbContext, IDbContext
     {
         private readonly IDateTime _dateTime;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpenselyDbContext"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
         /// </summary>
         /// <param name="options">The database context options.</param>
         /// <param name="dateTime">The current date and time.</param>
-        public ExpenselyDbContext(DbContextOptions options, IDateTime dateTime)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTime dateTime)
             : base(options) =>
             _dateTime = dateTime;
 

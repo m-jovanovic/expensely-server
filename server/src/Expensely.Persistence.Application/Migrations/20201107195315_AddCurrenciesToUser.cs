@@ -2,7 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Expensely.Persistence.Migrations
+namespace Expensely.Persistence.Application.Migrations
 {
     public partial class AddCurrenciesToUser : Migration
     {

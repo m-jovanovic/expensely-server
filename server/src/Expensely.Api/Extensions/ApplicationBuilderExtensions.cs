@@ -1,5 +1,6 @@
 ﻿using Expensely.Api.Middleware;
-using Expensely.Persistence;
+using Expensely.Persistence.Application;
+using Expensely.Persistence.Reporting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,9 +43,13 @@ namespace Expensely.Api.Extensions
         {
             using IServiceScope serviceScope = builder.ApplicationServices.CreateScope();
 
-            using ExpenselyDbContext dbContext = serviceScope.ServiceProvider.GetRequiredService<ExpenselyDbContext>();
+            using ApplicationDbContext applicationDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-            dbContext.Database.Migrate();
+            applicationDbContext.Database.Migrate();
+
+            using ReportingDbContext reportingDbContext = serviceScope.ServiceProvider.GetRequiredService<ReportingDbContext>();
+
+            reportingDbContext.Database.Migrate();
 
             return builder;
         }
