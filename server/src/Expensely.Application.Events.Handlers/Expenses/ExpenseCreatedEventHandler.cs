@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Events.Handlers.Specifications.Transactions;
+using Expensely.Application.Events.Handlers.Specifications.TransactionSummaries;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
@@ -40,9 +42,8 @@ namespace Expensely.Application.Events.Handlers.Expenses
         /// <inheritdoc />
         public async Task Handle(ExpenseCreatedEvent @event, CancellationToken cancellationToken)
         {
-            // TODO: Create specification.
             Maybe<Transaction> maybeTransaction = await _reportingDbContext
-                .FirstOrDefaultAsync<Transaction>(x => x.Id == @event.ExpenseId, cancellationToken);
+                .FirstOrDefaultAsync<Transaction>(new TransactionByIdSpecification(@event.ExpenseId), cancellationToken);
 
             if (maybeTransaction.HasNoValue)
             {
@@ -51,16 +52,8 @@ namespace Expensely.Application.Events.Handlers.Expenses
 
             Transaction transaction = maybeTransaction.Value;
 
-            // TODO: Create specification.
             bool transactionSummaryExists = await _reportingDbContext
-                .AnyAsync<TransactionSummary>(
-                    x =>
-                        x.UserId == transaction.UserId &&
-                        x.Year == transaction.OccurredOn.Year &&
-                        x.Month == transaction.OccurredOn.Month &&
-                        x.TransactionType == transaction.TransactionType &&
-                        x.Currency == transaction.Currency,
-                    cancellationToken);
+                .AnyAsync<TransactionSummary>(new TransactionSummaryByTransactionSpecification(transaction), cancellationToken);
 
             if (!transactionSummaryExists)
             {
