@@ -14,9 +14,11 @@ using Expensely.Domain.Reporting.Transactions;
 namespace Expensely.Application.Events.Handlers.Transactions
 {
     /// <summary>
-    /// Represents the <see cref="ExpenseCreatedEvent"/> handler.
+    /// Represents the <see cref="ExpenseCreatedEvent"/> handler, <see cref="IncomeCreatedEvent"/> handler.
     /// </summary>
-    public sealed class TransactionCreatedEventHandler : IEventHandler<ExpenseCreatedEvent>, IEventHandler<IncomeCreatedEvent>
+    public sealed class TransactionCreatedEventHandler :
+        IEventHandler<ExpenseCreatedEvent>,
+        IEventHandler<IncomeCreatedEvent>
     {
         private readonly IReportingDbContext _reportingDbContext;
         private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;

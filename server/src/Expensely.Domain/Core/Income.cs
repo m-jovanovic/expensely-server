@@ -64,6 +64,7 @@ namespace Expensely.Domain.Core
 
             if (!ChangeMoneyInternal(money))
             {
+                // TODO: Raise more granular events.
                 Raise(new IncomeMoneyChangedEvent
                 {
                     IncomeId = Id,

@@ -16,5 +16,14 @@ namespace Expensely.Application.Abstractions.Aggregation
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The completed task.</returns>
         Task AggregateForTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Aggregates the transaction summary for the specified transaction.
+        /// </summary>
+        /// <param name="transaction">The transaction.</param>
+        /// <param name="previousCurrency">The previous currency.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The completed task.</returns>
+        Task AggregateForTransactionAsync(Transaction transaction, int previousCurrency, CancellationToken cancellationToken = default);
     }
 }
