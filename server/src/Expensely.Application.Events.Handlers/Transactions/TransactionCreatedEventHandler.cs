@@ -8,24 +8,25 @@ using Expensely.Application.Events.Handlers.Specifications.TransactionSummaries;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Events.Expenses;
+using Expensely.Domain.Events.Incomes;
 using Expensely.Domain.Reporting.Transactions;
 
-namespace Expensely.Application.Events.Handlers.Expenses
+namespace Expensely.Application.Events.Handlers.Transactions
 {
     /// <summary>
     /// Represents the <see cref="ExpenseCreatedEvent"/> handler.
     /// </summary>
-    public sealed class ExpenseCreatedEventHandler : IEventHandler<ExpenseCreatedEvent>
+    public sealed class TransactionCreatedEventHandler : IEventHandler<ExpenseCreatedEvent>, IEventHandler<IncomeCreatedEvent>
     {
         private readonly IReportingDbContext _reportingDbContext;
         private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpenseCreatedEventHandler"/> class.
+        /// Initializes a new instance of the <see cref="TransactionCreatedEventHandler"/> class.
         /// </summary>
         /// <param name="reportingDbContext">The reporting database context.</param>
         /// <param name="transactionSummaryAggregator">The transaction summary aggregator.</param>
-        public ExpenseCreatedEventHandler(
+        public TransactionCreatedEventHandler(
             IReportingDbContext reportingDbContext,
             ITransactionSummaryAggregator transactionSummaryAggregator)
         {
@@ -34,10 +35,17 @@ namespace Expensely.Application.Events.Handlers.Expenses
         }
 
         /// <inheritdoc />
-        public async Task Handle(ExpenseCreatedEvent @event, CancellationToken cancellationToken)
+        public async Task Handle(ExpenseCreatedEvent @event, CancellationToken cancellationToken) =>
+            await HandleTransactionCreatedAsync(@event.ExpenseId, cancellationToken);
+
+        /// <inheritdoc />
+        public async Task Handle(IncomeCreatedEvent @event, CancellationToken cancellationToken) =>
+            await HandleTransactionCreatedAsync(@event.IncomeId, cancellationToken);
+
+        private async Task HandleTransactionCreatedAsync(Guid transactionId, CancellationToken cancellationToken)
         {
             Maybe<Transaction> maybeTransaction = await _reportingDbContext
-                .FirstOrDefaultAsync(new TransactionByIdSpecification(@event.ExpenseId), cancellationToken);
+                .FirstOrDefaultAsync(new TransactionByIdSpecification(transactionId), cancellationToken);
 
             if (maybeTransaction.HasNoValue)
             {
