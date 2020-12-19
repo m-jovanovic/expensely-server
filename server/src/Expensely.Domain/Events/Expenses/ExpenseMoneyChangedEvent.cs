@@ -12,5 +12,10 @@ namespace Expensely.Domain.Events.Expenses
         /// Gets the expense.
         /// </summary>
         public Guid ExpenseId { get; init; }
+
+        /// <summary>
+        /// Gets the previous currency.
+        /// </summary>
+        public int PreviousCurrency { get; init; }
     }
 }

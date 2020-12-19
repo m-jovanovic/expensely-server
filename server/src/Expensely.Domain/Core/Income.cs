@@ -60,11 +60,14 @@ namespace Expensely.Domain.Core
         {
             EnsureMoneyIsGreaterThanZero(money);
 
+            Money previousMoney = Money;
+
             if (!ChangeMoneyInternal(money))
             {
                 Raise(new IncomeMoneyChangedEvent
                 {
-                    IncomeId = Id
+                    IncomeId = Id,
+                    PreviousCurrency = previousMoney.Currency.Value
                 });
             }
         }

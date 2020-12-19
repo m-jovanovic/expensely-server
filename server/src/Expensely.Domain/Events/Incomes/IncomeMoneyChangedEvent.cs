@@ -12,5 +12,10 @@ namespace Expensely.Domain.Events.Incomes
         /// Gets the income identifier.
         /// </summary>
         public Guid IncomeId { get; init; }
+
+        /// <summary>
+        /// Gets the previous currency.
+        /// </summary>
+        public int PreviousCurrency { get; init; }
     }
 }
