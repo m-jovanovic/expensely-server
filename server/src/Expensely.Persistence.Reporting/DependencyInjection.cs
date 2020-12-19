@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
+using Expensely.Application.Abstractions.Aggregation;
 using Expensely.Application.Abstractions.Data;
+using Expensely.Persistence.Reporting.Aggregation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +30,8 @@ namespace Expensely.Persistence.Reporting
                 }));
 
             services.AddScoped<IReportingDbContext>(serviceProvider => serviceProvider.GetRequiredService<ReportingDbContext>());
+
+            services.AddTransient<ITransactionSummaryAggregator, TransactionSummaryAggregator>();
 
             return services;
         }

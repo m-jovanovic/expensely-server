@@ -8,7 +8,7 @@ namespace Expensely.Application.Abstractions.Data
     public interface IDbConnectionProvider
     {
         /// <summary>
-        /// Creates a new database connection and returns it.
+        /// Creates a new open database connection and returns it.
         /// </summary>
         /// <returns>The newly created database connection.</returns>
         IDbConnection Create();

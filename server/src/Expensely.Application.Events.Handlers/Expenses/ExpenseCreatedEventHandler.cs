@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
+using Expensely.Application.Abstractions.Aggregation;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Events.Handlers.Specifications.Transactions;
 using Expensely.Application.Events.Handlers.Specifications.TransactionSummaries;
-using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Events.Expenses;
@@ -20,30 +18,26 @@ namespace Expensely.Application.Events.Handlers.Expenses
     public sealed class ExpenseCreatedEventHandler : IEventHandler<ExpenseCreatedEvent>
     {
         private readonly IReportingDbContext _reportingDbContext;
-        private readonly IDbConnectionProvider _dbConnectionProvider;
-        private readonly IDateTime _dateTime;
+        private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenseCreatedEventHandler"/> class.
         /// </summary>
         /// <param name="reportingDbContext">The reporting database context.</param>
-        /// <param name="dbConnectionProvider">The database connection provider.</param>
-        /// <param name="dateTime">The date and time.</param>
+        /// <param name="transactionSummaryAggregator">The transaction summary aggregator.</param>
         public ExpenseCreatedEventHandler(
             IReportingDbContext reportingDbContext,
-            IDbConnectionProvider dbConnectionProvider,
-            IDateTime dateTime)
+            ITransactionSummaryAggregator transactionSummaryAggregator)
         {
             _reportingDbContext = reportingDbContext;
-            _dbConnectionProvider = dbConnectionProvider;
-            _dateTime = dateTime;
+            _transactionSummaryAggregator = transactionSummaryAggregator;
         }
 
         /// <inheritdoc />
         public async Task Handle(ExpenseCreatedEvent @event, CancellationToken cancellationToken)
         {
             Maybe<Transaction> maybeTransaction = await _reportingDbContext
-                .FirstOrDefaultAsync<Transaction>(new TransactionByIdSpecification(@event.ExpenseId), cancellationToken);
+                .FirstOrDefaultAsync(new TransactionByIdSpecification(@event.ExpenseId), cancellationToken);
 
             if (maybeTransaction.HasNoValue)
             {
@@ -53,59 +47,34 @@ namespace Expensely.Application.Events.Handlers.Expenses
             Transaction transaction = maybeTransaction.Value;
 
             bool transactionSummaryExists = await _reportingDbContext
-                .AnyAsync<TransactionSummary>(new TransactionSummaryByTransactionSpecification(transaction), cancellationToken);
+                .AnyAsync(new TransactionSummaryByTransactionSpecification(transaction), cancellationToken);
 
-            if (!transactionSummaryExists)
+            if (transactionSummaryExists)
             {
-                var transactionSummary = new TransactionSummary
-                {
-                    Id = Guid.NewGuid(),
-                    UserId = transaction.UserId,
-                    Year = transaction.OccurredOn.Year,
-                    Month = transaction.OccurredOn.Month,
-                    TransactionType = transaction.TransactionType,
-                    Currency = transaction.Currency,
-                    Amount = transaction.Amount
-                };
+                await _transactionSummaryAggregator.AggregateForTransactionAsync(transaction, cancellationToken);
 
-                _reportingDbContext.Insert(transactionSummary);
-
-                await _reportingDbContext.SaveChangesAsync(cancellationToken);
+                return;
             }
-            else
+
+            await InsertTransactionSummaryAsync(transaction, cancellationToken);
+        }
+
+        private async Task InsertTransactionSummaryAsync(Transaction transaction, CancellationToken cancellationToken)
+        {
+            var transactionSummary = new TransactionSummary
             {
-                using IDbConnection dbConnection = _dbConnectionProvider.Create();
+                Id = Guid.NewGuid(),
+                UserId = transaction.UserId,
+                Year = transaction.OccurredOn.Year,
+                Month = transaction.OccurredOn.Month,
+                TransactionType = transaction.TransactionType,
+                Currency = transaction.Currency,
+                Amount = transaction.Amount
+            };
 
-                const string sql =
-                    @"UPDATE [TransactionSummary]
-                      SET Amount =
-                          (SELECT SUM(t.Amount) FROM [Transaction] t
-                           WHERE
-                               t.UserId = @UserId AND
-                               t.OccurredOn >= @StartOfMonth AND
-                               t.Currency = @Currency AND
-                               t.TransactionType = @TransactionType
-                           GROUP BY t.TransactionType)
-                      WHERE UserId = @UserId AND
-                            Year = @Year AND
-                            Month = @Month AND
-                            TransactionType = @TransactionType AND
-                            Currency = @Currency";
+            _reportingDbContext.Insert(transactionSummary);
 
-                DateTime utcNow = _dateTime.UtcNow;
-
-                var param = new
-                {
-                    transaction.UserId,
-                    transaction.Currency,
-                    transaction.TransactionType,
-                    transaction.OccurredOn.Year,
-                    transaction.OccurredOn.Month,
-                    StartOfMonth = new DateTime(utcNow.Year, utcNow.Month, 1).Date
-                };
-
-                await dbConnection.ExecuteAsync(sql, param);
-            }
+            await _reportingDbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
