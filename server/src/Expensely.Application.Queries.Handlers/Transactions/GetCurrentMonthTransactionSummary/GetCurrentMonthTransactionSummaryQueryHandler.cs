@@ -47,20 +47,24 @@ namespace Expensely.Application.Queries.Handlers.Transactions.GetCurrentMonthTra
                 return Maybe<TransactionSummaryResponse>.None;
             }
 
-            using IDbConnection dbConnection = _dbConnectionProvider.Create();
-
             const string sql = @"
-                SELECT TransactionType, SUM(Amount) AS Amount
-                FROM [Transaction]
-                WHERE UserId = @UserId AND OccurredOn >= @StartOfMonth AND Currency = @PrimaryCurrency
-                GROUP BY TransactionType";
+                SELECT TransactionType, Amount
+                FROM [TransactionSummary]
+                WHERE
+                    UserId = @UserId AND
+                    Year = @Year AND
+                    Month = @Month AND
+                    Currency = @PrimaryCurrency";
+
+            using IDbConnection dbConnection = _dbConnectionProvider.Create();
 
             IEnumerable<TransactionAmountPerType> transactionAmountPerType = await dbConnection.QueryAsync<TransactionAmountPerType>(
                 sql,
                 new
                 {
                     request.UserId,
-                    request.StartOfMonth,
+                    request.StartOfMonth.Year,
+                    request.StartOfMonth.Month,
                     request.PrimaryCurrency
                 });
 
