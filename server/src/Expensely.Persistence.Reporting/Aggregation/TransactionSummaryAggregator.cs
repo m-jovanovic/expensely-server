@@ -32,21 +32,22 @@ namespace Expensely.Persistence.Reporting.Aggregation
         /// <inheritdoc />
         public async Task AggregateForTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
         {
-            const string sql =
-                @"UPDATE [TransactionSummary]
-                      SET Amount =
-                          (SELECT SUM(t.Amount) FROM [Transaction] t
-                           WHERE
-                               t.UserId = @UserId AND
-                               t.OccurredOn >= @StartOfMonth AND
-                               t.Currency = @Currency AND
-                               t.TransactionType = @TransactionType
-                           GROUP BY t.TransactionType)
-                      WHERE UserId = @UserId AND
-                            Year = @Year AND
-                            Month = @Month AND
-                            TransactionType = @TransactionType AND
-                            Currency = @Currency";
+            const string sql = @"
+                UPDATE [TransactionSummary]
+                SET Amount =
+                    (SELECT SUM(t.Amount) FROM [Transaction] t
+                        WHERE
+                           t.UserId = @UserId AND
+                           t.OccurredOn >= @StartOfMonth AND
+                           t.Currency = @Currency AND
+                           t.TransactionType = @TransactionType
+                        GROUP BY t.TransactionType)
+                    WHERE
+                        UserId = @UserId AND
+                        Year = @Year AND
+                        Month = @Month AND
+                        Currency = @Currency AND
+                        TransactionType = @TransactionType";
 
             DateTime utcNow = _dateTime.UtcNow;
 
@@ -69,39 +70,41 @@ namespace Expensely.Persistence.Reporting.Aggregation
         public async Task AggregateForTransactionAsync(
             Transaction transaction, int previousCurrency, CancellationToken cancellationToken = default)
         {
-            const string sql =
-                @"UPDATE [TransactionSummary]
-                      SET Amount =
-                          (SELECT SUM(t.Amount) FROM [Transaction] t
-                           WHERE
-                               t.UserId = @UserId AND
-                               t.OccurredOn >= @StartOfMonth AND
-                               t.Currency = @Currency AND
-                               t.TransactionType = @TransactionType
-                           GROUP BY t.TransactionType)
-                      WHERE UserId = @UserId AND
-                            Year = @Year AND
-                            Month = @Month AND
-                            TransactionType = @TransactionType AND
-                            Currency = @Currency
-                  
-                  IF (@Currency != @PreviousCurrency)
-                  BEGIN
-                      UPDATE [TransactionSummary]
-                      SET Amount =
-                          (SELECT SUM(t.Amount) FROM [Transaction] t
-                           WHERE
-                               t.UserId = @UserId AND
-                               t.OccurredOn >= @StartOfMonth AND
-                               t.Currency = @PreviousCurrency AND
-                               t.TransactionType = @TransactionType
-                           GROUP BY t.TransactionType)
-                      WHERE UserId = @UserId AND
-                            Year = @Year AND
-                            Month = @Month AND
-                            TransactionType = @TransactionType AND
-                            Currency = @PreviousCurrency
-                  END";
+            const string sql = @"
+                UPDATE [TransactionSummary]
+                    SET Amount =
+                        (SELECT SUM(t.Amount) FROM [Transaction] t
+                         WHERE
+                             t.UserId = @UserId AND
+                             t.OccurredOn >= @StartOfMonth AND
+                             t.Currency = @Currency AND
+                             t.TransactionType = @TransactionType
+                         GROUP BY t.TransactionType)
+                    WHERE
+                        UserId = @UserId AND
+                        Year = @Year AND
+                        Month = @Month AND
+                        Currency = @Currency AND
+                        TransactionType = @TransactionType
+
+                IF (@Currency != @PreviousCurrency)
+                BEGIN
+                    UPDATE [TransactionSummary]
+                    SET Amount =
+                        (SELECT SUM(t.Amount) FROM [Transaction] t
+                         WHERE
+                             t.UserId = @UserId AND
+                             t.OccurredOn >= @StartOfMonth AND
+                             t.Currency = @PreviousCurrency AND
+                             t.TransactionType = @TransactionType
+                         GROUP BY t.TransactionType)
+                    WHERE
+                        UserId = @UserId AND
+                        Year = @Year AND
+                        Month = @Month AND
+                        Currency = @PreviousCurrency AND
+                        TransactionType = @TransactionType
+                END";
 
             DateTime utcNow = _dateTime.UtcNow;
 

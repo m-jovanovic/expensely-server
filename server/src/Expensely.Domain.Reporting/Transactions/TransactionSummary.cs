@@ -28,14 +28,14 @@ namespace Expensely.Domain.Reporting.Transactions
         public int Month { get; init; }
 
         /// <summary>
-        /// Gets the transaction type.
-        /// </summary>
-        public int TransactionType { get; init; }
-
-        /// <summary>
         /// Gets the currency.
         /// </summary>
         public int Currency { get; init; }
+
+        /// <summary>
+        /// Gets the transaction type.
+        /// </summary>
+        public int TransactionType { get; init; }
 
         /// <summary>
         /// Gets the amount.

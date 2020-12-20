@@ -16,8 +16,8 @@ namespace Expensely.Persistence.Reporting.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
                     Month = table.Column<int>(type: "int", nullable: false),
-                    TransactionType = table.Column<int>(type: "int", nullable: false),
                     Currency = table.Column<int>(type: "int", nullable: false),
+                    TransactionType = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(12,4)", precision: 12, scale: 4, nullable: false)
                 },
                 constraints: table =>
@@ -31,9 +31,14 @@ namespace Expensely.Persistence.Reporting.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateIndex(
+                name: "IX_TransactionSummary_UserId",
+                table: "TransactionSummary",
+                column: "UserId");
+
             migrationBuilder.Sql(
-                @"CREATE INDEX [IX_TransactionSummary_UserId_Year_Month_TransactionType_Currency] ON
-                  [TransactionSummary] ([UserId], [Year], [Month], [TransactionType], [Currency])");
+              @"CREATE INDEX [IX_TransactionSummary_UserId_Year_Month_TransactionType_Currency] ON
+                [TransactionSummary] ([UserId], [Year], [Month], [TransactionType], [Currency])");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder) =>

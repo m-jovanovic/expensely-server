@@ -77,8 +77,8 @@ namespace Expensely.Application.Events.Handlers.Transactions
                 UserId = transaction.UserId,
                 Year = transaction.OccurredOn.Year,
                 Month = transaction.OccurredOn.Month,
-                TransactionType = transaction.TransactionType,
                 Currency = transaction.Currency,
+                TransactionType = transaction.TransactionType,
                 Amount = transaction.Amount
             };
 
