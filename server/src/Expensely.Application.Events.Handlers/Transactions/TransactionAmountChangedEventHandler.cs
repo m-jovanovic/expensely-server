@@ -13,37 +13,38 @@ using Expensely.Domain.Reporting.Transactions;
 namespace Expensely.Application.Events.Handlers.Transactions
 {
     /// <summary>
-    /// Represents the <see cref="ExpenseMoneyChangedEvent"/> handler, <see cref="IncomeMoneyChangedEvent"/> handler.
+    /// Represents the <see cref="ExpenseAmountChangedEvent"/> handler, <see cref="IncomeAmountChangedEvent"/> handler.
     /// </summary>
-    public sealed class TransactionMoneyChangedEventHandler :
-        IEventHandler<ExpenseMoneyChangedEvent>,
-        IEventHandler<IncomeMoneyChangedEvent>
+    public sealed class TransactionAmountChangedEventHandler :
+        IEventHandler<ExpenseAmountChangedEvent>,
+        IEventHandler<IncomeAmountChangedEvent>
     {
         private readonly IReportingDbContext _reportingDbContext;
         private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionMoneyChangedEventHandler"/> class.
+        /// Initializes a new instance of the <see cref="TransactionAmountChangedEventHandler"/> class.
         /// </summary>
         /// <param name="reportingDbContext">The reporting database context.</param>
         /// <param name="transactionSummaryAggregator">The transaction summary aggregator.</param>
-        public TransactionMoneyChangedEventHandler(IReportingDbContext reportingDbContext, ITransactionSummaryAggregator transactionSummaryAggregator)
+        public TransactionAmountChangedEventHandler(
+            IReportingDbContext reportingDbContext,
+            ITransactionSummaryAggregator transactionSummaryAggregator)
         {
             _reportingDbContext = reportingDbContext;
             _transactionSummaryAggregator = transactionSummaryAggregator;
         }
 
         /// <inheritdoc />
-        public async Task Handle(ExpenseMoneyChangedEvent @event, CancellationToken cancellationToken) =>
-            await HandleTransactionMoneyChangedAsync(@event.ExpenseId, @event.PreviousCurrency, cancellationToken);
+        public async Task Handle(ExpenseAmountChangedEvent @event, CancellationToken cancellationToken) =>
+            await HandleTransactionAmountChangedAsync(@event.ExpenseId, cancellationToken);
 
         /// <inheritdoc />
-        public async Task Handle(IncomeMoneyChangedEvent @event, CancellationToken cancellationToken) =>
-            await HandleTransactionMoneyChangedAsync(@event.IncomeId, @event.PreviousCurrency, cancellationToken);
+        public async Task Handle(IncomeAmountChangedEvent @event, CancellationToken cancellationToken) =>
+            await HandleTransactionAmountChangedAsync(@event.IncomeId, cancellationToken);
 
-        private async Task HandleTransactionMoneyChangedAsync(
+        private async Task HandleTransactionAmountChangedAsync(
             Guid transactionId,
-            int previousCurrency,
             CancellationToken cancellationToken)
         {
             Maybe<Transaction> maybeTransaction = await _reportingDbContext
@@ -54,7 +55,7 @@ namespace Expensely.Application.Events.Handlers.Transactions
                 return;
             }
 
-            await _transactionSummaryAggregator.AggregateForTransactionAsync(maybeTransaction.Value, previousCurrency, cancellationToken);
+            await _transactionSummaryAggregator.AggregateForTransactionAsync(maybeTransaction.Value, cancellationToken);
         }
     }
 }

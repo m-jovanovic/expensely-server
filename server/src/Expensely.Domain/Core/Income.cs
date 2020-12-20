@@ -62,10 +62,19 @@ namespace Expensely.Domain.Core
 
             Money previousMoney = Money;
 
-            if (!ChangeMoneyInternal(money))
+            (bool amountChanged, bool currencyChanged) = ChangeMoneyInternal(money);
+
+            if (amountChanged)
             {
-                // TODO: Raise more granular events.
-                Raise(new IncomeMoneyChangedEvent
+                Raise(new IncomeAmountChangedEvent
+                {
+                    IncomeId = Id
+                });
+            }
+
+            if (currencyChanged)
+            {
+                Raise(new IncomeCurrencyChangedEvent
                 {
                     IncomeId = Id,
                     PreviousCurrency = previousMoney.Currency.Value

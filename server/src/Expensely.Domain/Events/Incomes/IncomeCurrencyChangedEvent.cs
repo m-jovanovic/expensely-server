@@ -1,17 +1,17 @@
 ﻿using System;
 using Expensely.Domain.Abstractions.Events;
 
-namespace Expensely.Domain.Events.Expenses
+namespace Expensely.Domain.Events.Incomes
 {
     /// <summary>
-    /// Represents the event that is raised when the monetary amount of an expense is changed.
+    /// Represents the event that is raised when the currency of an income is changed.
     /// </summary>
-    public sealed class ExpenseMoneyChangedEvent : IEvent
+    public class IncomeCurrencyChangedEvent : IEvent
     {
         /// <summary>
-        /// Gets the expense.
+        /// Gets the income identifier.
         /// </summary>
-        public Guid ExpenseId { get; init; }
+        public Guid IncomeId { get; init; }
 
         /// <summary>
         /// Gets the previous currency.
