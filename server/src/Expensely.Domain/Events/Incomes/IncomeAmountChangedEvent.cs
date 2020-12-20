@@ -11,6 +11,6 @@ namespace Expensely.Domain.Events.Incomes
         /// <summary>
         /// Gets the income identifier.
         /// </summary>
-        public Guid IncomeId { get; init; 
+        public Guid IncomeId { get; init; }
     }
 }
