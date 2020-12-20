@@ -28,6 +28,10 @@ namespace Expensely.Persistence.Reporting.Configurations
 
             builder.Property(transactionSummary => transactionSummary.Amount).HasPrecision(12, 4).IsRequired();
 
+            builder.Property(transactionSummary => transactionSummary.CreatedOnUtc).IsRequired();
+
+            builder.Property(transactionSummary => transactionSummary.ModifiedOnUtc).IsRequired(false);
+
             builder.HasOne<User>()
                 .WithMany()
                 .HasForeignKey(transactionSummary => transactionSummary.UserId)

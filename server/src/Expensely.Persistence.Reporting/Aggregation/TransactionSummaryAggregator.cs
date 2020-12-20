@@ -34,20 +34,21 @@ namespace Expensely.Persistence.Reporting.Aggregation
         {
             const string sql = @"
                 UPDATE [TransactionSummary]
-                SET Amount =
-                    (SELECT SUM(t.Amount) FROM [Transaction] t
-                        WHERE
-                           t.UserId = @UserId AND
-                           t.OccurredOn >= @StartOfMonth AND
-                           t.Currency = @Currency AND
-                           t.TransactionType = @TransactionType
-                        GROUP BY t.TransactionType)
-                    WHERE
-                        UserId = @UserId AND
-                        Year = @Year AND
-                        Month = @Month AND
-                        Currency = @Currency AND
-                        TransactionType = @TransactionType";
+                SET ModifiedOnUtc = @ModifiedOnUtc, Amount =
+                    (SELECT SUM(t.Amount)
+                     FROM [Transaction] t
+                     WHERE
+                        t.UserId = @UserId AND
+                        t.OccurredOn >= @StartOfMonth AND
+                        t.Currency = @Currency AND
+                        t.TransactionType = @TransactionType
+                     GROUP BY t.TransactionType)
+                WHERE
+                    UserId = @UserId AND
+                    Year = @Year AND
+                    Month = @Month AND
+                    Currency = @Currency AND
+                    TransactionType = @TransactionType";
 
             DateTime utcNow = _dateTime.UtcNow;
 
@@ -58,7 +59,8 @@ namespace Expensely.Persistence.Reporting.Aggregation
                 transaction.TransactionType,
                 transaction.OccurredOn.Year,
                 transaction.OccurredOn.Month,
-                StartOfMonth = new DateTime(utcNow.Year, utcNow.Month, 1).Date
+                StartOfMonth = new DateTime(utcNow.Year, utcNow.Month, 1).Date,
+                ModifiedOnUtc = utcNow
             };
 
             using IDbConnection dbConnection = _dbConnectionProvider.Create();

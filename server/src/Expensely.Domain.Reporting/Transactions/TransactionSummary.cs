@@ -41,5 +41,15 @@ namespace Expensely.Domain.Reporting.Transactions
         /// Gets the amount.
         /// </summary>
         public decimal Amount { get; init; }
+
+        /// <summary>
+        /// Gets the created on date and time in UTC format.
+        /// </summary>
+        public DateTime CreatedOnUtc { get; init; }
+
+        /// <summary>
+        /// Gets the modified on date and time in UTC format.
+        /// </summary>
+        public DateTime? ModifiedOnUtc { get; init; }
     }
 }

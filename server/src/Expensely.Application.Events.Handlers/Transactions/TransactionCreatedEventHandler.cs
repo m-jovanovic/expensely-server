@@ -5,6 +5,7 @@ using Expensely.Application.Abstractions.Aggregation;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Events.Handlers.Specifications.Transactions;
 using Expensely.Application.Events.Handlers.Specifications.TransactionSummaries;
+using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Events.Expenses;
@@ -22,18 +23,22 @@ namespace Expensely.Application.Events.Handlers.Transactions
     {
         private readonly IReportingDbContext _reportingDbContext;
         private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;
+        private readonly IDateTime _dateTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionCreatedEventHandler"/> class.
         /// </summary>
         /// <param name="reportingDbContext">The reporting database context.</param>
         /// <param name="transactionSummaryAggregator">The transaction summary aggregator.</param>
+        /// <param name="dateTime">The date and time.</param>
         public TransactionCreatedEventHandler(
             IReportingDbContext reportingDbContext,
-            ITransactionSummaryAggregator transactionSummaryAggregator)
+            ITransactionSummaryAggregator transactionSummaryAggregator,
+            IDateTime dateTime)
         {
             _reportingDbContext = reportingDbContext;
             _transactionSummaryAggregator = transactionSummaryAggregator;
+            _dateTime = dateTime;
         }
 
         /// <inheritdoc />
@@ -66,10 +71,10 @@ namespace Expensely.Application.Events.Handlers.Transactions
                 return;
             }
 
-            await InsertTransactionSummaryAsync(transaction, cancellationToken);
+            await InsertTransactionSummaryAsync(transaction, _dateTime.UtcNow, cancellationToken);
         }
 
-        private async Task InsertTransactionSummaryAsync(Transaction transaction, CancellationToken cancellationToken)
+        private async Task InsertTransactionSummaryAsync(Transaction transaction, DateTime utcNow, CancellationToken cancellationToken)
         {
             var transactionSummary = new TransactionSummary
             {
@@ -79,7 +84,8 @@ namespace Expensely.Application.Events.Handlers.Transactions
                 Month = transaction.OccurredOn.Month,
                 Currency = transaction.Currency,
                 TransactionType = transaction.TransactionType,
-                Amount = transaction.Amount
+                Amount = transaction.Amount,
+                CreatedOnUtc = utcNow
             };
 
             _reportingDbContext.Insert(transactionSummary);
