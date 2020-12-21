@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using Expensely.Application.Abstractions.Specifications;
 using Expensely.Domain.Reporting.Transactions;
 
-namespace Expensely.Application.Events.Handlers.Specifications.TransactionSummaries
+namespace Expensely.Persistence.Reporting.Specifications.TransactionSummaries
 {
     /// <summary>
     /// Represents the specification for determining the transaction summary by transaction.

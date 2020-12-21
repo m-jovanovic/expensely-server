@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Domain.Reporting.Transactions;
 
 namespace Expensely.Application.Abstractions.Aggregation
 {
@@ -10,11 +10,12 @@ namespace Expensely.Application.Abstractions.Aggregation
     public interface ITransactionSummaryAggregator
     {
         /// <summary>
-        /// Aggregates the transaction summary for the specified transaction.
+        /// Aggregates the transaction summary for the specified transaction identifier and optional currency.
         /// </summary>
-        /// <param name="transaction">The transaction.</param>
+        /// <param name="transactionId">The transaction identifier.</param>
+        /// <param name="currency">The currency.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The completed task.</returns>
-        Task AggregateForTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default);
+        Task AggregateAsync(Guid transactionId, int? currency = null, CancellationToken cancellationToken = default);
     }
 }

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using Expensely.Application.Abstractions.Specifications;
 using Expensely.Domain.Reporting.Transactions;
 
-namespace Expensely.Application.Events.Handlers.Specifications.Transactions
+namespace Expensely.Persistence.Reporting.Specifications.Transactions
 {
     /// <summary>
     /// Represents the specification for determining the transaction by identifier.

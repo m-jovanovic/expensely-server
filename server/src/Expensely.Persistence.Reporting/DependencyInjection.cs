@@ -31,7 +31,7 @@ namespace Expensely.Persistence.Reporting
 
             services.AddScoped<IReportingDbContext>(serviceProvider => serviceProvider.GetRequiredService<ReportingDbContext>());
 
-            services.AddTransient<ITransactionSummaryAggregator, TransactionSummaryAggregator>();
+            services.AddScoped<ITransactionSummaryAggregator, TransactionSummaryAggregator>();
 
             return services;
         }
