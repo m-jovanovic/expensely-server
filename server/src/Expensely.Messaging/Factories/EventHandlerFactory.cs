@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
 using System.Reflection;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Messaging.Abstractions.Factories;
@@ -40,15 +41,20 @@ namespace Expensely.Messaging.Factories
         }
 
         /// <inheritdoc />
-        public MethodInfo GetHandleMethod(object handler, Type[] types)
+        public MethodInfo GetHandleMethod(Type handlerType, Type[] types)
         {
-            if (handler is null)
+            if (handlerType is null)
             {
-                throw new ArgumentNullException(nameof(handler));
+                throw new ArgumentNullException(nameof(handlerType));
+            }
+
+            if (types is null)
+            {
+                throw new ArgumentNullException(nameof(types));
             }
 
             return EventHandlerHandleMethodDictionary.GetOrAdd(
-                (handler.GetType(), types),
+                (handlerType, types),
                 x => x.HandlerType.GetMethod(HandleMethodName, x.HandleMethodArgumentTypes));
         }
     }

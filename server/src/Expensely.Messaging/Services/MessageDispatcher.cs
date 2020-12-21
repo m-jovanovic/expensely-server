@@ -80,6 +80,10 @@ namespace Expensely.Messaging.Services
         }
 
         private Task HandleEvent(object handler, object[] parameters) =>
-            (Task)_eventHandlerFactory.GetHandleMethod(handler, parameters.Select(x => x.GetType()).ToArray()).Invoke(handler, parameters);
+            (Task)_eventHandlerFactory
+                .GetHandleMethod(
+                    handler.GetType(),
+                    parameters.Select(x => x.GetType()).ToArray())
+                .Invoke(handler, parameters);
     }
 }
