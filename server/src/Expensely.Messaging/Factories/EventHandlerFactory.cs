@@ -17,11 +17,10 @@ namespace Expensely.Messaging.Factories
 
         private static readonly Type EventHandlerGenericType = typeof(IEventHandler<>).GetGenericTypeDefinition();
 
-        private static readonly ConcurrentDictionary<Type, Type> EventHandlerInterfaceDefinitionsDictionary =
-            new ConcurrentDictionary<Type, Type>();
+        private static readonly ConcurrentDictionary<Type, Type> EventHandlerInterfaceDefinitionsDictionary = new();
 
-        private static readonly ConcurrentDictionary<Type, MethodInfo> EventHandlerHandleMethodDictionary =
-            new ConcurrentDictionary<Type, MethodInfo>();
+        private static readonly ConcurrentDictionary<(Type HandlerType, Type[] HandleMethodArgumentTypes), MethodInfo>
+            EventHandlerHandleMethodDictionary = new();
 
         /// <inheritdoc />
         public IEnumerable<object> GetHandlers(IEvent @event, IServiceProvider serviceProvider)
@@ -41,14 +40,16 @@ namespace Expensely.Messaging.Factories
         }
 
         /// <inheritdoc />
-        public MethodInfo GetHandleMethod(object handler)
+        public MethodInfo GetHandleMethod(object handler, Type[] types)
         {
             if (handler is null)
             {
                 throw new ArgumentNullException(nameof(handler));
             }
 
-            return EventHandlerHandleMethodDictionary.GetOrAdd(handler.GetType(), handlerType => handlerType.GetMethod(HandleMethodName));
+            return EventHandlerHandleMethodDictionary.GetOrAdd(
+                (handler.GetType(), types),
+                x => x.HandlerType.GetMethod(HandleMethodName, x.HandleMethodArgumentTypes));
         }
     }
 }

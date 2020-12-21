@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
@@ -79,6 +80,6 @@ namespace Expensely.Messaging.Services
         }
 
         private Task HandleEvent(object handler, object[] parameters) =>
-            (Task)_eventHandlerFactory.GetHandleMethod(handler).Invoke(handler, parameters);
+            (Task)_eventHandlerFactory.GetHandleMethod(handler, parameters.Select(x => x.GetType()).ToArray()).Invoke(handler, parameters);
     }
 }

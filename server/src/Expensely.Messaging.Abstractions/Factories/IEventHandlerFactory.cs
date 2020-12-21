@@ -22,7 +22,8 @@ namespace Expensely.Messaging.Abstractions.Factories
         /// Gets the handle method for the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
+        /// <param name="types">The argument types array for the handle method.</param>
         /// <returns>The handle method for the specified handler.</returns>
-        MethodInfo GetHandleMethod(object handler);
+        MethodInfo GetHandleMethod(object handler, Type[] types);
     }
 }
