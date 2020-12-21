@@ -14,24 +14,29 @@ using Expensely.Domain.Reporting.Transactions;
 
 namespace Expensely.Application.Events.Handlers.Transactions
 {
+    /// TODO: Move all of the common logic into some sort of service? And then split all of the handlers into separate classes.
     /// <summary>
-    /// Represents the <see cref="ExpenseCreatedEvent"/> handler, <see cref="IncomeCreatedEvent"/> handler.
+    /// Represents the transaction summary aggregation handler.
     /// </summary>
-    public sealed class TransactionCreatedEventHandler :
+    public sealed class TransactionSummaryAggregationHandler :
         IEventHandler<ExpenseCreatedEvent>,
-        IEventHandler<IncomeCreatedEvent>
+        IEventHandler<ExpenseAmountChangedEvent>,
+        IEventHandler<ExpenseCurrencyChangedEvent>,
+        IEventHandler<IncomeCreatedEvent>,
+        IEventHandler<IncomeAmountChangedEvent>,
+        IEventHandler<IncomeCurrencyChangedEvent>
     {
         private readonly IReportingDbContext _reportingDbContext;
         private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;
         private readonly IDateTime _dateTime;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionCreatedEventHandler"/> class.
+        /// Initializes a new instance of the <see cref="TransactionSummaryAggregationHandler"/> class.
         /// </summary>
         /// <param name="reportingDbContext">The reporting database context.</param>
         /// <param name="transactionSummaryAggregator">The transaction summary aggregator.</param>
         /// <param name="dateTime">The date and time.</param>
-        public TransactionCreatedEventHandler(
+        public TransactionSummaryAggregationHandler(
             IReportingDbContext reportingDbContext,
             ITransactionSummaryAggregator transactionSummaryAggregator,
             IDateTime dateTime)
@@ -43,13 +48,29 @@ namespace Expensely.Application.Events.Handlers.Transactions
 
         /// <inheritdoc />
         public async Task Handle(ExpenseCreatedEvent @event, CancellationToken cancellationToken) =>
-            await HandleTransactionCreatedAsync(@event.ExpenseId, cancellationToken);
+            await HandleForTransactionIdAsync(@event.ExpenseId, cancellationToken);
+
+        /// <inheritdoc />
+        public async Task Handle(ExpenseAmountChangedEvent @event, CancellationToken cancellationToken) =>
+            await HandleForTransactionIdAsync(@event.ExpenseId, cancellationToken);
+
+        /// <inheritdoc />
+        public async Task Handle(ExpenseCurrencyChangedEvent @event, CancellationToken cancellationToken) =>
+            await HandleForTransactionIdAndCurrencyAsync(@event.ExpenseId, @event.PreviousCurrency, cancellationToken);
 
         /// <inheritdoc />
         public async Task Handle(IncomeCreatedEvent @event, CancellationToken cancellationToken) =>
-            await HandleTransactionCreatedAsync(@event.IncomeId, cancellationToken);
+            await HandleForTransactionIdAsync(@event.IncomeId, cancellationToken);
 
-        private async Task HandleTransactionCreatedAsync(Guid transactionId, CancellationToken cancellationToken)
+        /// <inheritdoc />
+        public async Task Handle(IncomeAmountChangedEvent @event, CancellationToken cancellationToken) =>
+            await HandleForTransactionIdAsync(@event.IncomeId, cancellationToken);
+
+        /// <inheritdoc />
+        public async Task Handle(IncomeCurrencyChangedEvent @event, CancellationToken cancellationToken) =>
+            await HandleForTransactionIdAndCurrencyAsync(@event.IncomeId, @event.PreviousCurrency, cancellationToken);
+
+        private async Task HandleForTransactionIdAsync(Guid transactionId, CancellationToken cancellationToken)
         {
             Maybe<Transaction> maybeTransaction = await _reportingDbContext
                 .FirstOrDefaultAsync(new TransactionByIdSpecification(transactionId), cancellationToken);
@@ -59,8 +80,26 @@ namespace Expensely.Application.Events.Handlers.Transactions
                 return;
             }
 
-            Transaction transaction = maybeTransaction.Value;
+            await AggregateTransactionSummaryAsync(maybeTransaction.Value, cancellationToken);
+        }
 
+        private async Task HandleForTransactionIdAndCurrencyAsync(Guid transactionId, int currency, CancellationToken cancellationToken)
+        {
+            Maybe<Transaction> maybeTransaction = await _reportingDbContext
+                .FirstOrDefaultAsync(new TransactionByIdSpecification(transactionId), cancellationToken);
+
+            if (maybeTransaction.HasNoValue)
+            {
+                return;
+            }
+
+            Transaction transactionWithCurrency = maybeTransaction.Value.WithCurrency(currency);
+
+            await AggregateTransactionSummaryAsync(transactionWithCurrency, cancellationToken);
+        }
+
+        private async Task AggregateTransactionSummaryAsync(Transaction transaction, CancellationToken cancellationToken)
+        {
             bool transactionSummaryExists = await _reportingDbContext
                 .AnyAsync(new TransactionSummaryByTransactionSpecification(transaction), cancellationToken);
 

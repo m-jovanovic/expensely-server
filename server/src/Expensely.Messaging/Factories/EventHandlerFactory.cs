@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO.IsolatedStorage;
 using System.Reflection;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Messaging.Abstractions.Factories;
