@@ -10,6 +10,8 @@ using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Reporting.Transactions;
 using Expensely.Persistence.Reporting.Specifications.Transactions;
 using Expensely.Persistence.Reporting.Specifications.TransactionSummaries;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Expensely.Persistence.Reporting.Aggregation
 {
@@ -21,6 +23,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
         private readonly IReportingDbContext _reportingDbContext;
         private readonly IDbConnectionProvider _dbConnectionProvider;
         private readonly IDateTime _dateTime;
+        private readonly ILogger<TransactionSummaryAggregator> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionSummaryAggregator"/> class.
@@ -28,14 +31,17 @@ namespace Expensely.Persistence.Reporting.Aggregation
         /// <param name="reportingDbContext">The reporting database context.</param>
         /// <param name="dbConnectionProvider">The database connection provider.</param>
         /// <param name="dateTime">The date and time.</param>
+        /// <param name="logger">The logger.</param>
         public TransactionSummaryAggregator(
             IReportingDbContext reportingDbContext,
             IDbConnectionProvider dbConnectionProvider,
-            IDateTime dateTime)
+            IDateTime dateTime,
+            ILogger<TransactionSummaryAggregator> logger)
         {
             _reportingDbContext = reportingDbContext;
             _dbConnectionProvider = dbConnectionProvider;
             _dateTime = dateTime;
+            _logger = logger;
         }
 
         /// <inheritdoc />
@@ -62,6 +68,43 @@ namespace Expensely.Persistence.Reporting.Aggregation
             }
 
             await InsertTransactionSummaryAsync(transaction, _dateTime.UtcNow, cancellationToken);
+        }
+
+        /// <inheritdoc />
+        public async Task IncrementByTransactionAmountAsync(Guid transactionId, CancellationToken cancellationToken = default)
+        {
+            Maybe<Transaction> maybeTransaction = await _reportingDbContext
+                .FirstOrDefaultAsync(new TransactionByIdSpecification(transactionId), cancellationToken);
+
+            if (maybeTransaction.HasNoValue)
+            {
+                return;
+            }
+
+            Transaction transaction = maybeTransaction.Value;
+
+            Maybe<TransactionSummary> maybeTransactionSummary = await _reportingDbContext
+                .FirstOrDefaultAsync(new TransactionSummaryByTransactionSpecification(transaction), cancellationToken);
+
+            if (maybeTransaction.HasNoValue)
+            {
+                await InsertTransactionSummaryAsync(transaction, _dateTime.UtcNow, cancellationToken);
+
+                return;
+            }
+
+            try
+            {
+                maybeTransactionSummary.Value.Amount += transaction.Amount;
+
+                await _reportingDbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
+            {
+                _logger.LogError(dbUpdateConcurrencyException, "Concurrency exception while aggregating {TransactionId}", transaction.Id);
+
+                await AggregateForTransactionAsync(transaction);
+            }
         }
 
         /// <summary>

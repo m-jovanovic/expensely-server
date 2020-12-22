@@ -38,9 +38,9 @@ namespace Expensely.Domain.Reporting.Transactions
         public int TransactionType { get; init; }
 
         /// <summary>
-        /// Gets the amount.
+        /// Gets or sets the amount.
         /// </summary>
-        public decimal Amount { get; init; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// Gets the created on date and time in UTC format.
