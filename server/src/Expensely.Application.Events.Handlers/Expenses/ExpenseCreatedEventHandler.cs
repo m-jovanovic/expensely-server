@@ -22,6 +22,6 @@ namespace Expensely.Application.Events.Handlers.Expenses
 
         /// <inheritdoc />
         public async Task Handle(ExpenseCreatedEvent @event, CancellationToken cancellationToken) =>
-            await _transactionSummaryAggregator.AggregateAsync(@event.ExpenseId, cancellationToken: cancellationToken);
+            await _transactionSummaryAggregator.IncrementByTransactionAmountAsync(@event.ExpenseId, cancellationToken);
     }
 }
