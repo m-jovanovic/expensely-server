@@ -16,7 +16,8 @@ namespace Expensely.Persistence.Reporting.Migrations
                 name: "CreatedOnUtc",
                 table: "TransactionSummary",
                 type: "datetime2",
-                nullable: false);
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "ModifiedOnUtc",

@@ -12,10 +12,12 @@ namespace Expensely.Messaging.Abstractions.Entities
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="consumerName">The consumer name.</param>
-        public MessageConsumer(Message message, string consumerName)
+        /// <param name="createdOnUtc">The created on date and time in UTC format.</param>
+        public MessageConsumer(Message message, string consumerName, DateTime createdOnUtc)
         {
             MessageId = message.Id;
             ConsumerName = consumerName;
+            CreatedOnUtc = createdOnUtc;
         }
 
         /// <summary>
@@ -37,5 +39,10 @@ namespace Expensely.Messaging.Abstractions.Entities
         /// Gets the message consumer.
         /// </summary>
         public string ConsumerName { get; private set; }
+
+        /// <summary>
+        /// Gets the created on date and time in UTC format.
+        /// </summary>
+        public DateTime CreatedOnUtc { get; private set; }
     }
 }

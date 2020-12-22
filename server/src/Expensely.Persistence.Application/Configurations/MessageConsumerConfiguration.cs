@@ -16,6 +16,8 @@ namespace Expensely.Persistence.Application.Configurations
 
             builder.Property(messageConsumer => messageConsumer.ConsumerName).HasMaxLength(200);
 
+            builder.Property(messageConsumer => messageConsumer.CreatedOnUtc).IsRequired();
+
             builder.HasOne<Message>()
                 .WithMany()
                 .HasForeignKey(messageConsumer => messageConsumer.MessageId)
