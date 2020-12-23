@@ -1,11 +1,13 @@
 ﻿using System.Text;
 using Expensely.Application.Abstractions.Authentication;
+using Expensely.Application.Abstractions.Messaging;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Services;
 using Expensely.Infrastructure.Authentication;
 using Expensely.Infrastructure.Authentication.Settings;
 using Expensely.Infrastructure.Common;
 using Expensely.Infrastructure.Cryptography;
+using Expensely.Infrastructure.Messaging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,6 +49,8 @@ namespace Expensely.Infrastructure
             services.AddScoped<IUserInformationProvider, UserInformationProvider>();
 
             services.AddScoped<IJwtProvider, JwtProvider>();
+
+            services.AddScoped<IEventPublisher, EventPublisher>();
 
             services.AddTransient<IPasswordService, PasswordService>();
 

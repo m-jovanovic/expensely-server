@@ -16,7 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Expensely.Application.Abstractions\Expensely.Application.Abstractions.csproj" />
     <ProjectReference Include="..\Expensely.Common.Abstractions\Expensely.Common.Abstractions.csproj" />
-    <ProjectReference Include="..\Expensely.Messaging.Abstractions\Expensely.Messaging.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
