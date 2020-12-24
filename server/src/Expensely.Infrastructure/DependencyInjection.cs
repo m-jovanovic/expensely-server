@@ -50,7 +50,7 @@ namespace Expensely.Infrastructure
 
             services.AddScoped<IJwtProvider, JwtProvider>();
 
-            services.AddScoped<IEventPublisher, EventPublisher>();
+            services.AddTransient<IEventPublisher, EventPublisher>();
 
             services.AddTransient<IPasswordService, PasswordService>();
 
