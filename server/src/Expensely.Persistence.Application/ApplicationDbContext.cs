@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Abstractions.Messaging;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
-using Expensely.Messaging.Abstractions.Entities;
 using Expensely.Persistence.Application.Extensions;
 using Expensely.Persistence.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Expensely.Persistence.Application
 {
@@ -23,16 +24,21 @@ namespace Expensely.Persistence.Application
     /// </summary>
     public sealed class ApplicationDbContext : BaseDbContext, IApplicationDbContext
     {
+        private readonly IEventPublisher _eventPublisher;
         private readonly IDateTime _dateTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
         /// </summary>
         /// <param name="options">The database context options.</param>
+        /// <param name="eventPublisher">The event publisher.</param>
         /// <param name="dateTime">The current date and time.</param>
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTime dateTime)
-            : base(options) =>
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IEventPublisher eventPublisher, IDateTime dateTime)
+            : base(options)
+        {
+            _eventPublisher = eventPublisher;
             _dateTime = dateTime;
+        }
 
         /// <inheritdoc />
         public async Task<Maybe<TEntity>> GetBydIdAsync<TEntity>(Guid id, CancellationToken cancellationToken = default)
@@ -53,11 +59,18 @@ namespace Expensely.Persistence.Application
         /// <returns>The number of entities that have been saved.</returns>
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            StoreDomainEvents();
+            await using IDbContextTransaction transaction = await Database
+                .BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
 
             UpdateAuditableEntities(_dateTime.UtcNow);
 
-            return await base.SaveChangesAsync(cancellationToken);
+            int result = await base.SaveChangesAsync(cancellationToken);
+
+            await PublishDomainEvents(transaction.GetDbTransaction(), cancellationToken);
+
+            await transaction.CommitAsync(cancellationToken);
+
+            return result;
         }
 
         /// <inheritdoc />
@@ -91,36 +104,26 @@ namespace Expensely.Persistence.Application
         }
 
         /// <summary>
-        /// Stores the domain events present on the entities.
+        /// Publishes the domain events present on the entities.
         /// </summary>
-        private void StoreDomainEvents()
+        /// <param name="transaction">The database transaction.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The completed task.</returns>
+        private async Task PublishDomainEvents(IDbTransaction transaction, CancellationToken cancellationToken)
         {
-            var messages = ChangeTracker
+            IEnumerable<IEvent> events = ChangeTracker
                 .Entries<AggregateRoot>()
                 .Where(x => x.Entity.Events.Any())
                 .SelectMany(x =>
                 {
-                    IReadOnlyCollection<IEvent> events = x.Entity.Events;
+                    IReadOnlyCollection<IEvent> entityEvents = x.Entity.Events;
 
                     x.Entity.ClearEvents();
 
-                    return events;
-                })
-                .Select(x => new Message
-                {
-                    Id = Guid.NewGuid(),
-                    Name = x.GetType().Name,
-                    Content = JsonConvert.SerializeObject(x, new JsonSerializerSettings
-                    {
-                        TypeNameHandling = TypeNameHandling.All
-                    })
-                })
-                .ToList();
+                    return entityEvents;
+                });
 
-            if (messages.Any())
-            {
-                Set<Message>().AddRange(messages);
-            }
+            await _eventPublisher.PublishAsync(events, transaction, cancellationToken);
         }
     }
 }
