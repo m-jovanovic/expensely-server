@@ -18,7 +18,7 @@ namespace Expensely.Persistence.Application.Configurations
 
             builder.Property(message => message.Content).IsRequired();
 
-            builder.Property(message => message.Processed).IsRequired();
+            builder.Property(message => message.Processed).IsRequired().HasDefaultValue(false);
 
             builder.Property(message => message.Retries).IsRequired().HasDefaultValue(0);
 
