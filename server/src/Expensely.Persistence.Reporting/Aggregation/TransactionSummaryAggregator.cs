@@ -101,7 +101,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
             }
             catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
             {
-                _logger.LogError(dbUpdateConcurrencyException, "Concurrency exception while aggregating {TransactionId}", transaction.Id);
+                _logger.LogError(dbUpdateConcurrencyException, "Concurrency exception while aggregating {@TransactionId}", transaction.Id);
 
                 await AggregateForTransactionAsync(transaction);
             }
