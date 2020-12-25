@@ -59,18 +59,14 @@ namespace Expensely.Persistence.Application
         /// <returns>The number of entities that have been saved.</returns>
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            await using IDbContextTransaction transaction = await Database
-                .BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
+            IReadOnlyCollection<IEvent> events = GetRaisedEventsForPublishing();
 
-            UpdateAuditableEntities(_dateTime.UtcNow);
+            if (!events.Any())
+            {
+                return await SaveChangesInternalAsync(cancellationToken);
+            }
 
-            int result = await base.SaveChangesAsync(cancellationToken);
-
-            await PublishDomainEvents(transaction.GetDbTransaction(), cancellationToken);
-
-            await transaction.CommitAsync(cancellationToken);
-
-            return result;
+            return await SaveChangesAndPublishEventsAsync(events, cancellationToken);
         }
 
         /// <inheritdoc />
@@ -81,6 +77,38 @@ namespace Expensely.Persistence.Application
             modelBuilder.ApplyUtcDateTimeConverter();
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        /// <summary>
+        /// Saves the pending changes and updates the auditable entities.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The number of entities that have been saved.</returns>
+        private Task<int> SaveChangesInternalAsync(CancellationToken cancellationToken)
+        {
+            UpdateAuditableEntities(_dateTime.UtcNow);
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Saves the pending changes and publishes the specified events within a transaction.
+        /// </summary>
+        /// <param name="events">The events to be published.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The number of entities that have been saved.</returns>
+        private async Task<int> SaveChangesAndPublishEventsAsync(IReadOnlyCollection<IEvent> events, CancellationToken cancellationToken)
+        {
+            await using IDbContextTransaction transaction = await Database
+                .BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
+
+            int result = await SaveChangesInternalAsync(cancellationToken);
+
+            await _eventPublisher.PublishAsync(events, transaction.GetDbTransaction());
+
+            await transaction.CommitAsync(cancellationToken);
+
+            return result;
         }
 
         /// <summary>
@@ -104,14 +132,11 @@ namespace Expensely.Persistence.Application
         }
 
         /// <summary>
-        /// Publishes the domain events present on the entities.
+        /// Gets the events that have been raised for publishing.
         /// </summary>
-        /// <param name="transaction">The database transaction.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The completed task.</returns>
-        private async Task PublishDomainEvents(IDbTransaction transaction, CancellationToken cancellationToken)
-        {
-            IEnumerable<IEvent> events = ChangeTracker
+        /// <returns>The enumerable collection of events.</returns>
+        private IReadOnlyCollection<IEvent> GetRaisedEventsForPublishing() =>
+            ChangeTracker
                 .Entries<AggregateRoot>()
                 .Where(x => x.Entity.Events.Any())
                 .SelectMany(x =>
@@ -121,9 +146,6 @@ namespace Expensely.Persistence.Application
                     x.Entity.ClearEvents();
 
                     return entityEvents;
-                });
-
-            await _eventPublisher.PublishAsync(events, transaction, cancellationToken);
-        }
+                }).ToArray();
     }
 }

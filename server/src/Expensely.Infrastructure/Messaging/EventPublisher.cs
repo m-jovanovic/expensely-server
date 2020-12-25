@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using Expensely.Application.Abstractions.Data;
@@ -33,12 +32,11 @@ namespace Expensely.Infrastructure.Messaging
         }
 
         /// <inheritdoc />
-        public async Task PublishAsync(IEvent @event, IDbTransaction transaction = null, CancellationToken cancellationToken = default) =>
-            await PublishAsync(new[] { @event }, transaction, cancellationToken);
+        public async Task PublishAsync(IEvent @event, IDbTransaction transaction = null) =>
+            await PublishAsync(new[] { @event }, transaction);
 
         /// <inheritdoc />
-        public async Task PublishAsync(
-            IEnumerable<IEvent> events, IDbTransaction transaction = null, CancellationToken cancellationToken = default)
+        public async Task PublishAsync(IEnumerable<IEvent> events, IDbTransaction transaction = null)
         {
             Message[] messages = events.Select(ConvertEventToMessage).ToArray();
 
@@ -59,12 +57,24 @@ namespace Expensely.Infrastructure.Messaging
             await InsertMessages(dbConnection, messages);
         }
 
+        /// <summary>
+        /// Inserts the specified messages to the database.
+        /// </summary>
+        /// <param name="dbConnection">The database connection.</param>
+        /// <param name="messages">The messages to be inserted.</param>
+        /// <param name="transaction">The database transaction.</param>
+        /// <returns>The completed task.</returns>
         private static Task InsertMessages(IDbConnection dbConnection, Message[] messages, IDbTransaction transaction = null) =>
             dbConnection.ExecuteAsync(
                 "INSERT [Message] (Id, Name, Content, CreatedOnUtc) VALUES(@Id, @Name, @Content, @CreatedOnUtc)",
                 messages,
                 transaction);
 
+        /// <summary>
+        /// Converts the specified <see cref="IEvent"/> instance into a <see cref="Message"/> instance.
+        /// </summary>
+        /// <param name="event">The event instance to be converted.</param>
+        /// <returns>The message instance.</returns>
         private Message ConvertEventToMessage(IEvent @event) =>
             new(
                 @event.GetType().Name,
