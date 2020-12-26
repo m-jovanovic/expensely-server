@@ -13,9 +13,9 @@ namespace Expensely.Application.Reporting.Abstractions.Contracts
         public Guid UserId { get; init; }
 
         /// <summary>
-        /// Gets the transaction type.
+        /// Gets the amount.
         /// </summary>
-        public int TransactionType { get; init; }
+        public decimal Amount { get; init; }
 
         /// <summary>
         /// Gets the currency.
@@ -23,13 +23,13 @@ namespace Expensely.Application.Reporting.Abstractions.Contracts
         public int Currency { get; init; }
 
         /// <summary>
-        /// Gets the amount.
-        /// </summary>
-        public decimal Amount { get; init; }
-
-        /// <summary>
         /// Gets the occurred on date.
         /// </summary>
         public DateTime OccurredOn { get; init; }
+
+        /// <summary>
+        /// Gets the transaction type.
+        /// </summary>
+        public int TransactionType { get; init; }
     }
 }

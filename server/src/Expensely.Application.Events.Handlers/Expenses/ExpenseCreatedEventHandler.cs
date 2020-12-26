@@ -28,10 +28,10 @@ namespace Expensely.Application.Events.Handlers.Expenses
                 new TransactionDetails
                 {
                     UserId = @event.UserId,
-                    TransactionType = (int)TransactionType.Expense,
-                    Currency = @event.Currency,
                     Amount = @event.Amount,
-                    OccurredOn = @event.OccurredOn
+                    Currency = @event.Currency,
+                    OccurredOn = @event.OccurredOn,
+                    TransactionType = (int)TransactionType.Expense
                 },
                 cancellationToken);
     }
