@@ -122,6 +122,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
                      WHERE
                         t.UserId = @UserId AND
                         t.OccurredOn >= @StartOfMonth AND
+                        t.OccurredOn <= @EndOfMonth AND
                         t.Currency = @Currency AND
                         t.TransactionType = @TransactionType
                      GROUP BY t.TransactionType)
@@ -134,6 +135,10 @@ namespace Expensely.Persistence.Reporting.Aggregation
 
             DateTime utcNow = _dateTime.UtcNow;
 
+            DateTime startOfMonth = new DateTime(transaction.OccurredOn.Year, transaction.OccurredOn.Month, 1).Date;
+
+            DateTime endOfMonth = startOfMonth.AddMonths(1).AddDays(-1).Date;
+
             var parameters = new
             {
                 transaction.UserId,
@@ -141,7 +146,8 @@ namespace Expensely.Persistence.Reporting.Aggregation
                 transaction.TransactionType,
                 transaction.OccurredOn.Year,
                 transaction.OccurredOn.Month,
-                StartOfMonth = new DateTime(utcNow.Year, utcNow.Month, 1).Date,
+                StartOfMonth = startOfMonth,
+                EndOfMonth = endOfMonth,
                 ModifiedOnUtc = utcNow
             };
 
