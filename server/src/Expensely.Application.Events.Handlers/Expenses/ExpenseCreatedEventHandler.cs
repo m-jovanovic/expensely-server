@@ -1,7 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Reporting.Abstractions.Aggregation;
+using Expensely.Application.Reporting.Abstractions.Contracts;
 using Expensely.Domain.Abstractions.Events;
+using Expensely.Domain.Core;
 using Expensely.Domain.Events.Expenses;
 
 namespace Expensely.Application.Events.Handlers.Expenses
@@ -22,6 +24,15 @@ namespace Expensely.Application.Events.Handlers.Expenses
 
         /// <inheritdoc />
         public async Task Handle(ExpenseCreatedEvent @event, CancellationToken cancellationToken) =>
-            await _transactionSummaryAggregator.IncrementByTransactionAmountAsync(@event.ExpenseId, cancellationToken);
+            await _transactionSummaryAggregator.IncreaseByAmountAsync(
+                new TransactionDetails
+                {
+                    UserId = @event.UserId,
+                    TransactionType = (int)TransactionType.Expense,
+                    Currency = @event.Currency,
+                    Amount = @event.Amount,
+                    OccurredOn = @event.OccurredOn
+                },
+                cancellationToken);
     }
 }

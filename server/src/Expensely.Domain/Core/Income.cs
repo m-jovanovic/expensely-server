@@ -46,7 +46,10 @@ namespace Expensely.Domain.Core
 
             income.Raise(new IncomeCreatedEvent
             {
-                IncomeId = income.Id
+                UserId = income.UserId,
+                Amount = income.Money.Amount,
+                Currency = income.Money.Currency.Value,
+                OccurredOn = income.OccurredOn
             });
 
             return income;

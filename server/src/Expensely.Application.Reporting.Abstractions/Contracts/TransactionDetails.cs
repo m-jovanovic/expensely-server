@@ -1,12 +1,11 @@
 ﻿using System;
-using Expensely.Domain.Abstractions.Events;
 
-namespace Expensely.Domain.Events.Incomes
+namespace Expensely.Application.Reporting.Abstractions.Contracts
 {
     /// <summary>
-    /// Represents the event that is raised when an income is created.
+    /// Represents the transaction details.
     /// </summary>
-    public sealed class IncomeCreatedEvent : IEvent
+    public sealed class TransactionDetails
     {
         /// <summary>
         /// Gets the user identifier.
@@ -14,14 +13,19 @@ namespace Expensely.Domain.Events.Incomes
         public Guid UserId { get; init; }
 
         /// <summary>
-        /// Gets the amount.
+        /// Gets the transaction type.
         /// </summary>
-        public decimal Amount { get; init; }
+        public int TransactionType { get; init; }
 
         /// <summary>
         /// Gets the currency.
         /// </summary>
         public int Currency { get; init; }
+
+        /// <summary>
+        /// Gets the amount.
+        /// </summary>
+        public decimal Amount { get; init; }
 
         /// <summary>
         /// Gets the occurred on date.
