@@ -62,6 +62,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.DeleteExpense
 
             await _eventPublisher.PublishAsync(new ExpenseDeletedEvent
             {
+                UserId = expense.UserId,
                 Amount = expense.Money.Amount,
                 Currency = expense.Money.Currency.Value,
                 OccurredOn = expense.OccurredOn
