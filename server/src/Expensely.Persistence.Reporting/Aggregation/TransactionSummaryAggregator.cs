@@ -72,37 +72,30 @@ namespace Expensely.Persistence.Reporting.Aggregation
         }
 
         /// <inheritdoc />
-        public async Task IncreaseByAmountAsync(TransactionDetails transactionDetails, CancellationToken cancellationToken = default)
-        {
-            Maybe<TransactionSummary> maybeTransactionSummary = await _reportingDbContext
-                .FirstOrDefaultAsync(new TransactionSummaryByTransactionDetailsSpecification(transactionDetails), cancellationToken);
-
-            if (maybeTransactionSummary.HasNoValue)
-            {
-                await InsertForTransactionDetailsAsync(transactionDetails, _dateTime.UtcNow, cancellationToken);
-
-                return;
-            }
-
-            try
-            {
-                maybeTransactionSummary.Value.Amount += transactionDetails.Amount;
-
-                await _reportingDbContext.SaveChangesAsync(cancellationToken);
-            }
-            catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
-            {
-                _logger.LogError(
-                    dbUpdateConcurrencyException,
-                    "Failed to increase transaction summary amount for user {@UserId}.",
-                    transactionDetails.UserId);
-
-                await AggregateForTransactionDetailsAsync(transactionDetails);
-            }
-        }
+        public async Task IncreaseByAmountAsync(TransactionDetails transactionDetails, CancellationToken cancellationToken = default) =>
+            await UpdateWithTransactionDetailsAsync(
+                transactionDetails,
+                (summary, details) => summary.Amount += details.Amount,
+                cancellationToken);
 
         /// <inheritdoc />
-        public async Task DecreaseByAmountAsync(TransactionDetails transactionDetails, CancellationToken cancellationToken = default)
+        public async Task DecreaseByAmountAsync(TransactionDetails transactionDetails, CancellationToken cancellationToken = default) =>
+            await UpdateWithTransactionDetailsAsync(
+                transactionDetails,
+                (summary, details) => summary.Amount -= details.Amount,
+                cancellationToken);
+
+        /// <summary>
+        /// Updates the transaction summary for the specified transaction details based on the specified update action.
+        /// </summary>
+        /// <param name="transactionDetails">The transaction details.</param>
+        /// <param name="updateAction">The update action.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The completed task.</returns>
+        private async Task UpdateWithTransactionDetailsAsync(
+            TransactionDetails transactionDetails,
+            Action<TransactionSummary, TransactionDetails> updateAction,
+            CancellationToken cancellationToken = default)
         {
             Maybe<TransactionSummary> maybeTransactionSummary = await _reportingDbContext
                 .FirstOrDefaultAsync(new TransactionSummaryByTransactionDetailsSpecification(transactionDetails), cancellationToken);
@@ -116,7 +109,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
 
             try
             {
-                maybeTransactionSummary.Value.Amount -= transactionDetails.Amount;
+                updateAction(maybeTransactionSummary.Value, transactionDetails);
 
                 await _reportingDbContext.SaveChangesAsync(cancellationToken);
             }
@@ -124,7 +117,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
             {
                 _logger.LogError(
                     dbUpdateConcurrencyException,
-                    "Failed to decrease transaction summary amount for user {@UserId}.",
+                    "Failed to update transaction summary amount for user {@UserId}.",
                     transactionDetails.UserId);
 
                 await AggregateForTransactionDetailsAsync(transactionDetails);
