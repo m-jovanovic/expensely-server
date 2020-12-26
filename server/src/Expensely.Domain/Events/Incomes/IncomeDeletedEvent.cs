@@ -9,6 +9,11 @@ namespace Expensely.Domain.Events.Incomes
     public sealed class IncomeDeletedEvent : IEvent
     {
         /// <summary>
+        /// Gets the user identifier.
+        /// </summary>
+        public Guid UserId { get; init; }
+
+        /// <summary>
         /// Gets the amount.
         /// </summary>
         public decimal Amount { get; init; }
