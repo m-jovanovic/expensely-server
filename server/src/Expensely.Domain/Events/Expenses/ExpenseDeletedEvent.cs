@@ -1,4 +1,5 @@
-﻿using Expensely.Domain.Abstractions.Events;
+﻿using System;
+using Expensely.Domain.Abstractions.Events;
 
 namespace Expensely.Domain.Events.Expenses
 {
@@ -16,5 +17,10 @@ namespace Expensely.Domain.Events.Expenses
         /// Gets the currency.
         /// </summary>
         public int Currency { get; init; }
+
+        /// <summary>
+        /// Gets the occurred on date.
+        /// </summary>
+        public DateTime OccurredOn { get; init; }
     }
 }

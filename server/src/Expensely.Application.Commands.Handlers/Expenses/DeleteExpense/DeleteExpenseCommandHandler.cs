@@ -63,7 +63,8 @@ namespace Expensely.Application.Commands.Handlers.Expenses.DeleteExpense
             await _eventPublisher.PublishAsync(new ExpenseDeletedEvent
             {
                 Amount = expense.Money.Amount,
-                Currency = expense.Money.Currency.Value
+                Currency = expense.Money.Currency.Value,
+                OccurredOn = expense.OccurredOn
             });
 
             return Result.Success();
