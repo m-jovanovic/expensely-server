@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Expensely.Application.Abstractions.Aggregation
+namespace Expensely.Application.Reporting.Abstractions.Aggregation
 {
     /// <summary>
     /// Represents the transaction summary aggregator interface.

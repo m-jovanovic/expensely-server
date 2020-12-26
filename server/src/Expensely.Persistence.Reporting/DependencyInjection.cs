@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using Expensely.Application.Abstractions.Aggregation;
 using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Reporting.Abstractions.Aggregation;
 using Expensely.Persistence.Reporting.Aggregation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

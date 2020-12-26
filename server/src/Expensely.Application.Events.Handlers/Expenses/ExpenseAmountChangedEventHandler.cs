@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Aggregation;
+using Expensely.Application.Reporting.Abstractions.Aggregation;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Events.Expenses;
 

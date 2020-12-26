@@ -3,8 +3,8 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
-using Expensely.Application.Abstractions.Aggregation;
 using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Reporting.Abstractions.Aggregation;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Reporting.Transactions;
@@ -67,7 +67,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
                 return;
             }
 
-            await InsertTransactionSummaryAsync(transaction, _dateTime.UtcNow, cancellationToken);
+            await InsertForTransactionAsync(transaction, _dateTime.UtcNow, cancellationToken);
         }
 
         /// <inheritdoc />
@@ -88,7 +88,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
 
             if (maybeTransaction.HasNoValue)
             {
-                await InsertTransactionSummaryAsync(transaction, _dateTime.UtcNow, cancellationToken);
+                await InsertForTransactionAsync(transaction, _dateTime.UtcNow, cancellationToken);
 
                 return;
             }
@@ -105,6 +105,35 @@ namespace Expensely.Persistence.Reporting.Aggregation
 
                 await AggregateForTransactionAsync(transaction);
             }
+        }
+
+        /// <summary>
+        /// Inserts a new transaction summary based on the specified transaction.
+        /// </summary>
+        /// <param name="transaction">The transaction.</param>
+        /// <param name="utcNow">The current date and time in UTC format.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The completed task.</returns>
+        private async Task InsertForTransactionAsync(
+            Transaction transaction,
+            DateTime utcNow,
+            CancellationToken cancellationToken)
+        {
+            var transactionSummary = new TransactionSummary
+            {
+                Id = Guid.NewGuid(),
+                UserId = transaction.UserId,
+                Year = transaction.OccurredOn.Year,
+                Month = transaction.OccurredOn.Month,
+                Currency = transaction.Currency,
+                TransactionType = transaction.TransactionType,
+                Amount = transaction.Amount,
+                CreatedOnUtc = utcNow
+            };
+
+            _reportingDbContext.Insert(transactionSummary);
+
+            await _reportingDbContext.SaveChangesAsync(cancellationToken);
         }
 
         /// <summary>
@@ -154,32 +183,6 @@ namespace Expensely.Persistence.Reporting.Aggregation
             using IDbConnection dbConnection = _dbConnectionProvider.Create();
 
             await dbConnection.ExecuteAsync(sql, parameters);
-        }
-
-        /// <summary>
-        /// Inserts a new transaction summary based on the specified transaction.
-        /// </summary>
-        /// <param name="transaction">The transaction.</param>
-        /// <param name="utcNow">The current date and time in UTC format.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The completed task.</returns>
-        private async Task InsertTransactionSummaryAsync(Transaction transaction, DateTime utcNow, CancellationToken cancellationToken)
-        {
-            var transactionSummary = new TransactionSummary
-            {
-                Id = Guid.NewGuid(),
-                UserId = transaction.UserId,
-                Year = transaction.OccurredOn.Year,
-                Month = transaction.OccurredOn.Month,
-                Currency = transaction.Currency,
-                TransactionType = transaction.TransactionType,
-                Amount = transaction.Amount,
-                CreatedOnUtc = utcNow
-            };
-
-            _reportingDbContext.Insert(transactionSummary);
-
-            await _reportingDbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
