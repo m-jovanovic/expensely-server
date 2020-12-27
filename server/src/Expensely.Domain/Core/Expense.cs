@@ -1,5 +1,4 @@
 ﻿using System;
-using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Events.Expenses;
 using Expensely.Domain.Utility;
 

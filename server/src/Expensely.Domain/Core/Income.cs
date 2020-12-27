@@ -56,64 +56,42 @@ namespace Expensely.Domain.Core
         }
 
         /// <summary>
-        /// Changes the monetary amount of the expense.
+        /// Updates the income with the specified parameters.
         /// </summary>
-        /// <param name="money">The new money amount.</param>
-        public void ChangeMoney(Money money)
+        /// <param name="name">The name.</param>
+        /// <param name="money">The money.</param>
+        /// <param name="occurredOn">The occurred on.</param>
+        /// <param name="description">The description.</param>
+        public void Update(Name name, Money money, DateTime occurredOn, Description description)
         {
             EnsureMoneyIsGreaterThanZero(money);
+
+            ChangeNameInternal(name);
+
+            ChangeDescriptionInternal(description);
 
             Money previousMoney = Money;
 
             (bool amountChanged, bool currencyChanged) = ChangeMoneyInternal(money);
 
-            if ((amountChanged, currencyChanged) is (false, false))
-            {
-                return;
-            }
+            DateTime previousOccurredOn = OccurredOn;
 
-            if (amountChanged)
+            bool occurredOnChanged = ChangeOccurredOnInternal(occurredOn);
+
+            if (amountChanged || currencyChanged || occurredOnChanged)
             {
-                Raise(new IncomeAmountChangedEvent
+                Raise(new IncomeUpdatedEvent
                 {
                     UserId = UserId,
                     Amount = Money.Amount,
-                    PreviousAmount = previousMoney.Amount,
+                    PreviousAmount = amountChanged ? previousMoney.Amount : null,
                     Currency = Money.Currency.Value,
-                    OccurredOn = OccurredOn
-                });
-            }
-
-            if (currencyChanged)
-            {
-                Raise(new IncomeCurrencyChangedEvent
-                {
-                    UserId = UserId,
-                    Amount = Money.Amount,
-                    Currency = Money.Currency.Value,
-                    PreviousCurrency = previousMoney.Currency.Value,
-                    OccurredOn = OccurredOn
+                    PreviousCurrency = currencyChanged ? previousMoney.Currency.Value : null,
+                    OccurredOn = OccurredOn,
+                    PreviousOccurredOn = occurredOnChanged ? previousOccurredOn : null
                 });
             }
         }
-
-        /// <summary>
-        /// Changes the name of the expense.
-        /// </summary>
-        /// <param name="name">The new name.</param>
-        public void ChangeName(Name name) => ChangeNameInternal(name);
-
-        /// <summary>
-        /// Changes the description of the expense.
-        /// </summary>
-        /// <param name="description">The new description.</param>
-        public void ChangeDescription(Description description) => ChangeDescriptionInternal(description);
-
-        /// <summary>
-        /// Changes the occurred on date of the expense.
-        /// </summary>
-        /// <param name="occurredOn">The new occurred on date.</param>
-        public void ChangeOccurredOnDate(DateTime occurredOn) => ChangeOccurredOnInternal(occurredOn);
 
         /// <summary>
         /// Ensures that the specified money amount is greater than zero.

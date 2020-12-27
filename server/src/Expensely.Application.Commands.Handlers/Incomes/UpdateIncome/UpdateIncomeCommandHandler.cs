@@ -68,13 +68,11 @@ namespace Expensely.Application.Commands.Handlers.Incomes.UpdateIncome
                 return Result.Failure(transactionInformationResult.Error);
             }
 
-            income.ChangeMoney(new Money(request.Amount, transactionInformationResult.Value.Currency));
-
-            income.ChangeName(transactionInformationResult.Value.Name);
-
-            income.ChangeDescription(transactionInformationResult.Value.Description);
-
-            income.ChangeOccurredOnDate(request.OccurredOn);
+            income.Update(
+                transactionInformationResult.Value.Name,
+                new Money(request.Amount, transactionInformationResult.Value.Currency),
+                request.OccurredOn,
+                transactionInformationResult.Value.Description);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 

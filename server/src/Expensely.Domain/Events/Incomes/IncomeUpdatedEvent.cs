@@ -4,9 +4,9 @@ using Expensely.Domain.Abstractions.Events;
 namespace Expensely.Domain.Events.Incomes
 {
     /// <summary>
-    /// Represents the event that is raised when the monetary amount of an income is changed.
+    /// Represents the event that is raised when an income is updated.
     /// </summary>
-    public sealed class IncomeAmountChangedEvent : IEvent
+    public sealed class IncomeUpdatedEvent : IEvent
     {
         /// <summary>
         /// Gets the user identifier.
@@ -21,7 +21,7 @@ namespace Expensely.Domain.Events.Incomes
         /// <summary>
         /// Gets the previous amount.
         /// </summary>
-        public decimal PreviousAmount { get; init; }
+        public decimal? PreviousAmount { get; init; }
 
         /// <summary>
         /// Gets the currency.
@@ -29,8 +29,18 @@ namespace Expensely.Domain.Events.Incomes
         public int Currency { get; init; }
 
         /// <summary>
+        /// Gets the previous currency.
+        /// </summary>
+        public int? PreviousCurrency { get; init; }
+
+        /// <summary>
         /// Gets the occurred on date.
         /// </summary>
         public DateTime OccurredOn { get; init; }
+
+        /// <summary>
+        /// Gets the previous occurred on date.
+        /// </summary>
+        public DateTime? PreviousOccurredOn { get; init; }
     }
 }
