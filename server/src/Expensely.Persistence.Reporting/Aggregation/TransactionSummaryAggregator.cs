@@ -9,7 +9,6 @@ using Expensely.Application.Reporting.Abstractions.Contracts;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Reporting.Transactions;
-using Expensely.Persistence.Reporting.Specifications.Transactions;
 using Expensely.Persistence.Reporting.Specifications.TransactionSummaries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -43,32 +42,6 @@ namespace Expensely.Persistence.Reporting.Aggregation
             _dbConnectionProvider = dbConnectionProvider;
             _dateTime = dateTime;
             _logger = logger;
-        }
-
-        /// <inheritdoc />
-        public async Task AggregateAsync(Guid transactionId, int? currency = null, CancellationToken cancellationToken = default)
-        {
-            Maybe<Transaction> maybeTransaction = await _reportingDbContext
-                .FirstOrDefaultAsync(new TransactionByIdSpecification(transactionId), cancellationToken);
-
-            if (maybeTransaction.HasNoValue)
-            {
-                return;
-            }
-
-            Transaction transaction = currency.HasValue ? maybeTransaction.Value.WithCurrency(currency.Value) : maybeTransaction.Value;
-
-            bool transactionSummaryExists = await _reportingDbContext
-                .AnyAsync(new TransactionSummaryByTransactionSpecification(transaction), cancellationToken);
-
-            if (transactionSummaryExists)
-            {
-                await AggregateForTransactionAsync(transaction);
-
-                return;
-            }
-
-            await InsertForTransactionAsync(transaction, _dateTime.UtcNow, cancellationToken);
         }
 
         /// <inheritdoc />
@@ -117,40 +90,11 @@ namespace Expensely.Persistence.Reporting.Aggregation
             {
                 _logger.LogError(
                     dbUpdateConcurrencyException,
-                    "Failed to update transaction summary amount for user {@UserId}.",
-                    transactionDetails.UserId);
+                    "Failed to update transaction summary for {@TransactionDetails}",
+                    transactionDetails);
 
                 await AggregateForTransactionDetailsAsync(transactionDetails);
             }
-        }
-
-        /// <summary>
-        /// Inserts a new transaction summary based on the specified transaction.
-        /// </summary>
-        /// <param name="transaction">The transaction.</param>
-        /// <param name="utcNow">The current date and time in UTC format.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The completed task.</returns>
-        private async Task InsertForTransactionAsync(
-            Transaction transaction,
-            DateTime utcNow,
-            CancellationToken cancellationToken)
-        {
-            var transactionSummary = new TransactionSummary
-            {
-                Id = Guid.NewGuid(),
-                UserId = transaction.UserId,
-                Year = transaction.OccurredOn.Year,
-                Month = transaction.OccurredOn.Month,
-                Currency = transaction.Currency,
-                TransactionType = transaction.TransactionType,
-                Amount = transaction.Amount,
-                CreatedOnUtc = utcNow
-            };
-
-            _reportingDbContext.Insert(transactionSummary);
-
-            await _reportingDbContext.SaveChangesAsync(cancellationToken);
         }
 
         /// <summary>
@@ -180,55 +124,6 @@ namespace Expensely.Persistence.Reporting.Aggregation
             _reportingDbContext.Insert(transactionSummary);
 
             await _reportingDbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        /// <summary>
-        /// Aggregates the transaction summary for the specified transaction.
-        /// </summary>
-        /// <param name="transaction">The transaction.</param>
-        /// <returns>The completed task.</returns>
-        private async Task AggregateForTransactionAsync(Transaction transaction)
-        {
-            const string sql = @"
-                UPDATE [TransactionSummary]
-                SET ModifiedOnUtc = @ModifiedOnUtc, Amount =
-                    (SELECT SUM(t.Amount)
-                     FROM [Transaction] t
-                     WHERE
-                        t.UserId = @UserId AND
-                        t.OccurredOn >= @StartOfMonth AND
-                        t.OccurredOn <= @EndOfMonth AND
-                        t.Currency = @Currency AND
-                        t.TransactionType = @TransactionType
-                     GROUP BY t.TransactionType)
-                WHERE
-                    UserId = @UserId AND
-                    Year = @Year AND
-                    Month = @Month AND
-                    Currency = @Currency AND
-                    TransactionType = @TransactionType";
-
-            DateTime utcNow = _dateTime.UtcNow;
-
-            DateTime startOfMonth = new DateTime(transaction.OccurredOn.Year, transaction.OccurredOn.Month, 1).Date;
-
-            DateTime endOfMonth = startOfMonth.AddMonths(1).AddDays(-1).Date;
-
-            var parameters = new
-            {
-                transaction.UserId,
-                transaction.Currency,
-                transaction.TransactionType,
-                transaction.OccurredOn.Year,
-                transaction.OccurredOn.Month,
-                StartOfMonth = startOfMonth,
-                EndOfMonth = endOfMonth,
-                ModifiedOnUtc = utcNow
-            };
-
-            using IDbConnection dbConnection = _dbConnectionProvider.Create();
-
-            await dbConnection.ExecuteAsync(sql, parameters);
         }
 
         /// <summary>
