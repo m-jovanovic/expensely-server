@@ -67,11 +67,20 @@ namespace Expensely.Domain.Core
 
             (bool amountChanged, bool currencyChanged) = ChangeMoneyInternal(money);
 
+            if ((amountChanged, currencyChanged) is (false, false))
+            {
+                return;
+            }
+
             if (amountChanged)
             {
                 Raise(new IncomeAmountChangedEvent
                 {
-                    IncomeId = Id
+                    UserId = UserId,
+                    Amount = Money.Amount,
+                    PreviousAmount = previousMoney.Amount,
+                    Currency = Money.Currency.Value,
+                    OccurredOn = OccurredOn
                 });
             }
 

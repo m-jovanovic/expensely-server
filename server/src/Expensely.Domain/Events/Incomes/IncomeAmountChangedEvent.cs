@@ -9,8 +9,28 @@ namespace Expensely.Domain.Events.Incomes
     public sealed class IncomeAmountChangedEvent : IEvent
     {
         /// <summary>
-        /// Gets the income identifier.
+        /// Gets the user identifier.
         /// </summary>
-        public Guid IncomeId { get; init; }
+        public Guid UserId { get; init; }
+
+        /// <summary>
+        /// Gets the amount.
+        /// </summary>
+        public decimal Amount { get; init; }
+
+        /// <summary>
+        /// Gets the previous amount.
+        /// </summary>
+        public decimal PreviousAmount { get; init; }
+
+        /// <summary>
+        /// Gets the currency.
+        /// </summary>
+        public int Currency { get; init; }
+
+        /// <summary>
+        /// Gets the occurred on date.
+        /// </summary>
+        public DateTime OccurredOn { get; init; }
     }
 }
