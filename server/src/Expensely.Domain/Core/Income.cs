@@ -113,7 +113,7 @@ namespace Expensely.Domain.Core
         /// Changes the occurred on date of the expense.
         /// </summary>
         /// <param name="occurredOn">The new occurred on date.</param>
-        public void ChangeOccurredOnDate(DateTime occurredOn) => ChangeOccurredOnDateInternal(occurredOn);
+        public void ChangeOccurredOnDate(DateTime occurredOn) => ChangeOccurredOnInternal(occurredOn);
 
         /// <summary>
         /// Ensures that the specified money amount is greater than zero.

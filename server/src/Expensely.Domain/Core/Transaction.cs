@@ -127,14 +127,17 @@ namespace Expensely.Domain.Core
         /// Changes the occurred on date of the transaction.
         /// </summary>
         /// <param name="occurredOn">The new occurred on date.</param>
-        protected void ChangeOccurredOnDateInternal(DateTime occurredOn)
+        /// <returns>True if the occurred on date has been changed, otherwise false.</returns>
+        protected bool ChangeOccurredOnInternal(DateTime occurredOn)
         {
             if (OccurredOn == occurredOn)
             {
-                return;
+                return false;
             }
 
             OccurredOn = occurredOn.Date;
+
+            return true;
         }
     }
 }

@@ -68,13 +68,11 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
                 return Result.Failure(transactionInformationResult.Error);
             }
 
-            expense.ChangeMoney(new Money(request.Amount, transactionInformationResult.Value.Currency));
-
-            expense.ChangeName(transactionInformationResult.Value.Name);
-
-            expense.ChangeDescription(transactionInformationResult.Value.Description);
-
-            expense.ChangeOccurredOnDate(request.OccurredOn);
+            expense.Update(
+                transactionInformationResult.Value.Name,
+                new Money(request.Amount, transactionInformationResult.Value.Currency),
+                request.OccurredOn,
+                transactionInformationResult.Value.Description);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
