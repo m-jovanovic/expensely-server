@@ -79,7 +79,10 @@ namespace Expensely.Domain.Core
             {
                 Raise(new ExpenseCurrencyChangedEvent
                 {
-                    ExpenseId = Id,
+                    UserId = UserId,
+                    Amount = Money.Amount,
+                    Currency = Money.Currency.Value,
+                    OccurredOn = OccurredOn,
                     PreviousCurrency = previousMoney.Currency.Value
                 });
             }

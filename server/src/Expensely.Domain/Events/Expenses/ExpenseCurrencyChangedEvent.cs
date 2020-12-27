@@ -9,9 +9,24 @@ namespace Expensely.Domain.Events.Expenses
     public class ExpenseCurrencyChangedEvent : IEvent
     {
         /// <summary>
-        /// Gets the expense identifier.
+        /// Gets the user identifier.
         /// </summary>
-        public Guid ExpenseId { get; init; }
+        public Guid UserId { get; init; }
+
+        /// <summary>
+        /// Gets the amount.
+        /// </summary>
+        public decimal Amount { get; init; }
+
+        /// <summary>
+        /// Gets the currency.
+        /// </summary>
+        public int Currency { get; init; }
+
+        /// <summary>
+        /// Gets the occurred on date.
+        /// </summary>
+        public DateTime OccurredOn { get; init; }
 
         /// <summary>
         /// Gets the previous currency.

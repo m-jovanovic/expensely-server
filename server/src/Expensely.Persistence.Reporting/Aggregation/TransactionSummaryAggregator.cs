@@ -73,26 +73,26 @@ namespace Expensely.Persistence.Reporting.Aggregation
 
         /// <inheritdoc />
         public async Task IncreaseByAmountAsync(TransactionDetails transactionDetails, CancellationToken cancellationToken = default) =>
-            await UpdateWithTransactionDetailsAsync(
+            await UpdateWithTransactionDetailsAmountAsync(
                 transactionDetails,
                 (summary, details) => summary.Amount += details.Amount,
                 cancellationToken);
 
         /// <inheritdoc />
         public async Task DecreaseByAmountAsync(TransactionDetails transactionDetails, CancellationToken cancellationToken = default) =>
-            await UpdateWithTransactionDetailsAsync(
+            await UpdateWithTransactionDetailsAmountAsync(
                 transactionDetails,
                 (summary, details) => summary.Amount -= details.Amount,
                 cancellationToken);
 
         /// <summary>
-        /// Updates the transaction summary for the specified transaction details based on the specified update action.
+        /// Updates the transaction summary amount with the specified transaction details amount, using the specified update action.
         /// </summary>
         /// <param name="transactionDetails">The transaction details.</param>
         /// <param name="updateAction">The update action.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The completed task.</returns>
-        private async Task UpdateWithTransactionDetailsAsync(
+        private async Task UpdateWithTransactionDetailsAmountAsync(
             TransactionDetails transactionDetails,
             Action<TransactionSummary, TransactionDetails> updateAction,
             CancellationToken cancellationToken = default)
