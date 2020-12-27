@@ -9,17 +9,17 @@ using Expensely.Domain.Events.Incomes;
 namespace Expensely.Application.Events.Handlers.Incomes
 {
     /// <summary>
-    /// Represents the <see cref="IncomeCreatedEvent"/> handler.
+    /// Increases the respective transaction summary when an <see cref="IncomeCreatedEvent"/> is raised.
     /// </summary>
-    public sealed class IncomeCreatedEventHandler : IEventHandler<IncomeCreatedEvent>
+    public sealed class IncreaseTransactionSummaryOnIncomeCreatedEventHandler : IEventHandler<IncomeCreatedEvent>
     {
         private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IncomeCreatedEventHandler"/> class.
+        /// Initializes a new instance of the <see cref="IncreaseTransactionSummaryOnIncomeCreatedEventHandler"/> class.
         /// </summary>
         /// <param name="transactionSummaryAggregator">The transaction summary aggregator.</param>
-        public IncomeCreatedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
+        public IncreaseTransactionSummaryOnIncomeCreatedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
             _transactionSummaryAggregator = transactionSummaryAggregator;
 
         /// <inheritdoc />

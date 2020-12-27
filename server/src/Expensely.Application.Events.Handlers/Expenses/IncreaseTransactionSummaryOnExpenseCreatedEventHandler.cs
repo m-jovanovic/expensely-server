@@ -9,21 +9,21 @@ using Expensely.Domain.Events.Expenses;
 namespace Expensely.Application.Events.Handlers.Expenses
 {
     /// <summary>
-    /// Increases the respective transaction summary when an <see cref="ExpenseUpdatedEvent"/> is raised.
+    /// Increases the respective transaction summary when an <see cref="ExpenseCreatedEvent"/> is raised.
     /// </summary>
-    public sealed class IncreaseTransactionSummaryOnExpenseUpdatedEventHandler : IEventHandler<ExpenseUpdatedEvent>
+    public sealed class IncreaseTransactionSummaryOnExpenseCreatedEventHandler : IEventHandler<ExpenseCreatedEvent>
     {
         private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IncreaseTransactionSummaryOnExpenseUpdatedEventHandler"/> class.
+        /// Initializes a new instance of the <see cref="IncreaseTransactionSummaryOnExpenseCreatedEventHandler"/> class.
         /// </summary>
         /// <param name="transactionSummaryAggregator">The transaction summary aggregator.</param>
-        public IncreaseTransactionSummaryOnExpenseUpdatedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
+        public IncreaseTransactionSummaryOnExpenseCreatedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
             _transactionSummaryAggregator = transactionSummaryAggregator;
 
         /// <inheritdoc />
-        public async Task Handle(ExpenseUpdatedEvent @event, CancellationToken cancellationToken) =>
+        public async Task Handle(ExpenseCreatedEvent @event, CancellationToken cancellationToken) =>
             await _transactionSummaryAggregator.IncreaseByAmountAsync(
                 new TransactionDetails
                 {

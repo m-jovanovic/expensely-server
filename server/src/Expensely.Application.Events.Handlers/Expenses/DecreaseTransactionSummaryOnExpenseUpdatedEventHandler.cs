@@ -9,7 +9,7 @@ using Expensely.Domain.Events.Expenses;
 namespace Expensely.Application.Events.Handlers.Expenses
 {
     /// <summary>
-    /// Represents the <see cref="ExpenseUpdatedEvent"/> handler.
+    /// Decreases the respective transaction summary when an <see cref="ExpenseUpdatedEvent"/> is raised.
     /// </summary>
     public sealed class DecreaseTransactionSummaryOnExpenseUpdatedEventHandler : IEventHandler<ExpenseUpdatedEvent>
     {
@@ -24,35 +24,15 @@ namespace Expensely.Application.Events.Handlers.Expenses
 
         /// <inheritdoc />
         public async Task Handle(ExpenseUpdatedEvent @event, CancellationToken cancellationToken) =>
-            await _transactionSummaryAggregator.DecreaseByAmountAsync(GetTransactionDetails(@event), cancellationToken);
-
-        private static TransactionDetails GetTransactionDetails(ExpenseUpdatedEvent @event)
-        {
-            var transactionDetails = new TransactionDetails
-            {
-                UserId = @event.UserId,
-                Amount = @event.Amount,
-                Currency = @event.Currency,
-                OccurredOn = @event.OccurredOn,
-                TransactionType = (int)TransactionType.Expense
-            };
-
-            if (@event.PreviousAmount.HasValue)
-            {
-                transactionDetails = transactionDetails.WithAmount(@event.PreviousAmount.Value);
-            }
-
-            if (@event.PreviousCurrency.HasValue)
-            {
-                transactionDetails = transactionDetails.WithCurrency(@event.PreviousCurrency.Value);
-            }
-
-            if (@event.PreviousOccurredOn.HasValue)
-            {
-                transactionDetails = transactionDetails.WithOccurredOn(@event.PreviousOccurredOn.Value);
-            }
-
-            return transactionDetails;
-        }
+            await _transactionSummaryAggregator.DecreaseByAmountAsync(
+                new TransactionDetails
+                {
+                    UserId = @event.UserId,
+                    Amount = @event.PreviousAmount ?? @event.Amount,
+                    Currency = @event.PreviousCurrency ?? @event.Currency,
+                    OccurredOn = @event.PreviousOccurredOn ?? @event.OccurredOn,
+                    TransactionType = (int)TransactionType.Expense
+                },
+                cancellationToken);
     }
 }

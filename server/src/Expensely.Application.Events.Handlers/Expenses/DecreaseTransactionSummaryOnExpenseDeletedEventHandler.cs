@@ -9,17 +9,17 @@ using Expensely.Domain.Events.Expenses;
 namespace Expensely.Application.Events.Handlers.Expenses
 {
     /// <summary>
-    /// Represents the <see cref="ExpenseDeletedEvent"/> handler.
+    /// Decreases the respective transaction summary when an <see cref="ExpenseDeletedEvent"/> is raised.
     /// </summary>
-    public sealed class ExpenseDeletedEventHandler : IEventHandler<ExpenseDeletedEvent>
+    public sealed class DecreaseTransactionSummaryOnExpenseDeletedEventHandler : IEventHandler<ExpenseDeletedEvent>
     {
         private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpenseDeletedEventHandler"/> class.
+        /// Initializes a new instance of the <see cref="DecreaseTransactionSummaryOnExpenseDeletedEventHandler"/> class.
         /// </summary>
         /// <param name="transactionSummaryAggregator">The transaction summary aggregator.</param>
-        public ExpenseDeletedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
+        public DecreaseTransactionSummaryOnExpenseDeletedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
             _transactionSummaryAggregator = transactionSummaryAggregator;
 
         /// <inheritdoc />
