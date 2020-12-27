@@ -31,5 +31,19 @@ namespace Expensely.Application.Reporting.Abstractions.Contracts
         /// Gets the transaction type.
         /// </summary>
         public int TransactionType { get; init; }
+
+        /// <summary>
+        /// Gets a new transaction details instance with the specified currency.
+        /// </summary>
+        /// <param name="currency">The currency.</param>
+        /// <returns>The new transaction details instance with the specified currency.</returns>
+        public TransactionDetails WithCurrency(int currency) =>
+            new()
+            {
+                UserId = UserId,
+                Amount = Amount,
+                Currency = currency,
+                OccurredOn = OccurredOn
+            };
     }
 }
