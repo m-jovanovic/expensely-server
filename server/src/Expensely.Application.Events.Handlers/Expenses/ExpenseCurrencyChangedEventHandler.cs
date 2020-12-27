@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Reporting.Abstractions.Aggregation;
 using Expensely.Application.Reporting.Abstractions.Contracts;
 using Expensely.Domain.Abstractions.Events;
+using Expensely.Domain.Core;
 using Expensely.Domain.Events.Expenses;
 
 namespace Expensely.Application.Events.Handlers.Expenses
@@ -29,7 +30,8 @@ namespace Expensely.Application.Events.Handlers.Expenses
                 UserId = @event.UserId,
                 Amount = @event.Amount,
                 Currency = @event.Currency,
-                OccurredOn = @event.OccurredOn
+                OccurredOn = @event.OccurredOn,
+                TransactionType = (int)TransactionType.Expense
             };
 
             await _transactionSummaryAggregator.IncreaseByAmountAsync(transactionDetails, cancellationToken);
