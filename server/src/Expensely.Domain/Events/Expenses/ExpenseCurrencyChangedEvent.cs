@@ -24,13 +24,13 @@ namespace Expensely.Domain.Events.Expenses
         public int Currency { get; init; }
 
         /// <summary>
-        /// Gets the occurred on date.
-        /// </summary>
-        public DateTime OccurredOn { get; init; }
-
-        /// <summary>
         /// Gets the previous currency.
         /// </summary>
         public int PreviousCurrency { get; init; }
+
+        /// <summary>
+        /// Gets the occurred on date.
+        /// </summary>
+        public DateTime OccurredOn { get; init; }
     }
 }

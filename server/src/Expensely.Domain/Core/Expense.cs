@@ -67,11 +67,20 @@ namespace Expensely.Domain.Core
 
             (bool amountChanged, bool currencyChanged) = ChangeMoneyInternal(money);
 
+            if ((amountChanged, currencyChanged) is (false, false))
+            {
+                return;
+            }
+
             if (amountChanged)
             {
                 Raise(new ExpenseAmountChangedEvent
                 {
-                    ExpenseId = Id
+                    UserId = UserId,
+                    Amount = Money.Amount,
+                    Currency = Money.Currency.Value,
+                    PreviousAmount = previousMoney.Amount,
+                    OccurredOn = OccurredOn
                 });
             }
 
@@ -82,8 +91,8 @@ namespace Expensely.Domain.Core
                     UserId = UserId,
                     Amount = Money.Amount,
                     Currency = Money.Currency.Value,
-                    OccurredOn = OccurredOn,
-                    PreviousCurrency = previousMoney.Currency.Value
+                    PreviousCurrency = previousMoney.Currency.Value,
+                    OccurredOn = OccurredOn
                 });
             }
         }
