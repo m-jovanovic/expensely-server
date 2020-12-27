@@ -11,19 +11,22 @@ namespace Expensely.Application.Events.Handlers.Expenses
     /// <summary>
     /// Represents the <see cref="ExpenseUpdatedEvent"/> handler.
     /// </summary>
-    public sealed class ExpenseUpdatedEventHandler : IEventHandler<ExpenseUpdatedEvent>
+    public sealed class DecreaseTransactionSummaryOnExpenseUpdatedEventHandler : IEventHandler<ExpenseUpdatedEvent>
     {
         private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpenseUpdatedEventHandler"/> class.
+        /// Initializes a new instance of the <see cref="DecreaseTransactionSummaryOnExpenseUpdatedEventHandler"/> class.
         /// </summary>
         /// <param name="transactionSummaryAggregator">The transaction summary aggregator.</param>
-        public ExpenseUpdatedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
+        public DecreaseTransactionSummaryOnExpenseUpdatedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
             _transactionSummaryAggregator = transactionSummaryAggregator;
 
         /// <inheritdoc />
-        public async Task Handle(ExpenseUpdatedEvent @event, CancellationToken cancellationToken)
+        public async Task Handle(ExpenseUpdatedEvent @event, CancellationToken cancellationToken) =>
+            await _transactionSummaryAggregator.DecreaseByAmountAsync(GetTransactionDetails(@event), cancellationToken);
+
+        private static TransactionDetails GetTransactionDetails(ExpenseUpdatedEvent @event)
         {
             var transactionDetails = new TransactionDetails
             {
@@ -34,33 +37,22 @@ namespace Expensely.Application.Events.Handlers.Expenses
                 TransactionType = (int)TransactionType.Expense
             };
 
-            await _transactionSummaryAggregator.IncreaseByAmountAsync(transactionDetails, cancellationToken);
-
-            TransactionDetails previousTransactionDetails = GetPreviousTransactionDetails(@event, transactionDetails);
-
-            await _transactionSummaryAggregator.DecreaseByAmountAsync(previousTransactionDetails, cancellationToken);
-        }
-
-        private static TransactionDetails GetPreviousTransactionDetails(ExpenseUpdatedEvent @event, TransactionDetails transactionDetails)
-        {
-            TransactionDetails previousTransactionDetails = transactionDetails;
-
             if (@event.PreviousAmount.HasValue)
             {
-                previousTransactionDetails = previousTransactionDetails.WithAmount(@event.PreviousAmount.Value);
+                transactionDetails = transactionDetails.WithAmount(@event.PreviousAmount.Value);
             }
 
             if (@event.PreviousCurrency.HasValue)
             {
-                previousTransactionDetails = previousTransactionDetails.WithCurrency(@event.PreviousCurrency.Value);
+                transactionDetails = transactionDetails.WithCurrency(@event.PreviousCurrency.Value);
             }
 
             if (@event.PreviousOccurredOn.HasValue)
             {
-                previousTransactionDetails = previousTransactionDetails.WithOccurredOn(@event.PreviousOccurredOn.Value);
+                transactionDetails = transactionDetails.WithOccurredOn(@event.PreviousOccurredOn.Value);
             }
 
-            return previousTransactionDetails;
+            return transactionDetails;
         }
     }
 }
