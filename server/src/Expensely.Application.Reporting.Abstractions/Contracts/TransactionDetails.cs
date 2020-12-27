@@ -43,7 +43,8 @@ namespace Expensely.Application.Reporting.Abstractions.Contracts
                 UserId = UserId,
                 Amount = amount,
                 Currency = Currency,
-                OccurredOn = OccurredOn
+                OccurredOn = OccurredOn,
+                TransactionType = TransactionType
             };
 
         /// <summary>
@@ -57,7 +58,8 @@ namespace Expensely.Application.Reporting.Abstractions.Contracts
                 UserId = UserId,
                 Amount = Amount,
                 Currency = currency,
-                OccurredOn = OccurredOn
+                OccurredOn = OccurredOn,
+                TransactionType = TransactionType
             };
 
         /// <summary>
@@ -71,7 +73,8 @@ namespace Expensely.Application.Reporting.Abstractions.Contracts
                 UserId = UserId,
                 Amount = Amount,
                 Currency = Currency,
-                OccurredOn = occurredOn
+                OccurredOn = occurredOn,
+                TransactionType = TransactionType
             };
     }
 }
