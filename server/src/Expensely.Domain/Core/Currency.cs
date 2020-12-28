@@ -10,22 +10,22 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// The United States Dollar.
         /// </summary>
-        public static readonly Currency Usd = new Currency(1, "US Dollar", "USD");
+        public static readonly Currency Usd = new(1, "US Dollar", "USD");
 
         /// <summary>
         /// The euro.
         /// </summary>
-        public static readonly Currency Eur = new Currency(2, "Euro", "EUR");
+        public static readonly Currency Eur = new(2, "Euro", "EUR");
 
         /// <summary>
         /// The Serbian Dinar.
         /// </summary>
-        public static readonly Currency Rsd = new Currency(3, "Serbian Dinar", "RSD");
+        public static readonly Currency Rsd = new(3, "Serbian Dinar", "RSD");
 
         /// <summary>
         /// The empty currency instance.
         /// </summary>
-        internal static readonly Currency None = new Currency(default, string.Empty, string.Empty);
+        internal static readonly Currency None = new(default, string.Empty, string.Empty);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Currency"/> class.
@@ -40,6 +40,7 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="Currency"/> class.
         /// </summary>
+        /// <param name="value">The currency value.</param>
         /// <remarks>
         /// Required by EF Core.
         /// </remarks>
