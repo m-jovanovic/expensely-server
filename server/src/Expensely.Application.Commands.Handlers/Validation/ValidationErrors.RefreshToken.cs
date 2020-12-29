@@ -15,9 +15,7 @@ namespace Expensely.Application.Commands.Handlers.Validation
             /// <summary>
             /// Gets the refresh token is required error.
             /// </summary>
-            internal static Error RefreshTokenIsRequired => new Error(
-                "RefreshToken.RefreshTokenIsRequired",
-                "The refresh token is required.");
+            internal static Error RefreshTokenIsRequired => new("RefreshToken.RefreshTokenIsRequired", "The refresh token is required.");
         }
     }
 }

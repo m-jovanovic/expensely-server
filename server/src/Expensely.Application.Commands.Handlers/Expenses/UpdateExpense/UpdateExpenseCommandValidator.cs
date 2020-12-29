@@ -20,6 +20,8 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
 
             RuleFor(x => x.Name).NotEmpty().WithError(ValidationErrors.Expense.NameIsRequired);
 
+            RuleFor(x => x.Category).Must(Category.ContainsValue).WithError(ValidationErrors.Category.NotFound);
+
             RuleFor(x => x.Amount).LessThanOrEqualTo(0).WithError(ValidationErrors.Expense.AmountGreaterThanOrEqualToZero);
 
             RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(ValidationErrors.Currency.NotFound);

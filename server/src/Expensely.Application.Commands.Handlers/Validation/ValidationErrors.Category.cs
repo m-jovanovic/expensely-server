@@ -8,14 +8,14 @@ namespace Expensely.Application.Commands.Handlers.Validation
     internal static partial class ValidationErrors
     {
         /// <summary>
-        /// Contains the currency errors.
+        /// Contains the category errors.
         /// </summary>
-        internal static class Currency
+        internal static class Category
         {
             /// <summary>
-            /// Gets the currency not found error.
+            /// Gets the category not found error.
             /// </summary>
-            internal static Error NotFound => new("Currency.NotFound", "The currency with the specified value was not found.");
+            internal static Error NotFound => new("Category.NotFound", "The category with the specified value was not found.");
         }
     }
 }
