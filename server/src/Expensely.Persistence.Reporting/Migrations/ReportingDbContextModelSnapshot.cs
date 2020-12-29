@@ -29,6 +29,9 @@ namespace Expensely.Persistence.Reporting.Migrations
                         .HasPrecision(12, 4)
                         .HasColumnType("decimal(12,4)");
 
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
                     b.Property<int>("Currency")
                         .HasColumnType("int");
 

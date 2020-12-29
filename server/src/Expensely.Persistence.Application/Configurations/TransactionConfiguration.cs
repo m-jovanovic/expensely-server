@@ -25,14 +25,24 @@ namespace Expensely.Persistence.Application.Configurations
                     .HasMaxLength(Name.MaxLength)
                     .IsRequired());
 
-            // TODO: Implement support for categories in database.
+            builder.OwnsOne(transaction => transaction.Category, categoryBuilder =>
+            {
+                categoryBuilder.Property(category => category.Value).HasColumnName(nameof(Transaction.Category)).IsRequired();
+
+                categoryBuilder.Ignore(currency => currency.Name);
+            });
+
             builder.OwnsOne(transaction => transaction.Money, moneyBuilder =>
             {
                 moneyBuilder.Property(money => money.Amount).HasColumnName(nameof(Money.Amount)).HasPrecision(12, 4).IsRequired();
 
                 moneyBuilder.OwnsOne(money => money.Currency, currencyBuilder =>
                 {
-                    currencyBuilder.Property(currency => currency.Value).HasColumnName(nameof(Money.Currency)).IsRequired();
+                    currencyBuilder
+                        .Property(currency => currency.Value)
+                        .HasColumnName(nameof(Money.Currency))
+                        .HasDefaultValue(Category.UnCategorized.Value)
+                        .IsRequired();
 
                     currencyBuilder.Ignore(currency => currency.Code);
 
@@ -49,11 +59,13 @@ namespace Expensely.Persistence.Application.Configurations
                     .HasMaxLength(Description.MaxLength)
                     .IsRequired());
 
-            builder.Navigation(transaction => transaction.Money).IsRequired();
-
             builder.Navigation(transaction => transaction.Name).IsRequired();
 
             builder.Navigation(transaction => transaction.Description).IsRequired();
+
+            builder.Navigation(transaction => transaction.Category).IsRequired();
+
+            builder.Navigation(transaction => transaction.Money).IsRequired();
 
             builder.Property(transaction => transaction.OccurredOn).HasColumnType("date").IsRequired();
 

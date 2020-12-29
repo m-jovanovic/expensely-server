@@ -23,14 +23,19 @@ namespace Expensely.Domain.Reporting.Transactions
         public int TransactionType { get; init; }
 
         /// <summary>
-        /// Gets the currency.
+        /// Gets the category.
         /// </summary>
-        public int Currency { get; init; }
+        public int Category { get; init; }
 
         /// <summary>
         /// Gets the amount.
         /// </summary>
         public decimal Amount { get; init; }
+
+        /// <summary>
+        /// Gets the currency.
+        /// </summary>
+        public int Currency { get; init; }
 
         /// <summary>
         /// Gets the occurred on date.
