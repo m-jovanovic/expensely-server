@@ -28,6 +28,8 @@ namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
 
             RuleFor(x => x.Name).NotEmpty().WithError(ValidationErrors.Income.NameIsRequired);
 
+            RuleFor(x => x.Category).Must(Category.ContainsValue).WithError(ValidationErrors.Category.NotFound);
+
             RuleFor(x => x.Amount).GreaterThan(0).WithError(ValidationErrors.Income.AmountLessThanOrEqualToZero);
 
             RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(ValidationErrors.Currency.NotFound);
