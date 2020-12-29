@@ -25,6 +25,7 @@ namespace Expensely.Persistence.Application.Configurations
                     .HasMaxLength(Name.MaxLength)
                     .IsRequired());
 
+            // TODO: Implement support for categories in database.
             builder.OwnsOne(transaction => transaction.Money, moneyBuilder =>
             {
                 moneyBuilder.Property(money => money.Amount).HasColumnName(nameof(Money.Amount)).HasPrecision(12, 4).IsRequired();

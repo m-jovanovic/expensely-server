@@ -14,11 +14,12 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name of the expense.</param>
+        /// <param name="category">The category of the expense.</param>
         /// <param name="money">The monetary amount of the expense.</param>
         /// <param name="occurredOn">The date the expense occurred on.</param>
         /// <param name="description">The description of the expense.</param>
-        private Expense(Guid userId, Name name, Money money, DateTime occurredOn, Description description)
-            : base(userId, name, money, occurredOn, description) =>
+        private Expense(Guid userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
+            : base(userId, name, category, money, occurredOn, description) =>
             EnsureMoneyIsLessThanZero(money);
 
         /// <summary>
@@ -36,14 +37,16 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name of the expense.</param>
+        /// <param name="category">The category of the expense.</param>
         /// <param name="money">The monetary amount of the expense.</param>
         /// <param name="occurredOn">The date the expense occurred on.</param>
         /// <param name="description">The description of the expense.</param>
         /// <returns>The newly created expense.</returns>
-        public static Expense Create(Guid userId, Name name, Money money, DateTime occurredOn, Description description)
+        public static Expense Create(Guid userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
         {
-            var expense = new Expense(userId, name, money, occurredOn, description);
+            var expense = new Expense(userId, name, category, money, occurredOn, description);
 
+            // TODO: Implement support for categories in event.
             expense.Raise(new ExpenseCreatedEvent
             {
                 UserId = expense.UserId,
@@ -58,17 +61,22 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Updates the expense with the specified parameters.
         /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="money">The money.</param>
-        /// <param name="occurredOn">The occurred on.</param>
-        /// <param name="description">The description.</param>
-        public void Update(Name name, Money money, DateTime occurredOn, Description description)
+        /// <param name="name">The name of the expense.</param>
+        /// <param name="category">The category of the expense.</param>
+        /// <param name="money">The monetary amount of the expense.</param>
+        /// <param name="occurredOn">The date the expense occurred on.</param>
+        /// <param name="description">The description of the expense.</param>
+        public void Update(Name name, Category category, Money money, DateTime occurredOn, Description description)
         {
             EnsureMoneyIsLessThanZero(money);
 
             ChangeNameInternal(name);
 
             ChangeDescriptionInternal(description);
+
+            Category previousCategory = Category;
+
+            bool categoryHasChanged = ChangeCategoryInternal(category);
 
             Money previousMoney = Money;
 
@@ -80,6 +88,7 @@ namespace Expensely.Domain.Core
 
             if (amountChanged || currencyChanged || occurredOnChanged)
             {
+                // TODO: Implement support for categories in event.
                 Raise(new ExpenseUpdatedEvent
                 {
                     UserId = UserId,

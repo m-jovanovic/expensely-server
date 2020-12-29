@@ -17,6 +17,7 @@ namespace Expensely.Persistence.Reporting.Configurations
 
             builder.HasKey(transaction => transaction.Id);
 
+            // TODO: Implement support for categories in database.
             builder.Property(transaction => transaction.TransactionType).IsRequired();
 
             builder.Property(transaction => transaction.Currency).IsRequired();

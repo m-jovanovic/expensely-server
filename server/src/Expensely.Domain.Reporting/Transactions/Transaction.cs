@@ -3,7 +3,7 @@
 namespace Expensely.Domain.Reporting.Transactions
 {
     /// <summary>
-    /// Represents the transaction entitiy.
+    /// Represents the transaction entity.
     /// </summary>
     public class Transaction
     {
@@ -36,21 +36,5 @@ namespace Expensely.Domain.Reporting.Transactions
         /// Gets the occurred on date.
         /// </summary>
         public DateTime OccurredOn { get; init; }
-
-        /// <summary>
-        /// Creates a new transaction from the current transaction with the specified currency.
-        /// </summary>
-        /// <param name="currency">The currency.</param>
-        /// <returns>The new transaction from the current transaction with the specified currency.</returns>
-        public Transaction WithCurrency(int currency) =>
-            new()
-            {
-                Id = Id,
-                UserId = UserId,
-                TransactionType = TransactionType,
-                Currency = currency,
-                Amount = Amount,
-                OccurredOn = OccurredOn
-            };
     }
 }

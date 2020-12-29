@@ -8,9 +8,9 @@ namespace Expensely.Domain.Core
     public sealed class Category : Enumeration<Category>
     {
         /// <summary>
-        /// The empty category instance.
+        /// The un-categorized category instance.
         /// </summary>
-        internal static readonly Category None = new(default, string.Empty);
+        public static readonly Category UnCategorized = new(default, string.Empty);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Category"/> class.
@@ -30,7 +30,7 @@ namespace Expensely.Domain.Core
         /// Required by EF Core.
         /// </remarks>
         private Category(int value)
-            : base(value, ContainsValue(value) ? FromValue(value).Value.Name : None.Name)
+            : base(value, ContainsValue(value) ? FromValue(value).Value.Name : UnCategorized.Name)
         {
         }
     }

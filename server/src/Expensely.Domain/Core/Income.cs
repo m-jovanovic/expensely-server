@@ -14,11 +14,12 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name of the income.</param>
+        /// <param name="category">The category of the income.</param>
         /// <param name="money">The monetary amount of the income.</param>
         /// <param name="occurredOn">The date the income occurred on.</param>
         /// <param name="description">The description of the income.</param>
-        private Income(Guid userId, Name name, Money money, DateTime occurredOn, Description description)
-            : base(userId, name, money, occurredOn, description) =>
+        private Income(Guid userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
+            : base(userId, name, category, money, occurredOn, description) =>
             EnsureMoneyIsGreaterThanZero(money);
 
         /// <summary>
@@ -36,14 +37,16 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name of the income.</param>
+        /// <param name="category">The category of the income.</param>
         /// <param name="money">The monetary amount of the income.</param>
         /// <param name="occurredOn">The date the income occurred on.</param>
         /// <param name="description">The description of the income.</param>
         /// <returns>The newly created income.</returns>
-        public static Income Create(Guid userId, Name name, Money money, DateTime occurredOn, Description description)
+        public static Income Create(Guid userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
         {
-            var income = new Income(userId, name, money, occurredOn, description);
+            var income = new Income(userId, name, category, money, occurredOn, description);
 
+            // TODO: Implement support for categories in event.
             income.Raise(new IncomeCreatedEvent
             {
                 UserId = income.UserId,
@@ -58,17 +61,22 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Updates the income with the specified parameters.
         /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="money">The money.</param>
-        /// <param name="occurredOn">The occurred on.</param>
-        /// <param name="description">The description.</param>
-        public void Update(Name name, Money money, DateTime occurredOn, Description description)
+        /// <param name="name">The name of the income.</param>
+        /// <param name="category">The category of the income.</param>
+        /// <param name="money">The monetary amount of the income.</param>
+        /// <param name="occurredOn">The date the income occurred on.</param>
+        /// <param name="description">The description of the income.</param>
+        public void Update(Name name, Category category, Money money, DateTime occurredOn, Description description)
         {
             EnsureMoneyIsGreaterThanZero(money);
 
             ChangeNameInternal(name);
 
             ChangeDescriptionInternal(description);
+
+            Category previousCategory = Category;
+
+            bool categoryHasChanged = ChangeCategoryInternal(category);
 
             Money previousMoney = Money;
 
@@ -80,6 +88,7 @@ namespace Expensely.Domain.Core
 
             if (amountChanged || currencyChanged || occurredOnChanged)
             {
+                // TODO: Implement support for categories in event.
                 Raise(new IncomeUpdatedEvent
                 {
                     UserId = UserId,

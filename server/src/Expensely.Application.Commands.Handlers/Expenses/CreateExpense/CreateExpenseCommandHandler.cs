@@ -46,9 +46,11 @@ namespace Expensely.Application.Commands.Handlers.Expenses.CreateExpense
                 return Result.Failure(transactionInformationResult.Error);
             }
 
+            // TODO: Implement support for categories.
             var expense = Expense.Create(
                 maybeUser.Value.Id,
                 transactionInformationResult.Value.Name,
+                Category.UnCategorized,
                 new Money(request.Amount, transactionInformationResult.Value.Currency),
                 request.OccurredOn,
                 transactionInformationResult.Value.Description);
