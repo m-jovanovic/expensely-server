@@ -14,6 +14,11 @@ namespace Expensely.Domain.Events.Expenses
         public Guid UserId { get; init; }
 
         /// <summary>
+        /// Gets the category.
+        /// </summary>
+        public int Category { get; init; }
+
+        /// <summary>
         /// Gets the amount.
         /// </summary>
         public decimal Amount { get; init; }
