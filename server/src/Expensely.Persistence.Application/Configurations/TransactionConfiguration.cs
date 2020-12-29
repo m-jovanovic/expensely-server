@@ -41,7 +41,7 @@ namespace Expensely.Persistence.Application.Configurations
                     currencyBuilder
                         .Property(currency => currency.Value)
                         .HasColumnName(nameof(Money.Currency))
-                        .HasDefaultValue(Category.UnCategorized.Value)
+                        .HasDefaultValue(Category.None.Value)
                         .IsRequired();
 
                     currencyBuilder.Ignore(currency => currency.Code);

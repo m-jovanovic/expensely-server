@@ -35,7 +35,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.CreateExpense
                 return Result.Failure(DomainErrors.User.NotFound);
             }
 
-            Result<TransactionInformation> transactionInformationResult = new TransactionInformationService().Validate(
+            Result<TransactionInformation> transactionInformationResult = new TransactionInformationValidator().Validate(
                 maybeUser.Value,
                 request.Name,
                 request.Description,

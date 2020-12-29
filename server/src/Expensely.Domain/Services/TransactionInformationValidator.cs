@@ -6,9 +6,9 @@ using Expensely.Domain.Errors;
 namespace Expensely.Domain.Services
 {
     /// <summary>
-    /// Represents the transaction validation service.
+    /// Represents the transaction information validator.
     /// </summary>
-    public sealed class TransactionInformationService
+    public sealed class TransactionInformationValidator
     {
         /// <summary>
         /// Validates the provided transaction information and returns the result of the validation.
