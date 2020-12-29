@@ -32,21 +32,24 @@ namespace Expensely.Api.Controllers.Core
         /// <summary>
         /// Creates the income based on the specified request.
         /// </summary>
-        /// <param name="request">The create income request.</param>
+        /// <param name="createIncomeRequest">The create income request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the income was created successfully, otherwise 400 - Bad Request.</returns>
         [HttpPost(ApiRoutes.Incomes.CreateIncome)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateIncome([FromBody] CreateIncomeRequest request, CancellationToken cancellationToken) =>
-            await Result.Create(request, ApiErrors.UnProcessableRequest)
-                .Map(x => new CreateIncomeCommand(
-                    x.UserId,
-                    x.Name,
-                    x.Amount,
-                    x.Currency,
-                    x.OccurredOn,
-                    x.Description))
+        public async Task<IActionResult> CreateIncome(
+            [FromBody] CreateIncomeRequest createIncomeRequest,
+            CancellationToken cancellationToken) =>
+            await Result.Create(createIncomeRequest, ApiErrors.UnProcessableRequest)
+                .Map(request => new CreateIncomeCommand(
+                    request.UserId,
+                    request.Name,
+                    request.Category,
+                    request.Amount,
+                    request.Currency,
+                    request.OccurredOn,
+                    request.Description))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
@@ -54,22 +57,25 @@ namespace Expensely.Api.Controllers.Core
         /// Updates the income based on the specified request.
         /// </summary>
         /// <param name="incomeId">The income identifier.</param>
-        /// <param name="request">The update income request.</param>
+        /// <param name="updateIncomeRequest">The update income request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the income was updated successfully, otherwise 400 - Bad Request.</returns>
         [HttpPut(ApiRoutes.Incomes.UpdateIncome)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateIncome(
-            Guid incomeId, [FromBody] UpdateIncomeRequest request, CancellationToken cancellationToken) =>
-            await Result.Create(request, ApiErrors.UnProcessableRequest)
-                .Map(x => new UpdateIncomeCommand(
+            Guid incomeId,
+            [FromBody] UpdateIncomeRequest updateIncomeRequest,
+            CancellationToken cancellationToken) =>
+            await Result.Create(updateIncomeRequest, ApiErrors.UnProcessableRequest)
+                .Map(incomeRequest => new UpdateIncomeCommand(
                     incomeId,
-                    x.Name,
-                    x.Amount,
-                    x.Currency,
-                    x.OccurredOn,
-                    x.Description))
+                    incomeRequest.Name,
+                    incomeRequest.Category,
+                    incomeRequest.Amount,
+                    incomeRequest.Currency,
+                    incomeRequest.OccurredOn,
+                    incomeRequest.Description))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 

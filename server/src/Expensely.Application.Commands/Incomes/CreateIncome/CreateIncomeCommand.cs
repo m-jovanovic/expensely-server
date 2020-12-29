@@ -14,14 +14,23 @@ namespace Expensely.Application.Commands.Incomes.CreateIncome
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name.</param>
+        /// <param name="category">The category.</param>
         /// <param name="amount">The monetary amount.</param>
         /// <param name="currency">The currency value.</param>
         /// <param name="occurredOn">The date the income occurred on.</param>
         /// <param name="description">The description.</param>
-        public CreateIncomeCommand(Guid userId, string name, decimal amount, int currency, DateTime occurredOn, string description)
+        public CreateIncomeCommand(
+            Guid userId,
+            string name,
+            int category,
+            decimal amount,
+            int currency,
+            DateTime occurredOn,
+            string description)
         {
             UserId = userId;
             Name = name;
+            Category = category;
             Amount = amount;
             Currency = currency;
             OccurredOn = occurredOn;
@@ -37,6 +46,11 @@ namespace Expensely.Application.Commands.Incomes.CreateIncome
         /// Gets the name.
         /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// Gets the category.
+        /// </summary>
+        public int Category { get; }
 
         /// <summary>
         /// Gets the monetary amount.

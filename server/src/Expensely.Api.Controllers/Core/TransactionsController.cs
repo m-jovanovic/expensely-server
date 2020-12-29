@@ -17,16 +17,16 @@ namespace Expensely.Api.Controllers.Core
     /// <summary>
     /// Represents the transactions resource controller.
     /// </summary>
-    public sealed class TransactionController : ApiController
+    public sealed class TransactionsController : ApiController
     {
         private readonly IDateTime _dateTime;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionController"/> class.
+        /// Initializes a new instance of the <see cref="TransactionsController"/> class.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="dateTime">The date and time.</param>
-        public TransactionController(ISender sender, IDateTime dateTime)
+        public TransactionsController(ISender sender, IDateTime dateTime)
             : base(sender) =>
             _dateTime = dateTime;
 
@@ -58,7 +58,9 @@ namespace Expensely.Api.Controllers.Core
         [ProducesResponseType(typeof(TransactionSummaryResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCurrentMonthTransactionSummary(
-            Guid userId, int primaryCurrency, CancellationToken cancellationToken) =>
+            Guid userId,
+            int primaryCurrency,
+            CancellationToken cancellationToken) =>
             await Maybe<GetCurrentMonthTransactionSummaryQuery>
                 .From(new GetCurrentMonthTransactionSummaryQuery(userId, primaryCurrency, _dateTime.UtcNow))
                 .Bind(query => Sender.Send(query, cancellationToken))

@@ -39,7 +39,7 @@ namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
                 maybeUser.Value,
                 request.Name,
                 request.Description,
-                default,
+                request.Category,
                 request.Currency);
 
             if (transactionInformationResult.IsFailure)
@@ -47,11 +47,10 @@ namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
                 return Result.Failure(transactionInformationResult.Error);
             }
 
-            // TODO: Implement support for categories.
             var income = Income.Create(
                 maybeUser.Value.Id,
                 transactionInformationResult.Value.Name,
-                Category.UnCategorized,
+                transactionInformationResult.Value.Category,
                 new Money(request.Amount, transactionInformationResult.Value.Currency),
                 request.OccurredOn,
                 transactionInformationResult.Value.Description);

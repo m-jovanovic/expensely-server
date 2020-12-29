@@ -32,21 +32,23 @@ namespace Expensely.Api.Controllers.Core
         /// <summary>
         /// Creates the budget based on the specified request.
         /// </summary>
-        /// <param name="request">The create budget request.</param>
+        /// <param name="createBudgetRequest">The create budget request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the budget was created successfully, otherwise 400 - Bad Request.</returns>
         [HttpPost(ApiRoutes.Budgets.CreateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateBudget([FromBody] CreateBudgetRequest request, CancellationToken cancellationToken) =>
-            await Result.Create(request, ApiErrors.UnProcessableRequest)
-                .Map(value => new CreateBudgetCommand(
-                    value.UserId,
-                    value.Name,
-                    value.Amount,
-                    value.Currency,
-                    value.StartDate,
-                    value.EndDate))
+        public async Task<IActionResult> CreateBudget(
+            [FromBody] CreateBudgetRequest createBudgetRequest,
+            CancellationToken cancellationToken) =>
+            await Result.Create(createBudgetRequest, ApiErrors.UnProcessableRequest)
+                .Map(request => new CreateBudgetCommand(
+                    request.UserId,
+                    request.Name,
+                    request.Amount,
+                    request.Currency,
+                    request.StartDate,
+                    request.EndDate))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
@@ -54,22 +56,24 @@ namespace Expensely.Api.Controllers.Core
         /// Creates the budget based on the specified request.
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
-        /// <param name="request">The update budget request.</param>
+        /// <param name="updateBudgetRequest">The update budget request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the budget was updated successfully, otherwise 400 - Bad Request.</returns>
         [HttpPut(ApiRoutes.Budgets.UpdateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateBudget(
-            Guid budgetId, [FromBody] UpdateBudgetRequest request, CancellationToken cancellationToken) =>
-            await Result.Create(request, ApiErrors.UnProcessableRequest)
-                .Map(value => new UpdateBudgetCommand(
+            Guid budgetId,
+            [FromBody] UpdateBudgetRequest updateBudgetRequest,
+            CancellationToken cancellationToken) =>
+            await Result.Create(updateBudgetRequest, ApiErrors.UnProcessableRequest)
+                .Map(request => new UpdateBudgetCommand(
                     budgetId,
-                    value.Name,
-                    value.Amount,
-                    value.Currency,
-                    value.StartDate,
-                    value.EndDate))
+                    request.Name,
+                    request.Amount,
+                    request.Currency,
+                    request.StartDate,
+                    request.EndDate))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 

@@ -54,22 +54,24 @@ namespace Expensely.Api.Controllers.Core
         /// <summary>
         /// Creates the expense based on the specified request.
         /// </summary>
-        /// <param name="request">The create expense request.</param>
+        /// <param name="createExpenseRequest">The create expense request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the expense was created successfully, otherwise 400 - Bad Request.</returns>
         [HttpPost(ApiRoutes.Expenses.CreateExpense)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseRequest request, CancellationToken cancellationToken) =>
-            await Result.Create(request, ApiErrors.UnProcessableRequest)
-                .Map(value => new CreateExpenseCommand(
-                    value.UserId,
-                    value.Name,
-                    value.Category,
-                    value.Amount,
-                    value.Currency,
-                    value.OccurredOn,
-                    value.Description))
+        public async Task<IActionResult> CreateExpense(
+            [FromBody] CreateExpenseRequest createExpenseRequest,
+            CancellationToken cancellationToken) =>
+            await Result.Create(createExpenseRequest, ApiErrors.UnProcessableRequest)
+                .Map(request => new CreateExpenseCommand(
+                    request.UserId,
+                    request.Name,
+                    request.Category,
+                    request.Amount,
+                    request.Currency,
+                    request.OccurredOn,
+                    request.Description))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
@@ -77,23 +79,25 @@ namespace Expensely.Api.Controllers.Core
         /// Updates the expense based on the specified request.
         /// </summary>
         /// <param name="expenseId">The expense identifier.</param>
-        /// <param name="request">The update expense request.</param>
+        /// <param name="updateExpenseRequest">The update expense request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the expense was updated successfully, otherwise 400 - Bad Request.</returns>
         [HttpPut(ApiRoutes.Expenses.UpdateExpense)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateExpense(
-            Guid expenseId, [FromBody] UpdateExpenseRequest request, CancellationToken cancellationToken) =>
-            await Result.Create(request, ApiErrors.UnProcessableRequest)
-                .Map(value => new UpdateExpenseCommand(
+            Guid expenseId,
+            [FromBody] UpdateExpenseRequest updateExpenseRequest,
+            CancellationToken cancellationToken) =>
+            await Result.Create(updateExpenseRequest, ApiErrors.UnProcessableRequest)
+                .Map(request => new UpdateExpenseCommand(
                     expenseId,
-                    value.Name,
-                    value.Category,
-                    value.Amount,
-                    value.Currency,
-                    value.OccurredOn,
-                    value.Description))
+                    request.Name,
+                    request.Category,
+                    request.Amount,
+                    request.Currency,
+                    request.OccurredOn,
+                    request.Description))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
