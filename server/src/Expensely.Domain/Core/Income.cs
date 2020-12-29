@@ -46,10 +46,10 @@ namespace Expensely.Domain.Core
         {
             var income = new Income(userId, name, category, money, occurredOn, description);
 
-            // TODO: Implement support for categories in event.
             income.Raise(new IncomeCreatedEvent
             {
                 UserId = income.UserId,
+                Category = income.Category.Value,
                 Amount = income.Money.Amount,
                 Currency = income.Money.Currency.Value,
                 OccurredOn = income.OccurredOn
@@ -86,20 +86,23 @@ namespace Expensely.Domain.Core
 
             bool occurredOnChanged = ChangeOccurredOnInternal(occurredOn);
 
-            if (amountChanged || currencyChanged || occurredOnChanged)
+            if (!categoryHasChanged && !amountChanged && !currencyChanged && !occurredOnChanged)
             {
-                // TODO: Implement support for categories in event.
-                Raise(new IncomeUpdatedEvent
-                {
-                    UserId = UserId,
-                    Amount = Money.Amount,
-                    PreviousAmount = amountChanged ? previousMoney.Amount : null,
-                    Currency = Money.Currency.Value,
-                    PreviousCurrency = currencyChanged ? previousMoney.Currency.Value : null,
-                    OccurredOn = OccurredOn,
-                    PreviousOccurredOn = occurredOnChanged ? previousOccurredOn : null
-                });
+                return;
             }
+
+            Raise(new IncomeUpdatedEvent
+            {
+                UserId = UserId,
+                Category = Category.Value,
+                PreviousCategory = categoryHasChanged ? previousCategory.Value : null,
+                Amount = Money.Amount,
+                PreviousAmount = amountChanged ? previousMoney.Amount : null,
+                Currency = Money.Currency.Value,
+                PreviousCurrency = currencyChanged ? previousMoney.Currency.Value : null,
+                OccurredOn = OccurredOn,
+                PreviousOccurredOn = occurredOnChanged ? previousOccurredOn : null
+            });
         }
 
         /// <summary>

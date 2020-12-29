@@ -63,6 +63,7 @@ namespace Expensely.Application.Commands.Handlers.Incomes.DeleteIncome
             await _eventPublisher.PublishAsync(new IncomeDeletedEvent
             {
                 UserId = income.UserId,
+                Category = income.Category.Value,
                 Amount = income.Money.Amount,
                 Currency = income.Money.Currency.Value,
                 OccurredOn = income.OccurredOn
