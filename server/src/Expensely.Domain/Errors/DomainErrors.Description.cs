@@ -15,7 +15,7 @@ namespace Expensely.Domain.Errors
             /// <summary>
             /// Gets the description is longer than allowed error.
             /// </summary>
-            public static Error LongerThanAllowed => new Error("Description.LongerThanAllowed", "The description is longer than allowed.");
+            public static Error LongerThanAllowed => new("Description.LongerThanAllowed", "The description is longer than allowed.");
         }
     }
 }

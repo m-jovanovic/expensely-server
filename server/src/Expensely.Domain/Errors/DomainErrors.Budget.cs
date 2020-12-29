@@ -15,7 +15,7 @@ namespace Expensely.Domain.Errors
             /// <summary>
             /// Gets the budget not found error.
             /// </summary>
-            public static Error NotFound => new Error("Budget.NotFound", "The budget with the specified identifier was not found.");
+            public static Error NotFound => new("Budget.NotFound", "The budget with the specified identifier was not found.");
         }
     }
 }

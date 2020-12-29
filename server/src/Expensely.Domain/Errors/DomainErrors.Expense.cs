@@ -15,7 +15,7 @@ namespace Expensely.Domain.Errors
             /// <summary>
             /// Gets the expense not found error.
             /// </summary>
-            public static Error NotFound => new Error("Expense.NotFound", "The expense with the specified identifier was not found.");
+            public static Error NotFound => new("Expense.NotFound", "The expense with the specified identifier was not found.");
         }
     }
 }

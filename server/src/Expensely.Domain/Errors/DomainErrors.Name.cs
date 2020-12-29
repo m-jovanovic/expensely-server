@@ -15,12 +15,12 @@ namespace Expensely.Domain.Errors
             /// <summary>
             /// Gets the name is null or empty error.
             /// </summary>
-            public static Error NullOrEmpty => new Error("Name.NullOrEmpty", "The name is required.");
+            public static Error NullOrEmpty => new("Name.NullOrEmpty", "The name is required.");
 
             /// <summary>
             /// Gets the name is longer than allowed error.
             /// </summary>
-            public static Error LongerThanAllowed => new Error("Name.LongerThanAllowed", "The name is longer than allowed.");
+            public static Error LongerThanAllowed => new("Name.LongerThanAllowed", "The name is longer than allowed.");
         }
     }
 }
