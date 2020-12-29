@@ -61,6 +61,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
                 maybeUser.Value,
                 request.Name,
                 request.Description,
+                request.Category,
                 request.Currency);
 
             if (transactionInformationResult.IsFailure)
@@ -68,10 +69,9 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
                 return Result.Failure(transactionInformationResult.Error);
             }
 
-            // TODO: Implement support for categories.
             expense.Update(
                 transactionInformationResult.Value.Name,
-                Category.UnCategorized,
+                transactionInformationResult.Value.Category,
                 new Money(request.Amount, transactionInformationResult.Value.Currency),
                 request.OccurredOn,
                 transactionInformationResult.Value.Description);

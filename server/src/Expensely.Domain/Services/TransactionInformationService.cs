@@ -16,9 +16,10 @@ namespace Expensely.Domain.Services
         /// <param name="user">The user.</param>
         /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
+        /// <param name="categoryValue">The category value.</param>
         /// <param name="currencyValue">The currency value.</param>
         /// <returns>The result of the transaction validation process containing the transaction information or an error.</returns>
-        public Result<TransactionInformation> Validate(User user, string name, string description, int currencyValue)
+        public Result<TransactionInformation> Validate(User user, string name, string description, int categoryValue, int currencyValue)
         {
             Result<Name> nameResult = Name.Create(name);
 
@@ -42,6 +43,7 @@ namespace Expensely.Domain.Services
             {
                 Name = nameResult.Value,
                 Description = descriptionResult.Value,
+                Category = Category.FromValue(categoryValue).Value,
                 Currency = currency
             };
         }

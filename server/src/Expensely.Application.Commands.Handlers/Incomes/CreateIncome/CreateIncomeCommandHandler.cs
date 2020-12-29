@@ -39,6 +39,7 @@ namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
                 maybeUser.Value,
                 request.Name,
                 request.Description,
+                default,
                 request.Currency);
 
             if (transactionInformationResult.IsFailure)

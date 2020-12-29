@@ -65,6 +65,7 @@ namespace Expensely.Api.Controllers.Core
                 .Map(value => new CreateExpenseCommand(
                     value.UserId,
                     value.Name,
+                    value.Category,
                     value.Amount,
                     value.Currency,
                     value.OccurredOn,
@@ -88,6 +89,7 @@ namespace Expensely.Api.Controllers.Core
                 .Map(value => new UpdateExpenseCommand(
                     expenseId,
                     value.Name,
+                    value.Category,
                     value.Amount,
                     value.Currency,
                     value.OccurredOn,

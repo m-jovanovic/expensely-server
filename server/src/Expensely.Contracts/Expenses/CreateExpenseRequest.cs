@@ -18,6 +18,11 @@ namespace Expensely.Contracts.Expenses
         public string Name { get; init; }
 
         /// <summary>
+        /// Gets the category.
+        /// </summary>
+        public int Category { get; }
+
+        /// <summary>
         /// Gets the amount.
         /// </summary>
         public decimal Amount { get; init; }

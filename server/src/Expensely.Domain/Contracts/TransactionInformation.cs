@@ -18,6 +18,11 @@ namespace Expensely.Domain.Contracts
         public Description Description { get; init; }
 
         /// <summary>
+        /// Gets the category.
+        /// </summary>
+        public Category Category { get; init; }
+
+        /// <summary>
         /// Gets the currency.
         /// </summary>
         public Currency Currency { get; init; }
