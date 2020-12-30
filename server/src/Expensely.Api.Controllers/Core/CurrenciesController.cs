@@ -29,7 +29,7 @@ namespace Expensely.Api.Controllers.Core
         /// Gets the readonly collection of all supported currencies.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The readonly collection of all supported currencies</returns>
+        /// <returns>The readonly collection of all supported currencies.</returns>
         [HttpGet(ApiRoutes.Currencies.GetCurrencies)]
         [ProducesResponseType(typeof(IReadOnlyCollection<CurrencyResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCurrencies(CancellationToken cancellationToken) =>

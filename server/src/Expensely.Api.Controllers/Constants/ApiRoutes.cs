@@ -111,6 +111,17 @@
         }
 
         /// <summary>
+        /// Contains the categories routes.
+        /// </summary>
+        public static class Categories
+        {
+            /// <summary>
+            /// The get currencies route.
+            /// </summary>
+            public const string GetCategories = "categories";
+        }
+
+        /// <summary>
         /// Contains the currencies routes.
         /// </summary>
         public static class Currencies

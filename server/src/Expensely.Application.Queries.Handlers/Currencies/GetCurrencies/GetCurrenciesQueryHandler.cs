@@ -15,11 +15,14 @@ namespace Expensely.Application.Queries.Handlers.Currencies.GetCurrencies
     internal sealed class GetCurrenciesQueryHandler : IQueryHandler<GetCurrenciesQuery, IReadOnlyCollection<CurrencyResponse>>
     {
         /// <inheritdoc />
-        public async Task<IReadOnlyCollection<CurrencyResponse>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
+        public Task<IReadOnlyCollection<CurrencyResponse>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
         {
-            var currencies = Currency.List.Select(x => new CurrencyResponse(x.Value, x.Name, x.Code)).ToList();
+            IReadOnlyCollection<CurrencyResponse> currencies = Currency
+                .List
+                .Select(x => new CurrencyResponse(x.Value, x.Name, x.Code))
+                .ToList();
 
-            return await Task.FromResult(currencies);
+            return Task.FromResult(currencies);
         }
     }
 }

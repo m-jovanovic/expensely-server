@@ -10,7 +10,7 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// The none category instance.
         /// </summary>
-        public static readonly Category None = new(default, string.Empty);
+        public static readonly Category None = new(1, "None");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Category"/> class.
