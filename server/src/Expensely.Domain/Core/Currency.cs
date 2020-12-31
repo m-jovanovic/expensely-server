@@ -13,7 +13,7 @@ namespace Expensely.Domain.Core
         public static readonly Currency Usd = new(1, "US Dollar", "USD");
 
         /// <summary>
-        /// The euro.
+        /// The Euro.
         /// </summary>
         public static readonly Currency Eur = new(2, "Euro", "EUR");
 
