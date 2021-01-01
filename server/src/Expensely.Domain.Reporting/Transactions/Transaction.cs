@@ -18,11 +18,6 @@ namespace Expensely.Domain.Reporting.Transactions
         public Guid UserId { get; init; }
 
         /// <summary>
-        /// Gets the transaction type.
-        /// </summary>
-        public int TransactionType { get; init; }
-
-        /// <summary>
         /// Gets the category.
         /// </summary>
         public int Category { get; init; }
@@ -36,6 +31,11 @@ namespace Expensely.Domain.Reporting.Transactions
         /// Gets the currency.
         /// </summary>
         public int Currency { get; init; }
+
+        /// <summary>
+        /// Gets the transaction type.
+        /// </summary>
+        public int TransactionType { get; init; }
 
         /// <summary>
         /// Gets the occurred on date.

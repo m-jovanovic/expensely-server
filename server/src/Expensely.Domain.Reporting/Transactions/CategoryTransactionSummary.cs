@@ -3,9 +3,9 @@
 namespace Expensely.Domain.Reporting.Transactions
 {
     /// <summary>
-    /// Represents the transaction summary entity.
+    /// Represents the category transaction summary.
     /// </summary>
-    public sealed class TransactionSummary
+    public sealed class CategoryTransactionSummary
     {
         /// <summary>
         /// Gets the identifier.
@@ -26,6 +26,11 @@ namespace Expensely.Domain.Reporting.Transactions
         /// Gets the month.
         /// </summary>
         public int Month { get; init; }
+
+        /// <summary>
+        /// Gets the category.
+        /// </summary>
+        public int Category { get; init; }
 
         /// <summary>
         /// Gets or sets the amount.
