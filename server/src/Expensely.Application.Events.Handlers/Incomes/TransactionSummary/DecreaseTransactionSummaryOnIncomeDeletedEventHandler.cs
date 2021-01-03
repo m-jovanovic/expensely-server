@@ -6,7 +6,7 @@ using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Core;
 using Expensely.Domain.Events.Incomes;
 
-namespace Expensely.Application.Events.Handlers.Incomes
+namespace Expensely.Application.Events.Handlers.Incomes.TransactionSummary
 {
     /// <summary>
     /// Decreases the respective transaction summary when an <see cref="IncomeDeletedEvent"/> is raised.

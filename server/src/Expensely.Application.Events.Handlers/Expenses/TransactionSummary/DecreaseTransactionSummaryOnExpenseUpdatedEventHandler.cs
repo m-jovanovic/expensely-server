@@ -4,26 +4,26 @@ using Expensely.Application.Reporting.Abstractions.Aggregation;
 using Expensely.Application.Reporting.Abstractions.Contracts;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Core;
-using Expensely.Domain.Events.Incomes;
+using Expensely.Domain.Events.Expenses;
 
-namespace Expensely.Application.Events.Handlers.Incomes
+namespace Expensely.Application.Events.Handlers.Expenses.TransactionSummary
 {
     /// <summary>
-    /// Decreases the respective transaction summary when an <see cref="IncomeUpdatedEvent"/> is raised.
+    /// Decreases the respective transaction summary when an <see cref="ExpenseUpdatedEvent"/> is raised.
     /// </summary>
-    public sealed class DecreaseTransactionSummaryOnIncomeUpdatedEventHandler : IEventHandler<IncomeUpdatedEvent>
+    public sealed class DecreaseTransactionSummaryOnExpenseUpdatedEventHandler : IEventHandler<ExpenseUpdatedEvent>
     {
         private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DecreaseTransactionSummaryOnIncomeUpdatedEventHandler"/> class.
+        /// Initializes a new instance of the <see cref="DecreaseTransactionSummaryOnExpenseUpdatedEventHandler"/> class.
         /// </summary>
         /// <param name="transactionSummaryAggregator">The transaction summary aggregator.</param>
-        public DecreaseTransactionSummaryOnIncomeUpdatedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
+        public DecreaseTransactionSummaryOnExpenseUpdatedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
             _transactionSummaryAggregator = transactionSummaryAggregator;
 
         /// <inheritdoc />
-        public async Task Handle(IncomeUpdatedEvent @event, CancellationToken cancellationToken) =>
+        public async Task Handle(ExpenseUpdatedEvent @event, CancellationToken cancellationToken) =>
             await _transactionSummaryAggregator.DecreaseByAmountAsync(
                 new TransactionDetails
                 {
@@ -31,7 +31,7 @@ namespace Expensely.Application.Events.Handlers.Incomes
                     Amount = @event.PreviousAmount ?? @event.Amount,
                     Currency = @event.PreviousCurrency ?? @event.Currency,
                     OccurredOn = @event.PreviousOccurredOn ?? @event.OccurredOn,
-                    TransactionType = (int)TransactionType.Income
+                    TransactionType = (int)TransactionType.Expense
                 },
                 cancellationToken);
     }

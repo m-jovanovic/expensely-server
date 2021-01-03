@@ -6,31 +6,31 @@ using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Core;
 using Expensely.Domain.Events.Expenses;
 
-namespace Expensely.Application.Events.Handlers.Expenses
+namespace Expensely.Application.Events.Handlers.Expenses.TransactionSummary
 {
     /// <summary>
-    /// Decreases the respective transaction summary when an <see cref="ExpenseUpdatedEvent"/> is raised.
+    /// Increases the respective transaction summary when an <see cref="ExpenseUpdatedEvent"/> is raised.
     /// </summary>
-    public sealed class DecreaseTransactionSummaryOnExpenseUpdatedEventHandler : IEventHandler<ExpenseUpdatedEvent>
+    public sealed class IncreaseTransactionSummaryOnExpenseUpdatedEventHandler : IEventHandler<ExpenseUpdatedEvent>
     {
         private readonly ITransactionSummaryAggregator _transactionSummaryAggregator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DecreaseTransactionSummaryOnExpenseUpdatedEventHandler"/> class.
+        /// Initializes a new instance of the <see cref="IncreaseTransactionSummaryOnExpenseUpdatedEventHandler"/> class.
         /// </summary>
         /// <param name="transactionSummaryAggregator">The transaction summary aggregator.</param>
-        public DecreaseTransactionSummaryOnExpenseUpdatedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
+        public IncreaseTransactionSummaryOnExpenseUpdatedEventHandler(ITransactionSummaryAggregator transactionSummaryAggregator) =>
             _transactionSummaryAggregator = transactionSummaryAggregator;
 
         /// <inheritdoc />
         public async Task Handle(ExpenseUpdatedEvent @event, CancellationToken cancellationToken) =>
-            await _transactionSummaryAggregator.DecreaseByAmountAsync(
+            await _transactionSummaryAggregator.IncreaseByAmountAsync(
                 new TransactionDetails
                 {
                     UserId = @event.UserId,
-                    Amount = @event.PreviousAmount ?? @event.Amount,
-                    Currency = @event.PreviousCurrency ?? @event.Currency,
-                    OccurredOn = @event.PreviousOccurredOn ?? @event.OccurredOn,
+                    Amount = @event.Amount,
+                    Currency = @event.Currency,
+                    OccurredOn = @event.OccurredOn,
                     TransactionType = (int)TransactionType.Expense
                 },
                 cancellationToken);
