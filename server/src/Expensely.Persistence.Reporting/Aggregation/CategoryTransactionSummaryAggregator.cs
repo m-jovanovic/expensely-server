@@ -9,7 +9,7 @@ using Expensely.Application.Reporting.Abstractions.Contracts;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Reporting.Transactions;
-using Expensely.Persistence.Reporting.Specifications.TransactionSummaries;
+using Expensely.Persistence.Reporting.Specifications.CategoryTransactionSummaries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -18,25 +18,25 @@ namespace Expensely.Persistence.Reporting.Aggregation
     /// <summary>
     /// Represents the transaction summary aggregator.
     /// </summary>
-    internal sealed class TransactionSummaryAggregator : ITransactionSummaryAggregator
+    internal sealed class CategoryTransactionSummaryAggregator : ICategoryTransactionSummaryAggregator
     {
         private readonly IReportingDbContext _reportingDbContext;
         private readonly IDbConnectionProvider _dbConnectionProvider;
         private readonly IDateTime _dateTime;
-        private readonly ILogger<TransactionSummaryAggregator> _logger;
+        private readonly ILogger<CategoryTransactionSummaryAggregator> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionSummaryAggregator"/> class.
+        /// Initializes a new instance of the <see cref="CategoryTransactionSummaryAggregator"/> class.
         /// </summary>
         /// <param name="reportingDbContext">The reporting database context.</param>
         /// <param name="dbConnectionProvider">The database connection provider.</param>
         /// <param name="dateTime">The date and time.</param>
         /// <param name="logger">The logger.</param>
-        public TransactionSummaryAggregator(
+        public CategoryTransactionSummaryAggregator(
             IReportingDbContext reportingDbContext,
             IDbConnectionProvider dbConnectionProvider,
             IDateTime dateTime,
-            ILogger<TransactionSummaryAggregator> logger)
+            ILogger<CategoryTransactionSummaryAggregator> logger)
         {
             _reportingDbContext = reportingDbContext;
             _dbConnectionProvider = dbConnectionProvider;
@@ -67,13 +67,15 @@ namespace Expensely.Persistence.Reporting.Aggregation
         /// <returns>The completed task.</returns>
         private async Task UpdateWithTransactionDetailsAmountAsync(
             TransactionDetails transactionDetails,
-            Action<TransactionSummary, TransactionDetails> updateAction,
+            Action<CategoryTransactionSummary, TransactionDetails> updateAction,
             CancellationToken cancellationToken = default)
         {
-            Maybe<TransactionSummary> maybeTransactionSummary = await _reportingDbContext
-                .FirstOrDefaultAsync(new TransactionSummaryByTransactionDetailsSpecification(transactionDetails), cancellationToken);
+            Maybe<CategoryTransactionSummary> maybeCategoryTransactionSummary = await _reportingDbContext
+                .FirstOrDefaultAsync(
+                    new CategoryTransactionSummaryByTransactionDetailsSpecification(transactionDetails),
+                    cancellationToken);
 
-            if (maybeTransactionSummary.HasNoValue)
+            if (maybeCategoryTransactionSummary.HasNoValue)
             {
                 await InsertForTransactionDetailsAsync(transactionDetails, _dateTime.UtcNow, cancellationToken);
 
@@ -82,7 +84,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
 
             try
             {
-                updateAction(maybeTransactionSummary.Value, transactionDetails);
+                updateAction(maybeCategoryTransactionSummary.Value, transactionDetails);
 
                 await _reportingDbContext.SaveChangesAsync(cancellationToken);
             }
@@ -90,7 +92,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
             {
                 _logger.LogError(
                     dbUpdateConcurrencyException,
-                    "Failed to update transaction summary for {@TransactionDetails}",
+                    "Failed to update category transaction summary for {@TransactionDetails}",
                     transactionDetails);
 
                 await AggregateForTransactionDetailsAsync(transactionDetails);
@@ -98,7 +100,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
         }
 
         /// <summary>
-        /// Inserts a new transaction summary based on the specified transaction.
+        /// Inserts a new category transaction summary based on the specified transaction.
         /// </summary>
         /// <param name="transactionDetails">The transaction.</param>
         /// <param name="utcNow">The current date and time in UTC format.</param>
@@ -109,15 +111,16 @@ namespace Expensely.Persistence.Reporting.Aggregation
             DateTime utcNow,
             CancellationToken cancellationToken)
         {
-            var transactionSummary = new TransactionSummary
+            var transactionSummary = new CategoryTransactionSummary
             {
                 Id = Guid.NewGuid(),
                 UserId = transactionDetails.UserId,
                 Year = transactionDetails.OccurredOn.Year,
                 Month = transactionDetails.OccurredOn.Month,
+                Category = transactionDetails.Category,
+                Amount = transactionDetails.Amount,
                 Currency = transactionDetails.Currency,
                 TransactionType = transactionDetails.TransactionType,
-                Amount = transactionDetails.Amount,
                 CreatedOnUtc = utcNow
             };
 
@@ -127,14 +130,14 @@ namespace Expensely.Persistence.Reporting.Aggregation
         }
 
         /// <summary>
-        /// Aggregates the transaction summary for the specified transaction.
+        /// Aggregates the category transaction summary for the specified transaction.
         /// </summary>
         /// <param name="transactionDetails">The transaction details.</param>
         /// <returns>The completed task.</returns>
         private async Task AggregateForTransactionDetailsAsync(TransactionDetails transactionDetails)
         {
             const string sql = @"
-                UPDATE [TransactionSummary]
+                UPDATE [CategoryTransactionSummary]
                 SET ModifiedOnUtc = @ModifiedOnUtc, Amount =
                     (SELECT SUM(t.Amount)
                      FROM [Transaction] t
@@ -142,6 +145,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
                         t.UserId = @UserId AND
                         t.OccurredOn >= @StartOfMonth AND
                         t.OccurredOn <= @EndOfMonth AND
+                        t.Category = @Category AND
                         t.Currency = @Currency AND
                         t.TransactionType = @TransactionType
                      GROUP BY t.TransactionType)
@@ -149,6 +153,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
                     UserId = @UserId AND
                     Year = @Year AND
                     Month = @Month AND
+                    Category = @Category AND
                     Currency = @Currency AND
                     TransactionType = @TransactionType";
 
@@ -161,6 +166,7 @@ namespace Expensely.Persistence.Reporting.Aggregation
             var parameters = new
             {
                 transactionDetails.UserId,
+                transactionDetails.Category,
                 transactionDetails.Currency,
                 transactionDetails.TransactionType,
                 transactionDetails.OccurredOn.Year,

@@ -33,6 +33,8 @@ namespace Expensely.Persistence.Reporting
 
             services.AddScoped<ITransactionSummaryAggregator, TransactionSummaryAggregator>();
 
+            services.AddScoped<ICategoryTransactionSummaryAggregator, CategoryTransactionSummaryAggregator>();
+
             return services;
         }
     }
