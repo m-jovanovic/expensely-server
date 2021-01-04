@@ -33,7 +33,7 @@ namespace Expensely.Domain.Core
         }
 
         /// <summary>
-        /// Creates a new expense based on the specified parameters.
+        /// Creates a new <see cref="Expense"/> based on the specified parameters.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name of the expense.</param>

@@ -28,7 +28,7 @@ namespace Expensely.Domain.Core
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>
         /// <param name="passwordService">The password service.</param>
-        public User(FirstName firstName, LastName lastName, Email email, Password password, IPasswordService passwordService)
+        private User(FirstName firstName, LastName lastName, Email email, Password password, IPasswordService passwordService)
             : base(Guid.NewGuid())
         {
             Ensure.NotEmpty(firstName, "The first name is required.", nameof(firstName));
@@ -86,6 +86,28 @@ namespace Expensely.Domain.Core
 
         /// <inheritdoc />
         public DateTime? ModifiedOnUtc { get; }
+
+        /// <summary>
+        /// Creates a new <see cref="User"/> based on the specified parameters.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="email">The email.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="passwordService">The password service.</param>
+        /// <returns>The newly created user.</returns>
+        public static User Create(FirstName firstName, LastName lastName, Email email, Password password, IPasswordService passwordService)
+        {
+            var user = new User(firstName, lastName, email, password, passwordService);
+
+            user.Raise(new UserCreatedEvent
+            {
+                Id = user.Id,
+                Email = user.Email
+            });
+
+            return user;
+        }
 
         /// <summary>
         /// Checks if the user's currencies contain the specified currency.

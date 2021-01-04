@@ -4,7 +4,6 @@ using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Handlers.Specifications.Users;
 using Expensely.Application.Commands.Users.CreateUser;
 using Expensely.Common.Abstractions.Messaging;
-using Expensely.Contracts.Users;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
@@ -50,10 +49,15 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
 
             if (emailAlreadyExists)
             {
-                return Result.Failure<TokenResponse>(DomainErrors.User.EmailAlreadyInUse);
+                return Result.Failure(DomainErrors.User.EmailAlreadyInUse);
             }
 
-            var user = new User(firstNameResult.Value, lastNameResult.Value, emailResult.Value, passwordResult.Value, _passwordService);
+            var user = User.Create(
+                firstNameResult.Value,
+                lastNameResult.Value,
+                emailResult.Value,
+                passwordResult.Value,
+                _passwordService);
 
             _dbContext.Insert(user);
 

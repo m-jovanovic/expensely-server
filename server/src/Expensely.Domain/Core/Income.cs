@@ -33,7 +33,7 @@ namespace Expensely.Domain.Core
         }
 
         /// <summary>
-        /// Creates a new income based on the specified parameters.
+        /// Creates a new <see cref="Income"/> based on the specified parameters.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name of the income.</param>
