@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Expenses.CreateExpense;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Maybe;
@@ -8,6 +7,7 @@ using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Contracts;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Repositories;
 using Expensely.Domain.Services;
 
 namespace Expensely.Application.Commands.Handlers.Expenses.CreateExpense
@@ -17,18 +17,27 @@ namespace Expensely.Application.Commands.Handlers.Expenses.CreateExpense
     /// </summary>
     internal sealed class CreateExpenseCommandHandler : ICommandHandler<CreateExpenseCommand, Result>
     {
-        private readonly IApplicationDbContext _dbContext;
+        private readonly IExpenseRepository _expenseRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateExpenseCommandHandler"/> class.
         /// </summary>
-        /// <param name="dbContext">The database context.</param>
-        public CreateExpenseCommandHandler(IApplicationDbContext dbContext) => _dbContext = dbContext;
+        /// <param name="expenseRepository">The expense repository.</param>
+        /// <param name="userRepository">The user repository.</param>
+        /// <param name="unitOfWork">The unit of work.</param>
+        public CreateExpenseCommandHandler(IExpenseRepository expenseRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
+        {
+            _expenseRepository = expenseRepository;
+            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
+        }
 
         /// <inheritdoc />
         public async Task<Result> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
         {
-            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(request.UserId, cancellationToken);
+            Maybe<User> maybeUser = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {
@@ -55,9 +64,9 @@ namespace Expensely.Application.Commands.Handlers.Expenses.CreateExpense
                 request.OccurredOn,
                 transactionInformationResult.Value.Description);
 
-            _dbContext.Insert(expense);
+            await _expenseRepository.AddAsync(expense, cancellationToken);
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }
