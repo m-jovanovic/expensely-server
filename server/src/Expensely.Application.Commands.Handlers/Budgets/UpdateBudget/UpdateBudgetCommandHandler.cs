@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Budgets.UpdateBudget;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Common.Abstractions.Messaging;
@@ -9,6 +8,7 @@ using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Repositories;
 
 namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
 {
@@ -17,24 +17,30 @@ namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
     /// </summary>
     internal sealed class UpdateBudgetCommandHandler : ICommandHandler<UpdateBudgetCommand, Result>
     {
-        private readonly IApplicationDbContext _dbContext;
+        private readonly IBudgetRepository _budgetRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateBudgetCommandHandler"/> class.
         /// </summary>
-        /// <param name="dbContext">The database context.</param>
+        /// <param name="budgetRepository">The database context.</param>
+        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public UpdateBudgetCommandHandler(IApplicationDbContext dbContext, IUserInformationProvider userInformationProvider)
+        public UpdateBudgetCommandHandler(
+            IBudgetRepository budgetRepository,
+            IUserInformationProvider userInformationProvider,
+            IUnitOfWork unitOfWork)
         {
-            _dbContext = dbContext;
+            _budgetRepository = budgetRepository;
+            _unitOfWork = unitOfWork;
             _userInformationProvider = userInformationProvider;
         }
 
         /// <inheritdoc />
         public async Task<Result> Handle(UpdateBudgetCommand request, CancellationToken cancellationToken)
         {
-            Maybe<Budget> maybeBudget = await _dbContext.GetBydIdAsync<Budget>(request.BudgetId, cancellationToken);
+            Maybe<Budget> maybeBudget = await _budgetRepository.GetByIdAsync(request.BudgetId, cancellationToken);
 
             if (maybeBudget.HasNoValue)
             {
@@ -61,7 +67,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
 
             budget.ChangeDates(request.StartDate, request.EndDate);
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }
