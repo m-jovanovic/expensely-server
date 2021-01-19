@@ -61,7 +61,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
                 passwordResult.Value,
                 _passwordService);
 
-            await _userRepository.AddAsync(user);
+            await _userRepository.AddAsync(user, cancellationToken);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

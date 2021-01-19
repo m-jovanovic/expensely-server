@@ -39,7 +39,8 @@ namespace Expensely.Domain.Repositories
         /// Adds the specified user to the repository.
         /// </summary>
         /// <param name="user">The user to be added.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The completed task.</returns>
-        Task AddAsync(User user);
+        Task AddAsync(User user, CancellationToken cancellationToken = default);
     }
 }
