@@ -17,20 +17,20 @@ namespace Expensely.Application.Commands.Handlers.Expenses.CreateExpense
     /// </summary>
     internal sealed class CreateExpenseCommandHandler : ICommandHandler<CreateExpenseCommand, Result>
     {
-        private readonly IExpenseRepository _expenseRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IExpenseRepository _expenseRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateExpenseCommandHandler"/> class.
         /// </summary>
-        /// <param name="expenseRepository">The expense repository.</param>
         /// <param name="userRepository">The user repository.</param>
+        /// <param name="expenseRepository">The expense repository.</param>
         /// <param name="unitOfWork">The unit of work.</param>
-        public CreateExpenseCommandHandler(IExpenseRepository expenseRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
+        public CreateExpenseCommandHandler(IUserRepository userRepository, IExpenseRepository expenseRepository, IUnitOfWork unitOfWork)
         {
-            _expenseRepository = expenseRepository;
             _userRepository = userRepository;
+            _expenseRepository = expenseRepository;
             _unitOfWork = unitOfWork;
         }
 

@@ -62,8 +62,10 @@ namespace Expensely.Application.Commands.Handlers.Expenses.DeleteExpense
 
             _expenseRepository.Remove(expense);
 
+            // TODO: Figure out how to make this a single transaction.
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+            // TODO: Figure out how to make this a single transaction.
             await _eventPublisher.PublishAsync(new ExpenseDeletedEvent
             {
                 UserId = expense.UserId,

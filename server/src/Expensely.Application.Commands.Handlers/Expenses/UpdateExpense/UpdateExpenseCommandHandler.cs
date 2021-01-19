@@ -19,28 +19,28 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
     /// </summary>
     internal sealed class UpdateExpenseCommandHandler : ICommandHandler<UpdateExpenseCommand, Result>
     {
-        private readonly IExpenseRepository _expenseRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IExpenseRepository _expenseRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateExpenseCommandHandler"/> class.
         /// </summary>
-        /// <param name="expenseRepository">The expense repository.</param>
         /// <param name="userRepository">The user repository.</param>
+        /// <param name="expenseRepository">The expense repository.</param>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
         public UpdateExpenseCommandHandler(
-            IExpenseRepository expenseRepository,
             IUserRepository userRepository,
+            IExpenseRepository expenseRepository,
             IUnitOfWork unitOfWork,
             IUserInformationProvider userInformationProvider)
         {
-            _expenseRepository = expenseRepository;
-            _userInformationProvider = userInformationProvider;
             _userRepository = userRepository;
+            _expenseRepository = expenseRepository;
             _unitOfWork = unitOfWork;
+            _userInformationProvider = userInformationProvider;
         }
 
         /// <inheritdoc />
