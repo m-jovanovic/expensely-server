@@ -1,12 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Users.ChangeUserPassword;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Repositories;
 using Expensely.Domain.Services;
 
 namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPassword
@@ -16,17 +16,20 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPassword
     /// </summary>
     internal sealed class ChangeUserPasswordCommandHandler : ICommandHandler<ChangeUserPasswordCommand, Result>
     {
-        private readonly IApplicationDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordService _passwordService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeUserPasswordCommandHandler"/> class.
         /// </summary>
-        /// <param name="dbContext">The database context.</param>
+        /// <param name="userRepository">The user repository.</param>
+        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="passwordService">The password service.</param>
-        public ChangeUserPasswordCommandHandler(IApplicationDbContext dbContext, IPasswordService passwordService)
+        public ChangeUserPasswordCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordService passwordService)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _passwordService = passwordService;
         }
 
@@ -43,7 +46,7 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPassword
                 return Result.Failure(result.Error);
             }
 
-            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(request.UserId, cancellationToken);
+            Maybe<User> maybeUser = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {
@@ -60,7 +63,7 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPassword
                 return Result.Failure(changePasswordResult.Error);
             }
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

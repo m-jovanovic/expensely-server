@@ -2,8 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Commands.Handlers.Specifications.RefreshTokens;
 using Expensely.Application.Commands.Users.RefreshUserToken;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.Messaging;
@@ -12,6 +10,7 @@ using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Repositories;
 
 namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
 {
@@ -20,19 +19,26 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
     /// </summary>
     internal sealed class RefreshUserTokenCommandHandler : ICommandHandler<RefreshUserTokenCommand, Result<TokenResponse>>
     {
-        private readonly IApplicationDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IJwtProvider _jwtProvider;
         private readonly IDateTime _dateTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RefreshUserTokenCommandHandler"/> class.
         /// </summary>
-        /// <param name="dbContext">The database context.</param>
+        /// <param name="userRepository">The user repository.</param>
+        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
         /// <param name="dateTime">The date and time.</param>
-        public RefreshUserTokenCommandHandler(IApplicationDbContext dbContext, IJwtProvider jwtProvider, IDateTime dateTime)
+        public RefreshUserTokenCommandHandler(
+            IUserRepository userRepository,
+            IUnitOfWork unitOfWork,
+            IJwtProvider jwtProvider,
+            IDateTime dateTime)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _jwtProvider = jwtProvider;
             _dateTime = dateTime;
         }
@@ -40,9 +46,8 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
         /// <inheritdoc />
         public async Task<Result<TokenResponse>> Handle(RefreshUserTokenCommand request, CancellationToken cancellationToken)
         {
-            Maybe<RefreshToken> maybeRefreshToken = await _dbContext.FirstOrDefaultAsync(
-                new RefreshTokenByValueSpecification(request.RefreshToken),
-                cancellationToken);
+            // TODO: Get refresh token via user entity, it should be embedded.
+            Maybe<RefreshToken> maybeRefreshToken = Maybe<RefreshToken>.None;
 
             if (maybeRefreshToken.HasNoValue)
             {
@@ -56,7 +61,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
                 return Result.Failure<TokenResponse>(DomainErrors.RefreshToken.Expired);
             }
 
-            Maybe<User> maybeUser = await _dbContext.GetBydIdAsync<User>(refreshTokenEntity.UserId, cancellationToken);
+            Maybe<User> maybeUser = await _userRepository.GetByIdAsync(maybeRefreshToken.Value.UserId, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {
@@ -67,9 +72,10 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
 
             (string refreshToken, DateTime expiresOnUtc) = _jwtProvider.CreateRefreshToken();
 
+            // TODO: Move logic into user entity.
             refreshTokenEntity.ChangeValues(refreshToken, expiresOnUtc);
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new TokenResponse(token, refreshToken, expiresOnUtc);
         }

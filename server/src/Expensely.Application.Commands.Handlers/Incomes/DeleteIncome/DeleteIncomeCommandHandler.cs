@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Commands.Incomes.DeleteIncome;
@@ -11,6 +10,7 @@ using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Events.Incomes;
+using Expensely.Domain.Repositories;
 
 namespace Expensely.Application.Commands.Handlers.Incomes.DeleteIncome
 {
@@ -19,22 +19,26 @@ namespace Expensely.Application.Commands.Handlers.Incomes.DeleteIncome
     /// </summary>
     internal sealed class DeleteIncomeCommandHandler : ICommandHandler<DeleteIncomeCommand, Result>
     {
-        private readonly IApplicationDbContext _dbContext;
+        private readonly IIncomeRepository _incomeRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
         private readonly IEventPublisher _eventPublisher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteIncomeCommandHandler"/> class.
         /// </summary>
-        /// <param name="dbContext">The database context.</param>
+        /// <param name="incomeRepository">The income repository.</param>
+        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
         /// <param name="eventPublisher">The event publisher.</param>
         public DeleteIncomeCommandHandler(
-            IApplicationDbContext dbContext,
+            IIncomeRepository incomeRepository,
+            IUnitOfWork unitOfWork,
             IUserInformationProvider userInformationProvider,
             IEventPublisher eventPublisher)
         {
-            _dbContext = dbContext;
+            _incomeRepository = incomeRepository;
+            _unitOfWork = unitOfWork;
             _userInformationProvider = userInformationProvider;
             _eventPublisher = eventPublisher;
         }
@@ -42,7 +46,7 @@ namespace Expensely.Application.Commands.Handlers.Incomes.DeleteIncome
         /// <inheritdoc />
         public async Task<Result> Handle(DeleteIncomeCommand request, CancellationToken cancellationToken)
         {
-            Maybe<Income> maybeIncome = await _dbContext.GetBydIdAsync<Income>(request.IncomeId, cancellationToken);
+            Maybe<Income> maybeIncome = await _incomeRepository.GetByIdAsync(request.IncomeId, cancellationToken);
 
             if (maybeIncome.HasNoValue)
             {
@@ -56,10 +60,12 @@ namespace Expensely.Application.Commands.Handlers.Incomes.DeleteIncome
                 return Result.Failure(ValidationErrors.User.InvalidPermissions);
             }
 
-            _dbContext.Remove(income);
+            _incomeRepository.Remove(income);
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            // TODO: Figure out how to make this a single transaction.
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+            // TODO: Figure out how to make this a single transaction.
             await _eventPublisher.PublishAsync(new IncomeDeletedEvent
             {
                 UserId = income.UserId,

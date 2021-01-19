@@ -1,12 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Commands.Handlers.Specifications.Users;
 using Expensely.Application.Commands.Users.CreateUser;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Repositories;
 using Expensely.Domain.Services;
 
 namespace Expensely.Application.Commands.Handlers.Users.CreateUser
@@ -16,18 +15,21 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
     /// </summary>
     internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Result>
     {
-        private readonly IApplicationDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordService _passwordService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateUserCommandHandler"/> class.
         /// </summary>
-        /// <param name="dbContext">The database context.</param>
+        /// <param name="userRepository">The user repository.</param>
+        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="passwordService">The password service.</param>
-        public CreateUserCommandHandler(IApplicationDbContext dbContext, IPasswordService passwordService)
+        public CreateUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordService passwordService)
         {
-            _dbContext = dbContext;
             _passwordService = passwordService;
+            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
         /// <inheritdoc />
@@ -45,7 +47,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
                 return Result.Failure(result.Error);
             }
 
-            bool emailAlreadyExists = await _dbContext.AnyAsync(new UserByEmailSpecification(emailResult.Value), cancellationToken);
+            bool emailAlreadyExists = await _userRepository.AnyWithEmailAsync(emailResult.Value, cancellationToken);
 
             if (emailAlreadyExists)
             {
@@ -59,9 +61,9 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
                 passwordResult.Value,
                 _passwordService);
 
-            _dbContext.Insert(user);
+            await _userRepository.AddAsync(user, cancellationToken);
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }
