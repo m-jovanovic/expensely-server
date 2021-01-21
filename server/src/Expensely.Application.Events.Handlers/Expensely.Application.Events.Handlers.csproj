@@ -7,8 +7,12 @@
   <Import Project="..\..\CodeAnalysis.targets" />
 
   <ItemGroup>
-    <ProjectReference Include="..\Expensely.Application.Reporting.Abstractions\Expensely.Application.Reporting.Abstractions.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Expensely.Common.Abstractions\Expensely.Common.Abstractions.csproj" />
+    <ProjectReference Include="..\Expensely.Domain.Abstractions\Expensely.Domain.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
