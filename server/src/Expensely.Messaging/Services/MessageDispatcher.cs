@@ -20,7 +20,7 @@ namespace Expensely.Messaging.Services
     /// </summary>
     public sealed class MessageDispatcher : IMessageDispatcher
     {
-        private readonly IApplicationDbContext _dbContext;
+        private readonly IDbContext _dbContext;
         private readonly IEventHandlerFactory _eventHandlerFactory;
         private readonly IServiceProvider _serviceProvider;
         private readonly IDateTime _dateTime;
@@ -33,7 +33,7 @@ namespace Expensely.Messaging.Services
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="dateTime">The date and time.</param>
         public MessageDispatcher(
-            IApplicationDbContext dbContext,
+            IDbContext dbContext,
             IEventHandlerFactory eventHandlerFactory,
             IServiceProvider serviceProvider,
             IDateTime dateTime)

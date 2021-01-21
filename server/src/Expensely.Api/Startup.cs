@@ -10,8 +10,6 @@ using Expensely.Application.Queries.Handlers;
 using Expensely.Infrastructure;
 using Expensely.Messaging;
 using Expensely.Persistence;
-using Expensely.Persistence.Application;
-using Expensely.Persistence.Reporting;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -51,9 +49,7 @@ namespace Expensely.Api
             services
                 .AddMessaging()
                 .AddInfrastructure(Configuration)
-                .AddPersistence(Configuration)
-                .AddApplicationDbContext(Configuration)
-                .AddReportingDbContext(Configuration);
+                .AddPersistence(Configuration);
 
             services.AddValidatorsFromAssembly(CommandHandlersAssembly.Assembly);
 
@@ -89,8 +85,6 @@ namespace Expensely.Api
 
                 app.ConfigureSwagger();
             }
-
-            app.ApplyMigrations();
 
             app.UseCors(configure =>
                 configure
