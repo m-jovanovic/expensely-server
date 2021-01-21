@@ -67,12 +67,12 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="left">The first currency.</param>
         /// <param name="right">The second currency.</param>
-        /// <exception cref="MoneyCurrenciesNotEqualDomainException"> when the specified currencies are not the same.</exception>
+        /// <exception cref="CurrenciesNotEqualDomainException"> when the specified currencies are not the same.</exception>
         private static void EnsureCurrenciesAreEqual(Money left, Money right)
         {
             if (left.Currency != right.Currency)
             {
-                throw new MoneyCurrenciesNotEqualDomainException(left.Currency, right.Currency);
+                throw new CurrenciesNotEqualDomainException(left.Currency, right.Currency);
             }
         }
     }
