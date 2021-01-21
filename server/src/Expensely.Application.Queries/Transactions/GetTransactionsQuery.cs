@@ -4,7 +4,7 @@ using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
 
-namespace Expensely.Application.Queries.Transactions.GetTransactions
+namespace Expensely.Application.Queries.Transactions
 {
     /// <summary>
     /// Represents the query for getting a list of transactions.

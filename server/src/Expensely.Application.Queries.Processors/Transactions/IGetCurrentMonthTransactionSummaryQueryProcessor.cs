@@ -1,8 +1,9 @@
-﻿using Expensely.Application.Queries.Abstractions;
+﻿using Expensely.Application.Queries.Processors.Abstractions;
+using Expensely.Application.Queries.Transactions;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
 
-namespace Expensely.Application.Queries.Transactions.GetCurrentMonthTransactionSummary
+namespace Expensely.Application.Queries.Processors.Transactions
 {
     /// <summary>
     /// Represents the <see cref="GetCurrentMonthTransactionSummaryQuery"/> processor interface.

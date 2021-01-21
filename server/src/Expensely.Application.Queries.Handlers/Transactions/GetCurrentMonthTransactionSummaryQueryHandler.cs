@@ -1,11 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Queries.Transactions.GetCurrentMonthTransactionSummary;
+using Expensely.Application.Queries.Processors.Transactions;
+using Expensely.Application.Queries.Transactions;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
 
-namespace Expensely.Application.Queries.Handlers.Transactions.GetCurrentMonthTransactionSummary
+namespace Expensely.Application.Queries.Handlers.Transactions
 {
     /// <summary>
     /// Represents the <see cref="GetCurrentMonthTransactionSummaryQuery"/> handler.

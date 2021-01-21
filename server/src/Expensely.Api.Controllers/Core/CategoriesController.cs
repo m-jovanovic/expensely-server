@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers.Constants;
 using Expensely.Api.Controllers.Infrastructure;
-using Expensely.Application.Queries.Categories.GetCategories;
+using Expensely.Application.Queries.Categories;
 using Expensely.Contracts.Categories;
 using MediatR;
 using Microsoft.AspNetCore.Http;

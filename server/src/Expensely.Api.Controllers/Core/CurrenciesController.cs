@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers.Constants;
 using Expensely.Api.Controllers.Infrastructure;
-using Expensely.Application.Queries.Currencies.GetCurrencies;
+using Expensely.Application.Queries.Currencies;
 using Expensely.Contracts.Currencies;
 using MediatR;
 using Microsoft.AspNetCore.Http;

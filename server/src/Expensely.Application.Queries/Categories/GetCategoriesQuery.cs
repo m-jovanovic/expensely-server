@@ -2,7 +2,7 @@
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Categories;
 
-namespace Expensely.Application.Queries.Categories.GetCategories
+namespace Expensely.Application.Queries.Categories
 {
     /// <summary>
     /// Represents the query for getting a collection of all supported categories.

@@ -7,7 +7,7 @@ using Expensely.Api.Controllers.Infrastructure;
 using Expensely.Application.Commands.Expenses.CreateExpense;
 using Expensely.Application.Commands.Expenses.DeleteExpense;
 using Expensely.Application.Commands.Expenses.UpdateExpense;
-using Expensely.Application.Queries.Expenses.GetExpenses;
+using Expensely.Application.Queries.Expenses;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Contracts.Expenses;
 using Expensely.Domain.Abstractions.Maybe;

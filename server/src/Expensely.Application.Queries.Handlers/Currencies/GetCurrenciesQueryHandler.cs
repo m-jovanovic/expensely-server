@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Queries.Currencies.GetCurrencies;
+using Expensely.Application.Queries.Currencies;
+using Expensely.Application.Queries.Processors.Currencies;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Currencies;
 
-namespace Expensely.Application.Queries.Handlers.Currencies.GetCurrencies
+namespace Expensely.Application.Queries.Handlers.Currencies
 {
     /// <summary>
     /// Represents the <see cref="GetCurrenciesQuery"/> handler.

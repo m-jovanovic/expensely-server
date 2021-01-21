@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Common.Abstractions.Messaging;
 
-namespace Expensely.Application.Queries.Abstractions
+namespace Expensely.Application.Queries.Processors.Abstractions
 {
     /// <summary>
     /// Represents the query processor interface.

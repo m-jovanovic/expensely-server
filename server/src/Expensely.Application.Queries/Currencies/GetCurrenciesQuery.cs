@@ -2,7 +2,7 @@
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Currencies;
 
-namespace Expensely.Application.Queries.Currencies.GetCurrencies
+namespace Expensely.Application.Queries.Currencies
 {
     /// <summary>
     /// Represents the query for getting a collection of all supported currencies.

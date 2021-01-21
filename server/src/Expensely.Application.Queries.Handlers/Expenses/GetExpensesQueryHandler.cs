@@ -1,11 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Queries.Expenses.GetExpenses;
+using Expensely.Application.Queries.Expenses;
+using Expensely.Application.Queries.Processors.Expenses;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Expenses;
 using Expensely.Domain.Abstractions.Maybe;
 
-namespace Expensely.Application.Queries.Handlers.Expenses.GetExpenses
+namespace Expensely.Application.Queries.Handlers.Expenses
 {
     /// <summary>
     /// Represents the <see cref="GetExpensesQuery"/> handler.
