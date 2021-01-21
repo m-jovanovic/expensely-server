@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Expensely.Application.Reporting.Abstractions\Expensely.Application.Reporting.Abstractions.csproj" />
     <ProjectReference Include="..\Expensely.Common.Abstractions\Expensely.Common.Abstractions.csproj" />
-    <ProjectReference Include="..\Expensely.Domain.Reporting\Expensely.Domain.Reporting.csproj" />
   </ItemGroup>
 
 </Project>
