@@ -1,16 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
-using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Queries.Transactions.GetCurrentMonthTransactionSummary;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
-using Expensely.Domain.Core;
 
 namespace Expensely.Application.Queries.Handlers.Transactions.GetCurrentMonthTransactionSummary
 {
@@ -20,78 +13,18 @@ namespace Expensely.Application.Queries.Handlers.Transactions.GetCurrentMonthTra
     internal sealed class GetCurrentMonthTransactionSummaryQueryHandler
         : IQueryHandler<GetCurrentMonthTransactionSummaryQuery, Maybe<TransactionSummaryResponse>>
     {
-        private readonly IUserInformationProvider _userInformationProvider;
-        private readonly IDbConnectionProvider _dbConnectionProvider;
+        private readonly IGetCurrentMonthTransactionSummaryQueryProcessor _processor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetCurrentMonthTransactionSummaryQueryHandler"/> class.
         /// </summary>
-        /// <param name="userInformationProvider">The user information provider.</param>
-        /// <param name="dbConnectionProvider">The database connection provider.</param>
-        public GetCurrentMonthTransactionSummaryQueryHandler(
-            IUserInformationProvider userInformationProvider,
-            IDbConnectionProvider dbConnectionProvider)
-        {
-            _userInformationProvider = userInformationProvider;
-            _dbConnectionProvider = dbConnectionProvider;
-        }
+        /// <param name="processor">The get current month transaction summary query processor.</param>
+        public GetCurrentMonthTransactionSummaryQueryHandler(IGetCurrentMonthTransactionSummaryQueryProcessor processor) =>
+            _processor = processor;
 
         /// <inheritdoc />
         public async Task<Maybe<TransactionSummaryResponse>> Handle(
-            GetCurrentMonthTransactionSummaryQuery request, CancellationToken cancellationToken)
-        {
-            if (request.UserId != _userInformationProvider.UserId ||
-                _userInformationProvider.PrimaryCurrency.HasNoValue ||
-                request.PrimaryCurrency != _userInformationProvider.PrimaryCurrency.Value.Value)
-            {
-                return Maybe<TransactionSummaryResponse>.None;
-            }
-
-            const string sql = @"
-                SELECT TransactionType, Amount
-                FROM [TransactionSummary]
-                WHERE
-                    UserId = @UserId AND
-                    Year = @Year AND
-                    Month = @Month AND
-                    Currency = @PrimaryCurrency";
-
-            using IDbConnection dbConnection = _dbConnectionProvider.Create();
-
-            IEnumerable<TransactionAmountPerType> transactionAmountPerType = await dbConnection.QueryAsync<TransactionAmountPerType>(
-                sql,
-                new
-                {
-                    request.UserId,
-                    request.StartOfMonth.Year,
-                    request.StartOfMonth.Month,
-                    request.PrimaryCurrency
-                });
-
-            var transactionAmountPerTypeDictionary = transactionAmountPerType.ToDictionary(x => x.TransactionType, x => x.Amount);
-
-            Currency currency = Currency.FromValue(request.PrimaryCurrency).Value;
-
-            var response = new TransactionSummaryResponse
-            {
-                FormattedExpense = FormatAmountForTransactionType(transactionAmountPerTypeDictionary, TransactionType.Expense, currency),
-                FormattedIncome = FormatAmountForTransactionType(transactionAmountPerTypeDictionary, TransactionType.Income, currency)
-            };
-
-            return response;
-        }
-
-        private static string FormatAmountForTransactionType(
-            IReadOnlyDictionary<int, decimal> transactionAmountsDictionary,
-            TransactionType transactionType,
-            Currency currency) =>
-            currency.Format(GetAmountForTransactionType(transactionAmountsDictionary, transactionType));
-
-        private static decimal GetAmountForTransactionType(
-            IReadOnlyDictionary<int, decimal> transactionAmountsDictionary,
-            TransactionType transactionType) =>
-            transactionAmountsDictionary.TryGetValue((int)transactionType, out decimal amount)
-                ? amount
-                : decimal.Zero;
+            GetCurrentMonthTransactionSummaryQuery request, CancellationToken cancellationToken) =>
+            await _processor.Process(request, cancellationToken);
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Queries.Categories.GetCategories;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Contracts.Categories;
-using Expensely.Domain.Core;
 
 namespace Expensely.Application.Queries.Handlers.Categories.GetCategories
 {
@@ -14,18 +12,16 @@ namespace Expensely.Application.Queries.Handlers.Categories.GetCategories
     /// </summary>
     public sealed class GetCategoriesQueryHandler : IQueryHandler<GetCategoriesQuery, IReadOnlyCollection<CategoryResponse>>
     {
-        /// <inheritdoc />
-        public Task<IReadOnlyCollection<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
-        {
-            IReadOnlyCollection<CategoryResponse> categories = Category
-                .List
-                .Select(x => new CategoryResponse
-                {
-                    Value = x.Value,
-                    Name = x.Name
-                }).ToList();
+        private readonly IGetCategoriesQueryProcessor _processor;
 
-            return Task.FromResult(categories);
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetCategoriesQueryHandler"/> class.
+        /// </summary>
+        /// <param name="processor">The get categories query processor.</param>
+        public GetCategoriesQueryHandler(IGetCategoriesQueryProcessor processor) => _processor = processor;
+
+        /// <inheritdoc />
+        public async Task<IReadOnlyCollection<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken) =>
+            await _processor.Process(request, cancellationToken);
     }
 }
