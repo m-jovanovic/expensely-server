@@ -27,10 +27,12 @@ namespace Expensely.Persistence.Repositories
             await _session.LoadAsync<User>(userId.ToString(), cancellationToken);
 
         /// <inheritdoc />
+        // TODO: Add index.
         public async Task<Maybe<User>> GetByEmailAsync(Email email, CancellationToken cancellationToken = default) =>
             await _session.Query<User>().SingleOrDefaultAsync(x => x.Email.Value == email.Value, cancellationToken);
 
         /// <inheritdoc />
+        // TODO: Add index.
         public async Task<bool> AnyWithEmailAsync(Email email, CancellationToken cancellationToken = default) =>
             await _session.Query<User>().AnyAsync(x => x.Email.Value == email.Value, cancellationToken);
 

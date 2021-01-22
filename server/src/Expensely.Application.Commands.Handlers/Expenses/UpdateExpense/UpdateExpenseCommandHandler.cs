@@ -46,6 +46,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
         /// <inheritdoc />
         public async Task<Result> Handle(UpdateExpenseCommand request, CancellationToken cancellationToken)
         {
+            // TODO: Fetch user along with expense to spare a database call.
             Maybe<Expense> maybeExpense = await _expenseRepository.GetByIdAsync(request.ExpenseId, cancellationToken);
 
             if (maybeExpense.HasNoValue)

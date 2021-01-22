@@ -13,7 +13,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
     internal sealed class GetCurrentMonthTransactionSummaryQueryProcessor : IGetCurrentMonthTransactionSummaryQueryProcessor
     {
         /// <inheritdoc />
-        // TODO: Implement the actual query.
+        // TODO: Implement the actual query using a map-reduce index.
         public Task<Maybe<TransactionSummaryResponse>> Process(
             GetCurrentMonthTransactionSummaryQuery query,
             CancellationToken cancellationToken = default) =>

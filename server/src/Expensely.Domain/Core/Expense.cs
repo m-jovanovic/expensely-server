@@ -19,7 +19,7 @@ namespace Expensely.Domain.Core
         /// <param name="occurredOn">The date the expense occurred on.</param>
         /// <param name="description">The description of the expense.</param>
         private Expense(Guid userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
-            : base(userId, name, category, money, occurredOn, description) =>
+            : base(userId, name, category, money, occurredOn, description, TransactionType.Expense) =>
             EnsureMoneyIsLessThanZero(money);
 
         /// <summary>
