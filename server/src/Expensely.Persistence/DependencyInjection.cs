@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using Expensely.Application.Queries.Processors.Abstractions;
+using Expensely.Common.Abstractions.Clock;
+using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Repositories;
 using Expensely.Persistence.Repositories;
-using Expensely.Persistence.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Indexes;
+using Raven.Client.ServerWide;
+using Raven.Client.ServerWide.Operations;
 
 namespace Expensely.Persistence
 {
@@ -24,7 +29,43 @@ namespace Expensely.Persistence
         /// <returns>The same service collection.</returns>
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton(new ConnectionString { Value = configuration.GetConnectionString("DefaultConnection") });
+            // TODO: Fix the document store registration.
+            services.AddSingleton<IDocumentStore>(serviceProvider =>
+            {
+                // TODO: Wire up all sorts of conventions.
+                var documentStore = new DocumentStore
+                {
+                    Certificate = new X509Certificate2(configuration["RavenDB:CertificatePath"]),
+                    Database = configuration["RavenDB:Database"],
+                    Urls = configuration["RavenDB:Urls"].Split(',')
+                };
+
+                documentStore.OnBeforeStore += (sender, args) =>
+                {
+                    if (args.Entity is IAuditableEntity auditableEntity)
+                    {
+                        // TODO: Set the values.
+                    }
+                };
+
+                documentStore.Initialize();
+
+                // TODO: Extract database creation out of here.
+                var getDatabaseRecordOperation = new GetDatabaseRecordOperation(documentStore.Database);
+
+                DatabaseRecordWithEtag databaseRecord = documentStore.Maintenance.Server.Send(getDatabaseRecordOperation);
+
+                if (databaseRecord is null)
+                {
+                    var createDatabaseOperation = new CreateDatabaseOperation(new DatabaseRecord(documentStore.Database));
+
+                    documentStore.Maintenance.Server.Send(createDatabaseOperation);
+                }
+
+                // TODO: Extract index creation out of here.
+                // IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), documentStore);
+                return documentStore;
+            });
 
             services.AddScoped(factory => factory.GetRequiredService<IDocumentStore>().OpenAsyncSession());
 

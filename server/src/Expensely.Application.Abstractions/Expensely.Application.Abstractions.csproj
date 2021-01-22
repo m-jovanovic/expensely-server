@@ -7,10 +7,6 @@
   <Import Project="..\..\CodeAnalysis.targets" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Expensely.Domain\Expensely.Domain.csproj" />
   </ItemGroup>
 

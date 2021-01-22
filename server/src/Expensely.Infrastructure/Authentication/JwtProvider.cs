@@ -76,12 +76,14 @@ namespace Expensely.Infrastructure.Authentication
         /// <returns>The collection of claims for the specified user.</returns>
         private static IEnumerable<Claim> CreateClaims(User user)
         {
-            yield return new Claim(JwtClaimTypes.UserId, user.Id.ToString());
+            yield return new Claim(JwtClaimTypes.UserId, user.Id);
             yield return new Claim(JwtClaimTypes.Email, user.Email);
-            yield return new Claim(JwtClaimTypes.Name, user.FullName);
+            yield return new Claim(JwtClaimTypes.Name, user.GetFullName());
+
+            // TODO: Fix this long line.
             yield return new Claim(
-                JwtClaimTypes.PrimaryCurrency,
-                user.PrimaryCurrency.HasValue ? user.PrimaryCurrency.Value.Value.ToString(CultureInfo.InvariantCulture) : string.Empty);
+               JwtClaimTypes.PrimaryCurrency,
+               user.GetPrimaryCurrency().HasValue ? user.GetPrimaryCurrency().Value.Value.ToString(CultureInfo.InvariantCulture) : string.Empty);
         }
     }
 }

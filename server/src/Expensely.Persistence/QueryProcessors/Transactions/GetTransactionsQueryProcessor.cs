@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
@@ -50,7 +51,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                      x.OccurredOn == query.OccurredOn && x.CreatedOnUtc <= query.CreatedOnUtc))
                 .OrderByDescending(x => x.OccurredOn)
                 .ThenByDescending(x => x.CreatedOnUtc)
-                .Select(x => new TransactionResponse(x.Id, x.Money.Amount, x.Money.Currency.Value, x.OccurredOn, x.CreatedOnUtc))
+                .Select(x => new TransactionResponse(Guid.Parse(x.Id), x.Money.Amount, x.Money.Currency.Value, x.OccurredOn, x.CreatedOnUtc))
                 .ToArrayAsync(cancellationToken);
 
             if (expenses.Length < query.Limit)

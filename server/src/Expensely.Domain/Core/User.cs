@@ -62,19 +62,9 @@ namespace Expensely.Domain.Core
         public LastName LastName { get; private set; }
 
         /// <summary>
-        /// Gets the full name.
-        /// </summary>
-        public string FullName { get; private set; }
-
-        /// <summary>
         /// Gets the email.
         /// </summary>
         public Email Email { get; private set; }
-
-        /// <summary>
-        /// Gets the maybe instance that may contain the primary currency.
-        /// </summary>
-        public Maybe<Currency> PrimaryCurrency => _primaryCurrency == Currency.None ? Maybe<Currency>.None : _primaryCurrency;
 
         /// <summary>
         /// Gets the currencies.
@@ -102,12 +92,24 @@ namespace Expensely.Domain.Core
 
             user.Raise(new UserCreatedEvent
             {
-                Id = user.Id,
+                Id = Guid.Parse(user.Id),
                 Email = user.Email
             });
 
             return user;
         }
+
+        /// <summary>
+        /// Gets the user's full name.
+        /// </summary>
+        /// <returns>The user's full name.</returns>
+        public string GetFullName() => $"{FirstName.Value} {LastName.Value}";
+
+        /// <summary>
+        /// Gets the maybe instance that may contain the primary currency.
+        /// </summary>
+        /// <returns>The maybe instance that may contain the user's primary currency.</returns>
+        public Maybe<Currency> GetPrimaryCurrency() => _primaryCurrency == Currency.None ? Maybe<Currency>.None : _primaryCurrency;
 
         /// <summary>
         /// Checks if the user's currencies contain the specified currency.
@@ -137,7 +139,7 @@ namespace Expensely.Domain.Core
 
             Raise(new UserPrimaryCurrencyChangedEvent
             {
-                UserId = Id
+                UserId = Guid.Parse(Id)
             });
 
             return Result.Success();
@@ -162,7 +164,7 @@ namespace Expensely.Domain.Core
 
             Raise(new UserCurrencyAddedEvent
             {
-                UserId = Id,
+                UserId = Guid.Parse(Id),
                 Currency = currency.Value
             });
 
@@ -189,7 +191,7 @@ namespace Expensely.Domain.Core
 
             Raise(new UserCurrencyRemovedEvent
             {
-                UserId = Id,
+                UserId = Guid.Parse(Id),
                 Currency = currency.Value
             });
 
@@ -212,7 +214,7 @@ namespace Expensely.Domain.Core
 
             Raise(new UserPasswordVerificationFailedEvent
             {
-                UserId = Id
+                UserId = Guid.Parse(Id)
             });
 
             return false;
@@ -241,7 +243,7 @@ namespace Expensely.Domain.Core
 
             Raise(new UserPasswordChangedEvent
             {
-                UserId = Id
+                UserId = Guid.Parse(Id)
             });
 
             return Result.Success();

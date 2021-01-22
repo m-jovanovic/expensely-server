@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Data;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Messaging.Abstractions.Entities;
 using Expensely.Messaging.Abstractions.Services;
-using Expensely.Messaging.Specifications;
 using Microsoft.Extensions.Logging;
 using Quartz;
 
@@ -18,7 +16,6 @@ namespace Expensely.Messaging.Jobs
     [DisallowConcurrentExecution]
     public sealed class MessageProcessingJob : IJob
     {
-        private readonly IDbContext _dbContext;
         private readonly IMessageDispatcher _messageDispatcher;
         private readonly ILogger<MessageProcessingJob> _logger;
 
@@ -26,15 +23,12 @@ namespace Expensely.Messaging.Jobs
         /// Initializes a new instance of the <see cref="MessageProcessingJob"/> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
-        /// <param name="dbContext">The database context.</param>
         /// <param name="messageDispatcher">The message dispatcher.</param>
         public MessageProcessingJob(
-            IDbContext dbContext,
             IMessageDispatcher messageDispatcher,
             ILogger<MessageProcessingJob> logger)
         {
             _logger = logger;
-            _dbContext = dbContext;
             _messageDispatcher = messageDispatcher;
         }
 
@@ -43,7 +37,7 @@ namespace Expensely.Messaging.Jobs
 
         private async Task ProcessMessagesAsync(CancellationToken cancellationToken)
         {
-            IList<Message> unprocessedMessages = await _dbContext.ListAsync(new UnprocessedMessageSpecification(20), cancellationToken);
+            IList<Message> unprocessedMessages = new List<Message>();
 
             foreach (Message message in unprocessedMessages)
             {

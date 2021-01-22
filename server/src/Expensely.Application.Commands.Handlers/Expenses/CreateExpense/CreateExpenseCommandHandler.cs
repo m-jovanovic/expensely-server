@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Expenses.CreateExpense;
 using Expensely.Common.Abstractions.Messaging;
@@ -57,7 +58,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.CreateExpense
             }
 
             var expense = Expense.Create(
-                maybeUser.Value.Id,
+                Guid.Parse(maybeUser.Value.Id),
                 transactionInformationResult.Value.Name,
                 transactionInformationResult.Value.Category,
                 new Money(request.Amount, transactionInformationResult.Value.Currency),

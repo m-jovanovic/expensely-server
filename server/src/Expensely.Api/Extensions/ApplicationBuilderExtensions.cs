@@ -25,7 +25,12 @@ namespace Expensely.Api.Extensions
         {
             builder.UseSwagger();
 
-            builder.UseSwaggerUI(swaggerUiOptions => swaggerUiOptions.SwaggerEndpoint("/swagger/v1/swagger.json", "Expensely API"));
+            builder.UseSwaggerUI(swaggerUiOptions =>
+            {
+                swaggerUiOptions.SwaggerEndpoint("/swagger/v1/swagger.json", "Expensely API");
+
+                swaggerUiOptions.DisplayRequestDuration();
+            });
 
             return builder;
         }

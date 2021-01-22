@@ -8,7 +8,6 @@ using Expensely.Application.Commands.Handlers;
 using Expensely.Application.Events.Handlers;
 using Expensely.Application.Queries.Handlers;
 using Expensely.Infrastructure;
-using Expensely.Messaging;
 using Expensely.Persistence;
 using FluentValidation;
 using MediatR;
@@ -46,8 +45,8 @@ namespace Expensely.Api
         {
             SqlMapper.AddTypeMap(typeof(DateTime), DbType.DateTime2);
 
+            // TODO: Turn on messaging when it's integrated with RavenDB
             services
-                .AddMessaging()
                 .AddInfrastructure(Configuration)
                 .AddPersistence(Configuration);
 

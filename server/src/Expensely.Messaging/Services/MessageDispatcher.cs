@@ -2,14 +2,12 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Data;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Messaging.Abstractions.Entities;
 using Expensely.Messaging.Abstractions.Factories;
 using Expensely.Messaging.Abstractions.Services;
-using Expensely.Messaging.Specifications;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
@@ -20,7 +18,6 @@ namespace Expensely.Messaging.Services
     /// </summary>
     public sealed class MessageDispatcher : IMessageDispatcher
     {
-        private readonly IDbContext _dbContext;
         private readonly IEventHandlerFactory _eventHandlerFactory;
         private readonly IServiceProvider _serviceProvider;
         private readonly IDateTime _dateTime;
@@ -28,17 +25,14 @@ namespace Expensely.Messaging.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageDispatcher"/> class.
         /// </summary>
-        /// <param name="dbContext">The database context.</param>
         /// <param name="eventHandlerFactory">The event handler factory.</param>
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="dateTime">The date and time.</param>
         public MessageDispatcher(
-            IDbContext dbContext,
             IEventHandlerFactory eventHandlerFactory,
             IServiceProvider serviceProvider,
             IDateTime dateTime)
         {
-            _dbContext = dbContext;
             _eventHandlerFactory = eventHandlerFactory;
             _serviceProvider = serviceProvider;
             _dateTime = dateTime;
@@ -58,7 +52,8 @@ namespace Expensely.Messaging.Services
             {
                 string consumerName = handler.GetType().Name;
 
-                if (await _dbContext.AnyAsync(new MessageConsumerSpecification(message, consumerName), cancellationToken))
+                // TODO: Check if message was already consumed.
+                if (string.IsNullOrWhiteSpace(consumerName))
                 {
                     continue;
                 }
@@ -72,15 +67,12 @@ namespace Expensely.Messaging.Services
                     return e;
                 }
 
-                _dbContext.Insert(new MessageConsumer(message, consumerName, _dateTime.UtcNow));
-
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                // TODO: Register that the event was consumed.
             }
 
             message.MarkAsProcessed();
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
-
+            // TODO: Register that the message was processed.
             return Maybe<Exception>.None;
         }
 

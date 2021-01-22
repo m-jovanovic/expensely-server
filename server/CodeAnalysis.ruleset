@@ -12,6 +12,7 @@
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="CA1000" Action="None" />
     <Rule Id="CA1014" Action="None" />
+    <Rule Id="CA1024" Action="None" />
     <Rule Id="CA1030" Action="None" />
     <Rule Id="CA1031" Action="None" />
     <Rule Id="CA1032" Action="None" />

@@ -22,7 +22,7 @@ namespace Expensely.Domain.Core
             Ensure.NotEmpty(token, "The refresh token is required", nameof(token));
             Ensure.NotEmpty(expiresOnUtc, "The expires on date and time is required.", nameof(expiresOnUtc));
 
-            UserId = user.Id;
+            UserId = Guid.Parse(user.Id);
             Token = token;
             ExpiresOnUtc = expiresOnUtc;
         }

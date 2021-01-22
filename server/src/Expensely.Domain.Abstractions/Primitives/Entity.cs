@@ -18,7 +18,7 @@ namespace Expensely.Domain.Abstractions.Primitives
                 throw new ArgumentException("The entity identifier is required.", nameof(id));
             }
 
-            Id = id;
+            Id = id.ToString();
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Expensely.Domain.Abstractions.Primitives
         /// <summary>
         /// Gets the entity identifier.
         /// </summary>
-        public Guid Id { get; private set; }
+        public string Id { get; private set; }
 
         public static bool operator ==(Entity a, Entity b)
         {
@@ -87,7 +87,7 @@ namespace Expensely.Domain.Abstractions.Primitives
                 return false;
             }
 
-            if (Id == Guid.Empty || other.Id == Guid.Empty)
+            if (string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(other.Id))
             {
                 return false;
             }
@@ -96,6 +96,6 @@ namespace Expensely.Domain.Abstractions.Primitives
         }
 
         /// <inheritdoc />
-        public override int GetHashCode() => Id.GetHashCode() * 41;
+        public override int GetHashCode() => Id.GetHashCode(StringComparison.InvariantCulture) * 41;
     }
 }
