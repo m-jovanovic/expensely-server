@@ -1,4 +1,8 @@
-﻿using Expensely.Domain.Repositories;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using Expensely.Application.Queries.Processors.Abstractions;
+using Expensely.Domain.Repositories;
 using Expensely.Persistence.Repositories;
 using Expensely.Persistence.Settings;
 using Microsoft.Extensions.Configuration;
@@ -34,7 +38,31 @@ namespace Expensely.Persistence
 
             services.AddScoped<IBudgetRepository, BudgetRepository>();
 
+            services.AddQueryProcessors();
+
             return services;
         }
+
+        private static void AddQueryProcessors(this IServiceCollection services)
+        {
+            foreach (TypeInfo typeInfo in Assembly.GetExecutingAssembly().DefinedTypes.Where(IsConcrete))
+            {
+                Type[] interfaces = typeInfo.GetInterfaces();
+
+                static bool IsGenericQueryProcessorInterface(Type type) =>
+                    type.GetTypeInfo().IsGenericType && type.GetTypeInfo().GetGenericTypeDefinition() == typeof(IQueryProcessor<,>);
+
+                if (!interfaces.Any(IsGenericQueryProcessorInterface))
+                {
+                    continue;
+                }
+
+                Type nonGenericQueryProcessorInterface = interfaces.Single(x => !x.IsGenericType);
+
+                services.AddScoped(nonGenericQueryProcessorInterface, typeInfo);
+            }
+        }
+
+        private static bool IsConcrete(Type type) => !type.GetTypeInfo().IsAbstract && !type.GetTypeInfo().IsInterface;
     }
 }

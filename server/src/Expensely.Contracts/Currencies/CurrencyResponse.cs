@@ -6,31 +6,18 @@
     public sealed class CurrencyResponse
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CurrencyResponse"/> class.
-        /// </summary>
-        /// <param name="value">The currency value.</param>
-        /// <param name="name">The currency name.</param>
-        /// <param name="code">The currency code.</param>
-        public CurrencyResponse(int value, string name, string code)
-        {
-            Value = value;
-            Name = name;
-            Code = code;
-        }
-
-        /// <summary>
         /// Gets the currency value.
         /// </summary>
-        public int Value { get; }
+        public int Value { get; init; }
 
         /// <summary>
         /// Gets the currency name.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; init; }
 
         /// <summary>
         /// Gets the currency code.
         /// </summary>
-        public string Code { get; }
+        public string Code { get; init; }
     }
 }

@@ -18,23 +18,16 @@ namespace Expensely.Application.Events.Handlers
         /// <returns>The same service collection.</returns>
         public static IServiceCollection AddEventHandlers(this IServiceCollection services)
         {
-            Type eventHandlerType = typeof(IEventHandler<>);
-
-            foreach (TypeInfo typeInfo in Assembly.GetExecutingAssembly().DefinedTypes.Where(x => !IsOpenGeneric(x)))
+            foreach (TypeInfo typeInfo in Assembly.GetExecutingAssembly().DefinedTypes.Where(x => !IsOpenGeneric(x) && !IsConcrete(x)))
             {
-                if (!IsConcrete(typeInfo))
-                {
-                    continue;
-                }
+                bool IsGenericEventHandlerInterface(Type type) =>
+                    type.GetTypeInfo().IsGenericType &&
+                    type.GetTypeInfo().GetGenericTypeDefinition() == typeof(IEventHandler<>) &&
+                    type.GetTypeInfo().IsAssignableFrom(typeInfo);
 
-                foreach (Type eventHandlerInterface in
-                    typeInfo.GetInterfaces()
-                        .Where(x => x.GetTypeInfo().IsGenericType && x.GetGenericTypeDefinition() == eventHandlerType))
+                foreach (Type interfaceType in typeInfo.GetInterfaces().Where(IsGenericEventHandlerInterface))
                 {
-                    if (eventHandlerInterface.IsAssignableFrom(typeInfo))
-                    {
-                        services.AddTransient(eventHandlerInterface, typeInfo);
-                    }
+                    services.AddTransient(interfaceType, typeInfo);
                 }
             }
 
@@ -44,7 +37,6 @@ namespace Expensely.Application.Events.Handlers
         private static bool IsOpenGeneric(Type type) =>
             type.GetTypeInfo().IsGenericTypeDefinition || type.GetTypeInfo().ContainsGenericParameters;
 
-        private static bool IsConcrete(Type type) =>
-            !type.GetTypeInfo().IsAbstract && !type.GetTypeInfo().IsInterface;
+        private static bool IsConcrete(Type type) => !type.GetTypeInfo().IsAbstract && !type.GetTypeInfo().IsInterface;
     }
 }
