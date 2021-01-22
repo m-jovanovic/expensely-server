@@ -8,6 +8,7 @@ using Expensely.Application.Queries.Utility;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
+using Expensely.Persistence.Indexes.Transactions;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Session;
@@ -41,9 +42,8 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 return Maybe<TransactionListResponse>.None;
             }
 
-            // TODO: Add index.
             TransactionResponse[] expenses = await _session
-                .Query<Transaction>()
+                .Query<Transaction, Transactions_ByUserIdAndOccurredOnAndCreatedOnAndTransactionType>()
                 .Where(x =>
                     x.UserId == query.UserId &&
                     (x.OccurredOn < query.OccurredOn ||
