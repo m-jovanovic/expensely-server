@@ -12,7 +12,7 @@ namespace Expensely.Domain.Repositories
         /// Saves all of the pending changes in the unit of work.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The number of entities that have been saved.</returns>
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        /// <returns>The completed task.</returns>
+        Task SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

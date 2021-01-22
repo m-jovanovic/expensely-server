@@ -1,8 +1,9 @@
-﻿using Expensely.Application.Abstractions.Data;
-using Expensely.Persistence.Providers;
+﻿using Expensely.Domain.Repositories;
+using Expensely.Persistence.Repositories;
 using Expensely.Persistence.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Raven.Client.Documents;
 
 namespace Expensely.Persistence
 {
@@ -21,7 +22,17 @@ namespace Expensely.Persistence
         {
             services.AddSingleton(new ConnectionString { Value = configuration.GetConnectionString("DefaultConnection") });
 
-            services.AddSingleton<IDbConnectionProvider, DbConnectionProvider>();
+            services.AddScoped(factory => factory.GetRequiredService<IDocumentStore>().OpenAsyncSession());
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IExpenseRepository, ExpenseRepository>();
+
+            services.AddScoped<IIncomeRepository, IncomeRepository>();
+
+            services.AddScoped<IBudgetRepository, BudgetRepository>();
 
             return services;
         }
