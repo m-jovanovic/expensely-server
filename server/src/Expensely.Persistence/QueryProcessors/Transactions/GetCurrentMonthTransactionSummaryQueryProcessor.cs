@@ -1,9 +1,17 @@
-﻿using System.Threading;
+﻿using System.Globalization;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Queries.Processors.Transactions;
 using Expensely.Application.Queries.Transactions;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
+using Expensely.Domain.Core;
+using Expensely.Persistence.Indexes.Transactions;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Linq;
+using Raven.Client.Documents.Session;
 
 namespace Expensely.Persistence.QueryProcessors.Transactions
 {
@@ -12,11 +20,63 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
     /// </summary>
     internal sealed class GetCurrentMonthTransactionSummaryQueryProcessor : IGetCurrentMonthTransactionSummaryQueryProcessor
     {
+        private readonly IAsyncDocumentSession _session;
+        private readonly IUserInformationProvider _userInformationProvider;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetCurrentMonthTransactionSummaryQueryProcessor"/> class.
+        /// </summary>
+        /// <param name="session">The document session.</param>
+        /// <param name="userInformationProvider">The user information provider.</param>
+        public GetCurrentMonthTransactionSummaryQueryProcessor(
+            IAsyncDocumentSession session,
+            IUserInformationProvider userInformationProvider)
+        {
+            _session = session;
+            _userInformationProvider = userInformationProvider;
+        }
+
         /// <inheritdoc />
-        // TODO: Implement the actual query using a map-reduce index.
-        public Task<Maybe<TransactionSummaryResponse>> Process(
+        public async Task<Maybe<TransactionSummaryResponse>> Process(
             GetCurrentMonthTransactionSummaryQuery query,
-            CancellationToken cancellationToken = default) =>
-            Task.FromResult(Maybe<TransactionSummaryResponse>.None);
+            CancellationToken cancellationToken = default)
+        {
+            if (query.UserId != _userInformationProvider.UserId ||
+                _userInformationProvider.PrimaryCurrency.HasNoValue ||
+                query.PrimaryCurrency != _userInformationProvider.PrimaryCurrency.Value.Value)
+            {
+                return Maybe<TransactionSummaryResponse>.None;
+            }
+
+            Transactions_Monthly.Result[] monthlyTransactions = await _session
+                .Query<Transactions_Monthly.Result, Transactions_Monthly>()
+                .Where(x =>
+                    x.UserId == query.UserId &&
+                    x.Year == query.StartOfMonth.Year &&
+                    x.Month == query.StartOfMonth.Month &&
+                    x.Currency.Value == query.PrimaryCurrency)
+                .ToArrayAsync(cancellationToken);
+
+            string FormatAmount(TransactionType transactionType)
+            {
+                Transactions_Monthly.Result monthlyTransaction = monthlyTransactions.FirstOrDefault(
+                    x => x.TransactionType == transactionType);
+
+                if (monthlyTransaction is null)
+                {
+                    return decimal.Zero.ToString("n2", CultureInfo.InvariantCulture);
+                }
+
+                return monthlyTransaction.Currency.Format(monthlyTransaction.Amount);
+            }
+
+            var transactionSummaryResponse = new TransactionSummaryResponse
+            {
+                FormattedExpense = FormatAmount(TransactionType.Expense),
+                FormattedIncome = FormatAmount(TransactionType.Income)
+            };
+
+            return transactionSummaryResponse;
+        }
     }
 }

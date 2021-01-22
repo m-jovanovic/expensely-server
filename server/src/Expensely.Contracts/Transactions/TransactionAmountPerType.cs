@@ -1,4 +1,6 @@
-﻿namespace Expensely.Contracts.Transactions
+﻿using Expensely.Domain.Core;
+
+namespace Expensely.Contracts.Transactions
 {
     /// <summary>
     /// Represents the transaction amount per type.
@@ -8,7 +10,7 @@
         /// <summary>
         /// Gets the transaction type.
         /// </summary>
-        public int TransactionType { get; init; }
+        public TransactionType TransactionType { get; init; }
 
         /// <summary>
         /// Gets the amount.
