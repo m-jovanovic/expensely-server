@@ -23,11 +23,6 @@ namespace Expensely.Domain.Core
         public static readonly Currency Rsd = new(3, "Serbian Dinar", "RSD");
 
         /// <summary>
-        /// The empty currency instance.
-        /// </summary>
-        internal static readonly Currency None = new(default, string.Empty, string.Empty);
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Currency"/> class.
         /// </summary>
         /// <param name="value">The currency value.</param>
@@ -51,6 +46,12 @@ namespace Expensely.Domain.Core
         /// Gets the currency code.
         /// </summary>
         public string Code { get; private set; }
+
+        /// <summary>
+        /// Checks if the specified currency instance is empty.
+        /// </summary>
+        /// <returns>True if the currency instance is empty, otherwise false.</returns>
+        public bool IsEmpty() => !ContainsValue(Value);
 
         /// <summary>
         /// Formats the specified amount.

@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Common.Abstractions.Clock;
+using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
 using Expensely.Infrastructure.Authentication.Settings;
 using Microsoft.Extensions.Options;
@@ -80,10 +81,11 @@ namespace Expensely.Infrastructure.Authentication
             yield return new Claim(JwtClaimTypes.Email, user.Email);
             yield return new Claim(JwtClaimTypes.Name, user.GetFullName());
 
-            // TODO: Fix this long line.
+            Maybe<Currency> maybePrimaryCurrency = user.GetPrimaryCurrency();
+
             yield return new Claim(
                JwtClaimTypes.PrimaryCurrency,
-               user.GetPrimaryCurrency().HasValue ? user.GetPrimaryCurrency().Value.Value.ToString(CultureInfo.InvariantCulture) : string.Empty);
+               maybePrimaryCurrency.HasValue ? maybePrimaryCurrency.Value.Value.ToString(CultureInfo.InvariantCulture) : string.Empty);
         }
     }
 }

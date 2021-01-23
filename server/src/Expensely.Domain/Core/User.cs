@@ -48,7 +48,9 @@ namespace Expensely.Domain.Core
         /// <remarks>
         /// Required for deserialization.
         /// </remarks>
-        private User() => _primaryCurrency = Currency.None;
+        private User()
+        {
+        }
 
         /// <summary>
         /// Gets the first name.
@@ -103,7 +105,7 @@ namespace Expensely.Domain.Core
         /// Gets the maybe instance that may contain the primary currency.
         /// </summary>
         /// <returns>The maybe instance that may contain the user's primary currency.</returns>
-        public Maybe<Currency> GetPrimaryCurrency() => _primaryCurrency == Currency.None ? Maybe<Currency>.None : _primaryCurrency;
+        public Maybe<Currency> GetPrimaryCurrency() => _primaryCurrency?.IsEmpty() ?? true ? Maybe<Currency>.None : _primaryCurrency;
 
         /// <summary>
         /// Checks if the user's currencies contain the specified currency.
@@ -151,7 +153,7 @@ namespace Expensely.Domain.Core
                 return Result.Failure(DomainErrors.User.CurrencyAlreadyExists);
             }
 
-            if (_currencies.Count == 1 && _primaryCurrency == Currency.None)
+            if (_currencies.Count == 1 && (_primaryCurrency?.IsEmpty() ?? true))
             {
                 _primaryCurrency = currency;
             }

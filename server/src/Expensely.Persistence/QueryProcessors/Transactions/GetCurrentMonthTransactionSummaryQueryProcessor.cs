@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
@@ -54,20 +53,17 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                     x.UserId == query.UserId &&
                     x.Year == query.StartOfMonth.Year &&
                     x.Month == query.StartOfMonth.Month &&
-                    x.Currency.Value == query.PrimaryCurrency)
+                    x.Currency == query.PrimaryCurrency)
                 .ToArrayAsync(cancellationToken);
+
+            Currency currency = Currency.FromValue(query.PrimaryCurrency).Value;
 
             string FormatAmount(TransactionType transactionType)
             {
-                Transactions_Monthly.Result monthlyTransaction = monthlyTransactions.FirstOrDefault(
-                    x => x.TransactionType == transactionType);
+                Transactions_Monthly.Result monthlyTransaction = monthlyTransactions
+                    .FirstOrDefault(x => x.TransactionType == transactionType);
 
-                if (monthlyTransaction is null)
-                {
-                    return decimal.Zero.ToString("n2", CultureInfo.InvariantCulture);
-                }
-
-                return monthlyTransaction.Currency.Format(monthlyTransaction.Amount);
+                return currency.Format(monthlyTransaction?.Amount ?? decimal.Zero);
             }
 
             var transactionSummaryResponse = new TransactionSummaryResponse

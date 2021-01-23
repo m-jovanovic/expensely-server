@@ -107,7 +107,7 @@ namespace Expensely.Domain.Utility
         /// <exception cref="ArgumentException"> if the specified value is null.</exception>
         public static void NotEmpty(Currency value, string message, string argumentName)
         {
-            if (value == Currency.None)
+            if (value.IsEmpty())
             {
                 throw new ArgumentException(message, argumentName);
             }
@@ -122,7 +122,7 @@ namespace Expensely.Domain.Utility
         /// <exception cref="ArgumentException"> if the specified value is null.</exception>
         public static void NotEmpty(Money value, string message, string argumentName)
         {
-            if (value.Currency == Currency.None)
+            if (value.Currency.IsEmpty())
             {
                 throw new ArgumentException(message, argumentName);
             }

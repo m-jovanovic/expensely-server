@@ -29,7 +29,9 @@ namespace Expensely.Domain.Core
         /// <remarks>
         /// Required for deserialization.
         /// </remarks>
-        private Money() => Currency = Currency.None;
+        private Money()
+        {
+        }
 
         /// <summary>
         /// Gets the monetary amount.

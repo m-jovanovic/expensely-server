@@ -22,13 +22,13 @@ namespace Expensely.Persistence.Indexes.Transactions
                     Year = transaction.OccurredOn.Year,
                     Month = transaction.OccurredOn.Month,
                     TransactionType = transaction.TransactionType,
-                    Currency = transaction.Money.Currency,
+                    Currency = transaction.Money.Currency.Value,
                     Amount = transaction.Money.Amount
                 };
 
             Reduce = results =>
                 from result in results
-                group result by new { result.UserId, result.Year, result.Month, result.TransactionType, result.Currency.Value }
+                group result by new { result.UserId, result.Year, result.Month, result.TransactionType, result.Currency }
                 into grouped
                 select new Result
                 {
@@ -36,7 +36,7 @@ namespace Expensely.Persistence.Indexes.Transactions
                     Year = grouped.Key.Year,
                     Month = grouped.Key.Month,
                     TransactionType = grouped.Key.TransactionType,
-                    Currency = grouped.First().Currency,
+                    Currency = grouped.Key.Currency,
                     Amount = grouped.Sum(x => x.Amount)
                 };
         }
@@ -69,7 +69,7 @@ namespace Expensely.Persistence.Indexes.Transactions
             /// <summary>
             /// Gets the currency.
             /// </summary>
-            public Currency Currency { get; init; }
+            public int Currency { get; init; }
 
             /// <summary>
             /// Gets the amount.
