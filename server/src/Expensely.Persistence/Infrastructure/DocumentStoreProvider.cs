@@ -45,6 +45,8 @@ namespace Expensely.Persistence.Infrastructure
                 JsonContractResolver = new CustomContractResolver(DocumentStore.Conventions.Serialization)
             };
 
+            DocumentStore.OnBeforeStore += SetAuditableEntityValues_OnBeforeStore;
+
             DocumentStore.Initialize();
 
             CreateDatabaseIfItDoesNotExist(DocumentStore);
@@ -78,6 +80,49 @@ namespace Expensely.Persistence.Infrastructure
             var createDatabaseOperation = new CreateDatabaseOperation(new DatabaseRecord(documentStore.Database));
 
             documentStore.Maintenance.Server.Send(createDatabaseOperation);
+        }
+
+        /// <summary>
+        /// Sets the auditable entity values when the before store event is raised.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void SetAuditableEntityValues_OnBeforeStore(object sender, BeforeStoreEventArgs eventArgs)
+        {
+            if (eventArgs.Entity is not IAuditableEntity auditableEntity)
+            {
+                return;
+            }
+
+            if (auditableEntity.CreatedOnUtc == default)
+            {
+                ApplySetPropertyMethod(auditableEntity, SetCreatedOnMethodsDictionary, nameof(IAuditableEntity.CreatedOnUtc));
+            }
+            else if (auditableEntity.ModifiedOnUtc is null)
+            {
+                ApplySetPropertyMethod(auditableEntity, SetModifiedOnMethodsDictionary, nameof(IAuditableEntity.ModifiedOnUtc));
+            }
+        }
+
+        /// <summary>
+        /// Applies the set property method for the specified auditable entity.
+        /// </summary>
+        /// <param name="auditableEntity">The auditable entity.</param>
+        /// <param name="propertySetterMethodsDictionary">The dictionary containing the set property methods.</param>
+        /// <param name="propertyName">The property name.</param>
+        private void ApplySetPropertyMethod(
+            IAuditableEntity auditableEntity,
+            IDictionary<Type, MethodInfo> propertySetterMethodsDictionary,
+            string propertyName)
+        {
+            Type underlyingType = auditableEntity.GetType();
+
+            if (!propertySetterMethodsDictionary.ContainsKey(underlyingType))
+            {
+                propertySetterMethodsDictionary.Add(underlyingType, underlyingType.GetProperty(propertyName)!.GetSetMethod(true)!);
+            }
+
+            propertySetterMethodsDictionary[underlyingType].Invoke(auditableEntity, new object[] { _dateTime.UtcNow });
         }
     }
 }

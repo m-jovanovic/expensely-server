@@ -8,6 +8,7 @@ using Expensely.Domain.Errors;
 using Expensely.Domain.Events.Users;
 using Expensely.Domain.Services;
 using Expensely.Domain.Utility;
+using Newtonsoft.Json;
 
 namespace Expensely.Domain.Core
 {
@@ -69,13 +70,14 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Gets the currencies.
         /// </summary>
+        [JsonIgnore]
         public IReadOnlyCollection<Currency> Currencies => _currencies.ToList();
 
         /// <inheritdoc />
-        public DateTime CreatedOnUtc { get; }
+        public DateTime CreatedOnUtc { get; private set; }
 
         /// <inheritdoc />
-        public DateTime? ModifiedOnUtc { get; }
+        public DateTime? ModifiedOnUtc { get; private set; }
 
         /// <summary>
         /// Creates a new <see cref="User"/> based on the specified parameters.

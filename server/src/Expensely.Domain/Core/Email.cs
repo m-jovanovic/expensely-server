@@ -24,9 +24,19 @@ namespace Expensely.Domain.Core
         private Email(string value) => Value = value;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Email"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Required for deserialization.
+        /// </remarks>
+        private Email()
+        {
+        }
+
+        /// <summary>
         /// Gets the email value.
         /// </summary>
-        public string Value { get; }
+        public string Value { get; private set; }
 
         public static implicit operator string(Email email) => email.Value;
 

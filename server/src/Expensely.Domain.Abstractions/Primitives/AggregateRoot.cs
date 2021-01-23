@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Expensely.Domain.Abstractions.Events;
+using Newtonsoft.Json;
 
 namespace Expensely.Domain.Abstractions.Primitives
 {
@@ -10,7 +11,7 @@ namespace Expensely.Domain.Abstractions.Primitives
     /// </summary>
     public abstract class AggregateRoot : Entity
     {
-        private readonly List<IEvent> _events = new List<IEvent>();
+        private readonly List<IEvent> _events = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.
@@ -34,6 +35,7 @@ namespace Expensely.Domain.Abstractions.Primitives
         /// <summary>
         /// Gets the events. This collection is readonly.
         /// </summary>
+        [JsonIgnore]
         public IReadOnlyCollection<IEvent> Events => _events.ToList();
 
         /// <summary>

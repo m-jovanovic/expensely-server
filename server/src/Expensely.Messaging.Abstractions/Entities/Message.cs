@@ -58,10 +58,10 @@ namespace Expensely.Messaging.Abstractions.Entities
         public bool Processed { get; private set; }
 
         /// <inheritdoc />
-        public DateTime CreatedOnUtc { get; }
+        public DateTime CreatedOnUtc { get; private set; }
 
         /// <inheritdoc />
-        public DateTime? ModifiedOnUtc { get; }
+        public DateTime? ModifiedOnUtc { get; private set; }
 
         /// <summary>
         /// Marks the message as processed.

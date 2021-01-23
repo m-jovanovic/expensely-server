@@ -35,8 +35,6 @@ namespace Expensely.Domain.Abstractions.Primitives
         /// </remarks>
         protected Enumeration()
         {
-            Value = default;
-            Name = string.Empty;
         }
 
         /// <summary>
@@ -46,14 +44,14 @@ namespace Expensely.Domain.Abstractions.Primitives
         public static IReadOnlyCollection<TEnum> List => EnumerationsDictionary.Value.Values.ToList();
 
         /// <summary>
-        /// Gets the value.
+        /// Gets or sets the value.
         /// </summary>
-        public int Value { get; private set; }
+        public int Value { get; protected set; }
 
         /// <summary>
-        /// Gets the name.
+        /// Gets or sets the name.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
 
         public static bool operator ==(Enumeration<TEnum> a, Enumeration<TEnum> b)
         {

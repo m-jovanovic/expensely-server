@@ -19,9 +19,19 @@ namespace Expensely.Domain.Core
         private LastName(string value) => Value = value;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="LastName"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Required for deserialization.
+        /// </remarks>
+        private LastName()
+        {
+        }
+
+        /// <summary>
         /// Gets the last name value.
         /// </summary>
-        public string Value { get; }
+        public string Value { get; private set; }
 
         public static implicit operator string(LastName lastName) => lastName?.Value ?? string.Empty;
 
