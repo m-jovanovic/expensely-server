@@ -15,7 +15,7 @@ namespace Expensely.Contracts.Expenses
         /// <summary>
         /// Gets the category.
         /// </summary>
-        public int Category { get; }
+        public int Category { get; init; }
 
         /// <summary>
         /// Gets the amount.

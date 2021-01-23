@@ -7,6 +7,7 @@ using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Persistence.Serialization;
 using Microsoft.Extensions.Configuration;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Conventions;
 using Raven.Client.Documents.Indexes;
 using Raven.Client.Documents.Session;
 using Raven.Client.Json.Serialization.NewtonsoftJson;
@@ -22,6 +23,7 @@ namespace Expensely.Persistence.Infrastructure
     {
         private static readonly Dictionary<Type, MethodInfo> SetCreatedOnMethodsDictionary = new();
         private static readonly Dictionary<Type, MethodInfo> SetModifiedOnMethodsDictionary = new();
+        private static readonly Type TransactionType = typeof(Domain.Core.Transaction);
         private readonly IDateTime _dateTime;
 
         /// <summary>
@@ -45,13 +47,15 @@ namespace Expensely.Persistence.Infrastructure
                 JsonContractResolver = new CustomContractResolver(DocumentStore.Conventions.Serialization)
             };
 
+            DocumentStore.Conventions.FindCollectionName = FindCollectionName;
+
             DocumentStore.OnBeforeStore += SetAuditableEntityValues_OnBeforeStore;
 
             DocumentStore.Initialize();
 
             CreateDatabaseIfItDoesNotExist(DocumentStore);
 
-            // IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), DocumentStore);
+            IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), DocumentStore);
         }
 
         /// <summary>
@@ -61,6 +65,14 @@ namespace Expensely.Persistence.Infrastructure
 
         /// <inheritdoc />
         public void Dispose() => DocumentStore?.Dispose();
+
+        /// <summary>
+        /// Finds the collection name for the specified object type.
+        /// </summary>
+        /// <param name="objectType">The object type.</param>
+        /// <returns>The collection name.</returns>
+        private static string FindCollectionName(Type objectType) =>
+            TransactionType.IsAssignableFrom(objectType) ? "Transactions" : DocumentConventions.DefaultGetCollectionName(objectType);
 
         /// <summary>
         /// Creates the database if it does not exist.

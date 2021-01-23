@@ -91,10 +91,10 @@ namespace Expensely.Domain.Core
         public TransactionType TransactionType { get; private set; }
 
         /// <inheritdoc />
-        public DateTime CreatedOnUtc { get; private set; }
+        public DateTime CreatedOnUtc { get; protected set; }
 
         /// <inheritdoc />
-        public DateTime? ModifiedOnUtc { get; private set; }
+        public DateTime? ModifiedOnUtc { get; protected set; }
 
         /// <summary>
         /// Changes the name of the transaction.
