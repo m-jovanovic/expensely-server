@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
@@ -8,7 +7,6 @@ using Expensely.Domain.Errors;
 using Expensely.Domain.Events.Users;
 using Expensely.Domain.Services;
 using Expensely.Domain.Utility;
-using Newtonsoft.Json;
 
 namespace Expensely.Domain.Core
 {
@@ -66,12 +64,6 @@ namespace Expensely.Domain.Core
         /// Gets the email.
         /// </summary>
         public Email Email { get; private set; }
-
-        /// <summary>
-        /// Gets the currencies.
-        /// </summary>
-        [JsonIgnore]
-        public IReadOnlyCollection<Currency> Currencies => _currencies.ToList();
 
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; private set; }
