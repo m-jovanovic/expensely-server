@@ -48,7 +48,7 @@ namespace Expensely.Api
             // TODO: Turn on messaging when it's integrated with RavenDB
             services
                 .AddInfrastructure(Configuration)
-                .AddPersistence(Configuration);
+                .AddPersistence();
 
             services.AddValidatorsFromAssembly(CommandHandlersAssembly.Assembly);
 
