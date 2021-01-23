@@ -40,9 +40,16 @@ namespace Expensely.Persistence.Infrastructure
                 Urls = configuration["RavenDB:Urls"].Split(',')
             };
 
+            DocumentStore.Conventions.Serialization = new NewtonsoftJsonSerializationConventions
+            {
+                JsonContractResolver = new CustomContractResolver(DocumentStore.Conventions.Serialization)
+            };
+
             DocumentStore.Initialize();
 
             CreateDatabaseIfItDoesNotExist(DocumentStore);
+
+            // IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), DocumentStore);
         }
 
         /// <summary>
