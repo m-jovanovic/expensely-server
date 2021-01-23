@@ -1,5 +1,5 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
@@ -43,7 +43,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 return Maybe<TransactionListResponse>.None;
             }
 
-            TransactionResponse[] expenses = await _session
+            var transactions = await _session
                 .Query<Transaction, Transactions_ByUserIdAndOccurredOnAndCreatedOnAndTransactionType>()
                 .Where(x =>
                     x.UserId == query.UserId &&
@@ -51,21 +51,32 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                      x.OccurredOn == query.OccurredOn && x.CreatedOnUtc <= query.CreatedOnUtc))
                 .OrderByDescending(x => x.OccurredOn)
                 .ThenByDescending(x => x.CreatedOnUtc)
-                .Select(x => new TransactionResponse(Guid.Parse(x.Id), x.Money.Amount, x.Money.Currency.Value, x.OccurredOn, x.CreatedOnUtc))
+                .Take(query.Limit)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Money,
+                    x.OccurredOn,
+                    x.CreatedOnUtc
+                })
                 .ToArrayAsync(cancellationToken);
 
-            if (expenses.Length < query.Limit)
+            TransactionResponse[] transactionResponses = transactions
+                .Select(x => new TransactionResponse(x.Id, x.Money, x.OccurredOn, x.CreatedOnUtc))
+                .ToArray();
+
+            if (transactionResponses.Length < query.Limit)
             {
-                return new TransactionListResponse(expenses);
+                return new TransactionListResponse(transactionResponses);
             }
 
-            TransactionResponse lastExpense = expenses[^1];
+            TransactionResponse lastExpense = transactionResponses[^1];
 
             string cursor = Cursor.Create(
                 lastExpense.OccurredOn.ToString(DateTimeFormats.Date, CultureInfo.InvariantCulture),
                 lastExpense.CreatedOnUtc.ToString(DateTimeFormats.DateTimeWithMilliseconds, CultureInfo.InvariantCulture));
 
-            return new TransactionListResponse(expenses[..^1], cursor);
+            return new TransactionListResponse(transactionResponses[..^1], cursor);
         }
     }
 }

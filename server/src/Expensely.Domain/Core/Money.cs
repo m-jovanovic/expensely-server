@@ -57,6 +57,12 @@ namespace Expensely.Domain.Core
             return new Money(left.Amount - right.Amount, left.Currency);
         }
 
+        /// <summary>
+        /// Formats the amount with the currency.
+        /// </summary>
+        /// <returns>The formatted amount along with the currency.</returns>
+        public string Format() => Currency.Format(Amount);
+
         /// <inheritdoc />
         protected override IEnumerable<object> GetAtomicValues()
         {

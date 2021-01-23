@@ -12,25 +12,21 @@ namespace Expensely.Contracts.Expenses
         /// Initializes a new instance of the <see cref="ExpenseResponse"/> class.
         /// </summary>
         /// <param name="id">The expense identifier.</param>
-        /// <param name="amount">The monetary amount.</param>
-        /// <param name="currency">The currency.</param>
+        /// <param name="money">The money.</param>
         /// <param name="occurredOn">The occurred on date.</param>
         /// <param name="createdOnUtc">The created on date and time in UTC format.</param>
-        public ExpenseResponse(Guid id, decimal amount, int currency, DateTime occurredOn, DateTime createdOnUtc)
+        public ExpenseResponse(string id, Money money, DateTime occurredOn, DateTime createdOnUtc)
         {
             Id = id;
-
-            FormattedAmount = Currency.FromValue(currency).Value.Format(amount);
-
+            FormattedAmount = money.Format();
             OccurredOn = occurredOn;
-
             CreatedOnUtc = createdOnUtc;
         }
 
         /// <summary>
         /// Gets the identifier.
         /// </summary>
-        public Guid Id { get; }
+        public string Id { get; }
 
         /// <summary>
         /// Gets the formatted amount.
