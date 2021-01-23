@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
 using Expensely.Domain.Repositories;
+using Expensely.Persistence.Indexes.Users;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
@@ -26,17 +27,15 @@ namespace Expensely.Persistence.Repositories
             await _session.LoadAsync<User>(userId, cancellationToken);
 
         /// <inheritdoc />
-        // TODO: Fix index usage.
         public async Task<Maybe<User>> GetByEmailAsync(Email email, CancellationToken cancellationToken = default) =>
             await _session
-                .Query<User>()
+                .Query<User, Users_ByEmail>()
                 .SingleOrDefaultAsync(x => x.Email.Value == email.Value, cancellationToken);
 
         /// <inheritdoc />
-        // TODO: Fix index usage.
         public async Task<bool> AnyWithEmailAsync(Email email, CancellationToken cancellationToken = default) =>
             await _session
-                .Query<User>()
+                .Query<User, Users_ByEmail>()
                 .AnyAsync(x => x.Email.Value == email.Value, cancellationToken);
 
         /// <inheritdoc />

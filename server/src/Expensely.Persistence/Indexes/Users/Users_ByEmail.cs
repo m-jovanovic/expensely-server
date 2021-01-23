@@ -17,7 +17,7 @@ namespace Expensely.Persistence.Indexes.Users
                 from user in users
                 select new
                 {
-                    Email = user.Email.Value
+                    Email_Value = user.Email.Value
                 };
     }
 }
