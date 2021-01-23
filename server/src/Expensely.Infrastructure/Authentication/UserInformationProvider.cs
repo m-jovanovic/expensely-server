@@ -1,5 +1,4 @@
-﻿using System;
-using Expensely.Application.Abstractions.Authentication;
+﻿using Expensely.Application.Abstractions.Authentication;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
 using Expensely.Infrastructure.Extensions;
@@ -18,26 +17,23 @@ namespace Expensely.Infrastructure.Authentication
         /// <param name="httpContextAccessor">The HTTP context accessor.</param>
         public UserInformationProvider(IHttpContextAccessor httpContextAccessor)
         {
-            UserId = CreateUserId(httpContextAccessor);
+            string userId = httpContextAccessor.HttpContext?.User.GetUserId();
+
+            IsAuthenticated = !string.IsNullOrWhiteSpace(userId);
+
+            UserId = userId;
+
             PrimaryCurrency = CreatePrimaryCurrency(httpContextAccessor);
         }
 
         /// <inheritdoc />
-        public Guid UserId { get; }
+        public bool IsAuthenticated { get; }
+
+        /// <inheritdoc />
+        public string UserId { get; }
 
         /// <inheritdoc />
         public Maybe<Currency> PrimaryCurrency { get; }
-
-        /// <summary>
-        /// Creates the user identifier value.
-        /// </summary>
-        /// <param name="httpContextAccessor">The HTTP context accessor.</param>
-        /// <returns>The user identifier value.</returns>
-        /// <exception cref="ArgumentException"> if the user identifier claim is not found.</exception>
-        private static Guid CreateUserId(IHttpContextAccessor httpContextAccessor) =>
-            new Guid(
-                httpContextAccessor.HttpContext?.User.GetUserId() ??
-                throw new ArgumentException("The user identifier claim is required.", nameof(httpContextAccessor)));
 
         /// <summary>
         /// Crates the primary currency, if it exists.

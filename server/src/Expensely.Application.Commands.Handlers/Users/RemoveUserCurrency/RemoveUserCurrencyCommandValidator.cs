@@ -1,5 +1,4 @@
-﻿using System;
-using Expensely.Application.Abstractions.Authentication;
+﻿using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Commands.Users.RemoveUserCurrency;
@@ -23,7 +22,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RemoveUserCurrency
 
             RuleFor(x => x.UserId)
                 .Must(x => x == userInformationProvider.UserId)
-                .When(x => x.UserId != Guid.Empty)
+                .When(x => !string.IsNullOrWhiteSpace(x.UserId))
                 .WithError(ValidationErrors.User.InvalidPermissions);
 
             RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(ValidationErrors.Currency.NotFound);

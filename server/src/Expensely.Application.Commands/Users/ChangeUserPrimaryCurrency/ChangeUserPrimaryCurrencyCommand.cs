@@ -16,14 +16,14 @@ namespace Expensely.Application.Commands.Users.ChangeUserPrimaryCurrency
         /// <param name="currency">The currency value.</param>
         public ChangeUserPrimaryCurrencyCommand(Guid userId, int currency)
         {
-            UserId = userId;
+            UserId = userId.ToString();
             Currency = currency;
         }
 
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid UserId { get; }
+        public string UserId { get; }
 
         /// <summary>
         /// Gets the currency value.

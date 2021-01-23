@@ -13,11 +13,11 @@ namespace Expensely.Application.Commands.Expenses.DeleteExpense
         /// Initializes a new instance of the <see cref="DeleteExpenseCommand"/> class.
         /// </summary>
         /// <param name="expenseId">The expense identifier.</param>
-        public DeleteExpenseCommand(Guid expenseId) => ExpenseId = expenseId;
+        public DeleteExpenseCommand(Guid expenseId) => ExpenseId = expenseId.ToString();
 
         /// <summary>
         /// Gets the expense identifier.
         /// </summary>
-        public Guid ExpenseId { get; }
+        public string ExpenseId { get; }
     }
 }

@@ -18,7 +18,7 @@ namespace Expensely.Domain.Core
         /// <param name="money">The monetary amount of the expense.</param>
         /// <param name="occurredOn">The date the expense occurred on.</param>
         /// <param name="description">The description of the expense.</param>
-        private Expense(Guid userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
+        private Expense(string userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
             : base(userId, name, category, money, occurredOn, description, TransactionType.Expense) =>
             EnsureMoneyIsLessThanZero(money);
 
@@ -26,7 +26,7 @@ namespace Expensely.Domain.Core
         /// Initializes a new instance of the <see cref="Expense"/> class.
         /// </summary>
         /// <remarks>
-        /// Required by EF Core.
+        /// Required for deserialization.
         /// </remarks>
         private Expense()
         {
@@ -42,7 +42,7 @@ namespace Expensely.Domain.Core
         /// <param name="occurredOn">The date the expense occurred on.</param>
         /// <param name="description">The description of the expense.</param>
         /// <returns>The newly created expense.</returns>
-        public static Expense Create(Guid userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
+        public static Expense Create(string userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
         {
             var expense = new Expense(userId, name, category, money, occurredOn, description);
 

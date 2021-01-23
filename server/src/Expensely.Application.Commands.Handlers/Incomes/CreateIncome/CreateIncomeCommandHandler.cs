@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Incomes.CreateIncome;
 using Expensely.Common.Abstractions.Messaging;
@@ -58,7 +57,7 @@ namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
             }
 
             var income = Income.Create(
-                Guid.Parse(maybeUser.Value.Id),
+                maybeUser.Value.Id,
                 transactionInformationResult.Value.Name,
                 transactionInformationResult.Value.Category,
                 new Money(request.Amount, transactionInformationResult.Value.Currency),

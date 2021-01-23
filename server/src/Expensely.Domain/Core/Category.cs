@@ -60,12 +60,10 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="Category"/> class.
         /// </summary>
-        /// <param name="value">The category value.</param>
         /// <remarks>
-        /// Required by EF Core.
+        /// Required for deserialization.
         /// </remarks>
-        private Category(int value)
-            : base(value, ContainsValue(value) ? FromValue(value).Value.Name : None.Name)
+        private Category()
         {
         }
     }

@@ -56,12 +56,12 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
 
             RefreshToken refreshTokenEntity = maybeRefreshToken.Value;
 
-            if (refreshTokenEntity.Expired(_dateTime.UtcNow))
+            if (refreshTokenEntity.IsExpired(_dateTime.UtcNow))
             {
                 return Result.Failure<TokenResponse>(DomainErrors.RefreshToken.Expired);
             }
 
-            Maybe<User> maybeUser = await _userRepository.GetByIdAsync(maybeRefreshToken.Value.UserId, cancellationToken);
+            Maybe<User> maybeUser = await _userRepository.GetByIdAsync(string.Empty, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {

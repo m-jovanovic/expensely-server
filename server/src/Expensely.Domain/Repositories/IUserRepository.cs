@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
@@ -17,7 +16,7 @@ namespace Expensely.Domain.Repositories
         /// <param name="userId">The user identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The maybe instance that may contain the user with the specified identifier.</returns>
-        Task<Maybe<User>> GetByIdAsync(Guid userId, CancellationToken cancellationToken = default);
+        Task<Maybe<User>> GetByIdAsync(string userId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets the user with the specified email, if one exists.

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
@@ -22,12 +21,12 @@ namespace Expensely.Persistence.Repositories
         public ExpenseRepository(IAsyncDocumentSession session) => _session = session;
 
         /// <inheritdoc />
-        public async Task<Maybe<Expense>> GetByIdAsync(Guid expenseId, CancellationToken cancellationToken = default) =>
-            await _session.LoadAsync<Expense>(expenseId.ToString(), cancellationToken);
+        public async Task<Maybe<Expense>> GetByIdAsync(string expenseId, CancellationToken cancellationToken = default) =>
+            await _session.LoadAsync<Expense>(expenseId, cancellationToken);
 
         /// <inheritdoc />
         public async Task AddAsync(Expense expense, CancellationToken cancellationToken = default) =>
-            await _session.StoreAsync(expense, expense.Id.ToString(), cancellationToken);
+            await _session.StoreAsync(expense, cancellationToken);
 
         /// <inheritdoc />
         public void Remove(Expense expense) => _session.Delete(expense);

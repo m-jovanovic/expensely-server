@@ -18,7 +18,7 @@ namespace Expensely.Domain.Core
         /// <param name="money">The monetary amount of the budget.</param>
         /// <param name="startDate">The start date of the budget.</param>
         /// <param name="endDate">The end date of the budget.</param>
-        public Budget(Guid userId, Name name, Money money, DateTime startDate, DateTime endDate)
+        public Budget(string userId, Name name, Money money, DateTime startDate, DateTime endDate)
             : base(Guid.NewGuid())
         {
             Ensure.NotEmpty(userId, "The user identifier is required.", nameof(userId));
@@ -40,7 +40,7 @@ namespace Expensely.Domain.Core
         /// Initializes a new instance of the <see cref="Budget"/> class.
         /// </summary>
         /// <remarks>
-        /// Required by EF Core.
+        /// Required for deserialization.
         /// </remarks>
         private Budget()
         {
@@ -49,7 +49,7 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid UserId { get; private set; }
+        public string UserId { get; private set; }
 
         /// <summary>
         /// Gets the name.

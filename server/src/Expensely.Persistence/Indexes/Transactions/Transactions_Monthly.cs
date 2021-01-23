@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Expensely.Domain.Core;
 using Raven.Client.Documents.Indexes;
 
@@ -50,7 +49,7 @@ namespace Expensely.Persistence.Indexes.Transactions
             /// <summary>
             /// Gets the user identifier.
             /// </summary>
-            public Guid UserId { get; init; }
+            public string UserId { get; init; }
 
             /// <summary>
             /// Gets the year.

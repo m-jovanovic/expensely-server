@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
@@ -23,8 +22,8 @@ namespace Expensely.Persistence.Repositories
         public UserRepository(IAsyncDocumentSession session) => _session = session;
 
         /// <inheritdoc />
-        public async Task<Maybe<User>> GetByIdAsync(Guid userId, CancellationToken cancellationToken = default) =>
-            await _session.LoadAsync<User>(userId.ToString(), cancellationToken);
+        public async Task<Maybe<User>> GetByIdAsync(string userId, CancellationToken cancellationToken = default) =>
+            await _session.LoadAsync<User>(userId, cancellationToken);
 
         /// <inheritdoc />
         // TODO: Fix index usage.

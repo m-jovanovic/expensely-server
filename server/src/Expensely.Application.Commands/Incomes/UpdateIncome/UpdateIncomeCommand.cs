@@ -28,7 +28,7 @@ namespace Expensely.Application.Commands.Incomes.UpdateIncome
             DateTime occurredOn,
             string description)
         {
-            IncomeId = incomeId;
+            IncomeId = incomeId.ToString();
             Name = name;
             Category = category;
             Amount = amount;
@@ -40,7 +40,7 @@ namespace Expensely.Application.Commands.Incomes.UpdateIncome
         /// <summary>
         /// Gets the income identifier.
         /// </summary>
-        public Guid IncomeId { get; }
+        public string IncomeId { get; }
 
         /// <summary>
         /// Gets the name.

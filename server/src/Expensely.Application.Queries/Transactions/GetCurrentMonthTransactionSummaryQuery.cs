@@ -18,7 +18,7 @@ namespace Expensely.Application.Queries.Transactions
         /// <param name="utcNow">The current date and time in UTC format.</param>
         public GetCurrentMonthTransactionSummaryQuery(Guid userId, int primaryCurrency, DateTime utcNow)
         {
-            UserId = userId;
+            UserId = userId.ToString();
             PrimaryCurrency = primaryCurrency;
             StartOfMonth = new DateTime(utcNow.Year, utcNow.Month, 1).Date;
         }
@@ -26,7 +26,7 @@ namespace Expensely.Application.Queries.Transactions
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid UserId { get; }
+        public string UserId { get; }
 
         /// <summary>
         /// Gets the primary currency.

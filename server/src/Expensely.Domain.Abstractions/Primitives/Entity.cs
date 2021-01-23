@@ -25,7 +25,7 @@ namespace Expensely.Domain.Abstractions.Primitives
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
         /// <remarks>
-        /// Required by EF Core.
+        /// Required for deserialization.
         /// </remarks>
         protected Entity()
         {
@@ -87,7 +87,7 @@ namespace Expensely.Domain.Abstractions.Primitives
                 return false;
             }
 
-            if (string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(other.Id))
+            if (string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(other.Id))
             {
                 return false;
             }

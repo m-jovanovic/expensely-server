@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
@@ -17,7 +16,7 @@ namespace Expensely.Domain.Repositories
         /// <param name="incomeId">The income identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The maybe instance that may contain the income with the specified identifier.</returns>
-        Task<Maybe<Income>> GetByIdAsync(Guid incomeId, CancellationToken cancellationToken = default);
+        Task<Maybe<Income>> GetByIdAsync(string incomeId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds the specified income to the repository.

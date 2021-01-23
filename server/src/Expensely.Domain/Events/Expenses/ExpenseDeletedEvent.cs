@@ -11,7 +11,7 @@ namespace Expensely.Domain.Events.Expenses
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid UserId { get; init; }
+        public string UserId { get; init; }
 
         /// <summary>
         /// Gets the category.

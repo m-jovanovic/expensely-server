@@ -20,7 +20,7 @@ namespace Expensely.Application.Queries.Transactions
         /// <param name="utcNow">The current date and time in UTC format.</param>
         public GetTransactionsQuery(Guid userId, int limit, string cursor, DateTime utcNow)
         {
-            UserId = userId;
+            UserId = userId.ToString();
             Limit = LimitFactory.GetLimit(limit);
             (OccurredOn, CreatedOnUtc) = ParseCursor(cursor, utcNow);
         }
@@ -28,7 +28,7 @@ namespace Expensely.Application.Queries.Transactions
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid UserId { get; }
+        public string UserId { get; }
 
         /// <summary>
         /// Gets the limit.

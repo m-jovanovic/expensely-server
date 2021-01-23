@@ -23,7 +23,7 @@ namespace Expensely.Application.Commands.Handlers.Users.AddUserCurrency
 
             RuleFor(x => x.UserId)
                 .Must(x => x == userInformationProvider.UserId)
-                .When(x => x.UserId != Guid.Empty)
+                .When(x => !string.IsNullOrWhiteSpace(x.UserId))
                 .WithError(ValidationErrors.User.InvalidPermissions);
 
             RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(ValidationErrors.Currency.NotFound);

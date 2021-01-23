@@ -13,11 +13,11 @@ namespace Expensely.Application.Commands.Budgets.DeleteBudget
         /// Initializes a new instance of the <see cref="DeleteBudgetCommand"/> class.
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
-        public DeleteBudgetCommand(Guid budgetId) => BudgetId = budgetId;
+        public DeleteBudgetCommand(Guid budgetId) => BudgetId = budgetId.ToString();
 
         /// <summary>
         /// Gets the budget identifier.
         /// </summary>
-        public Guid BudgetId { get; }
+        public string BudgetId { get; }
     }
 }

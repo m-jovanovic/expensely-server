@@ -28,7 +28,7 @@ namespace Expensely.Application.Commands.Expenses.UpdateExpense
             DateTime occurredOn,
             string description)
         {
-            ExpenseId = expenseId;
+            ExpenseId = expenseId.ToString();
             Name = name;
             Category = category;
             Amount = amount;
@@ -40,7 +40,7 @@ namespace Expensely.Application.Commands.Expenses.UpdateExpense
         /// <summary>
         /// Gets the expense identifier.
         /// </summary>
-        public Guid ExpenseId { get; }
+        public string ExpenseId { get; }
 
         /// <summary>
         /// Gets the name.

@@ -18,7 +18,7 @@ namespace Expensely.Domain.Core
         /// <param name="money">The monetary amount of the income.</param>
         /// <param name="occurredOn">The date the income occurred on.</param>
         /// <param name="description">The description of the income.</param>
-        private Income(Guid userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
+        private Income(string userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
             : base(userId, name, category, money, occurredOn, description, TransactionType.Income) =>
             EnsureMoneyIsGreaterThanZero(money);
 
@@ -26,7 +26,7 @@ namespace Expensely.Domain.Core
         /// Initializes a new instance of the <see cref="Income"/> class.
         /// </summary>
         /// <remarks>
-        /// Required by EF Core.
+        /// Required for deserialization.
         /// </remarks>
         private Income()
         {
@@ -42,7 +42,7 @@ namespace Expensely.Domain.Core
         /// <param name="occurredOn">The date the income occurred on.</param>
         /// <param name="description">The description of the income.</param>
         /// <returns>The newly created income.</returns>
-        public static Income Create(Guid userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
+        public static Income Create(string userId, Name name, Category category, Money money, DateTime occurredOn, Description description)
         {
             var income = new Income(userId, name, category, money, occurredOn, description);
 

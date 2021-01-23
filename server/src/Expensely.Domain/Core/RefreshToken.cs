@@ -13,16 +13,13 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="RefreshToken"/> class.
         /// </summary>
-        /// <param name="user">The user.</param>
         /// <param name="token">The token value.</param>
         /// <param name="expiresOnUtc">The expires on date and time in UTC format.</param>
-        public RefreshToken(User user, string token, DateTime expiresOnUtc)
+        public RefreshToken(string token, DateTime expiresOnUtc)
         {
-            Ensure.NotNull(user, "The user is required.", nameof(user));
             Ensure.NotEmpty(token, "The refresh token is required", nameof(token));
             Ensure.NotEmpty(expiresOnUtc, "The expires on date and time is required.", nameof(expiresOnUtc));
 
-            UserId = Guid.Parse(user.Id);
             Token = token;
             ExpiresOnUtc = expiresOnUtc;
         }
@@ -31,16 +28,11 @@ namespace Expensely.Domain.Core
         /// Initializes a new instance of the <see cref="RefreshToken"/> class.
         /// </summary>
         /// <remarks>
-        /// Required by EF Core.
+        /// Required for deserialization.
         /// </remarks>
         private RefreshToken()
         {
         }
-
-        /// <summary>
-        /// Gets the user identifier.
-        /// </summary>
-        public Guid UserId { get; private set; }
 
         /// <summary>
         /// Gets the refresh token value.
@@ -57,7 +49,7 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="utcNow">The current date and time in UTC format.</param>
         /// <returns>True if the refresh token has expired, otherwise false.</returns>
-        public bool Expired(DateTime utcNow) => ExpiresOnUtc < utcNow;
+        public bool IsExpired(DateTime utcNow) => ExpiresOnUtc < utcNow;
 
         /// <summary>
         /// Changes the values of the refresh token with the specified values.
@@ -76,7 +68,6 @@ namespace Expensely.Domain.Core
         /// <inheritdoc />
         protected override IEnumerable<object> GetAtomicValues()
         {
-            yield return UserId;
             yield return Token;
             yield return ExpiresOnUtc;
         }

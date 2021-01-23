@@ -27,7 +27,7 @@ namespace Expensely.Domain.Core
         /// Initializes a new instance of the <see cref="Money"/> class.
         /// </summary>
         /// <remarks>
-        /// Required by EF Core.
+        /// Required for deserialization.
         /// </remarks>
         private Money() => Currency = Currency.None;
 

@@ -13,11 +13,11 @@ namespace Expensely.Application.Commands.Incomes.DeleteIncome
         /// Initializes a new instance of the <see cref="DeleteIncomeCommand"/> class.
         /// </summary>
         /// <param name="incomeId">The income identifier.</param>
-        public DeleteIncomeCommand(Guid incomeId) => IncomeId = incomeId;
+        public DeleteIncomeCommand(Guid incomeId) => IncomeId = incomeId.ToString();
 
         /// <summary>
         /// Gets the income identifier.
         /// </summary>
-        public Guid IncomeId { get; }
+        public string IncomeId { get; }
     }
 }

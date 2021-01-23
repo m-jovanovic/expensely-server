@@ -47,7 +47,7 @@ namespace Expensely.Domain.Core
         /// Initializes a new instance of the <see cref="User"/> class.
         /// </summary>
         /// <remarks>
-        /// Required by EF Core.
+        /// Required for deserialization.
         /// </remarks>
         private User() => _primaryCurrency = Currency.None;
 

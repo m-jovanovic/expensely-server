@@ -20,7 +20,7 @@ namespace Expensely.Domain.Core
         /// <param name="description">The description of the transaction.</param>
         /// <param name="transactionType">The transaction type.</param>
         protected Transaction(
-            Guid userId,
+            string userId,
             Name name,
             Category category,
             Money money,
@@ -36,7 +36,7 @@ namespace Expensely.Domain.Core
             Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
             Ensure.NotNull(description, "The description is required.", nameof(description));
 
-            UserId = userId;
+            UserId = userId.ToString();
             Name = name;
             Category = category;
             Money = money;
@@ -49,7 +49,7 @@ namespace Expensely.Domain.Core
         /// Initializes a new instance of the <see cref="Transaction"/> class.
         /// </summary>
         /// <remarks>
-        /// Required by EF Core.
+        /// Required for deserialization.
         /// </remarks>
         protected Transaction()
         {
@@ -58,7 +58,7 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid UserId { get; private set; }
+        public string UserId { get; private set; }
 
         /// <summary>
         /// Gets the name.

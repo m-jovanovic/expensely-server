@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Budgets.CreateBudget;
 using Expensely.Common.Abstractions.Messaging;
@@ -51,7 +50,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
             }
 
             var budget = new Budget(
-                Guid.Parse(maybeUser.Value.Id),
+                maybeUser.Value.Id,
                 nameResult.Value,
                 new Money(request.Amount, Currency.FromValue(request.Currency).Value),
                 request.StartDate,

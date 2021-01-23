@@ -31,7 +31,7 @@ namespace Expensely.Domain.Abstractions.Primitives
         /// Initializes a new instance of the <see cref="Enumeration{TEnum}"/> class.
         /// </summary>
         /// <remarks>
-        /// Required by EF Core.
+        /// Required for deserialization.
         /// </remarks>
         protected Enumeration()
         {
@@ -106,7 +106,7 @@ namespace Expensely.Domain.Abstractions.Primitives
                 return false;
             }
 
-            if (!(obj is Enumeration<TEnum> otherValue))
+            if (obj is not Enumeration<TEnum> otherValue)
             {
                 return false;
             }

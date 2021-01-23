@@ -20,7 +20,7 @@ namespace Expensely.Application.Commands.Budgets.CreateBudget
         /// <param name="endDate">The end date.</param>
         public CreateBudgetCommand(Guid userId, string name, decimal amount, int currency, DateTime startDate, DateTime endDate)
         {
-            UserId = userId;
+            UserId = userId.ToString();
             Name = name;
             Amount = amount;
             Currency = currency;
@@ -31,7 +31,7 @@ namespace Expensely.Application.Commands.Budgets.CreateBudget
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid UserId { get; }
+        public string UserId { get; }
 
         /// <summary>
         /// Gets the name.

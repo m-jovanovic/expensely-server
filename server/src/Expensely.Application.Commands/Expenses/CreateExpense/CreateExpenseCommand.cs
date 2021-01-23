@@ -28,7 +28,7 @@ namespace Expensely.Application.Commands.Expenses.CreateExpense
             DateTime occurredOn,
             string description)
         {
-            UserId = userId;
+            UserId = userId.ToString();
             Name = name;
             Category = category;
             Amount = amount;
@@ -40,7 +40,7 @@ namespace Expensely.Application.Commands.Expenses.CreateExpense
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid UserId { get; }
+        public string UserId { get; }
 
         /// <summary>
         /// Gets the name.

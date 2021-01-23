@@ -23,7 +23,7 @@ namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
 
             RuleFor(x => x.UserId)
                 .Must(x => x == userInformationProvider.UserId)
-                .When(x => x.UserId != Guid.Empty)
+                .When(x => !string.IsNullOrWhiteSpace(x.UserId))
                 .WithError(ValidationErrors.User.InvalidPermissions);
 
             RuleFor(x => x.Name).NotEmpty().WithError(ValidationErrors.Income.NameIsRequired);
