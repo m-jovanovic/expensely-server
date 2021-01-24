@@ -27,6 +27,14 @@ namespace Expensely.Domain.Repositories
         Task<Maybe<User>> GetByEmailAsync(Email email, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Gets the user with the specified refresh token, if one exists.
+        /// </summary>
+        /// <param name="refreshToken">The user's refresh token.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The maybe instance that may contain the user with the specified refresh token.</returns>
+        Task<Maybe<User>> GetByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Checks if any user already exists with the specified email.
         /// </summary>
         /// <param name="email">The email.</param>

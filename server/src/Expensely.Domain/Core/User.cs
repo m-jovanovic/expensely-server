@@ -67,6 +67,11 @@ namespace Expensely.Domain.Core
         /// </summary>
         public Email Email { get; private set; }
 
+        /// <summary>
+        /// Gets the refresh token.
+        /// </summary>
+        public RefreshToken RefreshToken { get; private set; }
+
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; private set; }
 
@@ -244,5 +249,11 @@ namespace Expensely.Domain.Core
 
             return Result.Success();
         }
+
+        /// <summary>
+        /// Changes the user's refresh token with the specified refresh token.
+        /// </summary>
+        /// <param name="refreshToken">The new refresh token.</param>
+        public void ChangeRefreshToken(RefreshToken refreshToken) => RefreshToken = refreshToken;
     }
 }

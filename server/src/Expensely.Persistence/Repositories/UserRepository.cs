@@ -33,6 +33,12 @@ namespace Expensely.Persistence.Repositories
                 .SingleOrDefaultAsync(x => x.Email.Value == email.Value, cancellationToken);
 
         /// <inheritdoc />
+        public async Task<Maybe<User>> GetByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default) =>
+            await _session
+                .Query<User, Users_ByRefreshToken>()
+                .SingleOrDefaultAsync(x => x.RefreshToken.Token == refreshToken, cancellationToken);
+
+        /// <inheritdoc />
         public async Task<bool> AnyWithEmailAsync(Email email, CancellationToken cancellationToken = default) =>
             await _session
                 .Query<User, Users_ByEmail>()

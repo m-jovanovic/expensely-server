@@ -51,20 +51,6 @@ namespace Expensely.Domain.Core
         /// <returns>True if the refresh token has expired, otherwise false.</returns>
         public bool IsExpired(DateTime utcNow) => ExpiresOnUtc < utcNow;
 
-        /// <summary>
-        /// Changes the values of the refresh token with the specified values.
-        /// </summary>
-        /// <param name="token">The token value.</param>
-        /// <param name="expiresOnUtc">The expires on date and time in UTC format.</param>
-        public void ChangeValues(string token, DateTime expiresOnUtc)
-        {
-            Ensure.NotEmpty(token, "The refresh token is required", nameof(token));
-            Ensure.NotEmpty(expiresOnUtc, "The expires on date and time is required.", nameof(expiresOnUtc));
-
-            Token = token;
-            ExpiresOnUtc = expiresOnUtc;
-        }
-
         /// <inheritdoc />
         protected override IEnumerable<object> GetAtomicValues()
         {

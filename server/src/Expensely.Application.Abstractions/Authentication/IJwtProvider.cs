@@ -1,5 +1,4 @@
-﻿using System;
-using Expensely.Domain.Core;
+﻿using Expensely.Domain.Core;
 
 namespace Expensely.Application.Abstractions.Authentication
 {
@@ -19,6 +18,6 @@ namespace Expensely.Application.Abstractions.Authentication
         /// Creates a new refresh token.
         /// </summary>
         /// <returns>The refresh token and the expires on date and time in UTC format.</returns>
-        (string Token, DateTime ExpiresOnUtc) CreateRefreshToken();
+        RefreshToken CreateRefreshToken();
     }
 }

@@ -57,7 +57,7 @@ namespace Expensely.Infrastructure.Authentication
         }
 
         /// <inheritdoc />
-        public (string Token, DateTime ExpiresOnUtc) CreateRefreshToken()
+        public RefreshToken CreateRefreshToken()
         {
             var refreshTokenBytes = new byte[64];
 
@@ -65,7 +65,7 @@ namespace Expensely.Infrastructure.Authentication
 
             rng.GetBytes(refreshTokenBytes);
 
-            return (
+            return new RefreshToken(
                 Convert.ToBase64String(refreshTokenBytes),
                 _dateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenExpirationInMinutes));
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Commands.Users.CreateUserTokenForCredentials;
@@ -73,23 +72,13 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserTokenForCreden
 
             string token = _jwtProvider.CreateToken(user);
 
-            // TODO: Move refresh token logic into user entity.
-            // (string refreshToken, DateTime expiresOnUtc) = _jwtProvider.CreateRefreshToken();
-            // Maybe<RefreshToken> maybeRefreshToken = await _dbContext.FirstOrDefaultAsync(
-            //    new RefreshTokenByUserSpecification(user),
-            //    cancellationToken);
-            // if (maybeRefreshToken.HasNoValue)
-            // {
-            //     _dbContext.Insert(new RefreshToken(user, refreshToken, expiresOnUtc));
-            // }
-            // else
-            // {
-            //     maybeRefreshToken.Value.ChangeValues(refreshToken, expiresOnUtc);
-            // }
+            RefreshToken refreshToken = _jwtProvider.CreateRefreshToken();
+
+            user.ChangeRefreshToken(refreshToken);
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            // TODO: Fix refresh token and expiration values.
-            return new TokenResponse(token, string.Empty, DateTime.UtcNow);
+            return new TokenResponse(token, refreshToken.Token, refreshToken.ExpiresOnUtc);
         }
     }
 }

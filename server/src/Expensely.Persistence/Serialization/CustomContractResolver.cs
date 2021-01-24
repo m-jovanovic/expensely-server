@@ -66,13 +66,13 @@ namespace Expensely.Persistence.Serialization
 
             jsonProperty = base.CreateProperty(privateField, memberSerialization);
 
+            jsonProperty.Readable = true;
+
             jsonProperty.Writable = true;
 
             jsonProperty.PropertyName = originalPropertyName;
 
             jsonProperty.UnderlyingName = originalPropertyName;
-
-            jsonProperty.Readable = true;
 
             return jsonProperty;
         }

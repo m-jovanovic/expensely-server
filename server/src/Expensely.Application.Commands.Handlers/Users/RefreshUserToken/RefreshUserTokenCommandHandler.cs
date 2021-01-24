@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Commands.Users.RefreshUserToken;
@@ -46,38 +45,29 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
         /// <inheritdoc />
         public async Task<Result<TokenResponse>> Handle(RefreshUserTokenCommand request, CancellationToken cancellationToken)
         {
-            // TODO: Get refresh token via user entity, it should be embedded.
-            Maybe<RefreshToken> maybeRefreshToken = Maybe<RefreshToken>.None;
-
-            if (maybeRefreshToken.HasNoValue)
-            {
-                return Result.Failure<TokenResponse>(DomainErrors.RefreshToken.NotFound);
-            }
-
-            RefreshToken refreshTokenEntity = maybeRefreshToken.Value;
-
-            if (refreshTokenEntity.IsExpired(_dateTime.UtcNow))
-            {
-                return Result.Failure<TokenResponse>(DomainErrors.RefreshToken.Expired);
-            }
-
-            Maybe<User> maybeUser = await _userRepository.GetByIdAsync(string.Empty, cancellationToken);
+            Maybe<User> maybeUser = await _userRepository.GetByRefreshTokenAsync(request.RefreshToken, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {
                 return Result.Failure<TokenResponse>(DomainErrors.User.NotFound);
             }
 
-            string token = _jwtProvider.CreateToken(maybeUser.Value);
+            User user = maybeUser.Value;
 
-            (string refreshToken, DateTime expiresOnUtc) = _jwtProvider.CreateRefreshToken();
+            if (user.RefreshToken.IsExpired(_dateTime.UtcNow))
+            {
+                return Result.Failure<TokenResponse>(DomainErrors.RefreshToken.Expired);
+            }
 
-            // TODO: Move logic into user entity.
-            refreshTokenEntity.ChangeValues(refreshToken, expiresOnUtc);
+            string token = _jwtProvider.CreateToken(user);
+
+            RefreshToken refreshToken = _jwtProvider.CreateRefreshToken();
+
+            user.ChangeRefreshToken(refreshToken);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new TokenResponse(token, refreshToken, expiresOnUtc);
+            return new TokenResponse(token, refreshToken.Token, refreshToken.ExpiresOnUtc);
         }
     }
 }
