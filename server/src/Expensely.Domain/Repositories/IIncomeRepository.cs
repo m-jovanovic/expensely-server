@@ -19,6 +19,14 @@ namespace Expensely.Domain.Repositories
         Task<Maybe<Income>> GetByIdAsync(string incomeId, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Gets the income with the specified identifier along with the user who created it, if one exists.
+        /// </summary>
+        /// <param name="incomeId">The income identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The maybe instance that may contain the income with the specified identifier.</returns>
+        Task<Maybe<Income>> GetByIdWithUserAsync(string incomeId, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Adds the specified income to the repository.
         /// </summary>
         /// <param name="income">The income to be added.</param>

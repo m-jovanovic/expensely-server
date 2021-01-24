@@ -25,6 +25,10 @@ namespace Expensely.Persistence.Repositories
             await _session.LoadAsync<Income>(incomeId, cancellationToken);
 
         /// <inheritdoc />
+        public async Task<Maybe<Income>> GetByIdWithUserAsync(string incomeId, CancellationToken cancellationToken = default) =>
+            await _session.Include<Income>(x => x.UserId).LoadAsync<Income>(incomeId, cancellationToken);
+
+        /// <inheritdoc />
         public async Task AddAsync(Income income, CancellationToken cancellationToken = default) =>
             await _session.StoreAsync(income, cancellationToken);
 

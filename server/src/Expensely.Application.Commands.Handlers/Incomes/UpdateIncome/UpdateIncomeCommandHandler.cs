@@ -46,8 +46,7 @@ namespace Expensely.Application.Commands.Handlers.Incomes.UpdateIncome
         /// <inheritdoc />
         public async Task<Result> Handle(UpdateIncomeCommand request, CancellationToken cancellationToken)
         {
-            // TODO: Fetch user along with expense to spare a database call.
-            Maybe<Income> maybeIncome = await _incomeRepository.GetByIdAsync(request.IncomeId, cancellationToken);
+            Maybe<Income> maybeIncome = await _incomeRepository.GetByIdWithUserAsync(request.IncomeId, cancellationToken);
 
             if (maybeIncome.HasNoValue)
             {
@@ -80,6 +79,7 @@ namespace Expensely.Application.Commands.Handlers.Incomes.UpdateIncome
                 return Result.Failure(transactionInformationResult.Error);
             }
 
+            // TODO: Make the update consume the TransactionInformation object.
             income.Update(
                 transactionInformationResult.Value.Name,
                 transactionInformationResult.Value.Category,
