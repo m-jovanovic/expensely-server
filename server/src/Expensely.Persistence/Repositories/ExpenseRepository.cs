@@ -25,6 +25,10 @@ namespace Expensely.Persistence.Repositories
             await _session.LoadAsync<Expense>(expenseId, cancellationToken);
 
         /// <inheritdoc />
+        public async Task<Maybe<Expense>> GetByIdWithUserAsync(string expenseId, CancellationToken cancellationToken = default) =>
+            await _session.Include<Expense>(x => x.UserId).LoadAsync<Expense>(expenseId, cancellationToken);
+
+        /// <inheritdoc />
         public async Task AddAsync(Expense expense, CancellationToken cancellationToken = default) =>
             await _session.StoreAsync(expense, cancellationToken);
 

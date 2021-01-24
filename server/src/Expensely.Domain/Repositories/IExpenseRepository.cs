@@ -19,6 +19,14 @@ namespace Expensely.Domain.Repositories
         Task<Maybe<Expense>> GetByIdAsync(string expenseId, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Gets the expense with the specified identifier along with the user who created it, if one exists.
+        /// </summary>
+        /// <param name="expenseId">The expense identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The maybe instance that may contain the expense with the specified identifier.</returns>
+        Task<Maybe<Expense>> GetByIdWithUserAsync(string expenseId, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Adds the specified expense to the repository.
         /// </summary>
         /// <param name="expense">The expense to be added.</param>

@@ -46,8 +46,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
         /// <inheritdoc />
         public async Task<Result> Handle(UpdateExpenseCommand request, CancellationToken cancellationToken)
         {
-            // TODO: Fetch user along with expense to spare a database call.
-            Maybe<Expense> maybeExpense = await _expenseRepository.GetByIdAsync(request.ExpenseId, cancellationToken);
+            Maybe<Expense> maybeExpense = await _expenseRepository.GetByIdWithUserAsync(request.ExpenseId, cancellationToken);
 
             if (maybeExpense.HasNoValue)
             {
@@ -80,6 +79,7 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
                 return Result.Failure(transactionInformationResult.Error);
             }
 
+            // TODO: Make the update consume the TransactionInformation object.
             expense.Update(
                 transactionInformationResult.Value.Name,
                 transactionInformationResult.Value.Category,

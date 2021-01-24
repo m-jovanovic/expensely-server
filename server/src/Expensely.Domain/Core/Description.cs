@@ -22,9 +22,19 @@ namespace Expensely.Domain.Core
         private Description(string value) => Value = value;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Description"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Required for deserialization.
+        /// </remarks>
+        private Description()
+        {
+        }
+
+        /// <summary>
         /// Gets the description value.
         /// </summary>
-        public string Value { get; }
+        public string Value { get; private set; }
 
         public static implicit operator string(Description description) => description?.Value ?? string.Empty;
 

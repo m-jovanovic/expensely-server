@@ -36,7 +36,7 @@ namespace Expensely.Domain.Core
             Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
             Ensure.NotNull(description, "The description is required.", nameof(description));
 
-            UserId = userId.ToString();
+            UserId = userId;
             Name = name;
             Category = category;
             Money = money;
@@ -56,39 +56,39 @@ namespace Expensely.Domain.Core
         }
 
         /// <summary>
-        /// Gets the user identifier.
+        /// Gets or sets the user identifier.
         /// </summary>
-        public string UserId { get; private set; }
+        public string UserId { get; protected set; }
 
         /// <summary>
-        /// Gets the name.
+        /// Gets or sets the name.
         /// </summary>
-        public Name Name { get; private set; }
+        public Name Name { get; protected set; }
 
         /// <summary>
-        /// Gets the category.
+        /// Gets or sets the category.
         /// </summary>
-        public Category Category { get; private set; }
+        public Category Category { get; protected set; }
 
         /// <summary>
-        /// Gets the money.
+        /// Gets or sets the money.
         /// </summary>
-        public Money Money { get; private set; }
+        public Money Money { get; protected set; }
 
         /// <summary>
-        /// Gets the date the transaction occurred on.
+        /// Gets or sets the date the transaction occurred on.
         /// </summary>
-        public DateTime OccurredOn { get; private set; }
+        public DateTime OccurredOn { get; protected set; }
 
         /// <summary>
-        /// Gets the description.
+        /// Gets or sets the description.
         /// </summary>
-        public Description Description { get; private set; }
+        public Description Description { get; protected set; }
 
         /// <summary>
-        /// Gets the transaction type.
+        /// Gets or sets the transaction type.
         /// </summary>
-        public TransactionType TransactionType { get; private set; }
+        public TransactionType TransactionType { get; protected set; }
 
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; protected set; }
