@@ -72,20 +72,16 @@ namespace Expensely.Application.Commands.Handlers.Expenses.UpdateExpense
                 request.Name,
                 request.Description,
                 request.Category,
-                request.Currency);
+                request.Amount,
+                request.Currency,
+                request.OccurredOn);
 
             if (transactionInformationResult.IsFailure)
             {
                 return Result.Failure(transactionInformationResult.Error);
             }
 
-            // TODO: Make the update consume the TransactionInformation object.
-            expense.Update(
-                transactionInformationResult.Value.Name,
-                transactionInformationResult.Value.Category,
-                new Money(request.Amount, transactionInformationResult.Value.Currency),
-                request.OccurredOn,
-                transactionInformationResult.Value.Description);
+            expense.Update(transactionInformationResult.Value);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

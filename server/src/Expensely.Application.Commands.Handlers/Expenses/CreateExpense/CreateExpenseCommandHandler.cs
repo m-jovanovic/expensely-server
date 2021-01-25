@@ -49,20 +49,16 @@ namespace Expensely.Application.Commands.Handlers.Expenses.CreateExpense
                 request.Name,
                 request.Description,
                 request.Category,
-                request.Currency);
+                request.Amount,
+                request.Currency,
+                request.OccurredOn);
 
             if (transactionInformationResult.IsFailure)
             {
                 return Result.Failure(transactionInformationResult.Error);
             }
 
-            var expense = Expense.Create(
-                maybeUser.Value.Id,
-                transactionInformationResult.Value.Name,
-                transactionInformationResult.Value.Category,
-                new Money(request.Amount, transactionInformationResult.Value.Currency),
-                request.OccurredOn,
-                transactionInformationResult.Value.Description);
+            var expense = Expense.Create(transactionInformationResult.Value);
 
             await _expenseRepository.AddAsync(expense, cancellationToken);
 

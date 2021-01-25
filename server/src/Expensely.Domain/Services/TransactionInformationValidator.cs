@@ -1,4 +1,5 @@
-﻿using Expensely.Domain.Abstractions.Result;
+﻿using System;
+using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Contracts;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
@@ -17,9 +18,18 @@ namespace Expensely.Domain.Services
         /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
         /// <param name="categoryValue">The category value.</param>
+        /// <param name="amount">The amount.</param>
         /// <param name="currencyValue">The currency value.</param>
+        /// <param name="occurredOn">The occurred on date.</param>
         /// <returns>The result of the transaction validation process containing the transaction information or an error.</returns>
-        public Result<TransactionInformation> Validate(User user, string name, string description, int categoryValue, int currencyValue)
+        public Result<TransactionInformation> Validate(
+            User user,
+            string name,
+            string description,
+            int categoryValue,
+            decimal amount,
+            int currencyValue,
+            DateTime occurredOn)
         {
             Result<Name> nameResult = Name.Create(name);
 
@@ -41,10 +51,12 @@ namespace Expensely.Domain.Services
 
             return new TransactionInformation
             {
+                UserId = user.Id,
                 Name = nameResult.Value,
                 Description = descriptionResult.Value,
                 Category = Category.FromValue(categoryValue).Value,
-                Currency = currency
+                Money = new Money(amount, currency),
+                OccurredOn = occurredOn
             };
         }
     }

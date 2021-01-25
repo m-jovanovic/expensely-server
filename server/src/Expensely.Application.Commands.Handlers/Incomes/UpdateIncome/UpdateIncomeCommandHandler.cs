@@ -72,20 +72,16 @@ namespace Expensely.Application.Commands.Handlers.Incomes.UpdateIncome
                 request.Name,
                 request.Description,
                 request.Category,
-                request.Currency);
+                request.Amount,
+                request.Currency,
+                request.OccurredOn);
 
             if (transactionInformationResult.IsFailure)
             {
                 return Result.Failure(transactionInformationResult.Error);
             }
 
-            // TODO: Make the update consume the TransactionInformation object.
-            income.Update(
-                transactionInformationResult.Value.Name,
-                transactionInformationResult.Value.Category,
-                new Money(request.Amount, transactionInformationResult.Value.Currency),
-                request.OccurredOn,
-                transactionInformationResult.Value.Description);
+            income.Update(transactionInformationResult.Value);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

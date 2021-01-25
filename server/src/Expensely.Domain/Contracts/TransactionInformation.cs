@@ -1,4 +1,5 @@
-﻿using Expensely.Domain.Core;
+﻿using System;
+using Expensely.Domain.Core;
 
 namespace Expensely.Domain.Contracts
 {
@@ -7,6 +8,11 @@ namespace Expensely.Domain.Contracts
     /// </summary>
     public class TransactionInformation
     {
+        /// <summary>
+        /// Gets the user identifier.
+        /// </summary>
+        public string UserId { get; init; }
+
         /// <summary>
         /// Gets the name.
         /// </summary>
@@ -23,8 +29,13 @@ namespace Expensely.Domain.Contracts
         public Category Category { get; init; }
 
         /// <summary>
-        /// Gets the currency.
+        /// Gets the money.
         /// </summary>
-        public Currency Currency { get; init; }
+        public Money Money { get; init; }
+
+        /// <summary>
+        /// Gets the occurred on date.
+        /// </summary>
+        public DateTime OccurredOn { get; init; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Domain.Contracts;
 using Expensely.Domain.Events.Expenses;
 using Expensely.Domain.Utility;
 
@@ -25,11 +26,47 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="Expense"/> class.
         /// </summary>
+        /// <param name="transactionInformation">The transaction information.</param>
+        private Expense(TransactionInformation transactionInformation)
+            : base(
+                transactionInformation.UserId,
+                transactionInformation.Name,
+                transactionInformation.Category,
+                transactionInformation.Money,
+                transactionInformation.OccurredOn,
+                transactionInformation.Description,
+                TransactionType.Expense) =>
+            EnsureMoneyIsLessThanZero(transactionInformation.Money);
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Expense"/> class.
+        /// </summary>
         /// <remarks>
         /// Required for deserialization.
         /// </remarks>
         private Expense()
         {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Expense"/> based on the specified parameters.
+        /// </summary>
+        /// <param name="transactionInformation">The transaction information.</param>
+        /// <returns>The newly created expense.</returns>
+        public static Expense Create(TransactionInformation transactionInformation)
+        {
+            var expense = new Expense(transactionInformation);
+
+            expense.Raise(new ExpenseCreatedEvent
+            {
+                UserId = expense.UserId,
+                Category = expense.Category.Value,
+                Amount = expense.Money.Amount,
+                Currency = expense.Money.Currency.Value,
+                OccurredOn = expense.OccurredOn
+            });
+
+            return expense;
         }
 
         /// <summary>
@@ -61,30 +98,26 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Updates the expense with the specified parameters.
         /// </summary>
-        /// <param name="name">The name of the expense.</param>
-        /// <param name="category">The category of the expense.</param>
-        /// <param name="money">The monetary amount of the expense.</param>
-        /// <param name="occurredOn">The date the expense occurred on.</param>
-        /// <param name="description">The description of the expense.</param>
-        public void Update(Name name, Category category, Money money, DateTime occurredOn, Description description)
+        /// <param name="transactionInformation">The transaction information.</param>
+        public void Update(TransactionInformation transactionInformation)
         {
-            EnsureMoneyIsLessThanZero(money);
+            EnsureMoneyIsLessThanZero(transactionInformation.Money);
 
-            ChangeNameInternal(name);
+            ChangeNameInternal(transactionInformation.Name);
 
-            ChangeDescriptionInternal(description);
+            ChangeDescriptionInternal(transactionInformation.Description);
 
             Category previousCategory = Category;
 
-            bool categoryHasChanged = ChangeCategoryInternal(category);
+            bool categoryHasChanged = ChangeCategoryInternal(transactionInformation.Category);
 
             Money previousMoney = Money;
 
-            (bool amountChanged, bool currencyChanged) = ChangeMoneyInternal(money);
+            (bool amountChanged, bool currencyChanged) = ChangeMoneyInternal(transactionInformation.Money);
 
             DateTime previousOccurredOn = OccurredOn;
 
-            bool occurredOnChanged = ChangeOccurredOnInternal(occurredOn);
+            bool occurredOnChanged = ChangeOccurredOnInternal(transactionInformation.OccurredOn);
 
             if (!categoryHasChanged && !amountChanged && !currencyChanged && !occurredOnChanged)
             {

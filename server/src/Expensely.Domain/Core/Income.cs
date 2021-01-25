@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Domain.Contracts;
 using Expensely.Domain.Events.Incomes;
 using Expensely.Domain.Utility;
 
@@ -35,6 +36,20 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Creates a new <see cref="Income"/> based on the specified parameters.
         /// </summary>
+        /// <param name="transactionInformation">The transaction information.</param>
+        /// <returns>The newly created income.</returns>
+        public static Income Create(TransactionInformation transactionInformation) =>
+            Create(
+                transactionInformation.UserId,
+                transactionInformation.Name,
+                transactionInformation.Category,
+                transactionInformation.Money,
+                transactionInformation.OccurredOn,
+                transactionInformation.Description);
+
+        /// <summary>
+        /// Creates a new <see cref="Income"/> based on the specified parameters.
+        /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name of the income.</param>
         /// <param name="category">The category of the income.</param>
@@ -61,30 +76,26 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Updates the income with the specified parameters.
         /// </summary>
-        /// <param name="name">The name of the income.</param>
-        /// <param name="category">The category of the income.</param>
-        /// <param name="money">The monetary amount of the income.</param>
-        /// <param name="occurredOn">The date the income occurred on.</param>
-        /// <param name="description">The description of the income.</param>
-        public void Update(Name name, Category category, Money money, DateTime occurredOn, Description description)
+        /// <param name="transactionInformation">The transaction information.</param>
+        public void Update(TransactionInformation transactionInformation)
         {
-            EnsureMoneyIsGreaterThanZero(money);
+            EnsureMoneyIsGreaterThanZero(transactionInformation.Money);
 
-            ChangeNameInternal(name);
+            ChangeNameInternal(transactionInformation.Name);
 
-            ChangeDescriptionInternal(description);
+            ChangeDescriptionInternal(transactionInformation.Description);
 
             Category previousCategory = Category;
 
-            bool categoryHasChanged = ChangeCategoryInternal(category);
+            bool categoryHasChanged = ChangeCategoryInternal(transactionInformation.Category);
 
             Money previousMoney = Money;
 
-            (bool amountChanged, bool currencyChanged) = ChangeMoneyInternal(money);
+            (bool amountChanged, bool currencyChanged) = ChangeMoneyInternal(transactionInformation.Money);
 
             DateTime previousOccurredOn = OccurredOn;
 
-            bool occurredOnChanged = ChangeOccurredOnInternal(occurredOn);
+            bool occurredOnChanged = ChangeOccurredOnInternal(transactionInformation.OccurredOn);
 
             if (!categoryHasChanged && !amountChanged && !currencyChanged && !occurredOnChanged)
             {

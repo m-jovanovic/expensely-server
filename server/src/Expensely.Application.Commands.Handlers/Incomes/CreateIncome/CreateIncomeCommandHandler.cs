@@ -49,20 +49,16 @@ namespace Expensely.Application.Commands.Handlers.Incomes.CreateIncome
                 request.Name,
                 request.Description,
                 request.Category,
-                request.Currency);
+                request.Amount,
+                request.Currency,
+                request.OccurredOn);
 
             if (transactionInformationResult.IsFailure)
             {
                 return Result.Failure(transactionInformationResult.Error);
             }
 
-            var income = Income.Create(
-                maybeUser.Value.Id,
-                transactionInformationResult.Value.Name,
-                transactionInformationResult.Value.Category,
-                new Money(request.Amount, transactionInformationResult.Value.Currency),
-                request.OccurredOn,
-                transactionInformationResult.Value.Description);
+            var income = Income.Create(transactionInformationResult.Value);
 
             await _incomeRepository.AddAsync(income, cancellationToken);
 
