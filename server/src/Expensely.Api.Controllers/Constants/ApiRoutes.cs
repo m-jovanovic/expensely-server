@@ -58,56 +58,19 @@
             public const string GetTransactions = "transactions";
 
             /// <summary>
+            /// The create transactions route.
+            /// </summary>
+            public const string CreateTransaction = "transactions";
+
+            /// <summary>
+            /// The update transactions route.
+            /// </summary>
+            public const string UpdateTransaction = "transactions/{transactionId:guid}";
+
+            /// <summary>
             /// The get current month transaction summary route.
             /// </summary>
             public const string GetCurrentMonthTransactionSummary = "transactions/summary/current-month";
-        }
-
-        /// <summary>
-        /// Contains the expenses routes.
-        /// </summary>
-        public static class Expenses
-        {
-            /// <summary>
-            /// The get expenses route.
-            /// </summary>
-            public const string GetExpenses = "expenses";
-
-            /// <summary>
-            /// The create expense route.
-            /// </summary>
-            public const string CreateExpense = "expenses";
-
-            /// <summary>
-            /// The update expense route.
-            /// </summary>
-            public const string UpdateExpense = "expenses/{expenseId:guid}";
-
-            /// <summary>
-            /// The delete expense route.
-            /// </summary>
-            public const string DeleteExpense = "expenses/{expenseId:guid}";
-        }
-
-        /// <summary>
-        /// Contains the incomes routes.
-        /// </summary>
-        public static class Incomes
-        {
-            /// <summary>
-            /// The create income route.
-            /// </summary>
-            public const string CreateIncome = "incomes";
-
-            /// <summary>
-            /// The update income route.
-            /// </summary>
-            public const string UpdateIncome = "incomes/{incomeId:guid}";
-
-            /// <summary>
-            /// The delete income route.
-            /// </summary>
-            public const string DeleteIncome = "incomes/{incomeId:guid}";
         }
 
         /// <summary>
