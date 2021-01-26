@@ -2,7 +2,7 @@
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 
-namespace Expensely.Application.Commands.Incomes.DeleteIncome
+namespace Expensely.Application.Commands.Incomes
 {
     /// <summary>
     /// Represents the command for deleting an income.

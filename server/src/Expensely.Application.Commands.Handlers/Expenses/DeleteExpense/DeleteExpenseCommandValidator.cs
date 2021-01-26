@@ -1,4 +1,4 @@
-﻿using Expensely.Application.Commands.Expenses.DeleteExpense;
+﻿using Expensely.Application.Commands.Expenses;
 using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
 using FluentValidation;

@@ -2,25 +2,25 @@
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 
-namespace Expensely.Application.Commands.Incomes.CreateIncome
+namespace Expensely.Application.Commands.Incomes
 {
     /// <summary>
-    /// Represents the command for creating an income.
+    /// Represents the command for updating an income.
     /// </summary>
-    public sealed class CreateIncomeCommand : ICommand<Result>
+    public sealed class UpdateIncomeCommand : ICommand<Result>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateIncomeCommand"/> class.
+        /// Initializes a new instance of the <see cref="UpdateIncomeCommand"/> class.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
+        /// <param name="incomeId">The income identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="category">The category.</param>
         /// <param name="amount">The monetary amount.</param>
         /// <param name="currency">The currency value.</param>
         /// <param name="occurredOn">The date the income occurred on.</param>
         /// <param name="description">The description.</param>
-        public CreateIncomeCommand(
-            Guid userId,
+        public UpdateIncomeCommand(
+            Guid incomeId,
             string name,
             int category,
             decimal amount,
@@ -28,7 +28,7 @@ namespace Expensely.Application.Commands.Incomes.CreateIncome
             DateTime occurredOn,
             string description)
         {
-            UserId = userId.ToString();
+            IncomeId = incomeId.ToString();
             Name = name;
             Category = category;
             Amount = amount;
@@ -38,9 +38,9 @@ namespace Expensely.Application.Commands.Incomes.CreateIncome
         }
 
         /// <summary>
-        /// Gets the user identifier.
+        /// Gets the income identifier.
         /// </summary>
-        public string UserId { get; }
+        public string IncomeId { get; }
 
         /// <summary>
         /// Gets the name.

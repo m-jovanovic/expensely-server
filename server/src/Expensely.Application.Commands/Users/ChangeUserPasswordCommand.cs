@@ -2,7 +2,7 @@
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 
-namespace Expensely.Application.Commands.Users.ChangeUserPassword
+namespace Expensely.Application.Commands.Users
 {
     /// <summary>
     /// Represents the command for changing a user's password.

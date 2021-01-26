@@ -1,7 +1,7 @@
 ﻿using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 
-namespace Expensely.Application.Commands.Users.CreateUser
+namespace Expensely.Application.Commands.Users
 {
     /// <summary>
     /// Represents the command for creating a user.

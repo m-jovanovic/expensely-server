@@ -1,5 +1,4 @@
-﻿using Expensely.Application.Commands.Budgets.CreateBudget;
-using Expensely.Application.Commands.Budgets.UpdateBudget;
+﻿using Expensely.Application.Commands.Budgets;
 using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Domain.Core;

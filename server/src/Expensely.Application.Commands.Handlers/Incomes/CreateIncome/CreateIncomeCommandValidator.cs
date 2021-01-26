@@ -2,7 +2,7 @@
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
-using Expensely.Application.Commands.Incomes.CreateIncome;
+using Expensely.Application.Commands.Incomes;
 using Expensely.Domain.Core;
 using FluentValidation;
 

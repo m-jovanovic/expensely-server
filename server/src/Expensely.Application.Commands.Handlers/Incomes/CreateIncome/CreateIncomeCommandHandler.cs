@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Commands.Incomes.CreateIncome;
+using Expensely.Application.Commands.Incomes;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;

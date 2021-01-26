@@ -2,19 +2,19 @@
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 
-namespace Expensely.Application.Commands.Users.ChangeUserPrimaryCurrency
+namespace Expensely.Application.Commands.Users
 {
     /// <summary>
-    /// Represents the command for changing a user's primary currency.
+    /// Represents the command for removing a currency from a user.
     /// </summary>
-    public sealed class ChangeUserPrimaryCurrencyCommand : ICommand<Result>
+    public sealed class RemoveUserCurrencyCommand : ICommand<Result>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChangeUserPrimaryCurrencyCommand"/> class.
+        /// Initializes a new instance of the <see cref="RemoveUserCurrencyCommand"/> class.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
-        public ChangeUserPrimaryCurrencyCommand(Guid userId, int currency)
+        public RemoveUserCurrencyCommand(Guid userId, int currency)
         {
             UserId = userId.ToString();
             Currency = currency;

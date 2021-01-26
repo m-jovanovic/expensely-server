@@ -2,24 +2,24 @@
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 
-namespace Expensely.Application.Commands.Expenses.CreateExpense
+namespace Expensely.Application.Commands.Incomes
 {
     /// <summary>
-    /// Represents the command for creating an expense.
+    /// Represents the command for creating an income.
     /// </summary>
-    public sealed class CreateExpenseCommand : ICommand<Result>
+    public sealed class CreateIncomeCommand : ICommand<Result>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateExpenseCommand"/> class.
+        /// Initializes a new instance of the <see cref="CreateIncomeCommand"/> class.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="category">The category.</param>
         /// <param name="amount">The monetary amount.</param>
         /// <param name="currency">The currency value.</param>
-        /// <param name="occurredOn">The date the expense occurred on.</param>
+        /// <param name="occurredOn">The date the income occurred on.</param>
         /// <param name="description">The description.</param>
-        public CreateExpenseCommand(
+        public CreateIncomeCommand(
             Guid userId,
             string name,
             int category,
@@ -63,7 +63,7 @@ namespace Expensely.Application.Commands.Expenses.CreateExpense
         public int Currency { get; }
 
         /// <summary>
-        /// Gets the date the expense occurred on.
+        /// Gets the date the income occurred on.
         /// </summary>
         public DateTime OccurredOn { get; }
 

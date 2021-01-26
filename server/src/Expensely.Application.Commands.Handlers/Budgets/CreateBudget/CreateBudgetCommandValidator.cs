@@ -1,6 +1,6 @@
 ﻿using System;
 using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Commands.Budgets.CreateBudget;
+using Expensely.Application.Commands.Budgets;
 using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Domain.Core;

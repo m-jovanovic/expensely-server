@@ -2,7 +2,7 @@
 using Expensely.Contracts.Users;
 using Expensely.Domain.Abstractions.Result;
 
-namespace Expensely.Application.Commands.Users.CreateUserTokenForCredentials
+namespace Expensely.Application.Commands.Users
 {
     /// <summary>
     /// Represents the command for creating a JWT token for user credentials.

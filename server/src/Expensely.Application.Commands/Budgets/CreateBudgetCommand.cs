@@ -2,25 +2,25 @@
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 
-namespace Expensely.Application.Commands.Budgets.UpdateBudget
+namespace Expensely.Application.Commands.Budgets
 {
     /// <summary>
-    /// Represents the command for updating a budget.
+    /// Represents the command for creating a budget.
     /// </summary>
-    public sealed class UpdateBudgetCommand : ICommand<Result>
+    public sealed class CreateBudgetCommand : ICommand<Result>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateBudgetCommand"/> class.
+        /// Initializes a new instance of the <see cref="CreateBudgetCommand"/> class.
         /// </summary>
-        /// <param name="budgetId">The budget identifier.</param>
+        /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="amount">The monetary amount.</param>
         /// <param name="currency">The currency value.</param>
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
-        public UpdateBudgetCommand(Guid budgetId, string name, decimal amount, int currency, DateTime startDate, DateTime endDate)
+        public CreateBudgetCommand(Guid userId, string name, decimal amount, int currency, DateTime startDate, DateTime endDate)
         {
-            BudgetId = budgetId.ToString();
+            UserId = userId.ToString();
             Name = name;
             Amount = amount;
             Currency = currency;
@@ -29,9 +29,9 @@ namespace Expensely.Application.Commands.Budgets.UpdateBudget
         }
 
         /// <summary>
-        /// Gets the budget identifier.
+        /// Gets the user identifier.
         /// </summary>
-        public string BudgetId { get; }
+        public string UserId { get; }
 
         /// <summary>
         /// Gets the name.

@@ -1,6 +1,6 @@
 ﻿using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
-using Expensely.Application.Commands.Incomes.DeleteIncome;
+using Expensely.Application.Commands.Incomes;
 using FluentValidation;
 
 namespace Expensely.Application.Commands.Handlers.Incomes.DeleteIncome

@@ -2,25 +2,25 @@
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 
-namespace Expensely.Application.Commands.Expenses.UpdateExpense
+namespace Expensely.Application.Commands.Expenses
 {
     /// <summary>
-    /// Represents the command for updating an expense.
+    /// Represents the command for creating an expense.
     /// </summary>
-    public sealed class UpdateExpenseCommand : ICommand<Result>
+    public sealed class CreateExpenseCommand : ICommand<Result>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateExpenseCommand"/> class.
+        /// Initializes a new instance of the <see cref="CreateExpenseCommand"/> class.
         /// </summary>
-        /// <param name="expenseId">The expense identifier.</param>
+        /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="category">The category.</param>
         /// <param name="amount">The monetary amount.</param>
         /// <param name="currency">The currency value.</param>
         /// <param name="occurredOn">The date the expense occurred on.</param>
         /// <param name="description">The description.</param>
-        public UpdateExpenseCommand(
-            Guid expenseId,
+        public CreateExpenseCommand(
+            Guid userId,
             string name,
             int category,
             decimal amount,
@@ -28,7 +28,7 @@ namespace Expensely.Application.Commands.Expenses.UpdateExpense
             DateTime occurredOn,
             string description)
         {
-            ExpenseId = expenseId.ToString();
+            UserId = userId.ToString();
             Name = name;
             Category = category;
             Amount = amount;
@@ -38,9 +38,9 @@ namespace Expensely.Application.Commands.Expenses.UpdateExpense
         }
 
         /// <summary>
-        /// Gets the expense identifier.
+        /// Gets the user identifier.
         /// </summary>
-        public string ExpenseId { get; }
+        public string UserId { get; }
 
         /// <summary>
         /// Gets the name.

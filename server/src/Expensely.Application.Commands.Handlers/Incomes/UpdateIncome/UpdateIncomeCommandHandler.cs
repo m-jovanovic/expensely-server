@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Commands.Handlers.Validation;
-using Expensely.Application.Commands.Incomes.UpdateIncome;
+using Expensely.Application.Commands.Incomes;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;

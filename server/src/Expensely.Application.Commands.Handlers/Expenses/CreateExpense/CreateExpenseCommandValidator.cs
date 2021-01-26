@@ -1,5 +1,5 @@
 ﻿using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Commands.Expenses.CreateExpense;
+using Expensely.Application.Commands.Expenses;
 using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Domain.Core;

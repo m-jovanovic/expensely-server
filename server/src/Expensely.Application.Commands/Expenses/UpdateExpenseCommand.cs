@@ -2,25 +2,25 @@
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 
-namespace Expensely.Application.Commands.Incomes.UpdateIncome
+namespace Expensely.Application.Commands.Expenses
 {
     /// <summary>
-    /// Represents the command for updating an income.
+    /// Represents the command for updating an expense.
     /// </summary>
-    public sealed class UpdateIncomeCommand : ICommand<Result>
+    public sealed class UpdateExpenseCommand : ICommand<Result>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateIncomeCommand"/> class.
+        /// Initializes a new instance of the <see cref="UpdateExpenseCommand"/> class.
         /// </summary>
-        /// <param name="incomeId">The income identifier.</param>
+        /// <param name="expenseId">The expense identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="category">The category.</param>
         /// <param name="amount">The monetary amount.</param>
         /// <param name="currency">The currency value.</param>
-        /// <param name="occurredOn">The date the income occurred on.</param>
+        /// <param name="occurredOn">The date the expense occurred on.</param>
         /// <param name="description">The description.</param>
-        public UpdateIncomeCommand(
-            Guid incomeId,
+        public UpdateExpenseCommand(
+            Guid expenseId,
             string name,
             int category,
             decimal amount,
@@ -28,7 +28,7 @@ namespace Expensely.Application.Commands.Incomes.UpdateIncome
             DateTime occurredOn,
             string description)
         {
-            IncomeId = incomeId.ToString();
+            ExpenseId = expenseId.ToString();
             Name = name;
             Category = category;
             Amount = amount;
@@ -38,9 +38,9 @@ namespace Expensely.Application.Commands.Incomes.UpdateIncome
         }
 
         /// <summary>
-        /// Gets the income identifier.
+        /// Gets the expense identifier.
         /// </summary>
-        public string IncomeId { get; }
+        public string ExpenseId { get; }
 
         /// <summary>
         /// Gets the name.
@@ -63,7 +63,7 @@ namespace Expensely.Application.Commands.Incomes.UpdateIncome
         public int Currency { get; }
 
         /// <summary>
-        /// Gets the date the income occurred on.
+        /// Gets the date the expense occurred on.
         /// </summary>
         public DateTime OccurredOn { get; }
 

@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Commands.Users.CreateUser;
+using Expensely.Application.Commands.Users;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;

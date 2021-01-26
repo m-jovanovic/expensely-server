@@ -2,7 +2,7 @@
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 
-namespace Expensely.Application.Commands.Expenses.DeleteExpense
+namespace Expensely.Application.Commands.Expenses
 {
     /// <summary>
     /// Represents the command for deleting an expense.

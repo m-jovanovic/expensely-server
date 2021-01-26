@@ -1,6 +1,6 @@
 ﻿using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
-using Expensely.Application.Commands.Incomes.UpdateIncome;
+using Expensely.Application.Commands.Incomes;
 using Expensely.Domain.Core;
 using FluentValidation;
 

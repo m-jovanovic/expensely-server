@@ -2,7 +2,7 @@
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
-using Expensely.Application.Commands.Users.AddUserCurrency;
+using Expensely.Application.Commands.Users;
 using Expensely.Domain.Core;
 using FluentValidation;
 
