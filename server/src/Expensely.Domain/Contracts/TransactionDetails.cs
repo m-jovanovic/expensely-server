@@ -4,9 +4,9 @@ using Expensely.Domain.Core;
 namespace Expensely.Domain.Contracts
 {
     /// <summary>
-    /// Represents the transaction information.
+    /// Represents the transaction details.
     /// </summary>
-    public class TransactionInformation
+    public class TransactionDetails
     {
         /// <summary>
         /// Gets the user identifier.
@@ -37,5 +37,10 @@ namespace Expensely.Domain.Contracts
         /// Gets the occurred on date.
         /// </summary>
         public DateTime OccurredOn { get; init; }
+
+        /// <summary>
+        /// Gets the transaction type.
+        /// </summary>
+        public TransactionType TransactionType { get; init; }
     }
 }

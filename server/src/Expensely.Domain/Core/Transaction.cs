@@ -1,5 +1,6 @@
 ﻿using System;
 using Expensely.Domain.Abstractions.Primitives;
+using Expensely.Domain.Contracts;
 using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.Core
@@ -7,42 +8,24 @@ namespace Expensely.Domain.Core
     /// <summary>
     /// Represents a monetary transaction.
     /// </summary>
-    public abstract class Transaction : AggregateRoot, IAuditableEntity
+    public class Transaction : AggregateRoot, IAuditableEntity
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Transaction"/> class.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="name">The name of the transaction.</param>
-        /// <param name="category">The category of the transaction.</param>
-        /// <param name="money">The monetary amount of the transaction.</param>
-        /// <param name="occurredOn">The date the transaction occurred on.</param>
-        /// <param name="description">The description of the transaction.</param>
-        /// <param name="transactionType">The transaction type.</param>
-        protected Transaction(
-            string userId,
-            Name name,
-            Category category,
-            Money money,
-            DateTime occurredOn,
-            Description description,
-            TransactionType transactionType)
+        /// <param name="transactionDetails">The transaction details.</param>
+        public Transaction(TransactionDetails transactionDetails)
             : base(Guid.NewGuid())
         {
-            Ensure.NotEmpty(userId, "The user identifier is required.", nameof(userId));
-            Ensure.NotEmpty(name, "The name is required.", nameof(name));
-            Ensure.NotNull(category, "The category is required", nameof(category));
-            Ensure.NotEmpty(money, "The monetary amount is required.", nameof(money));
-            Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
-            Ensure.NotNull(description, "The description is required.", nameof(description));
+            Ensure.NotNull(transactionDetails, "The transaction details are required.", nameof(transactionDetails));
 
-            UserId = userId;
-            Name = name;
-            Category = category;
-            Money = money;
-            OccurredOn = occurredOn.Date;
-            Description = description;
-            TransactionType = transactionType;
+            UserId = transactionDetails.UserId;
+            Name = transactionDetails.Name;
+            Description = transactionDetails.Description;
+            Category = transactionDetails.Category;
+            Money = transactionDetails.Money;
+            OccurredOn = transactionDetails.OccurredOn.Date;
+            TransactionType = transactionDetails.TransactionType;
         }
 
         /// <summary>
@@ -51,56 +34,56 @@ namespace Expensely.Domain.Core
         /// <remarks>
         /// Required for deserialization.
         /// </remarks>
-        protected Transaction()
+        private Transaction()
         {
         }
 
         /// <summary>
-        /// Gets or sets the user identifier.
+        /// Gets the user identifier.
         /// </summary>
-        public string UserId { get; protected set; }
+        public string UserId { get; private set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets the name.
         /// </summary>
-        public Name Name { get; protected set; }
+        public Name Name { get; private set; }
 
         /// <summary>
-        /// Gets or sets the category.
+        /// Gets the description.
         /// </summary>
-        public Category Category { get; protected set; }
+        public Description Description { get; private set; }
 
         /// <summary>
-        /// Gets or sets the money.
+        /// Gets the category.
         /// </summary>
-        public Money Money { get; protected set; }
+        public Category Category { get; private set; }
 
         /// <summary>
-        /// Gets or sets the date the transaction occurred on.
+        /// Gets the money.
         /// </summary>
-        public DateTime OccurredOn { get; protected set; }
+        public Money Money { get; private set; }
 
         /// <summary>
-        /// Gets or sets the description.
+        /// Gets the date the transaction occurred on.
         /// </summary>
-        public Description Description { get; protected set; }
+        public DateTime OccurredOn { get; private set; }
 
         /// <summary>
-        /// Gets or sets the transaction type.
+        /// Gets the transaction type.
         /// </summary>
-        public TransactionType TransactionType { get; protected set; }
+        public TransactionType TransactionType { get; private set; }
 
         /// <inheritdoc />
-        public DateTime CreatedOnUtc { get; protected set; }
+        public DateTime CreatedOnUtc { get; private set; }
 
         /// <inheritdoc />
-        public DateTime? ModifiedOnUtc { get; protected set; }
+        public DateTime? ModifiedOnUtc { get; private set; }
 
         /// <summary>
         /// Changes the name of the transaction.
         /// </summary>
         /// <param name="name">The new name.</param>
-        protected void ChangeNameInternal(Name name)
+        private void ChangeNameInternal(Name name)
         {
             Ensure.NotEmpty(name, "The name is required.", nameof(name));
 
@@ -117,7 +100,7 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="category">The new category.</param>
         /// <returns>True if the category has been changed, otherwise false.</returns>
-        protected bool ChangeCategoryInternal(Category category)
+        private bool ChangeCategoryInternal(Category category)
         {
             Ensure.NotNull(category, "The category is required", nameof(category));
 
@@ -136,7 +119,7 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="money">The new money amount.</param>
         /// <returns>A tuple representing whether or not the amount and currency have changed.</returns>
-        protected (bool AmountChanged, bool CurrencyChanged) ChangeMoneyInternal(Money money)
+        private (bool AmountChanged, bool CurrencyChanged) ChangeMoneyInternal(Money money)
         {
             Ensure.NotEmpty(money, "The monetary amount is required.", nameof(money));
 
@@ -159,7 +142,7 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="occurredOn">The new occurred on date.</param>
         /// <returns>True if the occurred on date has been changed, otherwise false.</returns>
-        protected bool ChangeOccurredOnInternal(DateTime occurredOn)
+        private bool ChangeOccurredOnInternal(DateTime occurredOn)
         {
             Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
 
@@ -177,7 +160,7 @@ namespace Expensely.Domain.Core
         /// Changes the description of the transaction.
         /// </summary>
         /// <param name="description">The new description.</param>
-        protected void ChangeDescriptionInternal(Description description)
+        private void ChangeDescriptionInternal(Description description)
         {
             Ensure.NotNull(description, "The description is required.", nameof(description));
 

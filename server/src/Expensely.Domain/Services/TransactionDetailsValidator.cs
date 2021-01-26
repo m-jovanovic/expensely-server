@@ -7,9 +7,9 @@ using Expensely.Domain.Errors;
 namespace Expensely.Domain.Services
 {
     /// <summary>
-    /// Represents the transaction information validator.
+    /// Represents the transaction details validator.
     /// </summary>
-    public sealed class TransactionInformationValidator
+    public sealed class TransactionDetailsValidator
     {
         /// <summary>
         /// Validates the provided transaction information and returns the result of the validation.
@@ -21,15 +21,17 @@ namespace Expensely.Domain.Services
         /// <param name="amount">The amount.</param>
         /// <param name="currencyValue">The currency value.</param>
         /// <param name="occurredOn">The occurred on date.</param>
+        /// <param name="transactionTypeValue">The transaction type.</param>
         /// <returns>The result of the transaction validation process containing the transaction information or an error.</returns>
-        public Result<TransactionInformation> Validate(
+        public Result<TransactionDetails> Validate(
             User user,
             string name,
             string description,
             int categoryValue,
             decimal amount,
             int currencyValue,
-            DateTime occurredOn)
+            DateTime occurredOn,
+            int transactionTypeValue)
         {
             Result<Name> nameResult = Name.Create(name);
 
@@ -39,24 +41,36 @@ namespace Expensely.Domain.Services
 
             if (firstFailureOrSuccess.IsFailure)
             {
-                return Result.Failure<TransactionInformation>(firstFailureOrSuccess.Error);
+                return Result.Failure<TransactionDetails>(firstFailureOrSuccess.Error);
             }
 
             Currency currency = Currency.FromValue(currencyValue).Value;
 
             if (!user.HasCurrency(currency))
             {
-                return Result.Failure<TransactionInformation>(DomainErrors.User.CurrencyDoesNotExist);
+                return Result.Failure<TransactionDetails>(DomainErrors.User.CurrencyDoesNotExist);
             }
 
-            return new TransactionInformation
+            var money = new Money(amount, currency);
+
+            TransactionType transactionType = TransactionType.FromValue(transactionTypeValue).Value;
+
+            Result transactionTypeResult = transactionType.ValidateAmount(money);
+
+            if (transactionTypeResult.IsFailure)
+            {
+                return Result.Failure<TransactionDetails>(transactionTypeResult.Error);
+            }
+
+            return new TransactionDetails
             {
                 UserId = user.Id,
                 Name = nameResult.Value,
                 Description = descriptionResult.Value,
                 Category = Category.FromValue(categoryValue).Value,
-                Money = new Money(amount, currency),
-                OccurredOn = occurredOn
+                Money = money,
+                OccurredOn = occurredOn,
+                TransactionType = transactionType
             };
         }
     }
