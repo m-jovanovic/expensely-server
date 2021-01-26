@@ -29,6 +29,7 @@ namespace Expensely.Persistence
 
             services.AddScoped<IUserRepository, UserRepository>();
 
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
 
             services.AddScoped<IBudgetRepository, BudgetRepository>();
 
