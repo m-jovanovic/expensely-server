@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Queries.Utility;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.Messaging;
+using Expensely.Domain.Abstractions.Result;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -16,7 +17,7 @@ namespace Expensely.Api.Behaviors
     /// <typeparam name="TResponse">The response type.</typeparam>
     public sealed class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : class, ICommand<TResponse>
-        where TResponse : class
+        where TResponse : Result
     {
         private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
         private readonly IDateTime _dateTime;

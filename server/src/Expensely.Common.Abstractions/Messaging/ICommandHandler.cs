@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Expensely.Domain.Abstractions.Result;
+using MediatR;
 
 namespace Expensely.Common.Abstractions.Messaging
 {
@@ -9,6 +10,7 @@ namespace Expensely.Common.Abstractions.Messaging
     /// <typeparam name="TResponse">The command response type.</typeparam>
     public interface ICommandHandler<in TCommand, TResponse> : IRequestHandler<TCommand, TResponse>
         where TCommand : ICommand<TResponse>
+        where TResponse : Result
     {
     }
 }
