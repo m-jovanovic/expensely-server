@@ -46,13 +46,13 @@ namespace Expensely.Infrastructure
 
             services.AddTransient<IDateTime, MachineDateTime>();
 
+            services.AddTransient<IPasswordService, PasswordService>();
+
             services.AddScoped<IUserInformationProvider, UserInformationProvider>();
 
             services.AddScoped<IJwtProvider, JwtProvider>();
 
-            services.AddTransient<IEventPublisher, EventPublisher>();
-
-            services.AddTransient<IPasswordService, PasswordService>();
+            services.AddScoped<IEventPublisher, EventPublisher>();
 
             return services;
         }

@@ -33,6 +33,8 @@ namespace Expensely.Persistence
 
             services.AddScoped<IBudgetRepository, BudgetRepository>();
 
+            services.AddScoped<IMessageRepository, MessageRepository>();
+
             services.AddQueryProcessors();
 
             return services;

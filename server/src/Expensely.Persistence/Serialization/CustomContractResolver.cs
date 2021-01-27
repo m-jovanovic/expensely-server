@@ -88,7 +88,9 @@ namespace Expensely.Persistence.Serialization
 
             members.AddRange(
                 objectType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                    .Where(x => !x.Name.Contains("BackingField", StringComparison.Ordinal)));
+                    .Where(x =>
+                        x.GetCustomAttribute(typeof(JsonIgnoreAttribute)) == null &&
+                        !x.Name.Contains("BackingField", StringComparison.Ordinal)));
 
             return members;
         }

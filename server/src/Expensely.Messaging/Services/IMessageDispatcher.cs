@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Abstractions.Maybe;
-using Expensely.Messaging.Abstractions.Entities;
+using Expensely.Domain.Core;
 
-namespace Expensely.Messaging.Abstractions.Services
+namespace Expensely.Messaging.Services
 {
     /// <summary>
     /// Represents the message dispatcher interface.

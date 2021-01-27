@@ -3,13 +3,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Common.Abstractions.Clock;
-using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Maybe;
-using Expensely.Messaging.Abstractions.Entities;
-using Expensely.Messaging.Abstractions.Factories;
-using Expensely.Messaging.Abstractions.Services;
+using Expensely.Domain.Core;
+using Expensely.Domain.Repositories;
+using Expensely.Messaging.Factories;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 
 namespace Expensely.Messaging.Services
 {
@@ -20,6 +18,7 @@ namespace Expensely.Messaging.Services
     {
         private readonly IEventHandlerFactory _eventHandlerFactory;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IDateTime _dateTime;
 
         /// <summary>
@@ -27,55 +26,65 @@ namespace Expensely.Messaging.Services
         /// </summary>
         /// <param name="eventHandlerFactory">The event handler factory.</param>
         /// <param name="serviceProvider">The service provider.</param>
+        /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="dateTime">The date and time.</param>
         public MessageDispatcher(
             IEventHandlerFactory eventHandlerFactory,
             IServiceProvider serviceProvider,
+            IUnitOfWork unitOfWork,
             IDateTime dateTime)
         {
             _eventHandlerFactory = eventHandlerFactory;
             _serviceProvider = serviceProvider;
+            _unitOfWork = unitOfWork;
             _dateTime = dateTime;
         }
 
         /// <inheritdoc />
         public async Task<Maybe<Exception>> DispatchAsync(Message message, CancellationToken cancellationToken)
         {
-            IEvent @event = JsonConvert.DeserializeObject<IEvent>(message.Content, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            });
-
             using IServiceScope scope = _serviceProvider.CreateScope();
 
-            foreach (object handler in _eventHandlerFactory.GetHandlers(@event, scope.ServiceProvider))
+            foreach (object handler in _eventHandlerFactory.GetHandlers(message.Event, scope.ServiceProvider))
             {
                 string consumerName = handler.GetType().Name;
 
-                // TODO: Check if message was already consumed.
-                if (string.IsNullOrWhiteSpace(consumerName))
+                if (message.IsConsumedBy(consumerName))
                 {
                     continue;
                 }
 
                 try
                 {
-                    await HandleEvent(handler, new object[] { @event, cancellationToken });
+                    await HandleEvent(handler, new object[] { message.Event, cancellationToken });
                 }
                 catch (Exception e)
                 {
+                    message.FailureToProcess();
+
+                    await _unitOfWork.SaveChangesAsync(cancellationToken);
+
                     return e;
                 }
 
-                // TODO: Register that the event was consumed.
+                message.AddConsumer(consumerName, _dateTime.UtcNow);
+
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
             }
 
             message.MarkAsProcessed();
 
-            // TODO: Register that the message was processed.
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
             return Maybe<Exception>.None;
         }
 
+        /// <summary>
+        /// Handles the event for the specified event handler and the provided parameters.
+        /// </summary>
+        /// <param name="handler">The event handler instance.</param>
+        /// <param name="parameters">The event handler parameters.</param>
+        /// <returns>The task to allow awaiting the call.</returns>
         private Task HandleEvent(object handler, object[] parameters) =>
             (Task)_eventHandlerFactory
                 .GetHandleMethod(

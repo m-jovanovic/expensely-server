@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Expensely.Domain.Abstractions.Events;
 
-namespace Expensely.Messaging.Abstractions.Factories
+namespace Expensely.Messaging.Factories
 {
     /// <summary>
     /// Represents the event handler factory interface.

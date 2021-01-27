@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Abstractions.Maybe;
-using Expensely.Messaging.Abstractions.Entities;
-using Expensely.Messaging.Abstractions.Services;
+using Expensely.Domain.Core;
+using Expensely.Domain.Repositories;
+using Expensely.Messaging.Services;
 using Microsoft.Extensions.Logging;
 using Quartz;
 
@@ -16,19 +17,23 @@ namespace Expensely.Messaging.Jobs
     [DisallowConcurrentExecution]
     public sealed class MessageProcessingJob : IJob
     {
+        private readonly IMessageRepository _messageRepository;
         private readonly IMessageDispatcher _messageDispatcher;
         private readonly ILogger<MessageProcessingJob> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageProcessingJob"/> class.
         /// </summary>
-        /// <param name="logger">The logger.</param>
+        /// <param name="messageRepository">The message repository.</param>
         /// <param name="messageDispatcher">The message dispatcher.</param>
+        /// <param name="logger">The logger.</param>
         public MessageProcessingJob(
+            IMessageRepository messageRepository,
             IMessageDispatcher messageDispatcher,
             ILogger<MessageProcessingJob> logger)
         {
             _logger = logger;
+            _messageRepository = messageRepository;
             _messageDispatcher = messageDispatcher;
         }
 
@@ -37,7 +42,8 @@ namespace Expensely.Messaging.Jobs
 
         private async Task ProcessMessagesAsync(CancellationToken cancellationToken)
         {
-            IList<Message> unprocessedMessages = new List<Message>();
+            // TODO: Make number of messages configurable.
+            IReadOnlyCollection<Message> unprocessedMessages = await _messageRepository.GetUnprocessedAsync(20, cancellationToken);
 
             foreach (Message message in unprocessedMessages)
             {
@@ -48,7 +54,6 @@ namespace Expensely.Messaging.Jobs
                     continue;
                 }
 
-                // TODO: Register an error has occurred with the message instance.
                 _logger.LogError(maybeException.Value, maybeException.Value.Message);
             }
         }

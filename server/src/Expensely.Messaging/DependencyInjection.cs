@@ -1,6 +1,4 @@
-﻿using Expensely.Messaging.Abstractions.Factories;
-using Expensely.Messaging.Abstractions.Services;
-using Expensely.Messaging.Factories;
+﻿using Expensely.Messaging.Factories;
 using Expensely.Messaging.Jobs;
 using Expensely.Messaging.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +31,7 @@ namespace Expensely.Messaging
                         .ForJob(jobKey)
                         .WithSimpleSchedule(scheduleBuilder =>
                             scheduleBuilder
-                                .WithIntervalInSeconds(5)
+                                .WithIntervalInSeconds(15)
                                 .RepeatForever()));
             });
 

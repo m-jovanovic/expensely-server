@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Messaging;
-using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Events;
-using Expensely.Messaging.Abstractions.Entities;
-using Newtonsoft.Json;
+using Expensely.Domain.Core;
+using Expensely.Domain.Repositories;
 
 namespace Expensely.Infrastructure.Messaging
 {
@@ -15,34 +14,20 @@ namespace Expensely.Infrastructure.Messaging
     /// </summary>
     public sealed class EventPublisher : IEventPublisher
     {
-        private readonly IDateTime _dateTime;
+        private readonly IMessageRepository _messageRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventPublisher"/> class.
         /// </summary>
-        /// <param name="dateTime">The date and time.</param>
-        public EventPublisher(IDateTime dateTime) => _dateTime = dateTime;
+        /// <param name="messageRepository">The message repository.</param>
+        public EventPublisher(IMessageRepository messageRepository) => _messageRepository = messageRepository;
 
         /// <inheritdoc />
-        public async Task PublishAsync(IEvent @event, IDbTransaction transaction = null) =>
-            await PublishAsync(new[] { @event }, transaction);
+        public async Task PublishAsync(IEvent @event, CancellationToken cancellationToken = default) =>
+            await _messageRepository.AddAsync(new Message(@event), cancellationToken);
 
         /// <inheritdoc />
-        public Task PublishAsync(IEnumerable<IEvent> events, IDbTransaction transaction = null) =>
-            throw new NotImplementedException();
-
-        /// <summary>
-        /// Converts the specified <see cref="IEvent"/> instance into a <see cref="Message"/> instance.
-        /// </summary>
-        /// <param name="event">The event instance to be converted.</param>
-        /// <returns>The message instance.</returns>
-        private Message ConvertEventToMessage(IEvent @event) =>
-            new(
-                @event.GetType().Name,
-                JsonConvert.SerializeObject(@event, new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.All
-                }),
-                _dateTime.UtcNow);
+        public async Task PublishAsync(IEnumerable<IEvent> events, CancellationToken cancellationToken = default) =>
+            await _messageRepository.AddAsync(events.Select(@event => new Message(@event)), cancellationToken);
     }
 }

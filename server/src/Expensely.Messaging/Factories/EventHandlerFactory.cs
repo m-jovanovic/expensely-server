@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using Expensely.Domain.Abstractions.Events;
-using Expensely.Messaging.Abstractions.Factories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.Messaging.Factories
@@ -14,11 +13,8 @@ namespace Expensely.Messaging.Factories
     public sealed class EventHandlerFactory : IEventHandlerFactory
     {
         private const string HandleMethodName = "Handle";
-
         private static readonly Type EventHandlerGenericType = typeof(IEventHandler<>).GetGenericTypeDefinition();
-
         private static readonly ConcurrentDictionary<Type, Type> EventHandlerInterfaceDefinitionsDictionary = new();
-
         private static readonly ConcurrentDictionary<(Type HandlerType, Type[] HandleMethodArgumentTypes), MethodInfo>
             EventHandlerHandleMethodDictionary = new();
 

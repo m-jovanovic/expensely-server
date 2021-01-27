@@ -1,6 +1,3 @@
-using System;
-using System.Data;
-using Dapper;
 using Expensely.Api.Behaviors;
 using Expensely.Api.Controllers;
 using Expensely.Api.Extensions;
@@ -8,6 +5,7 @@ using Expensely.Application.Commands.Handlers;
 using Expensely.Application.Events.Handlers;
 using Expensely.Application.Queries.Handlers;
 using Expensely.Infrastructure;
+using Expensely.Messaging;
 using Expensely.Persistence;
 using FluentValidation;
 using MediatR;
@@ -43,12 +41,10 @@ namespace Expensely.Api
         /// <param name="services">The service collection.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            SqlMapper.AddTypeMap(typeof(DateTime), DbType.DateTime2);
-
-            // TODO: Turn on messaging when it's integrated with RavenDB
             services
                 .AddInfrastructure(Configuration)
-                .AddPersistence();
+                .AddPersistence()
+                .AddMessaging();
 
             services.AddValidatorsFromAssembly(CommandHandlersAssembly.Assembly);
 

@@ -16,6 +16,6 @@ namespace Expensely.Domain.Abstractions.Events
         /// <param name="event">The event.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The completed task.</returns>
-        Task Handle(TEvent @event, CancellationToken cancellationToken);
+        Task Handle(TEvent @event, CancellationToken cancellationToken = default);
     }
 }
