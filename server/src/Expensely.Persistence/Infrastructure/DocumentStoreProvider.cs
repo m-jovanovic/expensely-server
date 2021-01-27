@@ -47,8 +47,6 @@ namespace Expensely.Persistence.Infrastructure
                 JsonContractResolver = new CustomContractResolver(DocumentStore.Conventions.Serialization)
             };
 
-            DocumentStore.Conventions.FindCollectionName = FindCollectionName;
-
             DocumentStore.OnBeforeStore += SetAuditableEntityValues_OnBeforeStore;
 
             DocumentStore.Initialize();
@@ -65,14 +63,6 @@ namespace Expensely.Persistence.Infrastructure
 
         /// <inheritdoc />
         public void Dispose() => DocumentStore?.Dispose();
-
-        /// <summary>
-        /// Finds the collection name for the specified object type.
-        /// </summary>
-        /// <param name="objectType">The object type.</param>
-        /// <returns>The collection name.</returns>
-        private static string FindCollectionName(Type objectType) =>
-            TransactionType.IsAssignableFrom(objectType) ? "Transactions" : DocumentConventions.DefaultGetCollectionName(objectType);
 
         /// <summary>
         /// Creates the database if it does not exist.
