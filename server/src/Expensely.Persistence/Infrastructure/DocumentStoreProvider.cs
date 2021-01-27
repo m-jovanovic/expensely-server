@@ -7,7 +7,6 @@ using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Persistence.Serialization;
 using Microsoft.Extensions.Configuration;
 using Raven.Client.Documents;
-using Raven.Client.Documents.Conventions;
 using Raven.Client.Documents.Indexes;
 using Raven.Client.Documents.Session;
 using Raven.Client.Json.Serialization.NewtonsoftJson;
@@ -23,7 +22,6 @@ namespace Expensely.Persistence.Infrastructure
     {
         private static readonly Dictionary<Type, MethodInfo> SetCreatedOnMethodsDictionary = new();
         private static readonly Dictionary<Type, MethodInfo> SetModifiedOnMethodsDictionary = new();
-        private static readonly Type TransactionType = typeof(Domain.Core.Transaction);
         private readonly IDateTime _dateTime;
 
         /// <summary>
