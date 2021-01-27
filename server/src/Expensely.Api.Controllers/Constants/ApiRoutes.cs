@@ -58,19 +58,24 @@
             public const string GetTransactions = "transactions";
 
             /// <summary>
-            /// The create transactions route.
+            /// The get current month transaction summary route.
+            /// </summary>
+            public const string GetCurrentMonthTransactionSummary = "transactions/summary/current-month";
+
+            /// <summary>
+            /// The create transaction route.
             /// </summary>
             public const string CreateTransaction = "transactions";
 
             /// <summary>
-            /// The update transactions route.
+            /// The update transaction route.
             /// </summary>
             public const string UpdateTransaction = "transactions/{transactionId:guid}";
 
             /// <summary>
-            /// The get current month transaction summary route.
+            /// The delete transaction route.
             /// </summary>
-            public const string GetCurrentMonthTransactionSummary = "transactions/summary/current-month";
+            public const string DeleteTransaction = "transactions/{transactionId:guid}";
         }
 
         /// <summary>
