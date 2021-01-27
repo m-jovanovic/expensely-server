@@ -5,45 +5,42 @@ using Expensely.Domain.Abstractions.Result;
 namespace Expensely.Application.Commands.Transactions
 {
     /// <summary>
-    /// Represents the command for creating a transaction.
+    /// Represents the command for updating a transaction.
     /// </summary>
-    public sealed class CreateTransactionCommand : ICommand<Result>
+    public sealed class UpdateTransactionCommand : ICommand<Result>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateTransactionCommand"/> class.
+        /// Initializes a new instance of the <see cref="UpdateTransactionCommand "/> class.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
+        /// <param name="transactionId">The user identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
         /// <param name="category">The category.</param>
         /// <param name="amount">The monetary amount.</param>
         /// <param name="currency">The currency value.</param>
         /// <param name="occurredOn">The date the transaction occurred on.</param>
-        /// <param name="transactionType">The transaction type.</param>
-        public CreateTransactionCommand(
-            Guid userId,
+        public UpdateTransactionCommand(
+            Guid transactionId,
             string name,
             string description,
             int category,
             decimal amount,
             int currency,
-            DateTime occurredOn,
-            int transactionType)
+            DateTime occurredOn)
         {
-            UserId = userId.ToString();
+            TransactionId = transactionId.ToString();
             Name = name;
             Description = description;
             Category = category;
             Amount = amount;
             Currency = currency;
             OccurredOn = occurredOn;
-            TransactionType = transactionType;
         }
 
         /// <summary>
-        /// Gets the user identifier.
+        /// Gets the transaction identifier.
         /// </summary>
-        public string UserId { get; }
+        public string TransactionId { get; }
 
         /// <summary>
         /// Gets the name.
@@ -74,10 +71,5 @@ namespace Expensely.Application.Commands.Transactions
         /// Gets the date the income occurred on.
         /// </summary>
         public DateTime OccurredOn { get; }
-
-        /// <summary>
-        /// Gets the transaction type.
-        /// </summary>
-        public int TransactionType { get; }
     }
 }
