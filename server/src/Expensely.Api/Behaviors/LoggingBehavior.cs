@@ -7,6 +7,7 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Queries.Utility;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.Messaging;
+using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -51,6 +52,11 @@ namespace Expensely.Api.Behaviors
 
             TResponse response = await next();
 
+            if (response.IsFailure)
+            {
+                _logger.LogError(GetRequestFailureLogMessage(), GetLogArguments(requestName, response.Error).ToArray());
+            }
+
             _logger.LogInformation(GetRequestCompletedLogMessage(), GetLogArguments(requestName).ToArray());
 
             return response;
@@ -61,12 +67,17 @@ namespace Expensely.Api.Behaviors
                 ? "Request started {@UserId} {@Request} {@UtcNow}."
                 : "Request started {@Request} {@UtcNow}.";
 
+        private string GetRequestFailureLogMessage() =>
+            _userInformationProvider.IsAuthenticated
+                ? "Request failure {@UserId} {@Request} {@ErrorCode} {@UtcNow}."
+                : "Request failure {@Request} {@ErrorCode} {@UtcNow}.";
+
         private string GetRequestCompletedLogMessage() =>
             _userInformationProvider.IsAuthenticated
                 ? "Request completed {@UserId} {@Request} {@UtcNow}."
                 : "Request completed {@Request} {@UtcNow}.";
 
-        private IEnumerable<object> GetLogArguments(string requestName)
+        private IEnumerable<object> GetLogArguments(string requestName, Error error = null)
         {
             if (_userInformationProvider.IsAuthenticated)
             {
@@ -74,6 +85,11 @@ namespace Expensely.Api.Behaviors
             }
 
             yield return requestName;
+
+            if (error is not null)
+            {
+                yield return error.Code;
+            }
 
             yield return _dateTime.UtcNow.ToString(DateTimeFormats.DateTimeWithMilliseconds, CultureInfo.InvariantCulture);
         }
