@@ -8,6 +8,7 @@ using Expensely.Persistence.Serialization;
 using Microsoft.Extensions.Configuration;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Indexes;
+using Raven.Client.Documents.Operations.Expiration;
 using Raven.Client.Documents.Session;
 using Raven.Client.Json.Serialization.NewtonsoftJson;
 using Raven.Client.ServerWide;
@@ -51,6 +52,8 @@ namespace Expensely.Persistence.Infrastructure
 
             CreateDatabaseIfItDoesNotExist(DocumentStore);
 
+            ConfigureDocumentExpirationOptions(DocumentStore);
+
             IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), DocumentStore);
         }
 
@@ -80,6 +83,21 @@ namespace Expensely.Persistence.Infrastructure
             var createDatabaseOperation = new CreateDatabaseOperation(new DatabaseRecord(documentStore.Database));
 
             documentStore.Maintenance.Server.Send(createDatabaseOperation);
+        }
+
+        /// <summary>
+        /// Configures the document expiration options for the database.
+        /// </summary>
+        /// <param name="documentStore">The document store.</param>
+        private static void ConfigureDocumentExpirationOptions(IDocumentStore documentStore)
+        {
+            var configureExpirationOperation = new ConfigureExpirationOperation(new ExpirationConfiguration
+            {
+                Disabled = false,
+                DeleteFrequencyInSec = 60
+            });
+
+            documentStore.Maintenance.Send(configureExpirationOperation);
         }
 
         /// <summary>
