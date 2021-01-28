@@ -36,6 +36,7 @@ namespace Expensely.Api.Controllers.Core
         [HttpPost(ApiRoutes.Budgets.CreateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> CreateBudget(
             [FromBody] CreateBudgetRequest createBudgetRequest,
             CancellationToken cancellationToken) =>
@@ -60,6 +61,7 @@ namespace Expensely.Api.Controllers.Core
         [HttpPut(ApiRoutes.Budgets.UpdateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> UpdateBudget(
             Guid budgetId,
             [FromBody] UpdateBudgetRequest updateBudgetRequest,

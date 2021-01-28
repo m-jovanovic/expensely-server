@@ -37,6 +37,7 @@ namespace Expensely.Api.Controllers.Core
         [HttpPost(ApiRoutes.Authentication.Login)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest, CancellationToken cancellationToken) =>
             await Result.Create(loginRequest, ApiErrors.UnProcessableRequest)
                 .Map(request => new CreateUserTokenForCredentialsCommand(request.Email, request.Password))
@@ -52,6 +53,7 @@ namespace Expensely.Api.Controllers.Core
         [HttpPost(ApiRoutes.Authentication.Register)]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest, CancellationToken cancellationToken) =>
             await Result.Create(registerRequest, ApiErrors.UnProcessableRequest)
                 .Map(request => new CreateUserCommand(
@@ -72,6 +74,7 @@ namespace Expensely.Api.Controllers.Core
         [HttpPost(ApiRoutes.Authentication.RefreshToken)]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> RefreshToken(
             [FromBody] RefreshTokenRequest refreshTokenRequest, CancellationToken cancellationToken) =>
             await Result.Create(refreshTokenRequest, ApiErrors.UnProcessableRequest)

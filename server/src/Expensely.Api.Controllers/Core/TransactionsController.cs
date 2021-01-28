@@ -77,6 +77,7 @@ namespace Expensely.Api.Controllers.Core
         [HttpPost(ApiRoutes.Transactions.CreateTransaction)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> CreateTransaction(
             [FromBody] CreateTransactionRequest createTransactionRequest,
             CancellationToken cancellationToken) =>
@@ -103,6 +104,7 @@ namespace Expensely.Api.Controllers.Core
         [HttpPut(ApiRoutes.Transactions.UpdateTransaction)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> UpdateTransaction(
             Guid transactionId,
             [FromBody] UpdateTransactionRequest updateTransactionRequest,

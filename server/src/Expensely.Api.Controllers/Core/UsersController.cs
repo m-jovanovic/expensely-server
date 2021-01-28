@@ -37,6 +37,7 @@ namespace Expensely.Api.Controllers.Core
         [HttpPost(ApiRoutes.Users.AddUserCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> AddUserCurrency(Guid userId, int currency, CancellationToken cancellationToken) =>
             await Result.Success(new AddUserCurrencyCommand(userId, currency))
                 .Bind(command => Sender.Send(command, cancellationToken))
@@ -52,6 +53,7 @@ namespace Expensely.Api.Controllers.Core
         [HttpDelete(ApiRoutes.Users.RemoveUserCurrency)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> RemoveUserCurrency(Guid userId, int currency, CancellationToken cancellationToken) =>
             await Result.Success(new RemoveUserCurrencyCommand(userId, currency))
                 .Bind(command => Sender.Send(command, cancellationToken))
@@ -67,6 +69,7 @@ namespace Expensely.Api.Controllers.Core
         [HttpPut(ApiRoutes.Users.ChangeUserPrimaryCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> ChangeUserPrimaryCurrency(Guid userId, int currency, CancellationToken cancellationToken) =>
             await Result.Success(new ChangeUserPrimaryCurrencyCommand(userId, currency))
                 .Bind(command => Sender.Send(command, cancellationToken))
@@ -82,6 +85,7 @@ namespace Expensely.Api.Controllers.Core
         [HttpPut(ApiRoutes.Users.ChangeUserPassword)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> ChangeUserPassword(
             Guid userId, [FromBody] ChangePasswordRequest request, CancellationToken cancellationToken) =>
             await Result.Create(request, ApiErrors.UnProcessableRequest)
