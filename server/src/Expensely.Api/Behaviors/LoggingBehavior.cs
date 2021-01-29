@@ -64,18 +64,18 @@ namespace Expensely.Api.Behaviors
 
         private string GetRequestStartedLogMessage() =>
             _userInformationProvider.IsAuthenticated
-                ? "Request started {@UserId} {@Request} {@UtcNow}."
-                : "Request started {@Request} {@UtcNow}.";
+                ? "Request started {@UserId} {@RequestName} {@DateTimeUtc}."
+                : "Request started {@RequestName} {@DateTimeUtc}.";
 
         private string GetRequestFailureLogMessage() =>
             _userInformationProvider.IsAuthenticated
-                ? "Request failure {@UserId} {@Request} {@ErrorCode} {@UtcNow}."
-                : "Request failure {@Request} {@ErrorCode} {@UtcNow}.";
+                ? "Request failure {@UserId} {@RequestName} {@ErrorCode} {@DateTimeUtc}."
+                : "Request failure {@RequestName} {@ErrorCode} {@DateTimeUtc}.";
 
         private string GetRequestCompletedLogMessage() =>
             _userInformationProvider.IsAuthenticated
-                ? "Request completed {@UserId} {@Request} {@UtcNow}."
-                : "Request completed {@Request} {@UtcNow}.";
+                ? "Request completed {@UserId} {@RequestName} {@DateTimeUtc}."
+                : "Request completed {@RequestName} {@DateTimeUtc}.";
 
         private IEnumerable<object> GetLogArguments(string requestName, Error error = null)
         {
