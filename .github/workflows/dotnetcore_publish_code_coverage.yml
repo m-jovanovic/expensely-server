@@ -1,9 +1,6 @@
 name: Server - Publish code coverage
 
-on:
-  push:
-    paths:
-    - 'server/**'
+on: [push]
 
 jobs:
   test:
@@ -31,5 +28,5 @@ jobs:
     - name: Publish code coverage
       uses: codecov/codecov-action@v1
       with:
-      token: ${{ secrets.CODECOV_TOKEN }}
-      files: ./server/TestResults/coverage.cobertura.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./server/TestResults/coverage.cobertura.xml
