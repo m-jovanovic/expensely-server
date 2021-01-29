@@ -1,4 +1,4 @@
-name: Server - Test
+name: Server - Publish code coverage
 
 on:
   push:
@@ -24,8 +24,9 @@ jobs:
       run: dotnet build ./server/Expensely.sln -c Release --no-restore
 
     - name: Test
-      run: dotnet test ./server/test/Expensely.Domain.UnitTests /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=json
-      run: dotnet test ./server/test/Expensely.Domain.UnitTests /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=cobertura /p:MergeWith=../../TestResults/coverage.json
+      run: |
+        dotnet test ./server/test/Expensely.Domain.UnitTests --configuration Release --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=json
+        dotnet test ./server/test/Expensely.Domain.UnitTests --configuration Release --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=cobertura /p:MergeWith=../../TestResults/coverage.json
       
     - name: Publish code coverage
       uses: codecov/codecov-action@v1
