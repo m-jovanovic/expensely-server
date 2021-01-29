@@ -16,6 +16,7 @@ namespace Expensely.Domain.UnitTests
             Result result = transactionType.ValidateAmount(new Money(-15, Currency.Usd));
 
             result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
         }
     }
 }
