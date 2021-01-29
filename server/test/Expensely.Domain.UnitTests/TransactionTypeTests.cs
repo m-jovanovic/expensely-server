@@ -17,15 +17,5 @@ namespace Expensely.Domain.UnitTests
 
             result.IsSuccess.Should().BeTrue();
         }
-
-        [Fact]
-        public void Should_return_failure_for_expense_and_amount_equal_to_zero()
-        {
-            TransactionType transactionType = TransactionType.Expense;
-
-            Result result = transactionType.ValidateAmount(new Money(0, Currency.Usd));
-
-            result.Error.Should().Be(DomainErrors.Transaction.ExpenseAmountGreaterThanOrEqualToZero);
-        }
     }
 }
