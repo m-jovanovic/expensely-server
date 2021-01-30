@@ -1,0 +1,42 @@
+name: Server - Publish to Azure
+
+on:
+  push:
+    paths:
+      - "server/**"
+
+env:
+  AZURE_WEBAPP_NAME: expensely-api
+  AZURE_WEBAPP_PACKAGE_PATH: "."
+  DOTNET_VERSION: "5.0.102"
+
+jobs:
+  publish-to-azure:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install dependencies
+        run: dotnet restore ./server/Expensely.sln
+
+      - name: Build
+        run: dotnet build ./server/Expensely.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test ./server/Expensely.sln --configuration Release --no-restore --verbosity normal
+
+      - name: Publish
+        run: dotnet publish ./server/Expensely.sln --configuration Release --no-restore --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/publish'
+
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
+          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/publish"
