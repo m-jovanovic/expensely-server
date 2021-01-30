@@ -52,7 +52,7 @@ namespace Expensely.Persistence.Infrastructure
 
             CreateDatabaseIfItDoesNotExist(DocumentStore);
 
-            ConfigureDocumentExpirationOptions(DocumentStore);
+            ConfigureExpirationOptions(DocumentStore);
 
             IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), DocumentStore);
         }
@@ -89,7 +89,7 @@ namespace Expensely.Persistence.Infrastructure
         /// Configures the document expiration options for the database.
         /// </summary>
         /// <param name="documentStore">The document store.</param>
-        private static void ConfigureDocumentExpirationOptions(IDocumentStore documentStore)
+        private static void ConfigureExpirationOptions(IDocumentStore documentStore)
         {
             var configureExpirationOperation = new ConfigureExpirationOperation(new ExpirationConfiguration
             {
