@@ -1,4 +1,4 @@
-name: Client - Publish
+name: Client - Publish to Netlify
 
 on:
   push:
