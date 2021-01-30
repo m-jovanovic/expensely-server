@@ -3,7 +3,7 @@ name: Server - Publish to Azure
 on:
   push:
     paths:
-      - "server/**"
+      - "server/src/**"
 
 env:
   AZURE_WEBAPP_NAME: expensely-api
