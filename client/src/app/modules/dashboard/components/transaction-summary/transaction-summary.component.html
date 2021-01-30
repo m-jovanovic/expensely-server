@@ -2,7 +2,7 @@
   <div class="block text-xl font-semibold text-gray-700 border-b pb-2">{{ title }}</div>
   <div class="mt-6">
     <div *ngIf="isLoading">Loading...</div>
-    <div *ngIf="error">Summary unavailable.</div>
+    <div *ngIf="error">Summary currently unavailable.</div>
     <div *ngIf="!isLoading && !error">
       <div class="text-2xl">{{ formattedTransaction }}</div>
       <div class="mt-1 text-sm text-gray-600">{{ timePeriod }}</div>
