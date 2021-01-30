@@ -1,0 +1,41 @@
+name: Client - Publish
+
+on:
+  push:
+    paths:
+    - 'client/**'
+
+jobs:
+  publish-to-netlify:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache node modules
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+            ${{ runner.os }}-node-
+
+    - name: Setup Node
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: '12'
+
+    - name: Build
+      run: |
+        cd ./client
+        npm install
+        npm run build -- --prod
+    
+    - name: Publish
+      uses: nwtgck/actions-netlify@v1.1
+      with:
+        publish-dir: './dist'
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      timeout-minutes: 1
