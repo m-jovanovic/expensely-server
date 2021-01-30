@@ -6,7 +6,7 @@ on:
     - 'server/**'
 
 jobs:
-  test:
+  publish-code-coverage:
     runs-on: ubuntu-latest
 
     steps:
