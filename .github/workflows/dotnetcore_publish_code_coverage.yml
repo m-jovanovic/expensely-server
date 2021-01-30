@@ -3,33 +3,33 @@ name: Server - Publish code coverage
 on:
   push:
     paths:
-    - 'server/**'
+      - "server/**"
 
 jobs:
   publish-code-coverage:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.102
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.102
 
-    - name: Install dependencies
-      run: dotnet restore ./server/Expensely.sln
+      - name: Install dependencies
+        run: dotnet restore ./server/Expensely.sln
 
-    - name: Build
-      run: dotnet build ./server/Expensely.sln -c Release --no-restore
+      - name: Build
+        run: dotnet build ./server/Expensely.sln -c Release --no-restore
 
-    - name: Test
-      run: |
-        dotnet test ./server/test/Expensely.Domain.UnitTests --configuration Release --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=json
-        dotnet test ./server/test/Expensely.Application.UnitTests --configuration Release --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=cobertura /p:MergeWith=../../TestResults/coverage.json
-      
-    - name: Publish code coverage
-      uses: codecov/codecov-action@v1
-      with:
+      - name: Test
+        run: |
+          dotnet test ./server/test/Expensely.Domain.UnitTests --configuration Release --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=json
+          dotnet test ./server/test/Expensely.Application.UnitTests --configuration Release --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=cobertura /p:MergeWith=../../TestResults/coverage.json
+
+      - name: Publish code coverage
+        uses: codecov/codecov-action@v1
+        with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./server/TestResults/coverage.cobertura.xml
