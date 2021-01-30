@@ -1,3 +1,4 @@
+using Expensely.Application.Commands.Users;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
@@ -16,6 +17,14 @@ namespace Expensely.Application.UnitTests
             Result result = transactionType.ValidateAmount(new Money(0, Currency.Usd));
 
             result.Error.Should().Be(DomainErrors.Transaction.IncomeAmountLessThanOrEqualToZero);
+        }
+
+        [Fact]
+        public void Should_create_command()
+        {
+            var command = new CreateUserCommand(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+
+            command.Should().NotBeNull();
         }
     }
 }
