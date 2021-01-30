@@ -41,7 +41,7 @@ namespace Expensely.Infrastructure.Authentication
 
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            DateTime tokenExpirationTime = _dateTime.UtcNow.AddMinutes(_jwtSettings.TokenExpirationInMinutes);
+            DateTime tokenExpirationTime = _dateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationInMinutes);
 
             var token = new JwtSecurityToken(
                 _jwtSettings.Issuer,

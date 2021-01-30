@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets the token expiration time in minutes.
         /// </summary>
-        public int TokenExpirationInMinutes { get; init; }
+        public int AccessTokenExpirationInMinutes { get; init; }
 
         /// <summary>
         /// Gets the refresh token expiration in minutes.

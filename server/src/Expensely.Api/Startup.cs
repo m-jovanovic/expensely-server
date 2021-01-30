@@ -77,9 +77,9 @@ namespace Expensely.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                app.ConfigureSwagger();
             }
+
+            app.ConfigureSwagger();
 
             app.UseCors(configure => configure.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
