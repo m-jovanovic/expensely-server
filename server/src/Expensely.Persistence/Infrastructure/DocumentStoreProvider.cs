@@ -36,7 +36,7 @@ namespace Expensely.Persistence.Infrastructure
 
             DocumentStore = new DocumentStore
             {
-                Certificate = new X509Certificate2(configuration["RavenDB:CertificatePath"]),
+                Certificate = new X509Certificate2(Convert.FromBase64String(configuration["RavenDB:Certificate"])),
                 Database = configuration["RavenDB:Database"],
                 Urls = configuration["RavenDB:Urls"].Split(',')
             };
