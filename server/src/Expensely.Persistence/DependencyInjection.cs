@@ -46,10 +46,10 @@ namespace Expensely.Persistence
             {
                 Type[] interfaces = typeInfo.GetInterfaces();
 
-                static bool IsGenericQueryProcessorInterface(Type type) =>
+                static bool IsGenericQueryProcessorInterfaceType(Type type) =>
                     type.GetTypeInfo().IsGenericType && type.GetTypeInfo().GetGenericTypeDefinition() == typeof(IQueryProcessor<,>);
 
-                if (!interfaces.Any(IsGenericQueryProcessorInterface))
+                if (!interfaces.Any(IsGenericQueryProcessorInterfaceType))
                 {
                     continue;
                 }
