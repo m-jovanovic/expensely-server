@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
 
@@ -26,24 +26,32 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.submitted) {
+      return;
+    }
+
     this.submitted = true;
     this.invalidEmailOrPassword = false;
 
     if (this.loginForm.invalid) {
+      this.submitted = false;
+
       return;
     }
-    const value = this.loginForm.value;
+
+    const form = this.loginForm.value;
 
     this.authenticationFacade
-      .login(value.email, value.password)
+      .login(form.email, form.password)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           this.handleLoginError(new ApiErrorResponse(error));
 
           return of(true);
-        })
+        }),
+        tap(() => (this.submitted = false))
       )
-      .subscribe(() => (this.submitted = false));
+      .subscribe();
   }
 
   redirectToRegister(): void {

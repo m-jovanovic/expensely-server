@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap, filter } from 'rxjs/operators';
 
 import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, PasswordValidators, RouterService } from '@expensely/core';
 
@@ -29,38 +29,45 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.submitted) {
+      return;
+    }
+
     this.submitted = true;
     this.emailAlreadyInUse = false;
 
     if (this.registerForm.invalid) {
+      this.submitted = false;
+
       return;
     }
 
-    const value = this.registerForm.value;
+    const form = this.registerForm.value;
 
     this.authenticationFacade
-      .register(value.firstName, value.lastName, value.email, value.password, value.confirmationPassword)
+      .register(form.firstName, form.lastName, form.email, form.password, form.confirmationPassword)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           this.handleRegisterError(new ApiErrorResponse(error));
 
-          return of(true);
-        })
-      )
-      .subscribe(() => {
-        this.submitted = false;
+          this.submitted = false;
 
-        this.authenticationFacade
-          .login(value.email, value.password)
-          .pipe(
+          return of(true);
+        }),
+        filter(() => !this.emailAlreadyInUse),
+        tap(() => {
+          this.submitted = false;
+
+          return this.authenticationFacade.login(form.email, form.password).pipe(
             catchError(() => {
               this.redirectToLogin();
 
               return of(true);
             })
-          )
-          .subscribe();
-      });
+          );
+        })
+      )
+      .subscribe();
   }
 
   handleRegisterError(errorResponse: ApiErrorResponse): void {
