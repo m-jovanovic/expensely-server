@@ -54,6 +54,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules').then((m) => m.AuthenticationModule)
       }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: 'dashboard'
   }
 ];
 
