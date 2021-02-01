@@ -1,4 +1,7 @@
+using System;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -13,7 +16,32 @@ namespace Expensely.Api
         /// The main entry-point for the application.
         /// </summary>
         /// <param name="args">The arguments.</param>
-        public static void Main(string[] args) => CreateHostBuilder(args).Build().Run();
+        public static void Main(string[] args)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+
+            try
+            {
+                Log.Information("Starting web host");
+
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception exception)
+            {
+                Log.Fatal(exception, "Host terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+        }
 
         /// <summary>
         /// Creates the host builder for the specified arguments.

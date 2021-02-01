@@ -61,10 +61,6 @@ namespace Expensely.Api
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
             services.AddSwagger();
-
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(Configuration)
-                .CreateLogger();
         }
 
         /// <summary>
