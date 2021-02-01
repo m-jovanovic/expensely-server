@@ -58,7 +58,7 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            user.HasCurrency(UserTestData.DefaultCurrency).Should().BeFalse();
+            user.HasCurrency(CurrencyTestData.DefaultCurrency).Should().BeFalse();
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            Result result = user.AddCurrency(UserTestData.DefaultCurrency);
+            Result result = user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
             result.IsSuccess.Should().BeTrue();
         }
@@ -84,9 +84,9 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            user.AddCurrency(UserTestData.DefaultCurrency);
+            user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
-            Result result = user.AddCurrency(UserTestData.DefaultCurrency);
+            Result result = user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
             result.Error.Should().Be(DomainErrors.User.CurrencyAlreadyExists);
         }
@@ -96,9 +96,9 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            user.AddCurrency(UserTestData.DefaultCurrency);
+            user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
-            user.GetPrimaryCurrency().Value.Should().Be(UserTestData.DefaultCurrency);
+            user.GetPrimaryCurrency().Value.Should().Be(CurrencyTestData.DefaultCurrency);
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace Expensely.Domain.UnitTests.Core
 
             user.ClearEvents();
 
-            user.AddCurrency(UserTestData.DefaultCurrency);
+            user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
             user.Events.Should().ContainSingle().And.AllBeOfType<UserCurrencyAddedEvent>();
         }
@@ -118,7 +118,7 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            Result result = user.RemoveCurrency(UserTestData.DefaultCurrency);
+            Result result = user.RemoveCurrency(CurrencyTestData.DefaultCurrency);
 
             result.Error.Should().Be(DomainErrors.User.CurrencyDoesNotExist);
         }
@@ -128,9 +128,9 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            user.AddCurrency(UserTestData.DefaultCurrency);
+            user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
-            Result result = user.RemoveCurrency(UserTestData.DefaultCurrency);
+            Result result = user.RemoveCurrency(CurrencyTestData.DefaultCurrency);
 
             result.Error.Should().Be(DomainErrors.User.RemovingPrimaryCurrency);
         }
@@ -140,11 +140,11 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            user.AddCurrency(UserTestData.DefaultCurrency);
+            user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
-            user.AddCurrency(UserTestData.AuxiliaryCurrency);
+            user.AddCurrency(CurrencyTestData.AuxiliaryCurrency);
 
-            Result result = user.RemoveCurrency(UserTestData.AuxiliaryCurrency);
+            Result result = user.RemoveCurrency(CurrencyTestData.AuxiliaryCurrency);
 
             result.IsSuccess.Should().BeTrue();
         }
@@ -154,13 +154,13 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            user.AddCurrency(UserTestData.DefaultCurrency);
+            user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
-            user.AddCurrency(UserTestData.AuxiliaryCurrency);
+            user.AddCurrency(CurrencyTestData.AuxiliaryCurrency);
 
             user.ClearEvents();
 
-            user.RemoveCurrency(UserTestData.AuxiliaryCurrency);
+            user.RemoveCurrency(CurrencyTestData.AuxiliaryCurrency);
 
             user.Events.Should().ContainSingle().And.AllBeOfType<UserCurrencyRemovedEvent>();
         }
@@ -170,7 +170,7 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            Result result = user.ChangePrimaryCurrency(UserTestData.DefaultCurrency);
+            Result result = user.ChangePrimaryCurrency(CurrencyTestData.DefaultCurrency);
 
             result.Error.Should().Be(DomainErrors.User.CurrencyDoesNotExist);
         }
@@ -180,9 +180,9 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            user.AddCurrency(UserTestData.DefaultCurrency);
+            user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
-            Result result = user.ChangePrimaryCurrency(UserTestData.DefaultCurrency);
+            Result result = user.ChangePrimaryCurrency(CurrencyTestData.DefaultCurrency);
 
             result.Error.Should().Be(DomainErrors.User.PrimaryCurrencyIsIdentical);
         }
@@ -192,11 +192,11 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            user.AddCurrency(UserTestData.DefaultCurrency);
+            user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
-            user.AddCurrency(UserTestData.AuxiliaryCurrency);
+            user.AddCurrency(CurrencyTestData.AuxiliaryCurrency);
 
-            Result result = user.ChangePrimaryCurrency(UserTestData.AuxiliaryCurrency);
+            Result result = user.ChangePrimaryCurrency(CurrencyTestData.AuxiliaryCurrency);
 
             result.IsSuccess.Should().BeTrue();
         }
@@ -206,9 +206,9 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            user.AddCurrency(UserTestData.DefaultCurrency);
+            user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
-            user.GetPrimaryCurrency().Value.Should().Be(UserTestData.DefaultCurrency);
+            user.GetPrimaryCurrency().Value.Should().Be(CurrencyTestData.DefaultCurrency);
         }
 
         [Fact]
@@ -216,13 +216,13 @@ namespace Expensely.Domain.UnitTests.Core
         {
             User user = UserTestData.ValidUser;
 
-            user.AddCurrency(UserTestData.DefaultCurrency);
+            user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
-            user.AddCurrency(UserTestData.AuxiliaryCurrency);
+            user.AddCurrency(CurrencyTestData.AuxiliaryCurrency);
 
             user.ClearEvents();
 
-            user.ChangePrimaryCurrency(UserTestData.AuxiliaryCurrency);
+            user.ChangePrimaryCurrency(CurrencyTestData.AuxiliaryCurrency);
 
             user.Events.Should().ContainSingle().And.AllBeOfType<UserPrimaryCurrencyChangedEvent>();
         }
@@ -238,7 +238,7 @@ namespace Expensely.Domain.UnitTests.Core
 
             user.VerifyPassword(UserTestData.Password, passwordServiceMock.Object);
 
-            passwordServiceMock.Verify(x => x.HashesMatch(It.Is<Password>(x => x == UserTestData.Password), It.IsAny<string>()));
+            passwordServiceMock.Verify(x => x.HashesMatch(It.Is<Password>(p => p == UserTestData.Password), It.IsAny<string>()));
 
             passwordServiceMock.VerifyNoOtherCalls();
         }

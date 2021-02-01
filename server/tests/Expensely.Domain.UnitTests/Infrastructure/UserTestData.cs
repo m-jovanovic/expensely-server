@@ -14,13 +14,6 @@ namespace Expensely.Domain.UnitTests.Infrastructure
 
         public static readonly Password Password = Password.Create("123aA!").Value;
 
-        public static readonly Currency DefaultCurrency = Currency.Usd;
-
-        public static readonly Currency AuxiliaryCurrency = Currency.Eur;
-
         public static User ValidUser => User.Create(FirstName, LastName, Email, Password, new Mock<IPasswordService>().Object);
-
-        public static User GetValidUserWith(Mock<IPasswordService> passwordServiceMock) =>
-            User.Create(FirstName, LastName, Email, Password, passwordServiceMock.Object);
     }
 }
