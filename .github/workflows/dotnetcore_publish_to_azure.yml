@@ -2,6 +2,8 @@ name: Server - Publish to Azure
 
 on:
   push:
+    branches:
+      - main
     paths:
       - "server/src/**"
 
