@@ -1,4 +1,5 @@
 ﻿using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Application.Abstractions.Authentication
 {

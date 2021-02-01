@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
+using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Events.Users;
 using Expensely.Domain.Services;
 using Expensely.Domain.Utility;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Modules.Users
 {
     /// <summary>
     /// Represents the user of the system.

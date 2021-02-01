@@ -3,7 +3,7 @@ using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Errors;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Modules.Users
 {
     /// <summary>
     /// Represents the last name value object.

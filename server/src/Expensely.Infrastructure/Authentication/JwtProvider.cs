@@ -9,6 +9,7 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Users;
 using Expensely.Infrastructure.Authentication.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

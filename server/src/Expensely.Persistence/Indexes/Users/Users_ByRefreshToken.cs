@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Users;
 using Raven.Client.Documents.Indexes;
 
 namespace Expensely.Persistence.Indexes.Users

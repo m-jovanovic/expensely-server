@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Services;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 

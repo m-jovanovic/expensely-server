@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Domain.Repositories
 {

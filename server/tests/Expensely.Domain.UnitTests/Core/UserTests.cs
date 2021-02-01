@@ -3,6 +3,7 @@ using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Events.Users;
+using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Services;
 using Expensely.Domain.UnitTests.Infrastructure;
 using FluentAssertions;
