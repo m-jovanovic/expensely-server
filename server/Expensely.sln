@@ -56,11 +56,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Api.Controllers",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Api", "src\Expensely.Api\Expensely.Api.csproj", "{5A240AB3-CC83-43F4-AB31-D4685AC7FC10}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B7E638B2-FAE2-45E8-93D4-4E8AC44A6FB9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B7E638B2-FAE2-45E8-93D4-4E8AC44A6FB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Application.UnitTests", "test\Expensely.Application.UnitTests\Expensely.Application.UnitTests.csproj", "{10B9A9F4-20A5-40CB-A623-16174972BB93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.UnitTests", "tests\Expensely.Application.UnitTests\Expensely.Application.UnitTests.csproj", "{10B9A9F4-20A5-40CB-A623-16174972BB93}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain.UnitTests", "test\Expensely.Domain.UnitTests\Expensely.Domain.UnitTests.csproj", "{9F015B22-D937-459A-9CF5-F759594AACEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain.UnitTests", "tests\Expensely.Domain.UnitTests\Expensely.Domain.UnitTests.csproj", "{9F015B22-D937-459A-9CF5-F759594AACEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
