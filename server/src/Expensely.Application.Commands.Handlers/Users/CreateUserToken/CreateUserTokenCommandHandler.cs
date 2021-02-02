@@ -12,13 +12,12 @@ using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Repositories;
 using Expensely.Domain.Services;
 
-namespace Expensely.Application.Commands.Handlers.Users.CreateUserTokenForCredentials
+namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
 {
     /// <summary>
-    /// Represents the <see cref="CreateUserTokenForCredentialsCommand"/> handler.
+    /// Represents the <see cref="CreateUserTokenCommand"/> handler.
     /// </summary>
-    internal sealed class CreateUserTokenForCredentialsCommandHandler
-        : ICommandHandler<CreateUserTokenForCredentialsCommand, Result<TokenResponse>>
+    internal sealed class CreateUserTokenCommandHandler : ICommandHandler<CreateUserTokenCommand, Result<TokenResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -26,13 +25,13 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserTokenForCreden
         private readonly IJwtProvider _jwtProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserTokenForCredentialsCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="CreateUserTokenCommandHandler"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="passwordService">The password service.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
-        public CreateUserTokenForCredentialsCommandHandler(
+        public CreateUserTokenCommandHandler(
             IUserRepository userRepository,
             IUnitOfWork unitOfWork,
             IPasswordService passwordService,
@@ -45,7 +44,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserTokenForCreden
         }
 
         /// <inheritdoc />
-        public async Task<Result<TokenResponse>> Handle(CreateUserTokenForCredentialsCommand request, CancellationToken cancellationToken)
+        public async Task<Result<TokenResponse>> Handle(CreateUserTokenCommand request, CancellationToken cancellationToken)
         {
             Result<Email> emailResult = Email.Create(request.Email);
             Result<Password> passwordResult = Password.Create(request.Password);

@@ -7,14 +7,14 @@ namespace Expensely.Application.Commands.Users
     /// <summary>
     /// Represents the command for creating a JWT token for user credentials.
     /// </summary>
-    public sealed class CreateUserTokenForCredentialsCommand : ICommand<Result<TokenResponse>>
+    public sealed class CreateUserTokenCommand : ICommand<Result<TokenResponse>>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserTokenForCredentialsCommand"/> class.
+        /// Initializes a new instance of the <see cref="CreateUserTokenCommand"/> class.
         /// </summary>
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>
-        public CreateUserTokenForCredentialsCommand(string email, string password)
+        public CreateUserTokenCommand(string email, string password)
         {
             Email = email;
             Password = password;
