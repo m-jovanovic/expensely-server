@@ -1,8 +1,11 @@
 using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Raven.Client.Documents;
 using Serilog;
 
 namespace Expensely.Api
@@ -18,24 +21,30 @@ namespace Expensely.Api
         /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
-
             try
             {
-                Log.Information("Starting web host");
+                IHost host = CreateHostBuilder(args).Build();
 
-                CreateHostBuilder(args).Build().Run();
+                using (IServiceScope scope = host.Services.CreateScope())
+                {
+                    IConfiguration configuration = scope.ServiceProvider.GetService<IConfiguration>();
+
+                    IDocumentStore documentStore = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
+
+                    // TODO: Pull configuration settings for document expiration.
+                    Log.Logger = new LoggerConfiguration()
+                        .ReadFrom.Configuration(configuration)
+                        .WriteTo.RavenDB(documentStore)
+                        .CreateLogger();
+                }
+
+                Log.Information("Application starting.");
+
+                host.Run();
             }
             catch (Exception exception)
             {
-                Log.Fatal(exception, "Host terminated unexpectedly");
+                Log.Fatal(exception, "Application terminated unexpectedly.");
             }
             finally
             {
@@ -50,9 +59,28 @@ namespace Expensely.Api
         /// <returns>The host builder.</returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                    webBuilder
-                        .UseSerilog()
-                        .UseStartup<Startup>());
+                .UseSerilog()
+                .ConfigureAppConfiguration(WithApplicationConfiguration)
+                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+
+        /// <summary>
+        /// Configures the application configuration.
+        /// </summary>
+        /// <param name="hostBuilderContext">The host builder context.</param>
+        /// <param name="configurationBuilder">The configuration builder.</param>
+        private static void WithApplicationConfiguration(HostBuilderContext hostBuilderContext, IConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile("appsettings.Development.json", true, true);
+
+            if (hostBuilderContext.HostingEnvironment.IsDevelopment())
+            {
+                configurationBuilder.AddUserSecrets(Assembly.GetExecutingAssembly());
+            }
+
+            configurationBuilder.AddEnvironmentVariables();
+        }
     }
 }

@@ -6,6 +6,7 @@ using Expensely.Domain.Repositories;
 using Expensely.Persistence.Infrastructure;
 using Expensely.Persistence.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using Raven.Client.Documents;
 
 namespace Expensely.Persistence
 {
@@ -23,7 +24,9 @@ namespace Expensely.Persistence
         {
             services.AddSingleton<DocumentStoreProvider>();
 
-            services.AddScoped(provider => provider.GetRequiredService<DocumentStoreProvider>().DocumentStore.OpenAsyncSession());
+            services.AddSingleton(serviceProvider => serviceProvider.GetRequiredService<DocumentStoreProvider>().DocumentStore);
+
+            services.AddScoped(serviceProvider => serviceProvider.GetRequiredService<IDocumentStore>().OpenAsyncSession());
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

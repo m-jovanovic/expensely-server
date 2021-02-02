@@ -82,7 +82,7 @@ namespace Expensely.Domain.Abstractions.Primitives
                 return false;
             }
 
-            if (!(obj is Entity other))
+            if (obj is not Entity other)
             {
                 return false;
             }

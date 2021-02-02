@@ -34,6 +34,7 @@ namespace Expensely.Persistence.Infrastructure
         {
             _dateTime = dateTime;
 
+            // TODO: Make a configuration object for these settings.
             DocumentStore = new DocumentStore
             {
                 Certificate = new X509Certificate2(Convert.FromBase64String(configuration["RavenDB:Certificate"])),
