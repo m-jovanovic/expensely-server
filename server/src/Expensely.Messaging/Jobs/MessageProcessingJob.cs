@@ -6,7 +6,9 @@ using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
 using Expensely.Domain.Repositories;
 using Expensely.Messaging.Services;
+using Expensely.Messaging.Settings;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Quartz;
 
 namespace Expensely.Messaging.Jobs
@@ -20,6 +22,7 @@ namespace Expensely.Messaging.Jobs
         private readonly IMessageRepository _messageRepository;
         private readonly IMessageDispatcher _messageDispatcher;
         private readonly ILogger<MessageProcessingJob> _logger;
+        private readonly int _batchSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageProcessingJob"/> class.
@@ -27,14 +30,17 @@ namespace Expensely.Messaging.Jobs
         /// <param name="messageRepository">The message repository.</param>
         /// <param name="messageDispatcher">The message dispatcher.</param>
         /// <param name="logger">The logger.</param>
+        /// <param name="messageProcessingJobSettingsOptions">The message processing job settings options.</param>
         public MessageProcessingJob(
             IMessageRepository messageRepository,
             IMessageDispatcher messageDispatcher,
-            ILogger<MessageProcessingJob> logger)
+            ILogger<MessageProcessingJob> logger,
+            IOptions<MessageProcessingJobSettings> messageProcessingJobSettingsOptions)
         {
-            _logger = logger;
             _messageRepository = messageRepository;
             _messageDispatcher = messageDispatcher;
+            _logger = logger;
+            _batchSize = messageProcessingJobSettingsOptions.Value.BatchSize;
         }
 
         /// <inheritdoc />
@@ -42,8 +48,7 @@ namespace Expensely.Messaging.Jobs
 
         private async Task ProcessMessagesAsync(CancellationToken cancellationToken)
         {
-            // TODO: Make number of messages configurable.
-            IReadOnlyCollection<Message> unprocessedMessages = await _messageRepository.GetUnprocessedAsync(20, cancellationToken);
+            IReadOnlyCollection<Message> unprocessedMessages = await _messageRepository.GetUnprocessedAsync(_batchSize, cancellationToken);
 
             foreach (Message message in unprocessedMessages)
             {

@@ -5,6 +5,8 @@ using Expensely.Application.Queries.Processors.Abstractions;
 using Expensely.Domain.Repositories;
 using Expensely.Persistence.Infrastructure;
 using Expensely.Persistence.Repositories;
+using Expensely.Persistence.Settings;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Raven.Client.Documents;
 
@@ -19,9 +21,12 @@ namespace Expensely.Persistence
         /// Registers the necessary services with the DI framework.
         /// </summary>
         /// <param name="services">The service collection.</param>
+        /// <param name="configuration">The configuration.</param>
         /// <returns>The same service collection.</returns>
-        public static IServiceCollection AddPersistence(this IServiceCollection services)
+        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<RavenDbSettings>(configuration.GetSection(RavenDbSettings.SettingsKey));
+
             services.AddSingleton<DocumentStoreProvider>();
 
             services.AddSingleton(serviceProvider => serviceProvider.GetRequiredService<DocumentStoreProvider>().DocumentStore);

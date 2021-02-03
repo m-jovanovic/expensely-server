@@ -43,8 +43,8 @@ namespace Expensely.Api
         {
             services
                 .AddInfrastructure(Configuration)
-                .AddPersistence()
-                .AddMessaging();
+                .AddPersistence(Configuration)
+                .AddMessaging(Configuration);
 
             services.AddValidatorsFromAssembly(CommandHandlersAssembly.Assembly);
 
@@ -61,6 +61,8 @@ namespace Expensely.Api
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
             services.AddSwagger();
+
+            services.AddHttpContextAccessor();
         }
 
         /// <summary>
