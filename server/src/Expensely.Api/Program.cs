@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Expensely.Api.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,11 +32,7 @@ namespace Expensely.Api
 
                     IDocumentStore documentStore = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
 
-                    // TODO: Pull configuration settings for document expiration.
-                    Log.Logger = new LoggerConfiguration()
-                        .ReadFrom.Configuration(configuration)
-                        .WriteTo.RavenDB(documentStore)
-                        .CreateLogger();
+                    LoggerConfigurator.Configure(configuration, documentStore);
                 }
 
                 Log.Information("Application starting.");
