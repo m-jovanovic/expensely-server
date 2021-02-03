@@ -14,30 +14,35 @@ using Microsoft.Extensions.Logging;
 namespace Expensely.Api.Middleware
 {
     /// <summary>
-    /// Represents the exception handler middleware.
+    /// Represents the global exception handler middleware.
     /// </summary>
-    public class ExceptionHandlerMiddleware
+    public class GlobalExceptionHandlerMiddleware
     {
+        private static readonly JsonSerializerOptions JsonSerializerOptions = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
         private readonly RequestDelegate _next;
-        private readonly ILogger<ExceptionHandlerMiddleware> _logger;
+        private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionHandlerMiddleware"/> class.
+        /// Initializes a new instance of the <see cref="GlobalExceptionHandlerMiddleware"/> class.
         /// </summary>
         /// <param name="next">The delegate pointing to the next middleware in the chain.</param>
         /// <param name="logger">The logger.</param>
-        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
+        public GlobalExceptionHandlerMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlerMiddleware> logger)
         {
             _next = next;
             _logger = logger;
         }
 
         /// <summary>
-        /// Invokes the exception handler middleware with the specified <see cref="HttpContext"/>.
+        /// Invokes the middleware with the specified <see cref="HttpContext"/>.
         /// </summary>
         /// <param name="httpContext">The HTTP httpContext.</param>
         /// <returns>The task that can be awaited by the next middleware.</returns>
-        public async Task Invoke(HttpContext httpContext)
+        public async Task InvokeAsync(HttpContext httpContext)
         {
             try
             {
@@ -65,17 +70,17 @@ namespace Expensely.Api.Middleware
 
             httpContext.Response.StatusCode = (int)httpStatusCode;
 
-            var serializerOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-
-            string response = JsonSerializer.Serialize(new ApiErrorResponse(errors), serializerOptions);
+            string response = JsonSerializer.Serialize(new ApiErrorResponse(errors), JsonSerializerOptions);
 
             await httpContext.Response.WriteAsync(response);
         }
 
-        private static (HttpStatusCode HttpStatusCode, IReadOnlyCollection<Error> Errors) GetHttpStatusCodeAndErrors(Exception exception) =>
+        /// <summary>
+        /// Gets the HTTP status code and collection of errors for the specified exception.
+        /// </summary>
+        /// <param name="exception">The exception that has occurred.</param>
+        /// <returns>The HTTP status code and collection of errors for the specified exception.</returns>
+        private static (HttpStatusCode StatusCode, IReadOnlyCollection<Error> Errors) GetHttpStatusCodeAndErrors(Exception exception) =>
             exception switch
             {
                 ValidationException validationException => (HttpStatusCode.UnprocessableEntity, validationException.Errors),

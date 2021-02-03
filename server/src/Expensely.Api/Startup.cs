@@ -16,8 +16,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Serilog.Context;
-using Serilog.Core.Enrichers;
 
 namespace Expensely.Api
 {
@@ -77,24 +75,13 @@ namespace Expensely.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.ConfigureSwagger();
+            app.UseSwagger();
 
             app.UseCors(configure => configure.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
-            app.UseCustomExceptionHandler();
+            app.UseLogContextEnrichment();
 
-            // TODO: Move this into some middleware.
-            app.Use(async (ctx, next) =>
-            {
-                using (LogContext.Push(
-                    new PropertyEnricher("IPAddress", ctx.Connection.RemoteIpAddress),
-                    new PropertyEnricher("RequestHost", ctx.Request.Host),
-                    new PropertyEnricher("RequestBasePath", ctx.Request.Path),
-                    new PropertyEnricher("RequestQueryParams", ctx.Request.QueryString)))
-                {
-                    await next();
-                }
-            });
+            app.UseGlobalExceptionHandler();
 
             app.UseSerilogRequestLogging();
 

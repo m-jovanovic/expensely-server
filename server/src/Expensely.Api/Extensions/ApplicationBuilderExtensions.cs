@@ -9,19 +9,27 @@ namespace Expensely.Api.Extensions
     public static class ApplicationBuilderExtensions
     {
         /// <summary>
-        /// Configure the custom exception handler middleware.
+        /// Configures the global exception handler middleware.
         /// </summary>
         /// <param name="builder">The application builder.</param>
         /// <returns>The same application builder.</returns>
-        public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
-            => builder.UseMiddleware<ExceptionHandlerMiddleware>();
+        public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder builder)
+            => builder.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
+        /// <summary>
+        /// Configures the log context enrichment middleware.
+        /// </summary>
+        /// <param name="builder">The application builder.</param>
+        /// <returns>The same application builder.</returns>
+        public static IApplicationBuilder UseLogContextEnrichment(this IApplicationBuilder builder)
+            => builder.UseMiddleware<LogContextEnrichmentMiddleware>();
 
         /// <summary>
         /// Configures the Swagger and SwaggerUI middleware.
         /// </summary>
         /// <param name="builder">The application builder.</param>
         /// <returns>The same application builder.</returns>
-        public static IApplicationBuilder ConfigureSwagger(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseSwaggerWithUI(this IApplicationBuilder builder)
         {
             builder.UseSwagger();
 
