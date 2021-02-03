@@ -12,6 +12,8 @@ namespace Expensely.Api.Infrastructure
     /// </summary>
     public static class LoggerConfigurator
     {
+        private const string SourceContextKey = "SourceContext";
+        private const string InternalSourceContext = "Expensely";
         private static readonly TimeSpan DefaultExpirationInDays = TimeSpan.FromDays(5);
         private static readonly TimeSpan DefaultErrorExpirationInDays = TimeSpan.FromDays(7);
 
@@ -37,8 +39,9 @@ namespace Expensely.Api.Infrastructure
         /// <returns>The timespan indicating when the specified log event should expire.</returns>
         private static TimeSpan LogExpirationCallback(LogEvent logEvent)
         {
-            if (logEvent.Properties.TryGetValue("SourceContext", out LogEventPropertyValue propertyValue) &&
-                propertyValue.ToString().StartsWith("Expensely", StringComparison.InvariantCulture))
+            if (logEvent.Properties.TryGetValue(SourceContextKey, out LogEventPropertyValue propertyValue) &&
+                propertyValue is ScalarValue scalarValue &&
+                (scalarValue.Value?.ToString()?.StartsWith(InternalSourceContext, StringComparison.InvariantCulture) ?? false))
             {
                 return Timeout.InfiniteTimeSpan;
             }
