@@ -48,18 +48,31 @@ namespace Expensely.Messaging.Jobs
 
         private async Task ProcessMessagesAsync(CancellationToken cancellationToken)
         {
-            IReadOnlyCollection<Message> unprocessedMessages = await _messageRepository.GetUnprocessedAsync(_batchSize, cancellationToken);
-
-            foreach (Message message in unprocessedMessages)
+            try
             {
-                Maybe<Exception> maybeException = await _messageDispatcher.DispatchAsync(message, cancellationToken);
+                IReadOnlyCollection<Message> unprocessedMessages = await _messageRepository.GetUnprocessedAsync(_batchSize, cancellationToken);
 
-                if (maybeException.HasNoValue)
+                foreach (Message message in unprocessedMessages)
                 {
-                    continue;
-                }
+                    Maybe<Exception> maybeException = await _messageDispatcher.DispatchAsync(message, cancellationToken);
 
-                _logger.LogError(maybeException.Value, maybeException.Value.Message);
+                    if (maybeException.HasNoValue)
+                    {
+                        continue;
+                    }
+
+                    _logger.LogError(
+                        maybeException.Value,
+                        "Exception occurred while processing {MessageId} {ExceptionMessage}",
+                        message.Id,
+                        maybeException.Value.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while processing messages {ExceptionMessage}", ex.Message);
+
+                throw;
             }
         }
     }
