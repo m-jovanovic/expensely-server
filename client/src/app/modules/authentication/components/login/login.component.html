@@ -4,7 +4,6 @@
   <div class="w-88">
     <form class="bg-white shadow-lg rounded px-8 pt-8 pb-8 mb-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="email"> Email </label>
         <input
           class="leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
           [ngClass]="{
@@ -25,11 +24,10 @@
         </div>
       </div>
       <div class="mb-6">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> Password </label>
         <input
-          class="leading-8 hadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+          class="leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
           [ngClass]="{
-            'border-red-500 ring-2 ring-inset  ring-red-500 focus:border-red-500  focus:ring-red-500':
+            'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500  focus:ring-red-500':
               submitted && loginForm.controls.password.errors,
             'focus:border-teal-400 focus:ring-teal-400': !submitted || (submitted && !loginForm.controls.password.errors)
           }"
