@@ -1,63 +1,68 @@
-<div class="block lg:flex">
-  <div class="w-1/3 bg-blue-900 py-24 px-20 sm:px-40 lg:pt-64">
-    <h1 class="text-teal-400 text-6xl">Expensely</h1>
-    <p class="text-white text-3xl">Let us take care of your expenses.</p>
-  </div>
-  <div class="w-2/3 flex items-center justify-center h-screen background-pattern">
-    <div class="w-full max-w-xs">
-      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="email"> Email </label>
-          <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
-            [ngClass]="{ 'border-4 border-red-500': submitted && loginForm.controls.email.errors }"
-            id="email"
-            name="email"
-            formControlName="email"
-            type="email"
-            placeholder="Email"
-            required
-          />
-          <div *ngIf="submitted && loginForm.controls.email.errors" class="mt-2 text-xs text-red-500">
-            <div *ngIf="loginForm.controls.email.errors.required">The email is required.</div>
-            <div *ngIf="loginForm.controls.email.errors.email">The email must be a valid email address.</div>
-          </div>
+<div class="flex flex-col items-center justify-center h-screen w-screen bg-gradient-to-b from-light-blue-900 to-cyan-600">
+  <h1 class="text-teal-400 text-8xl mb-6">Expensely</h1>
+  <p class="text-white text-4xl mb-12">Let us take care of your expenses.</p>
+  <div class="w-88">
+    <form class="bg-white shadow-lg rounded px-8 pt-8 pb-8 mb-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="email"> Email </label>
+        <input
+          class="leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+          [ngClass]="{
+            'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+              submitted && loginForm.controls.email.errors,
+            'focus:border-teal-400 focus:ring-teal-400': !submitted || (submitted && !loginForm.controls.email.errors)
+          }"
+          id="email"
+          name="email"
+          formControlName="email"
+          type="email"
+          placeholder="Email"
+          required
+        />
+        <div *ngIf="submitted && loginForm.controls.email.errors" class="mt-2 text-xs text-red-500">
+          <div *ngIf="loginForm.controls.email.errors.required">The email is required.</div>
+          <div *ngIf="loginForm.controls.email.errors.email">The email must be a valid email address.</div>
         </div>
-        <div class="mb-6">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> Password </label>
-          <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
-            [ngClass]="{ 'border-4 border-red-500': submitted && loginForm.controls.password.errors }"
-            id="password"
-            name="password"
-            formControlName="password"
-            type="password"
-            placeholder="Password"
-            required
-          />
-          <div *ngIf="submitted && loginForm.controls.password.errors" class="mt-2 text-xs text-red-500">
-            <div *ngIf="loginForm.controls.password.errors.required">The password is required.</div>
-          </div>
-          <div *ngIf="invalidEmailOrPassword" class="mt-2 text-xs text-red-500 text-center">
-            The provided email or password is incorrect.
-          </div>
+      </div>
+      <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> Password </label>
+        <input
+          class="leading-8 hadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+          [ngClass]="{
+            'border-red-500 ring-2 ring-inset  ring-red-500 focus:border-red-500  focus:ring-red-500':
+              submitted && loginForm.controls.password.errors,
+            'focus:border-teal-400 focus:ring-teal-400': !submitted || (submitted && !loginForm.controls.password.errors)
+          }"
+          id="password"
+          name="password"
+          formControlName="password"
+          type="password"
+          placeholder="Password"
+          required
+        />
+        <div *ngIf="submitted && loginForm.controls.password.errors" class="mt-2 text-xs text-red-500">
+          <div *ngIf="loginForm.controls.password.errors.required">The password is required.</div>
         </div>
-        <div class="flex items-center justify-between">
-          <button class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring" type="submit">
-            Sign In
-          </button>
-          <a class="inline-block align-baseline font-bold text-sm text-gray-500 hover:text-black" href="#">Forgot Password? </a>
-        </div>
-        <div class="mt-6 border-t border-black text-center">
-          <p class="mt-4 text-sm text-gray-500">Don't have an account yet?</p>
-          <button
-            class="inline-block mt-2 py-2 px-4 font-bold text-gray-500 hover:text-black border border-transparent hover:border-teal-500 rounded"
-            (click)="redirectToRegister()"
-          >
-            Sign Up
-          </button>
-        </div>
-      </form>
-    </div>
+        <div *ngIf="invalidEmailOrPassword" class="mt-2 text-xs text-red-500 text-center">The provided email or password is incorrect.</div>
+      </div>
+      <div class="flex items-center justify-between">
+        <button
+          class="w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
+          type="submit"
+        >
+          Sign In
+        </button>
+        <a class="inline-block align-baseline font-bold text-sm text-gray-500 hover:text-black" href="#">Forgot Password? </a>
+      </div>
+      <div class="mt-6 border-t border-black text-center">
+        <p class="mt-4 text-sm text-gray-500">Don't have an account yet?</p>
+        <button
+          class="w-28 py-2 px-4 mt-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
+          (click)="redirectToRegister()"
+        >
+          Sign Up
+        </button>
+      </div>
+    </form>
   </div>
 </div>

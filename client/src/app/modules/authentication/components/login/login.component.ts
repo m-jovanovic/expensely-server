@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
 
@@ -11,10 +11,13 @@ import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } fro
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  private subscription: Subscription;
   loginForm: FormGroup;
   submitted = false;
+  requestSent = false;
   invalidEmailOrPassword = false;
+  formValid$: Observable<boolean>;
 
   constructor(private formBuilder: FormBuilder, private authenticationFacade: AuthenticationFacade, private routerService: RouterService) {}
 
@@ -23,10 +26,18 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+
+    this.formValid$ = this.loginForm.valueChanges.pipe(map(() => !this.loginForm.invalid));
+
+    this.subscription = this.formValid$.subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onSubmit(): void {
-    if (this.submitted) {
+    if (this.requestSent) {
       return;
     }
 
@@ -34,22 +45,27 @@ export class LoginComponent implements OnInit {
     this.invalidEmailOrPassword = false;
 
     if (this.loginForm.invalid) {
-      this.submitted = false;
+      this.requestSent = false;
 
       return;
     }
 
-    const form = this.loginForm.value;
+    this.requestSent = true;
+    this.loginForm.disable();
 
     this.authenticationFacade
-      .login(form.email, form.password)
+      .login(this.loginForm.value.email, this.loginForm.value.password)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           this.handleLoginError(new ApiErrorResponse(error));
 
           return of(true);
         }),
-        tap(() => (this.submitted = false))
+        tap(() => {
+          this.submitted = false;
+          this.requestSent = false;
+          this.loginForm.enable();
+        })
       )
       .subscribe();
   }
