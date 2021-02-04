@@ -9,7 +9,7 @@
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="firstName"> First Name </label>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
             [ngClass]="{ 'border-4 border-red-500': submitted && registerForm.controls.firstName.errors }"
             id="firstName"
             name="firstName"
@@ -27,7 +27,7 @@
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="lastName"> Last Name </label>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
             [ngClass]="{ 'border-4 border-red-500': submitted && registerForm.controls.lastName.errors }"
             id="lastName"
             name="lastName"
@@ -45,7 +45,7 @@
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="email"> Email </label>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
             [ngClass]="{ 'border-4 border-red-500': submitted && registerForm.controls.email.errors }"
             id="email"
             name="email"
@@ -62,7 +62,7 @@
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> Password </label>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
             [ngClass]="{ 'border-4 border-red-500': submitted && registerForm.controls.password.errors }"
             id="password"
             name="password"
@@ -82,7 +82,7 @@
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="confirmationPassword"> Confirm Password </label>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
             [ngClass]="{ 'border-4 border-red-500': submitted && registerForm.controls.confirmationPassword.errors }"
             id="confirmationPassword"
             name="confirmationPassword"
@@ -105,10 +105,7 @@
           <div *ngIf="emailAlreadyInUse" class="mt-2 text-sm text-red-500 text-center">The email you provided is already in use.</div>
         </div>
         <div class="text-center">
-          <button
-            class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
+          <button class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring" type="submit">
             Sign Up
           </button>
         </div>
