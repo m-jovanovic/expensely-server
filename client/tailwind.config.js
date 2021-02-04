@@ -1,21 +1,20 @@
 module.exports = {
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-    standardFontWeights: true
+  purge: {
+    enabled: true,
+    content: ['./src/**/*.html', './src/**/*.ts']
   },
-  purge: ['./src/**/*.html', './src/**/*.ts'],
+  darkMode: false,
   theme: {
     extend: {
       spacing: {
-        72: '18rem',
-        80: '20rem',
         88: '22rem',
-        96: '24rem',
-        102: '26rem'
+        102: '26rem',
+        110: '28rem'
       }
     }
   },
-  variants: {},
+  variants: {
+    extend: {}
+  },
   plugins: []
 };

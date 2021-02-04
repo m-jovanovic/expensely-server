@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Expensely": {
+    "expensely": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -15,9 +15,14 @@
       "prefix": "exp",
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "extraWebpackConfig": "webpack.config.js",
+            "customWebpackConfig": {
+              "path": "webpack.config.js",
+              "mergeRules": {
+                "externals": "replace"
+              }
+            },
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -39,7 +44,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -62,21 +66,23 @@
           }
         },
         "serve": {
-          "builder": "ngx-build-plus:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "extraWebpackConfig": "webpack.config.js",
-            "browserTarget": "Expensely:build"
+            "customWebpackConfig": {
+              "path": "webpack.config.js"
+            },
+            "browserTarget": "expensely:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Expensely:build:production"
+              "browserTarget": "expensely:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Expensely:build"
+            "browserTarget": "expensely:build"
           }
         },
         "test": {
@@ -102,16 +108,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "Expensely:serve"
+            "devServerTarget": "expensely:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "Expensely:serve:production"
+              "devServerTarget": "expensely:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "Expensely"
+  "defaultProject": "expensely"
 }
