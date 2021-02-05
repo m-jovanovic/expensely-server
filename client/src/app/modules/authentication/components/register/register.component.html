@@ -1,119 +1,121 @@
 <exp-authentication-layout>
-  <form class="w-104 px-8 py-8 mb-4 bg-white shadow-md rounded" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <div class="mb-4">
-      <input
-        class="leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
-        [ngClass]="{
-          'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
-            submitted && registerForm.controls.firstName.errors,
-          'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.firstName.errors
-        }"
-        id="firstName"
-        name="firstName"
-        formControlName="firstName"
-        type="text"
-        placeholder="First name"
-        required
-        maxlength="100"
-      />
-      <div *ngIf="submitted && registerForm.controls.firstName.errors" class="mt-2 text-xs text-red-500">
-        <div *ngIf="registerForm.controls.firstName.errors.required">The first name is required.</div>
-        <div *ngIf="registerForm.controls.firstName.errors.maxLength">The first name length is limited to 100 characters.</div>
-      </div>
-    </div>
-    <div class="mb-4">
-      <input
-        class="leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
-        [ngClass]="{
-          'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
-            submitted && registerForm.controls.lastName.errors,
-          'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.lastName.errors
-        }"
-        id="lastName"
-        name="lastName"
-        formControlName="lastName"
-        type="text"
-        placeholder="Last name"
-        required
-        maxlength="100"
-      />
-      <div *ngIf="submitted && registerForm.controls.lastName.errors" class="mt-2 text-xs text-red-500">
-        <div *ngIf="registerForm.controls.lastName.errors.required">The last name is required.</div>
-        <div *ngIf="registerForm.controls.lastName.errors.maxLength">The first name length is limited to 100 characters.</div>
-      </div>
-    </div>
-    <div class="mb-4">
-      <input
-        class="leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
-        [ngClass]="{
-          'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
-            submitted && registerForm.controls.email.errors,
-          'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.email.errors
-        }"
-        id="email"
-        name="email"
-        formControlName="email"
-        type="email"
-        placeholder="Email"
-        required
-      />
-      <div *ngIf="submitted && registerForm.controls.email.errors" class="mt-2 text-xs text-red-500">
-        <div *ngIf="registerForm.controls.email.errors.required">The email is required.</div>
-        <div *ngIf="registerForm.controls.email.errors.email">The email must be a valid email address.</div>
-      </div>
-    </div>
-    <div class="mb-4">
-      <input
-        class="leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
-        [ngClass]="{
-          'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
-            submitted && registerForm.controls.password.errors,
-          'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.password.errors
-        }"
-        id="password"
-        name="password"
-        formControlName="password"
-        type="password"
-        placeholder="Password"
-        required
-      />
-      <div *ngIf="submitted && registerForm.controls.password.errors" class="mt-2 text-xs text-red-500">
-        <div *ngIf="registerForm.controls.password.errors.required">The password is required.</div>
-        <div *ngIf="registerForm.controls.password.errors.minLength">The minimum password length is 6 characters.</div>
-        <div *ngIf="!registerForm.controls.password.errors.required && registerForm.controls.password.errors.passwordStrength">
-          The password must contain at least one lowercase letter, one uppercase letter, one number and one special character or symbol.
+  <form class="w-64 md:w-104 px-4 md:px-8 py-4 md:py-8 mb-4 bg-white shadow-md rounded" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="space-y-2 md:space-y-4 mb-4 md:mb-6">
+      <div>
+        <input
+          class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+          [ngClass]="{
+            'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+              submitted && registerForm.controls.firstName.errors,
+            'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.firstName.errors
+          }"
+          id="firstName"
+          name="firstName"
+          formControlName="firstName"
+          type="text"
+          placeholder="First name"
+          required
+          maxlength="100"
+        />
+        <div *ngIf="submitted && registerForm.controls.firstName.errors" class="mt-2 text-xs text-red-500">
+          <div *ngIf="registerForm.controls.firstName.errors.required">The first name is required.</div>
+          <div *ngIf="registerForm.controls.firstName.errors.maxLength">The first name length is limited to 100 characters.</div>
         </div>
       </div>
-    </div>
-    <div class="mb-6">
-      <input
-        class="leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
-        [ngClass]="{
-          'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
-            submitted && registerForm.controls.confirmationPassword.errors,
-          'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.confirmationPassword.errors
-        }"
-        id="confirmationPassword"
-        name="confirmationPassword"
-        formControlName="confirmationPassword"
-        type="password"
-        placeholder="Confirm password"
-        required
-      />
-      <div *ngIf="submitted && registerForm.controls.confirmationPassword.errors" class="mt-2 text-xs text-red-500">
-        <div *ngIf="registerForm.controls.confirmationPassword.errors.required">The confirmation password is required.</div>
-        <div
-          *ngIf="
-            !registerForm.controls.confirmationPassword.errors.required &&
-            registerForm.controls.confirmationPassword.errors.confirmationPasswordMustMatch
-          "
-        >
-          The password and confirmation password must match.
+      <div>
+        <input
+          class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+          [ngClass]="{
+            'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+              submitted && registerForm.controls.lastName.errors,
+            'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.lastName.errors
+          }"
+          id="lastName"
+          name="lastName"
+          formControlName="lastName"
+          type="text"
+          placeholder="Last name"
+          required
+          maxlength="100"
+        />
+        <div *ngIf="submitted && registerForm.controls.lastName.errors" class="mt-2 text-xs text-red-500">
+          <div *ngIf="registerForm.controls.lastName.errors.required">The last name is required.</div>
+          <div *ngIf="registerForm.controls.lastName.errors.maxLength">The first name length is limited to 100 characters.</div>
         </div>
       </div>
-      <div *ngIf="emailAlreadyInUse" class="mt-2 text-sm text-red-500 text-center">The email you provided is already in use.</div>
+      <div>
+        <input
+          class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+          [ngClass]="{
+            'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+              submitted && registerForm.controls.email.errors,
+            'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.email.errors
+          }"
+          id="email"
+          name="email"
+          formControlName="email"
+          type="email"
+          placeholder="Email"
+          required
+        />
+        <div *ngIf="submitted && registerForm.controls.email.errors" class="mt-2 text-xs text-red-500">
+          <div *ngIf="registerForm.controls.email.errors.required">The email is required.</div>
+          <div *ngIf="registerForm.controls.email.errors.email">The email must be a valid email address.</div>
+        </div>
+      </div>
+      <div>
+        <input
+          class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+          [ngClass]="{
+            'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+              submitted && registerForm.controls.password.errors,
+            'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.password.errors
+          }"
+          id="password"
+          name="password"
+          formControlName="password"
+          type="password"
+          placeholder="Password"
+          required
+        />
+        <div *ngIf="submitted && registerForm.controls.password.errors" class="mt-2 text-xs text-red-500">
+          <div *ngIf="registerForm.controls.password.errors.required">The password is required.</div>
+          <div *ngIf="registerForm.controls.password.errors.minLength">The minimum password length is 6 characters.</div>
+          <div *ngIf="!registerForm.controls.password.errors.required && registerForm.controls.password.errors.passwordStrength">
+            The password must contain at least one lowercase letter, one uppercase letter, one number and one special character or symbol.
+          </div>
+        </div>
+      </div>
+      <div>
+        <input
+          class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+          [ngClass]="{
+            'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+              submitted && registerForm.controls.confirmationPassword.errors,
+            'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.confirmationPassword.errors
+          }"
+          id="confirmationPassword"
+          name="confirmationPassword"
+          formControlName="confirmationPassword"
+          type="password"
+          placeholder="Confirm password"
+          required
+        />
+        <div *ngIf="submitted && registerForm.controls.confirmationPassword.errors" class="mt-2 text-xs text-red-500">
+          <div *ngIf="registerForm.controls.confirmationPassword.errors.required">The confirmation password is required.</div>
+          <div
+            *ngIf="
+              !registerForm.controls.confirmationPassword.errors.required &&
+              registerForm.controls.confirmationPassword.errors.confirmationPasswordMustMatch
+            "
+          >
+            The password and confirmation password must match.
+          </div>
+        </div>
+        <div *ngIf="emailAlreadyInUse" class="mt-2 text-sm text-red-500 text-center">The email you provided is already in use.</div>
+      </div>
     </div>
-    <div class="text-center">
+    <div class="flex justify-center mb-4 md:mb-6">
       <button
         class="w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
         type="submit"
@@ -121,10 +123,10 @@
         Sign Up
       </button>
     </div>
-    <div class="mt-6 border-t border-black text-center">
-      <p class="mt-4 text-sm text-gray-500">Already have an account?</p>
+    <div class="border-t border-black text-center">
+      <p class="mt-4 md:mt-6 text-sm text-gray-500">Already have an account?</p>
       <button
-        class="w-28 py-2 px-4 mt-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
+        class="w-28 py-2 px-4 mt-4 md:mt-6 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
         (click)="redirectToLogin()"
       >
         Log In

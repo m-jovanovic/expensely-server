@@ -1,58 +1,60 @@
 <exp-authentication-layout>
-  <form class="w-88 px-8 py-8 mb-4 bg-white shadow-lg rounded" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="mb-4">
-      <input
-        class="leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
-        [ngClass]="{
-          'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
-            submitted && loginForm.controls.email.errors,
-          'focus:border-teal-400 focus:ring-teal-400': !submitted || !loginForm.controls.email.errors
-        }"
-        id="email"
-        name="email"
-        formControlName="email"
-        type="email"
-        placeholder="Email"
-        required
-      />
-      <div *ngIf="submitted && loginForm.controls.email.errors" class="mt-2 text-xs text-red-500">
-        <div *ngIf="loginForm.controls.email.errors.required">The email is required.</div>
-        <div *ngIf="loginForm.controls.email.errors.email">The email must be a valid email address.</div>
+  <form class="w-64 md:w-88 px-4 md:px-8 py-4 md:py-8 mb-4 bg-white shadow-lg rounded" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="space-y-2 md:space-y-4 mb-4 md:mb-6">
+      <div>
+        <input
+          class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+          [ngClass]="{
+            'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+              submitted && loginForm.controls.email.errors,
+            'focus:border-teal-400 focus:ring-teal-400': !submitted || !loginForm.controls.email.errors
+          }"
+          id="email"
+          name="email"
+          formControlName="email"
+          type="email"
+          placeholder="Email"
+          required
+        />
+        <div *ngIf="submitted && loginForm.controls.email.errors" class="mt-2 text-xs text-red-500">
+          <div *ngIf="loginForm.controls.email.errors.required">The email is required.</div>
+          <div *ngIf="loginForm.controls.email.errors.email">The email must be a valid email address.</div>
+        </div>
+      </div>
+      <div>
+        <input
+          class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+          [ngClass]="{
+            'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500  focus:ring-red-500':
+              submitted && loginForm.controls.password.errors,
+            'focus:border-teal-400 focus:ring-teal-400': !submitted || !loginForm.controls.password.errors
+          }"
+          id="password"
+          name="password"
+          formControlName="password"
+          type="password"
+          placeholder="Password"
+          required
+        />
+        <div *ngIf="submitted && loginForm.controls.password.errors" class="mt-2 text-xs text-red-500">
+          <div *ngIf="loginForm.controls.password.errors.required">The password is required.</div>
+        </div>
+        <div *ngIf="invalidEmailOrPassword" class="mt-2 text-xs text-red-500 text-center">The provided email or password is incorrect.</div>
       </div>
     </div>
-    <div class="mb-6">
-      <input
-        class="leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
-        [ngClass]="{
-          'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500  focus:ring-red-500':
-            submitted && loginForm.controls.password.errors,
-          'focus:border-teal-400 focus:ring-teal-400': !submitted || !loginForm.controls.password.errors
-        }"
-        id="password"
-        name="password"
-        formControlName="password"
-        type="password"
-        placeholder="Password"
-        required
-      />
-      <div *ngIf="submitted && loginForm.controls.password.errors" class="mt-2 text-xs text-red-500">
-        <div *ngIf="loginForm.controls.password.errors.required">The password is required.</div>
-      </div>
-      <div *ngIf="invalidEmailOrPassword" class="mt-2 text-xs text-red-500 text-center">The provided email or password is incorrect.</div>
-    </div>
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col md:flex-row items-center md:justify-between mb-4 md:mb-6">
       <button
-        class="w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
+        class="w-24 md:w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
         type="submit"
       >
         Log In
       </button>
-      <a class="inline-block align-baseline font-bold text-sm text-gray-500 hover:text-black" href="#">Forgot Password? </a>
+      <a class="mt-4 md:mt-0 font-bold text-sm text-gray-400 hover:text-black" href="#"> Forgot Password? </a>
     </div>
-    <div class="mt-6 border-t border-black text-center">
-      <p class="mt-4 text-sm text-gray-500">Don't have an account yet?</p>
+    <div class="border-t border-black flex flex-col items-center">
+      <p class="mt-4 md:mt-6 text-sm text-gray-500">Don't have an account yet?</p>
       <button
-        class="w-28 py-2 px-4 mt-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
+        class="w-24 md:w-28 py-2 px-4 mt-4 md:mt-6 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
         (click)="redirectToRegister()"
       >
         Sign Up
