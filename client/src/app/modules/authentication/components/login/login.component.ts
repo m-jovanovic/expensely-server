@@ -1,23 +1,21 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, of, Subscription } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
-import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
+import { ApiErrorResponse, AuthenticationFacade, RouterService } from '@expensely/core';
 
 @Component({
   selector: 'exp-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
-  private subscription: Subscription;
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
   requestSent = false;
   invalidEmailOrPassword = false;
-  formValid$: Observable<boolean>;
 
   constructor(private formBuilder: FormBuilder, private authenticationFacade: AuthenticationFacade, private routerService: RouterService) {}
 
@@ -26,14 +24,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-
-    this.formValid$ = this.loginForm.valueChanges.pipe(map(() => !this.loginForm.invalid));
-
-    this.subscription = this.formValid$.subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   onSubmit(): void {
