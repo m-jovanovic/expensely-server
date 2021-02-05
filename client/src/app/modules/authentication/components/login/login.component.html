@@ -6,7 +6,7 @@
         [ngClass]="{
           'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
             submitted && loginForm.controls.email.errors,
-          'focus:border-teal-400 focus:ring-teal-400': !submitted || (submitted && !loginForm.controls.email.errors)
+          'focus:border-teal-400 focus:ring-teal-400': !submitted || !loginForm.controls.email.errors
         }"
         id="email"
         name="email"
@@ -26,7 +26,7 @@
         [ngClass]="{
           'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500  focus:ring-red-500':
             submitted && loginForm.controls.password.errors,
-          'focus:border-teal-400 focus:ring-teal-400': !submitted || (submitted && !loginForm.controls.password.errors)
+          'focus:border-teal-400 focus:ring-teal-400': !submitted || !loginForm.controls.password.errors
         }"
         id="password"
         name="password"
