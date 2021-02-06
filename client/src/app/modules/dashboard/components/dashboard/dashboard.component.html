@@ -1,27 +1,16 @@
-<div class="flex">
+<div class="flex space-x-8">
   <exp-transaction-summary
-    [title]="'Expense'"
-    [formattedTransaction]="transactionSummary.expense$ | async"
-    timePeriod="This month."
-    [isLoading]="transactionSummary.isLoading$ | async"
-    [error]="transactionSummary.error$ | async"
+    class="w-50"
+    [expense]="transactionSummaryFacade.expense$ | async"
+    [income]="transactionSummaryFacade.income$ | async"
+    [isLoading]="transactionSummaryFacade.isLoading$ | async"
+    [error]="transactionSummaryFacade.error$ | async"
   >
   </exp-transaction-summary>
-  <exp-transaction-summary
-    class="ml-8"
-    [title]="'Income'"
-    [formattedTransaction]="transactionSummary.income$ | async"
-    timePeriod="This month."
-    [isLoading]="transactionSummary.isLoading$ | async"
-    [error]="transactionSummary.error$ | async"
-  >
-  </exp-transaction-summary>
-</div>
 
-<div class="flex">
   <exp-transaction-list
-    [transactions]="transaction.transactions$ | async"
-    [isLoading]="transaction.isLoading$ | async"
-    [error]="transaction.error$ | async"
+    [transactions]="transactionFacade.transactions$ | async"
+    [isLoading]="transactionFacade.isLoading$ | async"
+    [error]="transactionFacade.error$ | async"
   ></exp-transaction-list>
 </div>

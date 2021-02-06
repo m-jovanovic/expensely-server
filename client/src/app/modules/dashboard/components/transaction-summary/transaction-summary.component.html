@@ -1,11 +1,32 @@
-<div class="p-4 bg-white rounded-lg shadow-lg">
-  <div class="block text-xl font-semibold text-gray-700 border-b pb-2">{{ title }}</div>
-  <div class="mt-6">
-    <div *ngIf="isLoading">Loading...</div>
-    <div *ngIf="error">Summary currently unavailable.</div>
-    <div *ngIf="!isLoading && !error">
-      <div class="text-2xl">{{ formattedTransaction }}</div>
-      <div class="mt-1 text-sm text-gray-600">{{ timePeriod }}</div>
+<div class="flex space-x-8 h-44">
+  <div class="w-64 bg-white rounded-lg shadow-lg divide-y-2 divide-gray-200">
+    <div class="px-4 py-2">
+      <div class="text-3xl font-medium tracking-wide text-gray-700">Expenses</div>
+      <div class="mt-1 text-gray-400">This month</div>
+    </div>
+    <div class="py-7">
+      <div *ngIf="isLoading" class="flex items-center justify-center">
+        <div class="loader"></div>
+      </div>
+      <div *ngIf="error">Expenses summary is currently unavailable.</div>
+      <div *ngIf="!isLoading && !error" class="flex items-center justify-center">
+        <div class="text-3xl text-red-400">{{ expense }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="w-64 bg-white rounded-lg shadow-lg divide-y-2 divide-gray-200">
+    <div class="px-4 py-2">
+      <div class="text-3xl font-medium tracking-wide text-gray-700">Incomes</div>
+      <div class="mt-1 text-gray-400">This month</div>
+    </div>
+    <div class="py-7">
+      <div *ngIf="isLoading" class="flex items-center justify-center">
+        <div class="loader"></div>
+      </div>
+      <div *ngIf="error">Income summary is currently unavailable.</div>
+      <div *ngIf="!isLoading && !error" class="flex items-center justify-center">
+        <div class="text-3xl text-teal-500">{{ income }}</div>
+      </div>
     </div>
   </div>
 </div>

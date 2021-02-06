@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'exp-transaction-summary',
@@ -6,15 +6,12 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   styleUrls: ['./transaction-summary.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TransactionSummaryComponent implements OnInit {
+export class TransactionSummaryComponent {
   @Input()
-  title: string;
+  expense: string;
 
   @Input()
-  formattedTransaction: string;
-
-  @Input()
-  timePeriod: string;
+  income: string;
 
   @Input()
   isLoading: boolean;
@@ -23,6 +20,4 @@ export class TransactionSummaryComponent implements OnInit {
   error: boolean;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

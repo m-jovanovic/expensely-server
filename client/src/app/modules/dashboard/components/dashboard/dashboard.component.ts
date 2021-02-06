@@ -10,18 +10,10 @@ import { TransactionFacade, TransactionSummaryFacade } from '@expensely/core';
 export class DashboardComponent implements OnInit {
   private readonly numberOfTransactions = 10;
 
-  constructor(private transactionFacade: TransactionFacade, private transactionSummaryFacade: TransactionSummaryFacade) {}
+  constructor(public transactionFacade: TransactionFacade, public transactionSummaryFacade: TransactionSummaryFacade) {}
 
   ngOnInit(): void {
     this.transactionFacade.loadTransactions(this.numberOfTransactions).subscribe();
     this.transactionSummaryFacade.loadTransactionSummary().subscribe();
-  }
-
-  get transaction(): TransactionFacade {
-    return this.transactionFacade;
-  }
-
-  get transactionSummary(): TransactionSummaryFacade {
-    return this.transactionSummaryFacade;
   }
 }
