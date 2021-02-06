@@ -1,5 +1,5 @@
 <div class="py-4 w-136 bg-white rounded-lg shadow-lg">
-  <div class="flex items-center space-x-3 px-4 mb-4">
+  <div class="flex items-center space-x-1 px-4 mb-4">
     <svg class="w-7 h-7 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24">
       <path
         stroke-linecap="round"
@@ -10,7 +10,7 @@
     </svg>
     <span class="text-3xl font-medium tracking-wide text-gray-700"> Recent Transactions </span>
   </div>
-  <ul class="divide-y divide-gray-200 mt-4">
+  <ul class="divide-y divide-gray-200 space-y-4">
     <p *ngIf="isLoading">Loading...</p>
     <li class="px-4 py-2" *ngFor="let transaction of transactions">
       <div class="flex items-center justify-between">
@@ -25,7 +25,9 @@
               {{ transaction.name }}
             </div>
             <div class="tracking-wide text-sm text-gray-500 mt-1">
-              {{ transaction.category }}
+              <span class="bg-red-200 rounded-l-full rounded-r-full px-2 py-1">
+                {{ transaction.category }}
+              </span>
             </div>
           </div>
         </div>
