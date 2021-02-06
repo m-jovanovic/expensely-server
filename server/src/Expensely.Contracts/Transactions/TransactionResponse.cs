@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Expensely.Domain.Core;
 
 namespace Expensely.Contracts.Transactions
@@ -12,21 +13,33 @@ namespace Expensely.Contracts.Transactions
         /// Initializes a new instance of the <see cref="TransactionResponse"/> class.
         /// </summary>
         /// <param name="id">The transaction identifier.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="category">The category.</param>
         /// <param name="money">The money amount.</param>
         /// <param name="occurredOn">The occurred on date.</param>
-        /// <param name="createdOnUtc">The created on date and time in UTC format.</param>
-        public TransactionResponse(string id, Money money, DateTime occurredOn, DateTime createdOnUtc)
+        public TransactionResponse(string id, Name name, Category category, Money money, DateTime occurredOn)
         {
             Id = id;
+            Name = name;
+            Category = category.Name;
             FormattedAmount = money.Format();
-            OccurredOn = occurredOn;
-            CreatedOnUtc = createdOnUtc;
+            OccurredOn = occurredOn.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
         }
 
         /// <summary>
         /// Gets the identifier.
         /// </summary>
         public string Id { get; }
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        public string Name { get; }
+
+        /// <summary>
+        /// Gets the category.
+        /// </summary>
+        public string Category { get; }
 
         /// <summary>
         /// Gets the formatted amount.
@@ -36,11 +49,6 @@ namespace Expensely.Contracts.Transactions
         /// <summary>
         /// Gets the occurred on date.
         /// </summary>
-        public DateTime OccurredOn { get; }
-
-        /// <summary>
-        /// Gets the created on date time in UTC format.
-        /// </summary>
-        public DateTime CreatedOnUtc { get; }
+        public string OccurredOn { get; }
     }
 }

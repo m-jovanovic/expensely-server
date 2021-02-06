@@ -1,4 +1,6 @@
-﻿using Expensely.Domain.Abstractions.Primitives;
+﻿using System;
+using System.Globalization;
+using Expensely.Domain.Abstractions.Primitives;
 
 namespace Expensely.Domain.Core
 {
@@ -21,6 +23,8 @@ namespace Expensely.Domain.Core
         /// The Serbian Dinar.
         /// </summary>
         public static readonly Currency Rsd = new(3, "Serbian Dinar", "RSD");
+
+        private static readonly IFormatProvider NumberFormat = new CultureInfo("sr-RS");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Currency"/> class.
@@ -58,6 +62,6 @@ namespace Expensely.Domain.Core
         /// </summary>
         /// <param name="amount">The amount to be formatted.</param>
         /// <returns>The formatted amount along with the currency.</returns>
-        public string Format(decimal amount) => $"{amount:n2} {Code}";
+        public string Format(decimal amount) => $"{amount.ToString("N2", NumberFormat)} {Code}";
     }
 }

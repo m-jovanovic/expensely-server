@@ -55,6 +55,8 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 .Select(x => new
                 {
                     x.Id,
+                    x.Name,
+                    x.Category,
                     x.Money,
                     x.OccurredOn,
                     x.CreatedOnUtc
@@ -62,7 +64,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 .ToArrayAsync(cancellationToken);
 
             TransactionResponse[] transactionResponses = transactions
-                .Select(x => new TransactionResponse(x.Id, x.Money, x.OccurredOn, x.CreatedOnUtc))
+                .Select(x => new TransactionResponse(x.Id, x.Name, x.Category, x.Money, x.OccurredOn))
                 .ToArray();
 
             if (transactionResponses.Length < query.Limit)
@@ -70,11 +72,11 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 return new TransactionListResponse(transactionResponses);
             }
 
-            TransactionResponse lastExpense = transactionResponses[^1];
+            var lastTransaction = transactions[^1];
 
             string cursor = Cursor.Create(
-                lastExpense.OccurredOn.ToString(DateTimeFormats.Date, CultureInfo.InvariantCulture),
-                lastExpense.CreatedOnUtc.ToString(DateTimeFormats.DateTimeWithMilliseconds, CultureInfo.InvariantCulture));
+                lastTransaction.OccurredOn.ToString(DateTimeFormats.Date, CultureInfo.InvariantCulture),
+                lastTransaction.CreatedOnUtc.ToString(DateTimeFormats.DateTimeWithMilliseconds, CultureInfo.InvariantCulture));
 
             return new TransactionListResponse(transactionResponses[..^1], cursor);
         }
