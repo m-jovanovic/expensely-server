@@ -1,7 +1,7 @@
-<div class="w-136 bg-white rounded-lg shadow-lg divide-y divide-gray-200 pb-4">
+<div class="bg-white rounded-lg shadow-lg divide-y divide-gray-200 pb-4">
   <!-- Title -->
-  <div class="flex items-center space-x-3 px-4 py-4">
-    <svg class="w-7 h-7 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24">
+  <div class="flex items-center space-x-3 px-4 py-2 md:py-4">
+    <svg class="w-6 md:w-7 h-6 md:h-7 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24">
       <path
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -9,11 +9,11 @@
         d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
       />
     </svg>
-    <span class="text-2xl font-medium tracking-wide text-gray-700"> Recent Transactions </span>
+    <span class="text-xl md:text-2xl font-medium tracking-wide text-gray-700"> Recent Transactions </span>
   </div>
 
   <!-- Transactions list container -->
-  <ul class="divide-y divide-gray-200 space-y-4">
+  <ul class="divide-y divide-gray-200 space-y-2 md:space-y-4">
     <!-- Spinner -->
     <div *ngIf="isLoading" class="flex items-center justify-center py-10">
       <exp-spinner class="w-24 h-24"></exp-spinner>
@@ -30,7 +30,7 @@
     </div>
 
     <!-- Transactions list items -->
-    <li class="px-4 pt-2" *ngFor="let transaction of transactions">
+    <li class="px-4 pt-1 md:pt-2" *ngFor="let transaction of transactions">
       <div class="flex items-center justify-between">
         <div class="flex items-center justify-center space-x-6">
           <div>
