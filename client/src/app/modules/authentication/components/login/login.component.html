@@ -3,6 +3,7 @@
     <div class="flex flex-col divide-y-2 divide-gray-200">
       <div class="px-4 md:px-6 py-4 md:py-6">
         <div class="space-y-2 md:space-y-4 mb-4 md:mb-6">
+          <!-- Email input and error messages -->
           <div>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
@@ -23,6 +24,8 @@
               <div *ngIf="loginForm.controls.email.errors.email">The email must be a valid email address.</div>
             </div>
           </div>
+
+          <!-- Password input and error messages -->
           <div>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
@@ -46,6 +49,8 @@
             </div>
           </div>
         </div>
+
+        <!-- Log In section -->
         <div class="flex flex-col md:flex-row items-center md:justify-between">
           <button
             class="w-24 md:w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
@@ -57,6 +62,7 @@
         </div>
       </div>
 
+      <!-- Sign up section -->
       <div class="flex flex-col items-center px-4 md:px-6 py-4 rounded-b bg-gray-50">
         <p class="text-sm text-gray-500">Don't have an account yet?</p>
         <button

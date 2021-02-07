@@ -3,6 +3,7 @@
     <div class="flex flex-col divide-y-2 divide-gray-200">
       <div class="px-4 md:px-6 py-4 md:py-6">
         <div class="space-y-2 md:space-y-4 mb-4 md:mb-6">
+          <!-- First Name input and error messages -->
           <div>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
@@ -24,6 +25,8 @@
               <div *ngIf="registerForm.controls.firstName.errors.maxLength">The first name length is limited to 100 characters.</div>
             </div>
           </div>
+
+          <!-- Last Name input and error messages -->
           <div>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
@@ -45,6 +48,8 @@
               <div *ngIf="registerForm.controls.lastName.errors.maxLength">The first name length is limited to 100 characters.</div>
             </div>
           </div>
+
+          <!-- Email input and error messages -->
           <div>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
@@ -65,6 +70,8 @@
               <div *ngIf="registerForm.controls.email.errors.email">The email must be a valid email address.</div>
             </div>
           </div>
+
+          <!-- Password input and error messages -->
           <div>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
@@ -89,6 +96,8 @@
               </div>
             </div>
           </div>
+
+          <!-- Confirm password input and error messages -->
           <div>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
@@ -118,6 +127,8 @@
             <div *ngIf="emailAlreadyInUse" class="mt-2 text-sm text-red-500 text-center">The email you provided is already in use.</div>
           </div>
         </div>
+
+        <!-- Sign Up section -->
         <div class="flex justify-center">
           <button
             class="w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
@@ -128,6 +139,7 @@
         </div>
       </div>
 
+      <!-- Log In section -->
       <div class="flex flex-col items-center px-4 md:px-6 py-4 rounded-b bg-gray-50">
         <p class="text-sm text-gray-500">Already have an account?</p>
         <button
