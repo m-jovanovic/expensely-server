@@ -4,8 +4,7 @@ import { Observable } from 'rxjs';
 
 import { ApiRoutes } from '../../constants/api-routes';
 import { ApiService } from '../api/api.service';
-import { TransactionListResponse } from '../../contracts/transaction/transaction-list-response';
-import { TransactionSummaryResponse } from '../../contracts/transaction/transaction-summary-response';
+import { CreateTransactionRequest, TransactionListResponse, TransactionSummaryResponse } from '../../../core/contracts/transaction';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +12,14 @@ import { TransactionSummaryResponse } from '../../contracts/transaction/transact
 export class TransactionService extends ApiService {
   constructor(client: HttpClient) {
     super(client);
+  }
+
+  createTransaction(request: CreateTransactionRequest): Observable<any> {
+    return this.post(ApiRoutes.Transactions.createTransaction, request);
+  }
+
+  deleteTransaction(transactionId: string): Observable<any> {
+    return this.delete(ApiRoutes.Transactions.deleteTransaction.replace('{transactionId}', transactionId));
   }
 
   getTransactions(userId: string, limit: number, cursor: string): Observable<TransactionListResponse> {

@@ -6,6 +6,8 @@ export namespace ApiRoutes {
   }
 
   export class Transactions {
+    public static readonly createTransaction = 'transactions';
+    public static readonly deleteTransaction = 'transactions/{transactionId}';
     public static readonly getTransactions = 'transactions';
     public static readonly getCurrentMonthTransactionSummary = 'transactions/summary/current-month';
   }
