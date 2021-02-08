@@ -4,11 +4,10 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { State, StateContext, Action, Selector } from '@ngxs/store';
 
-import { AuthenticationFacade } from '../authentication';
 import { TransactionStateModel } from './transaction-state.model';
-import { LoadTransactions } from './transaction.actions';
+import { CreateTransaction, DeleteTransaction, LoadTransactions } from './transaction.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
-import { TransactionListResponse, TransactionResponse } from '../../contracts/transaction';
+import { CreateTransactionRequest, TransactionListResponse, TransactionResponse } from '../../contracts/transaction';
 
 @State<TransactionStateModel>({
   name: 'transactions',
@@ -36,7 +35,68 @@ export class TransactionState {
     return state.error;
   }
 
-  constructor(private transactionService: TransactionService, private authenticationFacade: AuthenticationFacade) {}
+  constructor(private transactionService: TransactionService) {}
+
+  @Action(CreateTransaction)
+  createTransaction(context: StateContext<TransactionStateModel>, action: CreateTransaction): Observable<any> {
+    context.patchState({
+      isLoading: true
+    });
+
+    // TODO: See if this should eagerly update transactions collection, or issue a new GET request?
+    return this.transactionService
+      .createTransaction(
+        new CreateTransactionRequest(
+          action.userId,
+          action.name,
+          action.description,
+          action.category,
+          action.amount,
+          action.currency,
+          action.occurredOn,
+          action.transactionType
+        )
+      )
+      .pipe(
+        tap(() => {
+          context.patchState({
+            isLoading: false
+          });
+        }),
+        catchError((error: HttpErrorResponse) => {
+          context.patchState({
+            isLoading: false,
+            error: true
+          });
+
+          return throwError(error);
+        })
+      );
+  }
+
+  @Action(DeleteTransaction)
+  deleteTransaction(context: StateContext<TransactionStateModel>, action: DeleteTransaction): Observable<any> {
+    context.patchState({
+      isLoading: true
+    });
+
+    // TODO: See if this should eagerly update transactions collection, or issue a new GET request?
+    return this.transactionService.deleteTransaction(action.transactionId).pipe(
+      tap(() => {
+        context.patchState({
+          isLoading: false
+        });
+      }),
+      catchError((error: HttpErrorResponse) => {
+        context.patchState({
+          isLoading: false,
+          error: true
+        });
+
+        return throwError(error);
+      })
+    );
+  }
 
   @Action(LoadTransactions)
   loadTransactions(context: StateContext<TransactionStateModel>, action: LoadTransactions): Observable<any> {
