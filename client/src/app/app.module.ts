@@ -5,11 +5,10 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 
+import { CoreModule, NgxsLogoutPluginModule, AuthenticationState } from '@expensely/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
-import { CoreModule } from './core/core.module';
-import { AuthenticationState } from '@expensely/core';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +25,7 @@ import { AuthenticationState } from '@expensely/core';
       key: [AuthenticationState]
     }),
     NgxsRouterPluginModule.forRoot(),
+    NgxsLogoutPluginModule.forRoot(),
     CoreModule
   ],
   providers: [],
