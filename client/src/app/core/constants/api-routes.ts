@@ -15,4 +15,8 @@ export namespace ApiRoutes {
   export class Categories {
     public static readonly getCategories = 'categories';
   }
+
+  export class Currencies {
+    public static readonly getCurrencies = 'currencies';
+  }
 }
