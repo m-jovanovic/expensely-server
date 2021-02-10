@@ -11,4 +11,8 @@ export namespace ApiRoutes {
     public static readonly getTransactions = 'transactions';
     public static readonly getCurrentMonthTransactionSummary = 'transactions/summary/current-month';
   }
+
+  export class Categories {
+    public static readonly getCategories = 'categories';
+  }
 }
