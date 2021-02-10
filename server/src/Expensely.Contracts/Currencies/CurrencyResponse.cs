@@ -6,9 +6,9 @@
     public sealed class CurrencyResponse
     {
         /// <summary>
-        /// Gets the currency value.
+        /// Gets the currency identifier.
         /// </summary>
-        public int Value { get; init; }
+        public int Id { get; init; }
 
         /// <summary>
         /// Gets the currency name.

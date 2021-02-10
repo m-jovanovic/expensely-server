@@ -21,7 +21,7 @@ namespace Expensely.Persistence.QueryProcessors.Currencies
                 .List
                 .Select(x => new CurrencyResponse
                 {
-                    Value = x.Value,
+                    Id = x.Value,
                     Name = x.Name,
                     Code = x.Code
                 })
