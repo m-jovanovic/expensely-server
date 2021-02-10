@@ -1,4 +1,4 @@
-import { TransactionResponse } from '../../contracts/transaction/transaction-response';
+import { TransactionResponse } from '../../contracts/transactions/transaction-response';
 
 export interface TransactionStateModel {
   transactions: TransactionResponse[];

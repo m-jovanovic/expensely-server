@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
-import { TransactionResponse } from '@expensely/core/contracts/transaction/transaction-response';
+import { TransactionResponse } from '@expensely/core/contracts/transactions/transaction-response';
 
 @Component({
   selector: 'exp-transaction-list',

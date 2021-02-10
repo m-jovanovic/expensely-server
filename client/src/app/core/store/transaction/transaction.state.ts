@@ -7,7 +7,7 @@ import { State, StateContext, Action, Selector } from '@ngxs/store';
 import { TransactionStateModel } from './transaction-state.model';
 import { CreateTransaction, DeleteTransaction, LoadTransactions } from './transaction.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
-import { CreateTransactionRequest, TransactionListResponse, TransactionResponse } from '../../contracts/transaction';
+import { CreateTransactionRequest, TransactionListResponse, TransactionResponse } from '../../contracts/transactions';
 
 @State<TransactionStateModel>({
   name: 'transactions',

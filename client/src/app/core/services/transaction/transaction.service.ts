@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { ApiRoutes } from '../../constants/api-routes';
 import { ApiService } from '../api/api.service';
-import { CreateTransactionRequest, TransactionListResponse, TransactionSummaryResponse } from '../../../core/contracts/transaction';
+import { CreateTransactionRequest, TransactionListResponse, TransactionSummaryResponse } from '../../../core/contracts/transactions';
 
 @Injectable({
   providedIn: 'root'

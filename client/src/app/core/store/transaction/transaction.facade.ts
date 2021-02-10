@@ -5,7 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { AuthenticationFacade } from '../authentication';
 import { CreateTransaction, DeleteTransaction, LoadTransactions } from './transaction.actions';
 import { TransactionState } from './transaction.state';
-import { TransactionResponse } from '../../contracts/transaction/transaction-response';
+import { TransactionResponse } from '../../contracts/transactions/transaction-response';
 
 @Injectable({
   providedIn: 'root'

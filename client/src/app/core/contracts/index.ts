@@ -1,3 +1,3 @@
 export * from './authentication';
 export * from './errors';
-export * from './transaction';
+export * from './transactions';

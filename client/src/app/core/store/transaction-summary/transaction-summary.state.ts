@@ -7,7 +7,7 @@ import { State, StateContext, Action, Selector } from '@ngxs/store';
 import { TransactionSummaryStateModel } from './transaction-summary-state.model';
 import { LoadTransactionSummary } from './transaction-summary.actions';
 import { TransactionService } from '@expensely/core/services/transaction/transaction.service';
-import { TransactionSummaryResponse } from '@expensely/core/contracts/transaction/transaction-summary-response';
+import { TransactionSummaryResponse } from '@expensely/core/contracts/transactions/transaction-summary-response';
 
 @State<TransactionSummaryStateModel>({
   name: 'transaction_summary',
