@@ -21,7 +21,7 @@ namespace Expensely.Persistence.QueryProcessors.Categories
                 .List
                 .Select(x => new CategoryResponse
                 {
-                    Value = x.Value,
+                    Id = x.Value,
                     Name = x.Name
                 }).ToList();
 
