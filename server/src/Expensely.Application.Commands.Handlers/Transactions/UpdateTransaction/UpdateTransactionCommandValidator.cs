@@ -18,7 +18,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
         {
             RuleFor(x => x.TransactionId).NotEmpty().WithError(ValidationErrors.Transaction.IdentifierIsRequired);
 
-            RuleFor(x => x.Name).NotEmpty().WithError(ValidationErrors.Transaction.NameIsRequired);
+            RuleFor(x => x.Description).NotEmpty().WithError(ValidationErrors.Transaction.DescriptionIsRequired);
 
             RuleFor(x => x.Category).Must(Category.ContainsValue).WithError(ValidationErrors.Category.NotFound);
 

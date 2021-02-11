@@ -13,7 +13,6 @@ namespace Expensely.Application.Commands.Transactions
         /// Initializes a new instance of the <see cref="UpdateTransactionCommand "/> class.
         /// </summary>
         /// <param name="transactionId">The user identifier.</param>
-        /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
         /// <param name="category">The category.</param>
         /// <param name="amount">The monetary amount.</param>
@@ -21,7 +20,6 @@ namespace Expensely.Application.Commands.Transactions
         /// <param name="occurredOn">The date the transaction occurred on.</param>
         public UpdateTransactionCommand(
             Guid transactionId,
-            string name,
             string description,
             int category,
             decimal amount,
@@ -29,7 +27,6 @@ namespace Expensely.Application.Commands.Transactions
             DateTime occurredOn)
         {
             TransactionId = transactionId.ToString();
-            Name = name;
             Description = description;
             Category = category;
             Amount = amount;
@@ -41,11 +38,6 @@ namespace Expensely.Application.Commands.Transactions
         /// Gets the transaction identifier.
         /// </summary>
         public string TransactionId { get; }
-
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        public string Name { get; }
 
         /// <summary>
         /// Gets the description.

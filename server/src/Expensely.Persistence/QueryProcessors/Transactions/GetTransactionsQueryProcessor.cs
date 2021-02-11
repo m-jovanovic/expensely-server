@@ -55,7 +55,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 .Select(x => new
                 {
                     x.Id,
-                    x.Name,
+                    x.Description,
                     x.Category,
                     x.Money,
                     x.OccurredOn,
@@ -64,7 +64,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 .ToArrayAsync(cancellationToken);
 
             TransactionResponse[] transactionResponses = transactions
-                .Select(x => new TransactionResponse(x.Id, x.Name, x.Category, x.Money, x.OccurredOn))
+                .Select(x => new TransactionResponse(x.Id, x.Description, x.Category, x.Money, x.OccurredOn))
                 .ToArray();
 
             if (transactionResponses.Length < query.Limit)

@@ -71,7 +71,6 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
 
             Result<TransactionDetails> transactionDetailsResult = new TransactionDetailsValidator().Validate(
                 maybeUser.Value,
-                request.Name,
                 request.Description,
                 request.Category,
                 request.Amount,

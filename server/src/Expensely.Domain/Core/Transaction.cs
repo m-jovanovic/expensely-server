@@ -20,7 +20,6 @@ namespace Expensely.Domain.Core
             Ensure.NotNull(transactionDetails, "The transaction details are required.", nameof(transactionDetails));
 
             UserId = transactionDetails.UserId;
-            Name = transactionDetails.Name;
             Description = transactionDetails.Description;
             Category = transactionDetails.Category;
             Money = transactionDetails.Money;
@@ -42,11 +41,6 @@ namespace Expensely.Domain.Core
         /// Gets the user identifier.
         /// </summary>
         public string UserId { get; private set; }
-
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        public Name Name { get; private set; }
 
         /// <summary>
         /// Gets the description.
@@ -85,8 +79,6 @@ namespace Expensely.Domain.Core
         /// <param name="transactionDetails">The transaction details.</param>
         public void Update(TransactionDetails transactionDetails)
         {
-            ChangeNameInternal(transactionDetails.Name);
-
             ChangeDescriptionInternal(transactionDetails.Description);
 
             ChangeCategoryInternal(transactionDetails.Category);
@@ -94,22 +86,6 @@ namespace Expensely.Domain.Core
             ChangeMoneyInternal(transactionDetails.Money);
 
             ChangeOccurredOnInternal(transactionDetails.OccurredOn);
-        }
-
-        /// <summary>
-        /// Changes the name of the transaction.
-        /// </summary>
-        /// <param name="name">The new name.</param>
-        private void ChangeNameInternal(Name name)
-        {
-            Ensure.NotEmpty(name, "The name is required.", nameof(name));
-
-            if (name == Name)
-            {
-                return;
-            }
-
-            Name = name;
         }
 
         /// <summary>

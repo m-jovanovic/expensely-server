@@ -13,7 +13,6 @@ namespace Expensely.Application.Commands.Transactions
         /// Initializes a new instance of the <see cref="CreateTransactionCommand"/> class.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
         /// <param name="category">The category.</param>
         /// <param name="amount">The monetary amount.</param>
@@ -22,7 +21,6 @@ namespace Expensely.Application.Commands.Transactions
         /// <param name="transactionType">The transaction type.</param>
         public CreateTransactionCommand(
             Guid userId,
-            string name,
             string description,
             int category,
             decimal amount,
@@ -31,7 +29,6 @@ namespace Expensely.Application.Commands.Transactions
             int transactionType)
         {
             UserId = userId.ToString();
-            Name = name;
             Description = description;
             Category = category;
             Amount = amount;
@@ -44,11 +41,6 @@ namespace Expensely.Application.Commands.Transactions
         /// Gets the user identifier.
         /// </summary>
         public string UserId { get; }
-
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        public string Name { get; }
 
         /// <summary>
         /// Gets the description.

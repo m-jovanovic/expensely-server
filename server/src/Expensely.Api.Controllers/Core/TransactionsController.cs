@@ -84,7 +84,6 @@ namespace Expensely.Api.Controllers.Core
             await Result.Create(createTransactionRequest, ApiErrors.UnProcessableRequest)
                 .Map(request => new CreateTransactionCommand(
                     request.UserId,
-                    request.Name,
                     request.Description,
                     request.Category,
                     request.Amount,
@@ -112,7 +111,6 @@ namespace Expensely.Api.Controllers.Core
             await Result.Create(updateTransactionRequest, ApiErrors.UnProcessableRequest)
                 .Map(request => new UpdateTransactionCommand(
                     transactionId,
-                    request.Name,
                     request.Description,
                     request.Category,
                     request.Amount,

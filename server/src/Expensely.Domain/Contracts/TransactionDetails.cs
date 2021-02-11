@@ -14,11 +14,6 @@ namespace Expensely.Domain.Contracts
         public string UserId { get; init; }
 
         /// <summary>
-        /// Gets the name.
-        /// </summary>
-        public Name Name { get; init; }
-
-        /// <summary>
         /// Gets the description.
         /// </summary>
         public Description Description { get; init; }

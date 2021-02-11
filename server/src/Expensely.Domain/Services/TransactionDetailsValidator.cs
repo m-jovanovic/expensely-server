@@ -16,7 +16,6 @@ namespace Expensely.Domain.Services
         /// Validates the provided transaction information and returns the result of the validation.
         /// </summary>
         /// <param name="user">The user.</param>
-        /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
         /// <param name="categoryValue">The category value.</param>
         /// <param name="amount">The amount.</param>
@@ -26,7 +25,6 @@ namespace Expensely.Domain.Services
         /// <returns>The result of the transaction validation process containing the transaction information or an error.</returns>
         public Result<TransactionDetails> Validate(
             User user,
-            string name,
             string description,
             int categoryValue,
             decimal amount,
@@ -34,15 +32,11 @@ namespace Expensely.Domain.Services
             DateTime occurredOn,
             int transactionTypeValue)
         {
-            Result<Name> nameResult = Name.Create(name);
-
             Result<Description> descriptionResult = Description.Create(description);
 
-            var firstFailureOrSuccess = Result.FirstFailureOrSuccess(nameResult, descriptionResult);
-
-            if (firstFailureOrSuccess.IsFailure)
+            if (descriptionResult.IsFailure)
             {
-                return Result.Failure<TransactionDetails>(firstFailureOrSuccess.Error);
+                return Result.Failure<TransactionDetails>(descriptionResult.Error);
             }
 
             Currency currency = Currency.FromValue(currencyValue).Value;
@@ -66,7 +60,6 @@ namespace Expensely.Domain.Services
             return new TransactionDetails
             {
                 UserId = user.Id,
-                Name = nameResult.Value,
                 Description = descriptionResult.Value,
                 Category = Category.FromValue(categoryValue).Value,
                 Money = money,

@@ -13,14 +13,14 @@ namespace Expensely.Contracts.Transactions
         /// Initializes a new instance of the <see cref="TransactionResponse"/> class.
         /// </summary>
         /// <param name="id">The transaction identifier.</param>
-        /// <param name="name">The name.</param>
+        /// <param name="description">The description.</param>
         /// <param name="category">The category.</param>
         /// <param name="money">The money amount.</param>
         /// <param name="occurredOn">The occurred on date.</param>
-        public TransactionResponse(string id, Name name, Category category, Money money, DateTime occurredOn)
+        public TransactionResponse(string id, Description description, Category category, Money money, DateTime occurredOn)
         {
             Id = id;
-            Name = name;
+            Description = description;
             Category = category.Name;
             FormattedAmount = money.Format();
             OccurredOn = occurredOn.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -32,9 +32,9 @@ namespace Expensely.Contracts.Transactions
         public string Id { get; }
 
         /// <summary>
-        /// Gets the name.
+        /// Gets the description.
         /// </summary>
-        public string Name { get; }
+        public string Description { get; }
 
         /// <summary>
         /// Gets the category.

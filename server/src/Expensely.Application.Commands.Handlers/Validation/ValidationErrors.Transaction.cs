@@ -18,9 +18,11 @@ namespace Expensely.Application.Commands.Handlers.Validation
             internal static Error IdentifierIsRequired => new("Transaction.IdentifierIsRequired", "The transaction identifier is required.");
 
             /// <summary>
-            /// Gets the transaction name is required error.
+            /// Gets the transaction description is required error.
             /// </summary>
-            internal static Error NameIsRequired => new("Transaction.NameIsRequired", "The transaction name is required.");
+            internal static Error DescriptionIsRequired => new(
+                "Transaction.DescriptionIsRequired",
+                "The transaction description is required.");
 
             /// <summary>
             /// Gets the transaction occurred on date is required error.

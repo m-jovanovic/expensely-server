@@ -50,7 +50,6 @@ namespace Expensely.Application.Commands.Handlers.Transactions.CreateTransaction
 
             Result<TransactionDetails> transactionDetailsResult = new TransactionDetailsValidator().Validate(
                 maybeUser.Value,
-                request.Name,
                 request.Description,
                 request.Category,
                 request.Amount,

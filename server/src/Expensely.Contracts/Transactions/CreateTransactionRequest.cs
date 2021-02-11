@@ -13,11 +13,6 @@ namespace Expensely.Contracts.Transactions
         public Guid UserId { get; init; }
 
         /// <summary>
-        /// Gets the name.
-        /// </summary>
-        public string Name { get; init; }
-
-        /// <summary>
         /// Gets the description.
         /// </summary>
         public string Description { get; init; }

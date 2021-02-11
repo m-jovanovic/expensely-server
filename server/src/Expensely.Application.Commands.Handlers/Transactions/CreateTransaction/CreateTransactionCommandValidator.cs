@@ -25,7 +25,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.CreateTransaction
                 .When(x => !string.IsNullOrWhiteSpace(x.UserId))
                 .WithError(ValidationErrors.User.InvalidPermissions);
 
-            RuleFor(x => x.Name).NotEmpty().WithError(ValidationErrors.Transaction.NameIsRequired);
+            RuleFor(x => x.Description).NotEmpty().WithError(ValidationErrors.Transaction.DescriptionIsRequired);
 
             RuleFor(x => x.Category).Must(Category.ContainsValue).WithError(ValidationErrors.Category.NotFound);
 

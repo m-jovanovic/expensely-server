@@ -8,11 +8,6 @@ namespace Expensely.Contracts.Transactions
     public sealed class UpdateTransactionRequest
     {
         /// <summary>
-        /// Gets the name.
-        /// </summary>
-        public string Name { get; init; }
-
-        /// <summary>
         /// Gets the description.
         /// </summary>
         public string Description { get; init; }
