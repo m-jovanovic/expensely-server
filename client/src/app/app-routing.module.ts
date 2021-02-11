@@ -20,7 +20,7 @@ const routes: Routes = [
       },
       {
         path: 'transactions',
-        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
+        loadChildren: () => import('./modules').then((m) => m.TransactionsModule),
         canLoad: [AuthenticationGuard]
       },
       {
