@@ -5,7 +5,7 @@ import { CreateTransactionComponent } from './pages/create-transaction/create-tr
 
 const routes: Routes = [
   {
-    path: 'new',
+    path: 'create',
     component: CreateTransactionComponent
   }
 ];
