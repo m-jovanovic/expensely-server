@@ -1,6 +1,6 @@
 export interface TransactionResponse {
   id: string;
-  name: string;
+  description: string;
   category: string;
   formattedAmount: string;
   occurredOn: string;

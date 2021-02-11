@@ -48,7 +48,6 @@ export class TransactionState {
       .createTransaction(
         new CreateTransactionRequest(
           action.userId,
-          action.name,
           action.description,
           action.category,
           action.amount,

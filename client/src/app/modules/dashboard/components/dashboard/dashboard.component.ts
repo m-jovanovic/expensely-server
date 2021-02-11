@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.transactionFacade.loadTransactions(this.numberOfTransactions).subscribe();
+
     this.transactionSummaryFacade.loadTransactionSummary().subscribe();
   }
 }

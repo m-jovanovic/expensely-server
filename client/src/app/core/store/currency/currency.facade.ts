@@ -11,7 +11,7 @@ import { CurrencyResponse } from '../../contracts/transactions/currency-response
 })
 export class CurrencyFacade {
   @Select(CurrencyState.currencies)
-  transactions$: Observable<CurrencyResponse[]>;
+  currencies$: Observable<CurrencyResponse[]>;
 
   @Select(CurrencyState.isLoading)
   isLoading$: Observable<boolean>;

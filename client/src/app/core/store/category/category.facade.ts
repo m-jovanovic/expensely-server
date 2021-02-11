@@ -11,7 +11,7 @@ import { CategoryResponse } from '@expensely/core/contracts/transactions/categor
 })
 export class CategoryFacade {
   @Select(CategoryState.categories)
-  transactions$: Observable<CategoryResponse[]>;
+  categories$: Observable<CategoryResponse[]>;
 
   @Select(CategoryState.isLoading)
   isLoading$: Observable<boolean>;

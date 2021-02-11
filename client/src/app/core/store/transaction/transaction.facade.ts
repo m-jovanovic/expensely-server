@@ -23,7 +23,6 @@ export class TransactionFacade {
   constructor(private store: Store, private authenticationFacade: AuthenticationFacade) {}
 
   createTransaction(
-    name: string,
     description: string,
     category: number,
     amount: number,
@@ -32,7 +31,7 @@ export class TransactionFacade {
     transactionType: number
   ): Observable<any> {
     return this.store.dispatch(
-      new CreateTransaction(this.authenticationFacade.userId, name, description, category, amount, currency, occurredOn, transactionType)
+      new CreateTransaction(this.authenticationFacade.userId, description, category, amount, currency, occurredOn, transactionType)
     );
   }
 
