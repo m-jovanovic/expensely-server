@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Domain.Factories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -9,6 +10,18 @@ namespace Expensely.Api.Extensions
     /// </summary>
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Registers the necessary services with the DI framework.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <returns>The same service collection.</returns>
+        public static IServiceCollection AddDomain(this IServiceCollection services)
+        {
+            services.AddTransient<ITransactionFactory, TransactionFactory>();
+
+            return services;
+        }
+
         /// <summary>
         /// Configures the Swagger services.
         /// </summary>

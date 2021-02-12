@@ -42,6 +42,7 @@ namespace Expensely.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddDomain()
                 .AddInfrastructure(Configuration)
                 .AddPersistence(Configuration)
                 .AddMessaging(Configuration);

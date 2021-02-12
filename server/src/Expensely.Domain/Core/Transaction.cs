@@ -1,6 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Contracts;
+using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.Core
@@ -25,6 +26,39 @@ namespace Expensely.Domain.Core
             Money = transactionDetails.Money;
             OccurredOn = transactionDetails.OccurredOn.Date;
             TransactionType = transactionDetails.TransactionType;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Transaction"/> class.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="money">The monetary amount.</param>
+        /// <param name="occurredOn">The occurred on date.</param>
+        /// <param name="transactionType">The transaction type.</param>
+        internal Transaction(
+            User user,
+            Description description,
+            Category category,
+            Money money,
+            DateTime occurredOn,
+            TransactionType transactionType)
+            : base(Guid.NewGuid())
+        {
+            Ensure.NotNull(user, "The user is required.", nameof(user));
+            Ensure.NotNull(description, "The description is required.", nameof(description));
+            Ensure.NotNull(category, "The description is required.", nameof(category));
+            Ensure.NotEmpty(money, "The description is required.", nameof(money));
+            Ensure.NotEmpty(occurredOn, "The description is required.", nameof(occurredOn));
+            Ensure.NotNull(transactionType, "The transaction type is required.", nameof(transactionType));
+
+            UserId = user.Id;
+            Description = description;
+            Category = category;
+            Money = money;
+            OccurredOn = occurredOn.Date;
+            TransactionType = transactionType;
         }
 
         /// <summary>
