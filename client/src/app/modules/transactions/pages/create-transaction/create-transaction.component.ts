@@ -1,10 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
-import { CategoryFacade } from '@expensely/core/store/category';
-import { CurrencyFacade } from '@expensely/core/store/currency';
-import { CategoryResponse } from '@expensely/core/contracts/transactions/category-response';
-import { CurrencyResponse } from '@expensely/core/contracts/transactions/currency-response';
+import {
+  TransactionFacade,
+  CategoryFacade,
+  CurrencyFacade,
+  RouterService,
+  TransactionType,
+  CategoryResponse,
+  CurrencyResponse,
+  ApiErrorResponse
+} from '@expensely/core';
 
 @Component({
   selector: 'exp-create-transaction',
@@ -12,24 +21,97 @@ import { CurrencyResponse } from '@expensely/core/contracts/transactions/currenc
   styleUrls: ['./create-transaction.component.scss']
 })
 export class CreateTransactionComponent implements OnInit {
-  categoriesIsLoading$: Observable<boolean>;
+  createTransactionForm: FormGroup;
   categories$: Observable<CategoryResponse[]>;
-  currenciesIsLoading$: Observable<boolean>;
   currencies$: Observable<CurrencyResponse[]>;
+  requestSent = false;
 
-  constructor(private categoryFacade: CategoryFacade, private currencyFacade: CurrencyFacade) {}
+  constructor(
+    private transactionFacade: TransactionFacade,
+    private categoryFacade: CategoryFacade,
+    private currencyFacade: CurrencyFacade,
+    private formBuilder: FormBuilder,
+    private routerService: RouterService
+  ) {}
 
   ngOnInit(): void {
-    this.categoriesIsLoading$ = this.categoryFacade.isLoading$;
+    this.createTransactionForm = this.formBuilder.group({
+      transactionType: [TransactionType.Expense.toString(), Validators.required],
+      description: ['', Validators.required],
+      category: ['', Validators.required],
+      amount: ['0.00', [Validators.required, Validators.min(0.01)]],
+      currency: ['', Validators.required],
+      occurredOn: [this.getCurrentDateString(), Validators.required]
+    });
 
     this.categories$ = this.categoryFacade.categories$;
 
-    this.currenciesIsLoading$ = this.currencyFacade.isLoading$;
+    this.currencies$ = this.currencyFacade.currencies$.pipe(
+      tap((currenciesArray) => {
+        if (!currenciesArray?.length) {
+          return;
+        }
 
-    this.currencies$ = this.currencyFacade.currencies$;
+        // TODO: Default this to primary currency when implemented in response.
+        let firstCurrency = currenciesArray[0];
+
+        this.createTransactionForm.controls.currency.setValue(firstCurrency.id);
+      })
+    );
 
     this.categoryFacade.loadCategories().subscribe();
 
     this.currencyFacade.loadCurrencies().subscribe();
+  }
+
+  onCancel(): void {
+    this.routerService.navigate(['']);
+  }
+
+  onSubmit(): void {
+    if (this.requestSent) {
+      return;
+    }
+
+    if (this.createTransactionForm.invalid) {
+      this.requestSent = false;
+
+      return;
+    }
+
+    this.requestSent = true;
+    this.createTransactionForm.disable();
+
+    const transactionType = this.createTransactionForm.value.transactionType;
+    const sign = transactionType == TransactionType.Income ? 1 : -1;
+    const amount = sign * this.createTransactionForm.value.amount;
+
+    this.transactionFacade
+      .createTransaction(
+        this.createTransactionForm.value.description,
+        Number.parseInt(this.createTransactionForm.value.category),
+        amount,
+        this.createTransactionForm.value.currency,
+        this.createTransactionForm.value.occurredOn,
+        transactionType
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.handleCreateTransactionError(new ApiErrorResponse(error));
+
+          return of(true);
+        }),
+        tap(() => {
+          this.requestSent = false;
+          this.createTransactionForm.enable();
+        })
+      )
+      .subscribe(() => this.routerService.navigate(['']));
+  }
+
+  private handleCreateTransactionError(errorResponse: ApiErrorResponse): void {}
+
+  private getCurrentDateString(): string {
+    return new Date().toISOString().substring(0, 10);
   }
 }

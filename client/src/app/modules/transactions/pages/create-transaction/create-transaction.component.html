@@ -1,7 +1,133 @@
-<exp-create-transaction-details
-  [currenciesIsLoading]="currenciesIsLoading$ | async"
-  [currencies]="currencies$ | async"
-  [categoriesIsLoading]="categoriesIsLoading$ | async"
-  [categories]="categories$ | async"
->
-</exp-create-transaction-details>
+<div class="grid grid-cols-6">
+  <div class="col-start-2 col-span-4 rounded-lg divide-y divide-gray-200 bg-white">
+    <!-- Title -->
+    <div class="px-6 py-5">
+      <h3 class="text-lg font-medium text-gray-700">Create a new Transaction</h3>
+    </div>
+
+    <div class="rounded-b-md">
+      <form [formGroup]="createTransactionForm" (ngSubmit)="onSubmit()">
+        <div class="px-6 py-6 grid grid-cols-6 gap-6">
+          <!-- Transaction type -->
+          <div class="col-span-4">
+            <label for="transactionType" class="block font-medium text-gray-500">Transaction type</label>
+            <div class="flex items-center mt-1 space-x-6">
+              <div class="flex items-center">
+                <input
+                  id="expenseTransactionType"
+                  name="transactionType"
+                  formControlName="transactionType"
+                  type="radio"
+                  required
+                  class="block shadow-sm border-gray-300 text-teal-400 focus:border-teal-400 focus:ring-teal-400"
+                  value="1"
+                />
+                <label for="expenseTransactionType" class="block ml-3">Expense</label>
+              </div>
+              <div class="flex items-center">
+                <input
+                  id="incomeTransactionType"
+                  name="transactionType"
+                  formControlName="transactionType"
+                  type="radio"
+                  required
+                  class="block shadow-sm border-gray-300 text-teal-400 focus:border-teal-400 focus:ring-teal-400"
+                  value="2"
+                />
+                <label for="incomeTransactionType" class="block ml-3">Income</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="col-span-4">
+            <label for="description" class="block font-medium text-gray-500">Description</label>
+            <input
+              id="description"
+              name="description"
+              formControlName="description"
+              type="text"
+              required
+              class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-teal-400 focus:ring-teal-400"
+            />
+          </div>
+
+          <!-- Category -->
+          <div class="col-span-4">
+            <label for="description" class="block font-medium text-gray-500">Category</label>
+            <select
+              name="category"
+              id="category"
+              formControlName="category"
+              required
+              class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-teal-400 focus:ring-teal-400"
+            >
+              <option *ngFor="let category of categories$ | async" [value]="category.id">{{ category.name }}</option>
+            </select>
+          </div>
+
+          <!-- Amount and currency -->
+          <div class="col-span-4">
+            <label for="amount" class="block font-medium text-gray-500">Amount</label>
+            <div class="mt-1 relative rounded-md shadow-sm">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span class="text-gray-500 text-sm"> $ </span>
+              </div>
+              <input
+                id="amount"
+                name="amount"
+                formControlName="amount"
+                type="number"
+                step="0.01"
+                min="0"
+                required
+                class="block w-full pl-7 pr-22 rounded-md shadow-sm border-gray-300 focus:border-teal-400 focus:ring-teal-400"
+              />
+              <div class="absolute inset-y-0 right-0 flex items-center">
+                <label for="currency" class="sr-only">Currency</label>
+                <select
+                  id="currency"
+                  name="currency"
+                  formControlName="currency"
+                  required
+                  class="h-full py-0 pl-2 pr-9 border-transparent bg-transparent text-gray-500 rounded-r-md focus:border-teal-400 focus:ring-teal-400"
+                >
+                  <option *ngFor="let currency of currencies$ | async" [value]="currency.id">
+                    {{ currency.code }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Occurred on -->
+          <div class="col-span-4">
+            <label for="occurredOn" class="block font-medium text-gray-500">Occurred on</label>
+            <input
+              id="occurredOn"
+              name="occurredOn"
+              formControlName="occurredOn"
+              type="date"
+              required
+              class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-teal-400 focus:ring-teal-400"
+            />
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="px-6 py-6 flex justify-end rounded-b-md bg-gray-50">
+          <div class="flex space-x-4 items-center">
+            <div>
+              <button class="px-4 py-2 rounded-md font-medium text-teal-500 border-2 border-teal-500" (click)="onCancel()">Cancel</button>
+            </div>
+            <div>
+              <button type="submit" class="px-4 py-2 rounded-md font-medium bg-teal-500 hover:bg-teal-600 text-white">
+                Create Transaction
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
