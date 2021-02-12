@@ -17,4 +17,8 @@ export class DashboardComponent implements OnInit {
 
     this.transactionSummaryFacade.loadTransactionSummary().subscribe();
   }
+
+  deleteTransaction(transactionId: string): void {
+    this.transactionFacade.deleteTransaction(transactionId).subscribe();
+  }
 }

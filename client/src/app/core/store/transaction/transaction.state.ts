@@ -79,15 +79,20 @@ export class TransactionState {
       isLoading: true
     });
 
-    // TODO: See if this should eagerly update transactions collection, or issue a new GET request?
+    let initialTransactions = context.getState().transactions;
+
+    let filteredTransactions = initialTransactions.filter((x) => x.id !== action.transactionId);
+
     return this.transactionService.deleteTransaction(action.transactionId).pipe(
       tap(() => {
         context.patchState({
-          isLoading: false
+          isLoading: false,
+          transactions: filteredTransactions
         });
       }),
       catchError((error: HttpErrorResponse) => {
         context.patchState({
+          transactions: initialTransactions,
           isLoading: false,
           error: true
         });
@@ -103,7 +108,7 @@ export class TransactionState {
       isLoading: true
     });
 
-    return this.transactionService.getTransactions(action.userId, action.limit, context.getState().cursor).pipe(
+    return this.transactionService.getTransactions(action.userId, action.limit, '').pipe(
       tap((response: TransactionListResponse) => {
         context.patchState({
           transactions: response.items,

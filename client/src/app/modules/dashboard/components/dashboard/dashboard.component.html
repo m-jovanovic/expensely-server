@@ -12,5 +12,6 @@
     [transactions]="transactionFacade.transactions$ | async"
     [isLoading]="transactionFacade.isLoading$ | async"
     [error]="transactionFacade.error$ | async"
+    (deleteTransactionEvent)="deleteTransaction($event)"
   ></exp-transaction-list>
 </div>
