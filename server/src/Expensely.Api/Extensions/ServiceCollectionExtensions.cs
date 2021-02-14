@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Reflection;
+using Expensely.Api.Abstractions;
+using Expensely.Api.Infrastructure;
+using Expensely.Domain.Abstractions.Extensions;
 using Expensely.Domain.Factories;
 using Expensely.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +15,18 @@ namespace Expensely.Api.Extensions
     /// </summary>
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Install all of the services from the specified assembly.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        /// <param name="assembly">The assembly to install services from.</param>
+        public static void InstallServicesFromAssembly(this IServiceCollection services, Assembly assembly)
+        {
+            IInstaller[] installers = InstallerFactory.GetInstallersFromAssembly(assembly);
+
+            installers.ForEach(x => x.InstallServices(services));
+        }
+
         /// <summary>
         /// Registers the necessary services with the DI framework.
         /// </summary>
