@@ -1,5 +1,4 @@
 using Expensely.Api.Behaviors;
-using Expensely.Api.Controllers;
 using Expensely.Api.Extensions;
 using Expensely.Application.Commands.Handlers;
 using Expensely.Application.Events.Handlers;
@@ -7,6 +6,7 @@ using Expensely.Application.Queries.Handlers;
 using Expensely.Infrastructure;
 using Expensely.Messaging;
 using Expensely.Persistence;
+using Expensely.Presentation.Api;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -57,7 +57,7 @@ namespace Expensely.Api
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             services.AddControllers()
-                .AddApplicationPart(ControllersAssembly.Assembly);
+                .AddApplicationPart(PresentationAssembly.Assembly);
 
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 

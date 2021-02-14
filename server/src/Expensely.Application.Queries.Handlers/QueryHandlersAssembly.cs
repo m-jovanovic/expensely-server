@@ -10,6 +10,6 @@ namespace Expensely.Application.Queries.Handlers
         /// <summary>
         /// Gets the query handlers assembly.
         /// </summary>
-        public static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
+        public static readonly Assembly Assembly = Assembly.GetCallingAssembly();
     }
 }

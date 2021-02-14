@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Api.Controllers.Constants;
-using Expensely.Api.Controllers.Contracts;
-using Expensely.Api.Controllers.Infrastructure;
 using Expensely.Application.Commands.Users;
 using Expensely.Contracts.Users;
 using Expensely.Domain.Abstractions.Result;
+using Expensely.Presentation.Api.Constants;
+using Expensely.Presentation.Api.Contracts;
+using Expensely.Presentation.Api.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Expensely.Api.Controllers.Core
+namespace Expensely.Presentation.Api.Controllers
 {
     /// <summary>
     /// Represents the users resource controller.

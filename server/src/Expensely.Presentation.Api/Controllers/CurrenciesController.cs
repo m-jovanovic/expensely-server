@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Api.Controllers.Constants;
-using Expensely.Api.Controllers.Infrastructure;
 using Expensely.Application.Queries.Currencies;
 using Expensely.Contracts.Currencies;
+using Expensely.Presentation.Api.Constants;
+using Expensely.Presentation.Api.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Expensely.Api.Controllers.Core
+namespace Expensely.Presentation.Api.Controllers
 {
     /// <summary>
     /// Represents the currencies resource controller.

@@ -1,6 +1,6 @@
 ﻿using Expensely.Domain.Abstractions.Primitives;
 
-namespace Expensely.Api.Controllers.Constants
+namespace Expensely.Presentation.Api.Constants
 {
     /// <summary>
     /// Contains the API errors.

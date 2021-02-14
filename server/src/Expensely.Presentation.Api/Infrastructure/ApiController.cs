@@ -1,12 +1,12 @@
-﻿using Expensely.Api.Controllers.Contracts;
-using Expensely.Domain.Abstractions.Primitives;
+﻿using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
+using Expensely.Presentation.Api.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Expensely.Api.Controllers.Infrastructure
+namespace Expensely.Presentation.Api.Infrastructure
 {
     /// <summary>
     /// Represents the base API controller.

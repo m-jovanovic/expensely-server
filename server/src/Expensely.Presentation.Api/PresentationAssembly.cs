@@ -1,15 +1,15 @@
 ﻿using System.Reflection;
 
-namespace Expensely.Api.Controllers
+namespace Expensely.Presentation.Api
 {
     /// <summary>
     /// Represents the controllers assembly.
     /// </summary>
-    public static class ControllersAssembly
+    public static class PresentationAssembly
     {
         /// <summary>
         /// The controllers assembly.
         /// </summary>
-        public static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
+        public static readonly Assembly Assembly = Assembly.GetCallingAssembly();
     }
 }

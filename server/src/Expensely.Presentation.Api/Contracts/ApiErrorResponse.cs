@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Expensely.Domain.Abstractions.Primitives;
 
-namespace Expensely.Api.Controllers.Contracts
+namespace Expensely.Presentation.Api.Contracts
 {
     /// <summary>
     /// Represents API an error response.
