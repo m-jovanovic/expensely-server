@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Messaging;
+using Expensely.Common.Abstractions.ServiceLifetimes;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Core;
 using Expensely.Domain.Repositories;
@@ -12,7 +13,7 @@ namespace Expensely.Infrastructure.Messaging
     /// <summary>
     /// Represents the event publisher.
     /// </summary>
-    public sealed class EventPublisher : IEventPublisher
+    public sealed class EventPublisher : IEventPublisher, IScoped
     {
         private readonly IMessageRepository _messageRepository;
 

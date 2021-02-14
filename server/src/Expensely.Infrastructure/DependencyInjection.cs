@@ -1,17 +1,11 @@
 ﻿using System.Text;
-using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Messaging;
-using Expensely.Common.Abstractions.Clock;
-using Expensely.Domain.Services;
-using Expensely.Infrastructure.Authentication;
+using Expensely.Common.Abstractions.ServiceLifetimes;
 using Expensely.Infrastructure.Authentication.Settings;
-using Expensely.Infrastructure.Common;
-using Expensely.Infrastructure.Cryptography;
-using Expensely.Infrastructure.Messaging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Scrutor;
 
 namespace Expensely.Infrastructure
 {
@@ -42,15 +36,19 @@ namespace Expensely.Infrastructure
 
             services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SettingsKey));
 
-            services.AddTransient<IDateTime, MachineDateTime>();
+            services.Scan(scan =>
+                scan.FromCallingAssembly()
+                    .AddClasses(filter => filter.AssignableTo<ITransient>())
+                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                    .AsMatchingInterface()
+                    .WithTransientLifetime());
 
-            services.AddTransient<IPasswordService, PasswordService>();
-
-            services.AddScoped<IUserInformationProvider, UserInformationProvider>();
-
-            services.AddScoped<IJwtProvider, JwtProvider>();
-
-            services.AddScoped<IEventPublisher, EventPublisher>();
+            services.Scan(scan =>
+                scan.FromCallingAssembly()
+                    .AddClasses(filter => filter.AssignableTo<IScoped>())
+                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                    .AsMatchingInterface()
+                    .WithScopedLifetime());
 
             return services;
         }

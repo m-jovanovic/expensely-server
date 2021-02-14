@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Common.Abstractions.Clock;
+using Expensely.Common.Abstractions.ServiceLifetimes;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
 using Expensely.Domain.Modules.Users;
@@ -19,7 +20,7 @@ namespace Expensely.Infrastructure.Authentication
     /// <summary>
     /// Represents the JWT provider.
     /// </summary>
-    internal sealed class JwtProvider : IJwtProvider
+    internal sealed class JwtProvider : IJwtProvider, ITransient
     {
         private readonly JwtSettings _jwtSettings;
         private readonly IDateTime _dateTime;

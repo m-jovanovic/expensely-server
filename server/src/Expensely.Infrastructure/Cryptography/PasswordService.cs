@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
-using Expensely.Domain.Core;
+using Expensely.Common.Abstractions.ServiceLifetimes;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Services;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
@@ -10,7 +10,7 @@ namespace Expensely.Infrastructure.Cryptography
     /// <summary>
     /// Represents the password service.
     /// </summary>
-    internal sealed class PasswordService : IPasswordService, IDisposable
+    internal sealed class PasswordService : IPasswordService, IDisposable, ITransient
     {
         private const KeyDerivationPrf Prf = KeyDerivationPrf.HMACSHA256;
         private const int IterationCount = 10000;

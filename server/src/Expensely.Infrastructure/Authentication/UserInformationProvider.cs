@@ -1,4 +1,5 @@
 ﻿using Expensely.Application.Abstractions.Authentication;
+using Expensely.Common.Abstractions.ServiceLifetimes;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
 using Expensely.Infrastructure.Extensions;
@@ -9,7 +10,7 @@ namespace Expensely.Infrastructure.Authentication
     /// <summary>
     /// Represents the user identifier provider.
     /// </summary>
-    internal sealed class UserInformationProvider : IUserInformationProvider
+    internal sealed class UserInformationProvider : IUserInformationProvider, IScoped
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInformationProvider"/> class.
