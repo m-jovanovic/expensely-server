@@ -1,17 +1,10 @@
-using Expensely.Api.Behaviors;
+using System.Reflection;
 using Expensely.Api.Extensions;
-using Expensely.Application.Commands.Handlers;
-using Expensely.Application.Events.Handlers;
-using Expensely.Application.Queries.Handlers;
 using Expensely.Infrastructure;
 using Expensely.Messaging;
 using Expensely.Persistence;
-using Expensely.Presentation.Api;
-using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,29 +34,15 @@ namespace Expensely.Api
         /// <param name="services">The service collection.</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.InstallServicesFromAssembly(Assembly.GetExecutingAssembly());
+
             services
                 .AddDomain()
                 .AddInfrastructure(Configuration)
                 .AddPersistence(Configuration)
                 .AddMessaging(Configuration);
 
-            services.AddValidatorsFromAssembly(CommandHandlersAssembly.Assembly);
-
-            services.AddMediatR(CommandHandlersAssembly.Assembly, QueryHandlersAssembly.Assembly);
-
-            services.AddEventHandlers();
-
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
-            services.AddControllers()
-                .AddApplicationPart(PresentationAssembly.Assembly);
-
-            services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
-
             services.AddSwagger();
-
-            services.AddHttpContextAccessor();
         }
 
         /// <summary>
