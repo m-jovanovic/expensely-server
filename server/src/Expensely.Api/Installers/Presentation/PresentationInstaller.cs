@@ -5,18 +5,20 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Expensely.Api.Installers.Presentation
 {
     /// <summary>
-    /// Represents the presentation installer.
+    /// Represents the presentation services installer.
     /// </summary>
     internal sealed class PresentationInstaller : IInstaller
     {
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services)
         {
-            services.ConfigureOptions<ApiBehaviorConfigurator>();
+            services.ConfigureOptions<ApiBehaviorOptionsSetup>();
 
             services.AddControllers().AddApplicationPart(PresentationAssembly.Assembly);
 
             services.AddHttpContextAccessor();
+
+            services.AddOptions();
         }
     }
 }

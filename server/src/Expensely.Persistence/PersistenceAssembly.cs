@@ -1,14 +1,14 @@
 ﻿using System.Reflection;
 
-namespace Expensely.Application.Queries.Handlers
+namespace Expensely.Persistence
 {
     /// <summary>
-    /// Represents the query handlers assembly.
+    /// Represents the persistence assembly.
     /// </summary>
-    public static class QueryHandlersAssembly
+    public static class PersistenceAssembly
     {
         /// <summary>
-        /// Gets the query handlers assembly.
+        /// Gets the persistence assembly.
         /// </summary>
         public static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
     }

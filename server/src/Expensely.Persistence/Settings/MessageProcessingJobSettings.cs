@@ -6,11 +6,6 @@
     public sealed class RavenDbSettings
     {
         /// <summary>
-        /// The settings key.
-        /// </summary>
-        public const string SettingsKey = "RavenDB";
-
-        /// <summary>
         /// Gets the certificate.
         /// </summary>
         public string Certificate { get; init; }

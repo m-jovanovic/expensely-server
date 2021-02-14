@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Expensely.Api.Installers.Validation
 {
     /// <summary>
-    /// Represents the validation installer.
+    /// Represents the validation services installer.
     /// </summary>
     internal sealed class ValidationInstaller : IInstaller
     {

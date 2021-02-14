@@ -8,8 +8,8 @@ namespace Expensely.Application.Events.Handlers
     public static class EventHandlersAssembly
     {
         /// <summary>
-        /// Gets the command handlers assembly.
+        /// Gets the event handlers assembly.
         /// </summary>
-        public static readonly Assembly Assembly = Assembly.GetCallingAssembly();
+        public static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
     }
 }

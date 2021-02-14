@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Expensely.Api.Installers.Messaging
 {
     /// <summary>
-    /// Represents the messaging installer.
+    /// Represents the messaging services installer.
     /// </summary>
     internal sealed class MessagingInstaller : IInstaller
     {
@@ -31,8 +31,9 @@ namespace Expensely.Api.Installers.Messaging
         private static void AddEventHandlers(IServiceCollection services) =>
             services.Scan(scan =>
                 scan.FromAssemblies(EventHandlersAssembly.Assembly)
-                    .AddClasses(filter =>
-                        filter.Where(type => type.Name.EndsWith(EventHandlerPostfix, StringComparison.Ordinal)))
+                    .AddClasses(
+                        filter => filter.Where(type => type.Name.EndsWith(EventHandlerPostfix, StringComparison.Ordinal)),
+                        false)
                     .AsImplementedInterfaces()
                     .WithScopedLifetime());
     }

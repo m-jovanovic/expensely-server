@@ -10,6 +10,6 @@ namespace Expensely.Application.Commands.Handlers
         /// <summary>
         /// Gets the command handlers assembly.
         /// </summary>
-        public static readonly Assembly Assembly = Assembly.GetCallingAssembly();
+        public static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
     }
 }
