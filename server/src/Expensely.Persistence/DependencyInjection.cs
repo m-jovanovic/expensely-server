@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
-using Expensely.Application.Queries.Processors.Abstractions;
 using Expensely.Domain.Repositories;
 using Expensely.Persistence.Infrastructure;
 using Expensely.Persistence.Repositories;
@@ -9,6 +6,7 @@ using Expensely.Persistence.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Raven.Client.Documents;
+using Scrutor;
 
 namespace Expensely.Persistence
 {
@@ -17,6 +15,9 @@ namespace Expensely.Persistence
     /// </summary>
     public static class DependencyInjection
     {
+        private const string RepositoryPostfix = "Repository";
+        private const string QueryProcessorPostfix = "QueryProcessor";
+
         /// <summary>
         /// Registers the necessary services with the DI framework.
         /// </summary>
@@ -35,39 +36,16 @@ namespace Expensely.Persistence
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddScoped<IUserRepository, UserRepository>();
-
-            services.AddScoped<ITransactionRepository, TransactionRepository>();
-
-            services.AddScoped<IBudgetRepository, BudgetRepository>();
-
-            services.AddScoped<IMessageRepository, MessageRepository>();
-
-            services.AddQueryProcessors();
+            services.Scan(scan =>
+                scan.FromCallingAssembly()
+                    .AddClasses(filter => filter.Where(type =>
+                        type.Name.EndsWith(RepositoryPostfix, StringComparison.InvariantCulture) ||
+                        type.Name.EndsWith(QueryProcessorPostfix, StringComparison.InvariantCulture)))
+                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                    .AsMatchingInterface()
+                    .WithScopedLifetime());
 
             return services;
         }
-
-        private static void AddQueryProcessors(this IServiceCollection services)
-        {
-            foreach (TypeInfo typeInfo in Assembly.GetExecutingAssembly().DefinedTypes.Where(IsConcrete))
-            {
-                Type[] interfaces = typeInfo.GetInterfaces();
-
-                static bool IsGenericQueryProcessorInterfaceType(Type type) =>
-                    type.GetTypeInfo().IsGenericType && type.GetTypeInfo().GetGenericTypeDefinition() == typeof(IQueryProcessor<,>);
-
-                if (!interfaces.Any(IsGenericQueryProcessorInterfaceType))
-                {
-                    continue;
-                }
-
-                Type nonGenericQueryProcessorInterface = interfaces.Single(x => !x.IsGenericType);
-
-                services.AddScoped(nonGenericQueryProcessorInterface, typeInfo);
-            }
-        }
-
-        private static bool IsConcrete(Type type) => !type.GetTypeInfo().IsAbstract && !type.GetTypeInfo().IsInterface;
     }
 }
