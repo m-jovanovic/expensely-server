@@ -1,8 +1,9 @@
 ﻿using System;
 using Expensely.Domain.Abstractions.Result;
+using Expensely.Domain.Contracts;
 using Expensely.Domain.Core;
-using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Users;
+using Expensely.Domain.Services;
 
 namespace Expensely.Domain.Factories
 {
@@ -11,6 +12,15 @@ namespace Expensely.Domain.Factories
     /// </summary>
     public sealed class TransactionFactory : ITransactionFactory
     {
+        private readonly ITransactionDetailsValidator _transactionDetailsValidator;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransactionFactory"/> class.
+        /// </summary>
+        /// <param name="transactionDetailsValidator">The transaction details validator.</param>
+        public TransactionFactory(ITransactionDetailsValidator transactionDetailsValidator) =>
+            _transactionDetailsValidator = transactionDetailsValidator;
+
         /// <inheritdoc />
         public Result<Transaction> Create(
             User user,
@@ -21,38 +31,27 @@ namespace Expensely.Domain.Factories
             DateTime occurredOn,
             int transactionTypeId)
         {
-            Result<Description> descriptionResult = Description.Create(description);
+            Result<TransactionDetails> transactionDetailsResult = _transactionDetailsValidator.Validate(
+                user,
+                description,
+                categoryId,
+                amount,
+                currencyId,
+                occurredOn,
+                transactionTypeId);
 
-            if (descriptionResult.IsFailure)
+            if (transactionDetailsResult.IsFailure)
             {
-                return Result.Failure<Transaction>(descriptionResult.Error);
-            }
-
-            Currency currency = Currency.FromValue(currencyId).Value;
-
-            if (!user.HasCurrency(currency))
-            {
-                return Result.Failure<Transaction>(DomainErrors.User.CurrencyDoesNotExist);
-            }
-
-            var money = new Money(amount, currency);
-
-            TransactionType transactionType = TransactionType.FromValue(transactionTypeId).Value;
-
-            Result transactionTypeResult = transactionType.ValidateAmount(money);
-
-            if (transactionTypeResult.IsFailure)
-            {
-                return Result.Failure<Transaction>(transactionTypeResult.Error);
+                return Result.Failure<Transaction>(transactionDetailsResult.Error);
             }
 
             var transaction = new Transaction(
                 user,
-                descriptionResult.Value,
-                Category.FromValue(categoryId).Value,
-                money,
-                occurredOn,
-                transactionType);
+                transactionDetailsResult.Value.Description,
+                transactionDetailsResult.Value.Category,
+                transactionDetailsResult.Value.Money,
+                transactionDetailsResult.Value.OccurredOn,
+                transactionDetailsResult.Value.TransactionType);
 
             return transaction;
         }

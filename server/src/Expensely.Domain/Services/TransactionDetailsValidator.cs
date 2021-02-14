@@ -10,27 +10,17 @@ namespace Expensely.Domain.Services
     /// <summary>
     /// Represents the transaction details validator.
     /// </summary>
-    public sealed class TransactionDetailsValidator
+    public sealed class TransactionDetailsValidator : ITransactionDetailsValidator
     {
-        /// <summary>
-        /// Validates the provided transaction information and returns the result of the validation.
-        /// </summary>
-        /// <param name="user">The user.</param>
-        /// <param name="description">The description.</param>
-        /// <param name="categoryValue">The category value.</param>
-        /// <param name="amount">The amount.</param>
-        /// <param name="currencyValue">The currency value.</param>
-        /// <param name="occurredOn">The occurred on date.</param>
-        /// <param name="transactionTypeValue">The transaction type.</param>
-        /// <returns>The result of the transaction validation process containing the transaction information or an error.</returns>
+        /// <inheritdoc />
         public Result<TransactionDetails> Validate(
             User user,
             string description,
-            int categoryValue,
+            int categoryId,
             decimal amount,
-            int currencyValue,
+            int currencyId,
             DateTime occurredOn,
-            int transactionTypeValue)
+            int transactionTypeId)
         {
             Result<Description> descriptionResult = Description.Create(description);
 
@@ -39,7 +29,7 @@ namespace Expensely.Domain.Services
                 return Result.Failure<TransactionDetails>(descriptionResult.Error);
             }
 
-            Currency currency = Currency.FromValue(currencyValue).Value;
+            Currency currency = Currency.FromValue(currencyId).Value;
 
             if (!user.HasCurrency(currency))
             {
@@ -48,7 +38,7 @@ namespace Expensely.Domain.Services
 
             var money = new Money(amount, currency);
 
-            TransactionType transactionType = TransactionType.FromValue(transactionTypeValue).Value;
+            TransactionType transactionType = TransactionType.FromValue(transactionTypeId).Value;
 
             Result transactionTypeResult = transactionType.ValidateAmount(money);
 
@@ -59,9 +49,8 @@ namespace Expensely.Domain.Services
 
             return new TransactionDetails
             {
-                UserId = user.Id,
                 Description = descriptionResult.Value,
-                Category = Category.FromValue(categoryValue).Value,
+                Category = Category.FromValue(categoryId).Value,
                 Money = money,
                 OccurredOn = occurredOn,
                 TransactionType = transactionType

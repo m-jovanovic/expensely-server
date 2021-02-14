@@ -9,11 +9,6 @@ namespace Expensely.Domain.Contracts
     public class TransactionDetails
     {
         /// <summary>
-        /// Gets the user identifier.
-        /// </summary>
-        public string UserId { get; init; }
-
-        /// <summary>
         /// Gets the description.
         /// </summary>
         public Description Description { get; init; }

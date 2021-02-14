@@ -22,6 +22,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
     {
         private readonly IUserRepository _userRepository;
         private readonly ITransactionRepository _transactionRepository;
+        private readonly ITransactionDetailsValidator _transactionDetailsValidator;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
@@ -30,11 +31,13 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="transactionRepository">The transaction repository.</param>
+        /// <param name="transactionDetailsValidator">The transaction details validator.</param>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
         public UpdateTransactionCommandHandler(
             IUserRepository userRepository,
             ITransactionRepository transactionRepository,
+            ITransactionDetailsValidator transactionDetailsValidator,
             IUnitOfWork unitOfWork,
             IUserInformationProvider userInformationProvider)
         {
@@ -42,6 +45,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
             _transactionRepository = transactionRepository;
             _unitOfWork = unitOfWork;
             _userInformationProvider = userInformationProvider;
+            _transactionDetailsValidator = transactionDetailsValidator;
         }
 
         /// <inheritdoc />
@@ -69,7 +73,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
                 return Result.Failure(DomainErrors.User.NotFound);
             }
 
-            Result<TransactionDetails> transactionDetailsResult = new TransactionDetailsValidator().Validate(
+            Result<TransactionDetails> transactionDetailsResult = _transactionDetailsValidator.Validate(
                 maybeUser.Value,
                 request.Description,
                 request.Category,

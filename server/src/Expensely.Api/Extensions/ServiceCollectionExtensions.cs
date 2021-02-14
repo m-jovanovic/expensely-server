@@ -1,5 +1,6 @@
 ﻿using System;
 using Expensely.Domain.Factories;
+using Expensely.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -17,6 +18,8 @@ namespace Expensely.Api.Extensions
         /// <returns>The same service collection.</returns>
         public static IServiceCollection AddDomain(this IServiceCollection services)
         {
+            services.AddTransient<ITransactionDetailsValidator, TransactionDetailsValidator>();
+
             services.AddTransient<ITransactionFactory, TransactionFactory>();
 
             return services;

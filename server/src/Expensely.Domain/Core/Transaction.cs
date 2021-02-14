@@ -14,23 +14,6 @@ namespace Expensely.Domain.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="Transaction"/> class.
         /// </summary>
-        /// <param name="transactionDetails">The transaction details.</param>
-        public Transaction(TransactionDetails transactionDetails)
-            : base(Guid.NewGuid())
-        {
-            Ensure.NotNull(transactionDetails, "The transaction details are required.", nameof(transactionDetails));
-
-            UserId = transactionDetails.UserId;
-            Description = transactionDetails.Description;
-            Category = transactionDetails.Category;
-            Money = transactionDetails.Money;
-            OccurredOn = transactionDetails.OccurredOn.Date;
-            TransactionType = transactionDetails.TransactionType;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Transaction"/> class.
-        /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="description">The description.</param>
         /// <param name="category">The category.</param>
