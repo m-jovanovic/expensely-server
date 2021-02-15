@@ -25,21 +25,21 @@ namespace Expensely.Api.Behaviors
     {
         private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
         private readonly IUserInformationProvider _userInformationProvider;
-        private readonly IDateTime _dateTime;
+        private readonly ISystemTime _systemTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoggingBehavior{TRequest,TResponse}"/> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        /// <param name="dateTime">The date and time.</param>
+        /// <param name="systemTime">The system time.</param>
         public LoggingBehavior(
             ILogger<LoggingBehavior<TRequest, TResponse>> logger,
             IUserInformationProvider userInformationProvider,
-            IDateTime dateTime)
+            ISystemTime systemTime)
         {
             _logger = logger;
-            _dateTime = dateTime;
+            _systemTime = systemTime;
             _userInformationProvider = userInformationProvider;
         }
 
@@ -91,7 +91,7 @@ namespace Expensely.Api.Behaviors
                 yield return error.Code;
             }
 
-            yield return _dateTime.UtcNow.ToString(DateTimeFormats.DateTimeWithMilliseconds, CultureInfo.InvariantCulture);
+            yield return _systemTime.UtcNow.ToString(DateTimeFormats.DateTimeWithMilliseconds, CultureInfo.InvariantCulture);
         }
     }
 }

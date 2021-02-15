@@ -23,17 +23,17 @@ namespace Expensely.Infrastructure.Authentication
     public sealed class JwtProvider : IJwtProvider, ITransient
     {
         private readonly JwtSettings _jwtSettings;
-        private readonly IDateTime _dateTime;
+        private readonly ISystemTime _systemTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JwtProvider"/> class.
         /// </summary>
         /// <param name="jwtOptions">The JWT options.</param>
-        /// <param name="dateTime">The current date and time.</param>
-        public JwtProvider(IOptions<JwtSettings> jwtOptions, IDateTime dateTime)
+        /// <param name="systemTime">The current date and time.</param>
+        public JwtProvider(IOptions<JwtSettings> jwtOptions, ISystemTime systemTime)
         {
             _jwtSettings = jwtOptions.Value;
-            _dateTime = dateTime;
+            _systemTime = systemTime;
         }
 
         /// <inheritdoc />
@@ -43,7 +43,7 @@ namespace Expensely.Infrastructure.Authentication
 
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            DateTime tokenExpirationTime = _dateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationInMinutes);
+            DateTime tokenExpirationTime = _systemTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationInMinutes);
 
             var token = new JwtSecurityToken(
                 _jwtSettings.Issuer,
@@ -69,7 +69,7 @@ namespace Expensely.Infrastructure.Authentication
 
             return new RefreshToken(
                 Convert.ToBase64String(refreshTokenBytes),
-                _dateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenExpirationInMinutes));
+                _systemTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenExpirationInMinutes));
         }
 
         /// <summary>

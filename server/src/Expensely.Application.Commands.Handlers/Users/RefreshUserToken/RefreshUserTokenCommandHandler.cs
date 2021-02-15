@@ -23,7 +23,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJwtProvider _jwtProvider;
-        private readonly IDateTime _dateTime;
+        private readonly ISystemTime _systemTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RefreshUserTokenCommandHandler"/> class.
@@ -31,17 +31,17 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
         /// <param name="userRepository">The user repository.</param>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
-        /// <param name="dateTime">The date and time.</param>
+        /// <param name="systemTime">The system time.</param>
         public RefreshUserTokenCommandHandler(
             IUserRepository userRepository,
             IUnitOfWork unitOfWork,
             IJwtProvider jwtProvider,
-            IDateTime dateTime)
+            ISystemTime systemTime)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
             _jwtProvider = jwtProvider;
-            _dateTime = dateTime;
+            _systemTime = systemTime;
         }
 
         /// <inheritdoc />
@@ -56,7 +56,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
 
             User user = maybeUser.Value;
 
-            if (user.RefreshToken.IsExpired(_dateTime.UtcNow))
+            if (user.RefreshToken.IsExpired(_systemTime.UtcNow))
             {
                 return Result.Failure<TokenResponse>(DomainErrors.RefreshToken.Expired);
             }

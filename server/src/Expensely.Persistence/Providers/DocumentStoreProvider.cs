@@ -24,16 +24,16 @@ namespace Expensely.Persistence.Providers
     {
         private static readonly Dictionary<Type, MethodInfo> SetCreatedOnMethodDictionary = new();
         private static readonly Dictionary<Type, MethodInfo> SetModifiedOnMethodDictionary = new();
-        private readonly IDateTime _dateTime;
+        private readonly ISystemTime _systemTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentStoreProvider"/> class.
         /// </summary>
         /// <param name="ravenDbSettingsOptions">The RavenDb settings options.</param>
-        /// <param name="dateTime">The date and time.</param>
-        public DocumentStoreProvider(IOptions<RavenDbSettings> ravenDbSettingsOptions, IDateTime dateTime)
+        /// <param name="systemTime">The system time.</param>
+        public DocumentStoreProvider(IOptions<RavenDbSettings> ravenDbSettingsOptions, ISystemTime systemTime)
         {
-            _dateTime = dateTime;
+            _systemTime = systemTime;
 
             RavenDbSettings settings = ravenDbSettingsOptions.Value;
 
@@ -143,7 +143,7 @@ namespace Expensely.Persistence.Providers
                 propertySetterMethodsDictionary.Add(underlyingType, underlyingType.GetProperty(propertyName)!.GetSetMethod(true)!);
             }
 
-            propertySetterMethodsDictionary[underlyingType].Invoke(auditableEntity, new object[] { _dateTime.UtcNow });
+            propertySetterMethodsDictionary[underlyingType].Invoke(auditableEntity, new object[] { _systemTime.UtcNow });
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Expensely.Messaging.Services
         private readonly IEventHandlerFactory _eventHandlerFactory;
         private readonly IServiceProvider _serviceProvider;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IDateTime _dateTime;
+        private readonly ISystemTime _systemTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageDispatcher"/> class.
@@ -28,17 +28,17 @@ namespace Expensely.Messaging.Services
         /// <param name="eventHandlerFactory">The event handler factory.</param>
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="unitOfWork">The unit of work.</param>
-        /// <param name="dateTime">The date and time.</param>
+        /// <param name="systemTime">The system time.</param>
         public MessageDispatcher(
             IEventHandlerFactory eventHandlerFactory,
             IServiceProvider serviceProvider,
             IUnitOfWork unitOfWork,
-            IDateTime dateTime)
+            ISystemTime systemTime)
         {
             _eventHandlerFactory = eventHandlerFactory;
             _serviceProvider = serviceProvider;
             _unitOfWork = unitOfWork;
-            _dateTime = dateTime;
+            _systemTime = systemTime;
         }
 
         /// <inheritdoc />
@@ -68,7 +68,7 @@ namespace Expensely.Messaging.Services
                     return e;
                 }
 
-                message.AddConsumer(consumerName, _dateTime.UtcNow);
+                message.AddConsumer(consumerName, _systemTime.UtcNow);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
             }

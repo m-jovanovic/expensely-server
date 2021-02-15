@@ -21,16 +21,16 @@ namespace Expensely.Presentation.Api.Controllers
     /// </summary>
     public sealed class TransactionsController : ApiController
     {
-        private readonly IDateTime _dateTime;
+        private readonly ISystemTime _systemTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionsController"/> class.
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="dateTime">The date and time.</param>
-        public TransactionsController(ISender sender, IDateTime dateTime)
+        /// <param name="systemTime">The system time.</param>
+        public TransactionsController(ISender sender, ISystemTime systemTime)
             : base(sender) =>
-            _dateTime = dateTime;
+            _systemTime = systemTime;
 
         /// <summary>
         /// Gets the transactions for the specified parameters.
@@ -45,7 +45,7 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetTransactions(Guid userId, int limit, string cursor, CancellationToken cancellationToken) =>
             await Maybe<GetTransactionsQuery>
-                .From(new GetTransactionsQuery(userId, limit, cursor, _dateTime.UtcNow))
+                .From(new GetTransactionsQuery(userId, limit, cursor, _systemTime.UtcNow))
                 .Bind(query => Sender.Send(query, cancellationToken))
                 .Match(Ok, NotFound);
 
@@ -64,7 +64,7 @@ namespace Expensely.Presentation.Api.Controllers
             int primaryCurrency,
             CancellationToken cancellationToken) =>
             await Maybe<GetCurrentMonthTransactionSummaryQuery>
-                .From(new GetCurrentMonthTransactionSummaryQuery(userId, primaryCurrency, _dateTime.UtcNow))
+                .From(new GetCurrentMonthTransactionSummaryQuery(userId, primaryCurrency, _systemTime.UtcNow))
                 .Bind(query => Sender.Send(query, cancellationToken))
                 .Match(Ok, NotFound);
 
