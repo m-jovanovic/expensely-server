@@ -41,12 +41,18 @@ namespace Expensely.Infrastructure.Authentication
         /// </summary>
         /// <param name="httpContextAccessor">The HTTP context accessor.</param>
         /// <returns>The maybe instance that may contain the primary currency.</returns>
-        private static Maybe<Currency> CreatePrimaryCurrency(IHttpContextAccessor httpContextAccessor) =>
-            int.TryParse(
-                httpContextAccessor.HttpContext?.User.GetPrimaryCurrency() ?? string.Empty,
-                out int primaryCurrency) &&
-            Currency.ContainsValue(primaryCurrency)
-                ? Currency.FromValue(primaryCurrency)
-                : Maybe<Currency>.None;
+        private static Maybe<Currency> CreatePrimaryCurrency(IHttpContextAccessor httpContextAccessor)
+        {
+            string primaryCurrencyString = httpContextAccessor.HttpContext?.User.GetPrimaryCurrency() ?? string.Empty;
+
+            bool parsed = int.TryParse(primaryCurrencyString, out int primaryCurrency);
+
+            if (!parsed || !Currency.ContainsValue(primaryCurrency))
+            {
+                return Maybe<Currency>.None;
+            }
+
+            return Currency.FromValue(primaryCurrency);
+        }
     }
 }
