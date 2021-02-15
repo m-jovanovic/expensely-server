@@ -29,12 +29,8 @@ namespace Expensely.Api
         /// Configures the application services.
         /// </summary>
         /// <param name="services">The service collection.</param>
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices(IServiceCollection services) =>
             services.InstallServicesFromAssembly(Assembly.GetExecutingAssembly());
-
-            services.AddSwagger();
-        }
 
         /// <summary>
         /// Configures the application.
@@ -48,9 +44,11 @@ namespace Expensely.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwaggerWithUI();
-
             app.UseCors(configure => configure.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI();
 
             app.UseLogContextEnrichment();
 
