@@ -44,27 +44,27 @@ namespace Expensely.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(configure => configure.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-
-            app.UseSwagger();
-
-            app.UseSwaggerUI();
-
             app.UseLogContextEnrichment();
 
-            app.UseGlobalExceptionHandler();
-
             app.UseSerilogRequestLogging();
+
+            app.UseGlobalExceptionHandler();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(configure => configure.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseAuthentication();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI();
         }
     }
 }

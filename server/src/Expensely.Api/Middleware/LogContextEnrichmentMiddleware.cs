@@ -42,7 +42,7 @@ namespace Expensely.Api.Middleware
             {
                 new PropertyEnricher("IPAddress", httpContext.Connection.RemoteIpAddress),
                 new PropertyEnricher("RequestHost", httpContext.Request.Host),
-                new PropertyEnricher("RequestBasePath", httpContext.Request.Path),
+                new PropertyEnricher("RequestPathBase", httpContext.Request.PathBase),
                 new PropertyEnricher("RequestQueryParams", httpContext.Request.QueryString)
             };
     }
