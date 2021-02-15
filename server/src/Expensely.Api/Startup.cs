@@ -1,6 +1,5 @@
 using System.Reflection;
 using Expensely.Api.Extensions;
-using Expensely.Messaging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,8 +32,6 @@ namespace Expensely.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.InstallServicesFromAssembly(Assembly.GetExecutingAssembly());
-
-            services.AddDomain();
 
             services.AddSwagger();
         }

@@ -27,20 +27,6 @@ namespace Expensely.Api.Extensions
         }
 
         /// <summary>
-        /// Registers the necessary services with the DI framework.
-        /// </summary>
-        /// <param name="services">The service collection.</param>
-        /// <returns>The same service collection.</returns>
-        public static IServiceCollection AddDomain(this IServiceCollection services)
-        {
-            services.AddTransient<ITransactionDetailsValidator, TransactionDetailsValidator>();
-
-            services.AddTransient<ITransactionFactory, TransactionFactory>();
-
-            return services;
-        }
-
-        /// <summary>
         /// Configures the Swagger services.
         /// </summary>
         /// <param name="services">The service collection.</param>
