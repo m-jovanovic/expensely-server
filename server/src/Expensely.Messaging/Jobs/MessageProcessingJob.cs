@@ -50,7 +50,8 @@ namespace Expensely.Messaging.Jobs
         {
             try
             {
-                IReadOnlyCollection<Message> unprocessedMessages = await _messageRepository.GetUnprocessedAsync(_batchSize, cancellationToken);
+                IReadOnlyCollection<Message> unprocessedMessages =
+                    await _messageRepository.GetUnprocessedAsync(_batchSize, cancellationToken);
 
                 foreach (Message message in unprocessedMessages)
                 {

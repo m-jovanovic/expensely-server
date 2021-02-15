@@ -34,9 +34,7 @@ namespace Expensely.Api
         {
             services.InstallServicesFromAssembly(Assembly.GetExecutingAssembly());
 
-            services
-                .AddDomain()
-                .AddMessaging(Configuration);
+            services.AddDomain();
 
             services.AddSwagger();
         }
