@@ -1,6 +1,6 @@
 ﻿using System;
 using Expensely.Api.Abstractions;
-using Expensely.Api.Behaviors;
+using Expensely.Application.Abstractions.Behaviors;
 using Expensely.Application.Commands.Handlers;
 using Expensely.Application.Events.Handlers;
 using Expensely.Application.Queries.Handlers;

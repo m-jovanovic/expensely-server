@@ -4,7 +4,7 @@ using System.Linq;
 using Expensely.Domain.Abstractions.Primitives;
 using FluentValidation.Results;
 
-namespace Expensely.Api.Exceptions
+namespace Expensely.Application.Abstractions.Exceptions
 {
     /// <summary>
     /// Represents an exception that occurs when a validation fails.

@@ -4,15 +4,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Queries.Utility;
 using Expensely.Common.Abstractions.Clock;
+using Expensely.Common.Abstractions.Constants;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Expensely.Api.Behaviors
+namespace Expensely.Application.Abstractions.Behaviors
 {
     /// <summary>
     /// Represents the logging behavior middleware.

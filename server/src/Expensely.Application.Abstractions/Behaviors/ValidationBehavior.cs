@@ -6,9 +6,9 @@ using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Result;
 using FluentValidation;
 using MediatR;
-using ValidationException = Expensely.Api.Exceptions.ValidationException;
+using ValidationException = Expensely.Application.Abstractions.Exceptions.ValidationException;
 
-namespace Expensely.Api.Behaviors
+namespace Expensely.Application.Abstractions.Behaviors
 {
     /// <summary>
     /// Represents the validation behavior middleware.

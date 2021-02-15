@@ -9,4 +9,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Expensely.Domain\Expensely.Domain.csproj" />
   </ItemGroup>
+
 </Project>

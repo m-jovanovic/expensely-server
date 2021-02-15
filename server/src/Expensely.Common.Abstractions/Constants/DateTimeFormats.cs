@@ -1,4 +1,4 @@
-﻿namespace Expensely.Application.Queries.Utility
+﻿namespace Expensely.Common.Abstractions.Constants
 {
     /// <summary>
     /// Contains the common date-time string formats used in the application.

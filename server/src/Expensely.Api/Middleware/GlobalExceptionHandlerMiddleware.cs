@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Expensely.Api.Exceptions;
+using Expensely.Application.Abstractions.Exceptions;
 using Expensely.Domain.Abstractions.Exceptions;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Presentation.Api.Constants;

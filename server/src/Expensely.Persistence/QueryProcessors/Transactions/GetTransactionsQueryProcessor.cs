@@ -6,6 +6,7 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Queries.Processors.Transactions;
 using Expensely.Application.Queries.Transactions;
 using Expensely.Application.Queries.Utility;
+using Expensely.Common.Abstractions.Constants;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;
