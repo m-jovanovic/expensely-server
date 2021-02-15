@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Raven.Client.Documents;
 using Scrutor;
 
-namespace Expensely.Api.Installers.Persistence
+namespace Expensely.Api.ServiceInstallers.Persistence
 {
     /// <summary>
     /// Represents the persistence services installer.

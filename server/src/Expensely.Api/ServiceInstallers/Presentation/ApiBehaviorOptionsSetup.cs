@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace Expensely.Api.Installers.Presentation
+namespace Expensely.Api.ServiceInstallers.Presentation
 {
     /// <summary>
     /// Represents the <see cref="ApiBehaviorOptions"/> setup.

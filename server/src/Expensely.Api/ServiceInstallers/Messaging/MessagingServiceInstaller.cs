@@ -7,7 +7,7 @@ using Expensely.Application.Queries.Handlers;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Expensely.Api.Installers.Messaging
+namespace Expensely.Api.ServiceInstallers.Messaging
 {
     /// <summary>
     /// Represents the messaging services installer.

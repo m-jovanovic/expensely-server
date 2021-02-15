@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Expensely.Api.Installers.Persistence
+namespace Expensely.Api.ServiceInstallers.Persistence
 {
     /// <summary>
     /// Represents the <see cref="RavenDbSettings"/> setup.

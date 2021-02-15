@@ -3,7 +3,7 @@ using Expensely.Application.Commands.Handlers;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Expensely.Api.Installers.Validation
+namespace Expensely.Api.ServiceInstallers.Validation
 {
     /// <summary>
     /// Represents the validation services installer.

@@ -2,7 +2,7 @@
 using Expensely.Presentation.Api;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Expensely.Api.Installers.Presentation
+namespace Expensely.Api.ServiceInstallers.Presentation
 {
     /// <summary>
     /// Represents the presentation services installer.

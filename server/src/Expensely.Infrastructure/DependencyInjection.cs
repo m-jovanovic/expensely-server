@@ -36,20 +36,6 @@ namespace Expensely.Infrastructure
 
             services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SettingsKey));
 
-            services.Scan(scan =>
-                scan.FromCallingAssembly()
-                    .AddClasses(filter => filter.AssignableTo<ITransient>())
-                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
-                    .AsMatchingInterface()
-                    .WithTransientLifetime());
-
-            services.Scan(scan =>
-                scan.FromCallingAssembly()
-                    .AddClasses(filter => filter.AssignableTo<IScoped>())
-                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
-                    .AsMatchingInterface()
-                    .WithScopedLifetime());
-
             return services;
         }
     }
