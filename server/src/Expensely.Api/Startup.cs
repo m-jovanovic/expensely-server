@@ -2,7 +2,6 @@ using System.Reflection;
 using Expensely.Api.Extensions;
 using Expensely.Infrastructure;
 using Expensely.Messaging;
-using Expensely.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

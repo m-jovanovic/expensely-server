@@ -3,7 +3,7 @@ using Expensely.Api.Abstractions;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Persistence;
 using Expensely.Persistence.Data;
-using Expensely.Persistence.Infrastructure;
+using Expensely.Persistence.Providers;
 using Microsoft.Extensions.DependencyInjection;
 using Raven.Client.Documents;
 using Scrutor;
@@ -31,17 +31,29 @@ namespace Expensely.Api.Installers.Persistence
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            AddRepositories(services);
+
+            AddQueryProcessors(services);
+        }
+
+        private static void AddRepositories(IServiceCollection services) =>
             services.Scan(scan =>
                 scan.FromAssemblies(PersistenceAssembly.Assembly)
                     .AddClasses(
                         filter => filter.Where(type => type.Name.EndsWith(RepositoryPostfix, StringComparison.Ordinal)),
                         false)
+                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                    .AsMatchingInterface()
+                    .WithScopedLifetime());
+
+        private static void AddQueryProcessors(IServiceCollection services) =>
+            services.Scan(scan =>
+                scan.FromAssemblies(PersistenceAssembly.Assembly)
                     .AddClasses(
                         filter => filter.Where(type => type.Name.EndsWith(QueryProcessorPostfix, StringComparison.Ordinal)),
                         false)
                     .UsingRegistrationStrategy(RegistrationStrategy.Throw)
                     .AsMatchingInterface()
                     .WithScopedLifetime());
-        }
     }
 }
