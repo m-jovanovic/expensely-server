@@ -1,7 +1,11 @@
 ﻿using System;
 using Expensely.Api.Abstractions;
+using Expensely.Application.Abstractions.Data;
 using Expensely.Persistence;
+using Expensely.Persistence.Data;
+using Expensely.Persistence.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Raven.Client.Documents;
 using Scrutor;
 
 namespace Expensely.Api.Installers.Persistence
@@ -19,12 +23,21 @@ namespace Expensely.Api.Installers.Persistence
         {
             services.ConfigureOptions<RavenDbSettingsSetup>();
 
+            services.AddSingleton<DocumentStoreProvider>();
+
+            services.AddSingleton(serviceProvider => serviceProvider.GetRequiredService<DocumentStoreProvider>().DocumentStore);
+
+            services.AddScoped(serviceProvider => serviceProvider.GetRequiredService<IDocumentStore>().OpenAsyncSession());
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.Scan(scan =>
                 scan.FromAssemblies(PersistenceAssembly.Assembly)
                     .AddClasses(
-                        filter => filter.Where(type =>
-                        type.Name.EndsWith(RepositoryPostfix, StringComparison.InvariantCulture) ||
-                        type.Name.EndsWith(QueryProcessorPostfix, StringComparison.InvariantCulture)),
+                        filter => filter.Where(type => type.Name.EndsWith(RepositoryPostfix, StringComparison.Ordinal)),
+                        false)
+                    .AddClasses(
+                        filter => filter.Where(type => type.Name.EndsWith(QueryProcessorPostfix, StringComparison.Ordinal)),
                         false)
                     .UsingRegistrationStrategy(RegistrationStrategy.Throw)
                     .AsMatchingInterface()

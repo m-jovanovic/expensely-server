@@ -39,7 +39,6 @@ namespace Expensely.Api
             services
                 .AddDomain()
                 .AddInfrastructure(Configuration)
-                .AddPersistence(Configuration)
                 .AddMessaging(Configuration);
 
             services.AddSwagger();

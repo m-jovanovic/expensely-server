@@ -5,7 +5,6 @@ using Expensely.Application.Commands.Users;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;
-using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Repositories;

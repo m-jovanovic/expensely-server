@@ -7,15 +7,21 @@
   <Import Project="..\..\CodeAnalysis.targets" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
     <PackageReference Include="RavenDB.Client" Version="5.1.3" />
-    <PackageReference Include="Scrutor" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Expensely.Application.Abstractions\Expensely.Application.Abstractions.csproj" />
     <ProjectReference Include="..\Expensely.Application.Queries.Processors\Expensely.Application.Queries.Processors.csproj" />
     <ProjectReference Include="..\Expensely.Common.Abstractions\Expensely.Common.Abstractions.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Expensely.Api</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>
