@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Expensely.Domain.Repositories
+namespace Expensely.Application.Abstractions.Data
 {
     /// <summary>
     /// Represents the unit of work interface.

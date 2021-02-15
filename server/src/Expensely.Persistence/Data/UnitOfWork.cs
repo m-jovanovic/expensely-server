@@ -1,13 +1,15 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Abstractions.Data;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Core;
 using Expensely.Domain.Repositories;
 using Raven.Client.Documents.Session;
 
-namespace Expensely.Persistence.Repositories
+namespace Expensely.Persistence.Data
 {
     /// <summary>
     /// Represents the unit of work.
@@ -15,23 +17,31 @@ namespace Expensely.Persistence.Repositories
     internal sealed class UnitOfWork : IUnitOfWork
     {
         private readonly IAsyncDocumentSession _session;
-        private readonly IMessageRepository _messageRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitOfWork"/> class.
         /// </summary>
         /// <param name="session">The document session.</param>
-        /// <param name="messageRepository">The message repository.</param>
-        public UnitOfWork(IAsyncDocumentSession session, IMessageRepository messageRepository)
-        {
-            _session = session;
-            _messageRepository = messageRepository;
-        }
+        public UnitOfWork(IAsyncDocumentSession session) => _session = session;
 
         /// <inheritdoc />
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            foreach (string documentId in _session.Advanced.WhatChanged().Keys)
+            await StoreEventsAsMessages(cancellationToken);
+
+            await _session.SaveChangesAsync(cancellationToken);
+        }
+
+        private async Task StoreEventsAsMessages(CancellationToken cancellationToken)
+        {
+            IDictionary<string, DocumentsChanges[]> documentChanges = _session.Advanced.WhatChanged();
+
+            if (!documentChanges.Keys.Any())
+            {
+                return;
+            }
+
+            foreach (string documentId in documentChanges.Keys)
             {
                 object document = await _session.LoadAsync<object>(documentId, cancellationToken);
 
@@ -45,8 +55,6 @@ namespace Expensely.Persistence.Repositories
                     await _session.StoreAsync(new Message(@event), cancellationToken);
                 }
             }
-
-            await _session.SaveChangesAsync(cancellationToken);
         }
     }
 }
