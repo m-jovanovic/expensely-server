@@ -25,13 +25,5 @@ namespace Expensely.Domain.Repositories
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The completed task.</returns>
         Task AddAsync(Message message, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Adds the specified collection of messages to the repository.
-        /// </summary>
-        /// <param name="messages">The messages to be added.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The completed task.</returns>
-        Task AddAsync(IEnumerable<Message> messages, CancellationToken cancellationToken = default);
     }
 }

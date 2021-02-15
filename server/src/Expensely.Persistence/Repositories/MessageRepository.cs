@@ -39,9 +39,5 @@ namespace Expensely.Persistence.Repositories
         /// <inheritdoc />
         public async Task AddAsync(Message message, CancellationToken cancellationToken = default) =>
             await _session.StoreAsync(message, cancellationToken);
-
-        /// <inheritdoc />
-        public async Task AddAsync(IEnumerable<Message> messages, CancellationToken cancellationToken = default) =>
-            await Task.WhenAll(messages.Select(message => AddAsync(message, cancellationToken)));
     }
 }

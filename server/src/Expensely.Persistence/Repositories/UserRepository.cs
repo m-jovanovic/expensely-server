@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Abstractions.Maybe;
-using Expensely.Domain.Core;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Repositories;
 using Expensely.Persistence.Indexes.Users;

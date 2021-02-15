@@ -26,7 +26,7 @@ namespace Expensely.Persistence.Repositories
 
         /// <inheritdoc />
         public async Task AddAsync(Budget budget, CancellationToken cancellationToken = default) =>
-            await _session.StoreAsync(budget, budget.Id.ToString(), cancellationToken);
+            await _session.StoreAsync(budget, cancellationToken);
 
         /// <inheritdoc />
         public void Remove(Budget budget) => _session.Delete(budget);

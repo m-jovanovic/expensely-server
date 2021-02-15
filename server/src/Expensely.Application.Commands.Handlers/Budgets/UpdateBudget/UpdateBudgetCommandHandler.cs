@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
+using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Budgets;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Common.Abstractions.Messaging;

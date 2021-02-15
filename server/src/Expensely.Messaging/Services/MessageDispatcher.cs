@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Abstractions.Data;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Core;

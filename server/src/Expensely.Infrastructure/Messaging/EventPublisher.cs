@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Common.Abstractions.ServiceLifetimes;
@@ -26,9 +24,5 @@ namespace Expensely.Infrastructure.Messaging
         /// <inheritdoc />
         public async Task PublishAsync(IEvent @event, CancellationToken cancellationToken = default) =>
             await _messageRepository.AddAsync(new Message(@event), cancellationToken);
-
-        /// <inheritdoc />
-        public async Task PublishAsync(IEnumerable<IEvent> events, CancellationToken cancellationToken = default) =>
-            await _messageRepository.AddAsync(events.Select(@event => new Message(@event)), cancellationToken);
     }
 }
