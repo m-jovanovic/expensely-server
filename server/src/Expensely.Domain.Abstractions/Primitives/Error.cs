@@ -19,6 +19,11 @@ namespace Expensely.Domain.Abstractions.Primitives
         }
 
         /// <summary>
+        /// Gets the empty error instance.
+        /// </summary>
+        public static Error None => new(string.Empty, string.Empty);
+
+        /// <summary>
         /// Gets the error code.
         /// </summary>
         public string Code { get; }
@@ -27,11 +32,6 @@ namespace Expensely.Domain.Abstractions.Primitives
         /// Gets the error message.
         /// </summary>
         public string Message { get; }
-
-        /// <summary>
-        /// Gets the empty error instance.
-        /// </summary>
-        public static Error None => new(string.Empty, string.Empty);
 
         public static implicit operator string(Error error) => error?.Code ?? string.Empty;
 

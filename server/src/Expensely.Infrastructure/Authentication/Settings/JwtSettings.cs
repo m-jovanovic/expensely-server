@@ -6,11 +6,6 @@
     public class JwtSettings
     {
         /// <summary>
-        /// The settings key.
-        /// </summary>
-        public const string SettingsKey = "Jwt";
-
-        /// <summary>
         /// Gets the issuer.
         /// </summary>
         public string Issuer { get; init; }
