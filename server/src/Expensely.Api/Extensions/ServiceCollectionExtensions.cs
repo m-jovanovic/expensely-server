@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
-using Expensely.Api.Abstractions;
 using Expensely.Api.Infrastructure;
-using Expensely.Domain.Abstractions.Extensions;
 using Expensely.Domain.Factories;
 using Expensely.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +21,7 @@ namespace Expensely.Api.Extensions
         /// <param name="assembly">The assembly to install services from.</param>
         public static void InstallServicesFromAssembly(this IServiceCollection services, Assembly assembly)
         {
-            IInstaller[] installers = InstallerFactory.GetInstallersFromAssembly(assembly);
+            var installers = InstallerFactory.GetInstallersFromAssembly(assembly).ToList();
 
             installers.ForEach(x => x.InstallServices(services));
         }
