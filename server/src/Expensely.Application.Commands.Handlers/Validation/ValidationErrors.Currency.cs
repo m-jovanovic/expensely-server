@@ -5,17 +5,17 @@ namespace Expensely.Application.Commands.Handlers.Validation
     /// <summary>
     /// Contains the application layer errors.
     /// </summary>
-    internal static partial class ValidationErrors
+    public static partial class ValidationErrors
     {
         /// <summary>
         /// Contains the currency errors.
         /// </summary>
-        internal static class Currency
+        public static class Currency
         {
             /// <summary>
             /// Gets the currency not found error.
             /// </summary>
-            internal static Error NotFound => new("Currency.NotFound", "The currency with the specified value was not found.");
+            public static Error NotFound => new("Currency.NotFound", "The currency with the specified value was not found.");
         }
     }
 }

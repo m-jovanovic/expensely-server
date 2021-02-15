@@ -12,7 +12,7 @@ namespace Expensely.Persistence.QueryProcessors.Currencies
     /// <summary>
     /// Represents the <see cref="GetCurrenciesQuery"/> processor.
     /// </summary>
-    internal sealed class GetCurrenciesQueryProcessor : IGetCurrenciesQueryProcessor
+    public sealed class GetCurrenciesQueryProcessor : IGetCurrenciesQueryProcessor
     {
         /// <inheritdoc />
         public Task<IReadOnlyCollection<CurrencyResponse>> Process(GetCurrenciesQuery query, CancellationToken cancellationToken = default)

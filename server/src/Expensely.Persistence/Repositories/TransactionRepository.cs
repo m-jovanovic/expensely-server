@@ -10,7 +10,7 @@ namespace Expensely.Persistence.Repositories
     /// <summary>
     /// Represents the transaction repository.
     /// </summary>
-    internal sealed class TransactionRepository : ITransactionRepository
+    public sealed class TransactionRepository : ITransactionRepository
     {
         private readonly IAsyncDocumentSession _session;
 

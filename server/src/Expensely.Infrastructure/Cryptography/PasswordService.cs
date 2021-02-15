@@ -10,7 +10,7 @@ namespace Expensely.Infrastructure.Cryptography
     /// <summary>
     /// Represents the password service.
     /// </summary>
-    internal sealed class PasswordService : IPasswordService, IDisposable, ITransient
+    public sealed class PasswordService : IPasswordService, IDisposable, ITransient
     {
         private const KeyDerivationPrf Prf = KeyDerivationPrf.HMACSHA256;
         private const int IterationCount = 10000;

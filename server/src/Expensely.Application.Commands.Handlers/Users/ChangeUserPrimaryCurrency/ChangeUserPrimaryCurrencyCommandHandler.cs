@@ -15,7 +15,7 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPrimaryCurrenc
     /// <summary>
     /// Represents the <see cref="ChangeUserPrimaryCurrencyCommand"/> handler.
     /// </summary>
-    internal sealed class ChangeUserPrimaryCurrencyCommandHandler : ICommandHandler<ChangeUserPrimaryCurrencyCommand, Result>
+    public sealed class ChangeUserPrimaryCurrencyCommandHandler : ICommandHandler<ChangeUserPrimaryCurrencyCommand, Result>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;

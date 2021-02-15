@@ -10,7 +10,7 @@ namespace Expensely.Persistence.Repositories
     /// <summary>
     /// Represents the budget repository.
     /// </summary>
-    internal sealed class BudgetRepository : IBudgetRepository
+    public sealed class BudgetRepository : IBudgetRepository
     {
         private readonly IAsyncDocumentSession _session;
 

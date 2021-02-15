@@ -15,7 +15,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RemoveUserCurrency
     /// <summary>
     /// Represents the <see cref="RemoveUserCurrencyCommand"/> handler.
     /// </summary>
-    internal sealed class RemoveUserCurrencyCommandHandler : ICommandHandler<RemoveUserCurrencyCommand, Result>
+    public sealed class RemoveUserCurrencyCommandHandler : ICommandHandler<RemoveUserCurrencyCommand, Result>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;

@@ -19,7 +19,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
     /// <summary>
     /// Represents the <see cref="UpdateTransactionCommand"/> handler.
     /// </summary>
-    internal sealed class UpdateTransactionCommandHandler : ICommandHandler<UpdateTransactionCommand, Result>
+    public sealed class UpdateTransactionCommandHandler : ICommandHandler<UpdateTransactionCommand, Result>
     {
         private readonly IUserRepository _userRepository;
         private readonly ITransactionRepository _transactionRepository;

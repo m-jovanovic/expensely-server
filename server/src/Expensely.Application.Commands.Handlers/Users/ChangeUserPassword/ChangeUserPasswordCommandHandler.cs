@@ -15,7 +15,7 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPassword
     /// <summary>
     /// Represents the <see cref="ChangeUserPasswordCommand"/> handler.
     /// </summary>
-    internal sealed class ChangeUserPasswordCommandHandler : ICommandHandler<ChangeUserPasswordCommand, Result>
+    public sealed class ChangeUserPasswordCommandHandler : ICommandHandler<ChangeUserPasswordCommand, Result>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;

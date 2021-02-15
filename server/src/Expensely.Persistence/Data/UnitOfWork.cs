@@ -14,7 +14,7 @@ namespace Expensely.Persistence.Data
     /// <summary>
     /// Represents the unit of work.
     /// </summary>
-    internal sealed class UnitOfWork : IUnitOfWork
+    public sealed class UnitOfWork : IUnitOfWork
     {
         private readonly IAsyncDocumentSession _session;
 

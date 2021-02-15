@@ -12,7 +12,7 @@ namespace Expensely.Api.Installers.Messaging
     /// <summary>
     /// Represents the messaging services installer.
     /// </summary>
-    internal sealed class MessagingServiceInstaller : IServiceInstaller
+    public sealed class MessagingServiceInstaller : IServiceInstaller
     {
         private const string EventHandlerPostfix = "EventHandler";
 
@@ -31,9 +31,7 @@ namespace Expensely.Api.Installers.Messaging
         private static void AddEventHandlers(IServiceCollection services) =>
             services.Scan(scan =>
                 scan.FromAssemblies(EventHandlersAssembly.Assembly)
-                    .AddClasses(
-                        filter => filter.Where(type => type.Name.EndsWith(EventHandlerPostfix, StringComparison.Ordinal)),
-                        false)
+                    .AddClasses(filter => filter.Where(type => type.Name.EndsWith(EventHandlerPostfix, StringComparison.Ordinal)))
                     .AsImplementedInterfaces()
                     .WithScopedLifetime());
     }

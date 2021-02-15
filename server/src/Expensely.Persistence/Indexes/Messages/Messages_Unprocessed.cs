@@ -7,7 +7,7 @@ namespace Expensely.Persistence.Indexes.Messages
     /// <summary>
     /// Represents the index on the messages collection by processed field where processed is false.
     /// </summary>
-    internal sealed class Messages_Unprocessed : AbstractIndexCreationTask<Message>
+    public sealed class Messages_Unprocessed : AbstractIndexCreationTask<Message>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Messages_Unprocessed"/> class.

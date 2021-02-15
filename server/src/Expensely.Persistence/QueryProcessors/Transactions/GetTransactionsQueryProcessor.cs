@@ -19,7 +19,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
     /// <summary>
     /// Represents the <see cref="GetTransactionsQuery"/> processor.
     /// </summary>
-    internal sealed class GetTransactionsQueryProcessor : IGetTransactionsQueryProcessor
+    public sealed class GetTransactionsQueryProcessor : IGetTransactionsQueryProcessor
     {
         private readonly IAsyncDocumentSession _session;
         private readonly IUserInformationProvider _userInformationProvider;

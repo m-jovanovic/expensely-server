@@ -7,7 +7,7 @@ namespace Expensely.Persistence.Indexes.Transactions
     /// <summary>
     /// Represents the map-reduce index on the transactions collection and calculates the monthly transactions.
     /// </summary>
-    internal sealed class Transactions_Monthly : AbstractIndexCreationTask<Transaction, Transactions_Monthly.Result>
+    public sealed class Transactions_Monthly : AbstractIndexCreationTask<Transaction, Transactions_Monthly.Result>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Transactions_Monthly"/> class.

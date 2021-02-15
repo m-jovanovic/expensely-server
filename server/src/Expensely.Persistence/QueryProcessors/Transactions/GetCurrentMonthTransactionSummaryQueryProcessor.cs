@@ -17,7 +17,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
     /// <summary>
     /// Represents the <see cref="GetCurrentMonthTransactionSummaryQuery"/> processor.
     /// </summary>
-    internal sealed class GetCurrentMonthTransactionSummaryQueryProcessor : IGetCurrentMonthTransactionSummaryQueryProcessor
+    public sealed class GetCurrentMonthTransactionSummaryQueryProcessor : IGetCurrentMonthTransactionSummaryQueryProcessor
     {
         private readonly IAsyncDocumentSession _session;
         private readonly IUserInformationProvider _userInformationProvider;

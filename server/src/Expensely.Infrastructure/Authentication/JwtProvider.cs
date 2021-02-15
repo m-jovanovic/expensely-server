@@ -20,7 +20,7 @@ namespace Expensely.Infrastructure.Authentication
     /// <summary>
     /// Represents the JWT provider.
     /// </summary>
-    internal sealed class JwtProvider : IJwtProvider, ITransient
+    public sealed class JwtProvider : IJwtProvider, ITransient
     {
         private readonly JwtSettings _jwtSettings;
         private readonly IDateTime _dateTime;

@@ -18,7 +18,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
     /// <summary>
     /// Represents the <see cref="CreateUserTokenCommand"/> handler.
     /// </summary>
-    internal sealed class CreateUserTokenCommandHandler : ICommandHandler<CreateUserTokenCommand, Result<TokenResponse>>
+    public sealed class CreateUserTokenCommandHandler : ICommandHandler<CreateUserTokenCommand, Result<TokenResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;

@@ -17,11 +17,4 @@
     <ProjectReference Include="..\Expensely.Common.Abstractions\Expensely.Common.Abstractions.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>Expensely.Api</_Parameter1>
-    </AssemblyAttribute>
-  </ItemGroup>
-
 </Project>

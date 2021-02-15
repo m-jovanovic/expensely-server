@@ -12,7 +12,7 @@ namespace Expensely.Persistence.Serialization
     /// <summary>
     /// Represents the custom contract resolver to be used in the serialization process.
     /// </summary>
-    internal sealed class CustomContractResolver : DefaultRavenContractResolver
+    public sealed class CustomContractResolver : DefaultRavenContractResolver
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomContractResolver"/> class.

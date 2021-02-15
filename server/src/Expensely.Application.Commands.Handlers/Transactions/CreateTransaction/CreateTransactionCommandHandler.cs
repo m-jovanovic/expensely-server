@@ -16,7 +16,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.CreateTransaction
     /// <summary>
     /// Represents the <see cref="CreateTransactionCommand"/> handler.
     /// </summary>
-    internal sealed class CreateTransactionCommandHandler : ICommandHandler<CreateTransactionCommand, Result>
+    public sealed class CreateTransactionCommandHandler : ICommandHandler<CreateTransactionCommand, Result>
     {
         private readonly IUserRepository _userRepository;
         private readonly ITransactionFactory _transactionFactory;

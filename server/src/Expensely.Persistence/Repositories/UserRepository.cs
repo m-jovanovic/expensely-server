@@ -12,7 +12,7 @@ namespace Expensely.Persistence.Repositories
     /// <summary>
     /// Represents the user repository.
     /// </summary>
-    internal sealed class UserRepository : IUserRepository
+    public sealed class UserRepository : IUserRepository
     {
         private readonly IAsyncDocumentSession _session;
 

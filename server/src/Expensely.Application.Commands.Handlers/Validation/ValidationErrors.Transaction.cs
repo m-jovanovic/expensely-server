@@ -5,29 +5,29 @@ namespace Expensely.Application.Commands.Handlers.Validation
     /// <summary>
     /// Contains the application layer errors.
     /// </summary>
-    internal static partial class ValidationErrors
+    public static partial class ValidationErrors
     {
         /// <summary>
         /// Contains the transaction errors.
         /// </summary>
-        internal static class Transaction
+        public static class Transaction
         {
             /// <summary>
             /// Gets the transaction identifier is required error.
             /// </summary>
-            internal static Error IdentifierIsRequired => new("Transaction.IdentifierIsRequired", "The transaction identifier is required.");
+            public static Error IdentifierIsRequired => new("Transaction.IdentifierIsRequired", "The transaction identifier is required.");
 
             /// <summary>
             /// Gets the transaction description is required error.
             /// </summary>
-            internal static Error DescriptionIsRequired => new(
+            public static Error DescriptionIsRequired => new(
                 "Transaction.DescriptionIsRequired",
                 "The transaction description is required.");
 
             /// <summary>
             /// Gets the transaction occurred on date is required error.
             /// </summary>
-            internal static Error OccurredOnDateIsRequired => new(
+            public static Error OccurredOnDateIsRequired => new(
                 "Transaction.OccurredOnDateIsRequired",
                 "The date the transaction occurred on is required.");
         }

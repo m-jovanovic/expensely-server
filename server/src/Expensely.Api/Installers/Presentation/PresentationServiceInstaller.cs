@@ -7,7 +7,7 @@ namespace Expensely.Api.Installers.Presentation
     /// <summary>
     /// Represents the presentation services installer.
     /// </summary>
-    internal sealed class PresentationServiceInstaller : IServiceInstaller
+    public sealed class PresentationServiceInstaller : IServiceInstaller
     {
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services)

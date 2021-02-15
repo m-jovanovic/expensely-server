@@ -13,7 +13,7 @@ namespace Expensely.Api.Installers.Persistence
     /// <summary>
     /// Represents the persistence services installer.
     /// </summary>
-    internal sealed class PersistenceServiceInstaller : IServiceInstaller
+    public sealed class PersistenceServiceInstaller : IServiceInstaller
     {
         private const string RepositoryPostfix = "Repository";
         private const string QueryProcessorPostfix = "QueryProcessor";
@@ -39,9 +39,7 @@ namespace Expensely.Api.Installers.Persistence
         private static void AddRepositories(IServiceCollection services) =>
             services.Scan(scan =>
                 scan.FromAssemblies(PersistenceAssembly.Assembly)
-                    .AddClasses(
-                        filter => filter.Where(type => type.Name.EndsWith(RepositoryPostfix, StringComparison.Ordinal)),
-                        false)
+                    .AddClasses(filter => filter.Where(type => type.Name.EndsWith(RepositoryPostfix, StringComparison.Ordinal)))
                     .UsingRegistrationStrategy(RegistrationStrategy.Throw)
                     .AsMatchingInterface()
                     .WithScopedLifetime());
@@ -49,9 +47,7 @@ namespace Expensely.Api.Installers.Persistence
         private static void AddQueryProcessors(IServiceCollection services) =>
             services.Scan(scan =>
                 scan.FromAssemblies(PersistenceAssembly.Assembly)
-                    .AddClasses(
-                        filter => filter.Where(type => type.Name.EndsWith(QueryProcessorPostfix, StringComparison.Ordinal)),
-                        false)
+                    .AddClasses(filter => filter.Where(type => type.Name.EndsWith(QueryProcessorPostfix, StringComparison.Ordinal)))
                     .UsingRegistrationStrategy(RegistrationStrategy.Throw)
                     .AsMatchingInterface()
                     .WithScopedLifetime());

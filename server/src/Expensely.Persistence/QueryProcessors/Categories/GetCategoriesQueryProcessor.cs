@@ -12,7 +12,7 @@ namespace Expensely.Persistence.QueryProcessors.Categories
     /// <summary>
     /// Represents the <see cref="GetCategoriesQuery"/> processor.
     /// </summary>
-    internal sealed class GetCategoriesQueryProcessor : IGetCategoriesQueryProcessor
+    public sealed class GetCategoriesQueryProcessor : IGetCategoriesQueryProcessor
     {
         /// <inheritdoc />
         public Task<IReadOnlyCollection<CategoryResponse>> Process(GetCategoriesQuery query, CancellationToken cancellationToken = default)

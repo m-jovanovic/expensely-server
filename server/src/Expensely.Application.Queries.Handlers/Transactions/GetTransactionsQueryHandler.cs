@@ -11,7 +11,7 @@ namespace Expensely.Application.Queries.Handlers.Transactions
     /// <summary>
     /// Represents the <see cref="GetTransactionsQuery"/> handler.
     /// </summary>
-    internal sealed class GetTransactionsQueryHandler : IQueryHandler<GetTransactionsQuery, Maybe<TransactionListResponse>>
+    public sealed class GetTransactionsQueryHandler : IQueryHandler<GetTransactionsQuery, Maybe<TransactionListResponse>>
     {
         private readonly IGetTransactionsQueryProcessor _processor;
 

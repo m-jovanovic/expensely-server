@@ -20,7 +20,7 @@ namespace Expensely.Persistence.Providers
     /// <summary>
     /// Represents the document store provider.
     /// </summary>
-    internal sealed class DocumentStoreProvider : IDisposable
+    public sealed class DocumentStoreProvider : IDisposable
     {
         private static readonly Dictionary<Type, MethodInfo> SetCreatedOnMethodDictionary = new();
         private static readonly Dictionary<Type, MethodInfo> SetModifiedOnMethodDictionary = new();

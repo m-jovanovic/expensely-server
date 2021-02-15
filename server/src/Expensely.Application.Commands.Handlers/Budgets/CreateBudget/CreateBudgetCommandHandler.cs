@@ -15,7 +15,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
     /// <summary>
     /// Represents the <see cref="CreateBudgetCommand"/> handler.
     /// </summary>
-    internal sealed class CreateBudgetCommandHandler : ICommandHandler<CreateBudgetCommand, Result>
+    public sealed class CreateBudgetCommandHandler : ICommandHandler<CreateBudgetCommand, Result>
     {
         private readonly IUserRepository _userRepository;
         private readonly IBudgetRepository _budgetRepository;

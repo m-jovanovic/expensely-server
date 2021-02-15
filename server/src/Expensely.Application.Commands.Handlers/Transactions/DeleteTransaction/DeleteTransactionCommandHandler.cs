@@ -16,7 +16,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.DeleteTransaction
     /// <summary>
     /// Represents the <see cref="DeleteTransactionCommand"/> handler.
     /// </summary>
-    internal sealed class DeleteTransactionCommandHandler : ICommandHandler<DeleteTransactionCommand, Result>
+    public sealed class DeleteTransactionCommandHandler : ICommandHandler<DeleteTransactionCommand, Result>
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IUnitOfWork _unitOfWork;

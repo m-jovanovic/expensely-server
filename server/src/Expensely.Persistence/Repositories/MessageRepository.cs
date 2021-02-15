@@ -13,7 +13,7 @@ namespace Expensely.Persistence.Repositories
     /// <summary>
     /// Represents the message repository.
     /// </summary>
-    internal sealed class MessageRepository : IMessageRepository
+    public sealed class MessageRepository : IMessageRepository
     {
         private readonly IAsyncDocumentSession _session;
 

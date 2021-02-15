@@ -11,7 +11,7 @@ namespace Expensely.Application.Queries.Handlers.Currencies
     /// <summary>
     /// Represents the <see cref="GetCurrenciesQuery"/> handler.
     /// </summary>
-    internal sealed class GetCurrenciesQueryHandler : IQueryHandler<GetCurrenciesQuery, IReadOnlyCollection<CurrencyResponse>>
+    public sealed class GetCurrenciesQueryHandler : IQueryHandler<GetCurrenciesQuery, IReadOnlyCollection<CurrencyResponse>>
     {
         private readonly IGetCurrenciesQueryProcessor _processor;
 

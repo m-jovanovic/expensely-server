@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the RavenDB settings.
     /// </summary>
-    internal sealed class RavenDbSettings
+    public sealed class RavenDbSettings
     {
         /// <summary>
         /// Gets the certificate.

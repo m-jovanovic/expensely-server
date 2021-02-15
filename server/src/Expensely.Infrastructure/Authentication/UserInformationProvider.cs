@@ -10,7 +10,7 @@ namespace Expensely.Infrastructure.Authentication
     /// <summary>
     /// Represents the user identifier provider.
     /// </summary>
-    internal sealed class UserInformationProvider : IUserInformationProvider, IScoped
+    public sealed class UserInformationProvider : IUserInformationProvider, IScoped
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInformationProvider"/> class.

@@ -18,7 +18,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
     /// <summary>
     /// Represents the <see cref="RefreshUserTokenCommand"/> handler.
     /// </summary>
-    internal sealed class RefreshUserTokenCommandHandler : ICommandHandler<RefreshUserTokenCommand, Result<TokenResponse>>
+    public sealed class RefreshUserTokenCommandHandler : ICommandHandler<RefreshUserTokenCommand, Result<TokenResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;

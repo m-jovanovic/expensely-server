@@ -16,7 +16,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
     /// <summary>
     /// Represents the <see cref="UpdateBudgetCommand"/> handler.
     /// </summary>
-    internal sealed class UpdateBudgetCommandHandler : ICommandHandler<UpdateBudgetCommand, Result>
+    public sealed class UpdateBudgetCommandHandler : ICommandHandler<UpdateBudgetCommand, Result>
     {
         private readonly IBudgetRepository _budgetRepository;
         private readonly IUnitOfWork _unitOfWork;

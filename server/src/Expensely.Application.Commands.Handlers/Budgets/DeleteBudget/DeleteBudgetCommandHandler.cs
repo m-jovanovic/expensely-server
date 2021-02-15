@@ -16,7 +16,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.DeleteBudget
     /// <summary>
     /// Represents the <see cref="DeleteBudgetCommand"/> handler.
     /// </summary>
-    internal sealed class DeleteBudgetCommandHandler : ICommandHandler<DeleteBudgetCommand, Result>
+    public sealed class DeleteBudgetCommandHandler : ICommandHandler<DeleteBudgetCommand, Result>
     {
         private readonly IBudgetRepository _budgetRepository;
         private readonly IUnitOfWork _unitOfWork;

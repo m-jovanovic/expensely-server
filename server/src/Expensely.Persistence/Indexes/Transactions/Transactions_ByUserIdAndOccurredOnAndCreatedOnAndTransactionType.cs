@@ -7,7 +7,7 @@ namespace Expensely.Persistence.Indexes.Transactions
     /// <summary>
     /// Represents the index on the transactions collection by the user identifier, occurred on, created on and transaction type.
     /// </summary>
-    internal sealed class Transactions_ByUserIdAndOccurredOnAndCreatedOnAndTransactionType : AbstractIndexCreationTask<Transaction>
+    public sealed class Transactions_ByUserIdAndOccurredOnAndCreatedOnAndTransactionType : AbstractIndexCreationTask<Transaction>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Transactions_ByUserIdAndOccurredOnAndCreatedOnAndTransactionType"/> class.

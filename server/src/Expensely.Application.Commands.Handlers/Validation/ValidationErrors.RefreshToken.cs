@@ -5,17 +5,17 @@ namespace Expensely.Application.Commands.Handlers.Validation
     /// <summary>
     /// Contains the application layer errors.
     /// </summary>
-    internal static partial class ValidationErrors
+    public static partial class ValidationErrors
     {
         /// <summary>
         /// Contains the refresh token errors.
         /// </summary>
-        internal static class RefreshToken
+        public static class RefreshToken
         {
             /// <summary>
             /// Gets the refresh token is required error.
             /// </summary>
-            internal static Error RefreshTokenIsRequired => new("RefreshToken.RefreshTokenIsRequired", "The refresh token is required.");
+            public static Error RefreshTokenIsRequired => new("RefreshToken.RefreshTokenIsRequired", "The refresh token is required.");
         }
     }
 }

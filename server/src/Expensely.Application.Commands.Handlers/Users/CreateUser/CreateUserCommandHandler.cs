@@ -15,7 +15,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
     /// <summary>
     /// Represents the <see cref="CreateUserCommand"/> handler.
     /// </summary>
-    internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Result>
+    public sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Result>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;

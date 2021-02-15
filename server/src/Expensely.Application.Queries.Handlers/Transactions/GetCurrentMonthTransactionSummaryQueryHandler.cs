@@ -11,7 +11,7 @@ namespace Expensely.Application.Queries.Handlers.Transactions
     /// <summary>
     /// Represents the <see cref="GetCurrentMonthTransactionSummaryQuery"/> handler.
     /// </summary>
-    internal sealed class GetCurrentMonthTransactionSummaryQueryHandler
+    public sealed class GetCurrentMonthTransactionSummaryQueryHandler
         : IQueryHandler<GetCurrentMonthTransactionSummaryQuery, Maybe<TransactionSummaryResponse>>
     {
         private readonly IGetCurrentMonthTransactionSummaryQueryProcessor _processor;

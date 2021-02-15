@@ -7,7 +7,7 @@ namespace Expensely.Api.Installers.Persistence
     /// <summary>
     /// Represents the <see cref="RavenDbSettings"/> setup.
     /// </summary>
-    internal sealed class RavenDbSettingsSetup : IConfigureOptions<RavenDbSettings>
+    public sealed class RavenDbSettingsSetup : IConfigureOptions<RavenDbSettings>
     {
         private const string ConfigurationSectionName = "RavenDB";
         private readonly IConfiguration _configuration;

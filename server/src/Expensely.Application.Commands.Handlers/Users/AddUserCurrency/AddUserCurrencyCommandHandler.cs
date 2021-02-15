@@ -15,7 +15,7 @@ namespace Expensely.Application.Commands.Handlers.Users.AddUserCurrency
     /// <summary>
     /// Represents the <see cref="AddUserCurrencyCommand"/> handler.
     /// </summary>
-    internal sealed class AddUserCurrencyCommandHandler : ICommandHandler<AddUserCurrencyCommand, Result>
+    public sealed class AddUserCurrencyCommandHandler : ICommandHandler<AddUserCurrencyCommand, Result>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
