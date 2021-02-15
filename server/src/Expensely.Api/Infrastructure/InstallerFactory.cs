@@ -16,13 +16,13 @@ namespace Expensely.Api.Infrastructure
         /// </summary>
         /// <param name="assembly">The assembly to scan for installers.</param>
         /// <returns>The list of found installer instances.</returns>
-        public static IList<IInstaller> GetInstallersFromAssembly(Assembly assembly)
+        public static IList<IServiceInstaller> GetInstallersFromAssembly(Assembly assembly)
         {
-            Type installerType = typeof(IInstaller);
+            Type installerType = typeof(IServiceInstaller);
 
             var installers = assembly.DefinedTypes
                 .Where(x => installerType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                .Select(x => Activator.CreateInstance(x) as IInstaller)
+                .Select(x => Activator.CreateInstance(x) as IServiceInstaller)
                 .ToList();
 
             return installers;

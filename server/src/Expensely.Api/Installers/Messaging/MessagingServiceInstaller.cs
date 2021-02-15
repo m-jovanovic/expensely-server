@@ -12,7 +12,7 @@ namespace Expensely.Api.Installers.Messaging
     /// <summary>
     /// Represents the messaging services installer.
     /// </summary>
-    internal sealed class MessagingInstaller : IInstaller
+    internal sealed class MessagingServiceInstaller : IServiceInstaller
     {
         private const string EventHandlerPostfix = "EventHandler";
 

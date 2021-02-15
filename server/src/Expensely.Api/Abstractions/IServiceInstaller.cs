@@ -5,7 +5,7 @@ namespace Expensely.Api.Abstractions
     /// <summary>
     /// Represents the service installer interface.
     /// </summary>
-    public interface IInstaller
+    public interface IServiceInstaller
     {
         /// <summary>
         /// Installs the required services using the specified service collection.

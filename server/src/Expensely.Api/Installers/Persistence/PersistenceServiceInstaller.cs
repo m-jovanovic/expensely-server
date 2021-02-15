@@ -13,7 +13,7 @@ namespace Expensely.Api.Installers.Persistence
     /// <summary>
     /// Represents the persistence services installer.
     /// </summary>
-    internal sealed class PersistenceInstaller : IInstaller
+    internal sealed class PersistenceServiceInstaller : IServiceInstaller
     {
         private const string RepositoryPostfix = "Repository";
         private const string QueryProcessorPostfix = "QueryProcessor";

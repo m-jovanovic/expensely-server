@@ -8,7 +8,7 @@ namespace Expensely.Api.Installers.Validation
     /// <summary>
     /// Represents the validation services installer.
     /// </summary>
-    internal sealed class ValidationInstaller : IInstaller
+    internal sealed class ValidationServiceInstaller : IServiceInstaller
     {
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services) =>
