@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
-using Expensely.WebApp.Infrastructure;
+using Expensely.WebApp.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.WebApp.Extensions

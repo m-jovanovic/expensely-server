@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Expensely.WebApp.Abstractions;
 
-namespace Expensely.WebApp.Infrastructure
+namespace Expensely.WebApp.Abstractions
 {
     /// <summary>
     /// Represents the service installer factory.
