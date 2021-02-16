@@ -1,6 +1,6 @@
 ﻿using Expensely.Domain.Abstractions.Exceptions;
 using Expensely.Domain.Abstractions.Primitives;
-using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Shared;
 
 namespace Expensely.Domain.Exceptions
 {

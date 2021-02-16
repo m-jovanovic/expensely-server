@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Messages;
 using Raven.Client.Documents.Indexes;
 
 namespace Expensely.Persistence.Indexes.Messages

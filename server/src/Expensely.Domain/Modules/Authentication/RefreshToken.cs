@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Utility;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Modules.Authentication
 {
     /// <summary>
     /// Represents the refresh token.

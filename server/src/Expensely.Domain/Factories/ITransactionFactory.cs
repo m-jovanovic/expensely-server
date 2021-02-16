@@ -1,6 +1,6 @@
 ﻿using System;
 using Expensely.Domain.Abstractions.Result;
-using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Domain.Factories

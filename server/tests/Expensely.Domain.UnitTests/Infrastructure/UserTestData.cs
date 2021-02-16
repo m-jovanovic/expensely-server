@@ -1,5 +1,4 @@
-﻿using Expensely.Domain.Core;
-using Expensely.Domain.Modules.Users;
+﻿using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Services;
 using Moq;
 

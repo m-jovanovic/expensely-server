@@ -3,7 +3,7 @@ using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Exceptions;
 using Expensely.Domain.Utility;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Modules.Shared
 {
     /// <summary>
     /// Represents a monetary amount for a specific currency.

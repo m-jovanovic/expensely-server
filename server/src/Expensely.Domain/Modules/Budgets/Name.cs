@@ -3,7 +3,7 @@ using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Errors;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Modules.Budgets
 {
     /// <summary>
     /// Represents the name value object.

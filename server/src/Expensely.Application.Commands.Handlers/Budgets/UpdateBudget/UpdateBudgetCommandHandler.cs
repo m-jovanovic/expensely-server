@@ -7,8 +7,9 @@ using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;
-using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Modules.Budgets;
+using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Repositories;
 
 namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget

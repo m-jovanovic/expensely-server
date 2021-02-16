@@ -1,7 +1,7 @@
 ﻿using Expensely.Application.Commands.Budgets;
 using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
-using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Shared;
 using FluentValidation;
 
 namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget

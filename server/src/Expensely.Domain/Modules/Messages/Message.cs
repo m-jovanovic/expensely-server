@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Primitives;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Modules.Messages
 {
     /// <summary>
     /// Represents the message that can be published.

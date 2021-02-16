@@ -1,7 +1,8 @@
 using Expensely.Application.Commands.Users;
 using Expensely.Domain.Abstractions.Result;
-using Expensely.Domain.Core;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Transactions;
 using FluentAssertions;
 using Xunit;
 

@@ -1,8 +1,9 @@
 ﻿using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Modules.Shared;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Modules.Transactions
 {
     /// <summary>
     /// Represents the transaction type enumeration.

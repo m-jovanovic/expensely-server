@@ -3,7 +3,7 @@ using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Errors;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Modules.Transactions
 {
     /// <summary>
     /// Represents the description value object.

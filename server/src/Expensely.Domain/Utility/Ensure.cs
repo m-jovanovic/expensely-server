@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Shared;
 
 namespace Expensely.Domain.Utility
 {

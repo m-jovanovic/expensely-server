@@ -1,5 +1,6 @@
 ﻿using System;
-using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Transactions;
 
 namespace Expensely.Domain.Contracts
 {

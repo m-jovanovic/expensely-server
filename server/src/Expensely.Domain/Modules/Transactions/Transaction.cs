@@ -1,10 +1,11 @@
 ﻿using System;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Contracts;
+using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Utility;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Modules.Transactions
 {
     /// <summary>
     /// Represents a monetary transaction.

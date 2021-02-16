@@ -1,4 +1,4 @@
-﻿using Expensely.Domain.Core;
+﻿using Expensely.Domain.Modules.Shared;
 
 namespace Expensely.Domain.UnitTests.Infrastructure
 {

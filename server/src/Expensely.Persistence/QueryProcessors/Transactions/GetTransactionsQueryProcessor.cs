@@ -9,7 +9,7 @@ using Expensely.Application.Queries.Utility;
 using Expensely.Common.Abstractions.Constants;
 using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
-using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Transactions;
 using Expensely.Persistence.Indexes.Transactions;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Linq;

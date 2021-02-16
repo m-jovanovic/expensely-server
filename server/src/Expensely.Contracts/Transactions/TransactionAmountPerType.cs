@@ -1,4 +1,4 @@
-﻿using Expensely.Domain.Core;
+﻿using Expensely.Domain.Modules.Transactions;
 
 namespace Expensely.Contracts.Transactions
 {

@@ -1,5 +1,5 @@
 ﻿using Expensely.Domain.Abstractions.Maybe;
-using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Shared;
 
 namespace Expensely.Application.Abstractions.Authentication
 {

@@ -2,7 +2,7 @@
 using System.Globalization;
 using Expensely.Domain.Abstractions.Primitives;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Modules.Shared
 {
     /// <summary>
     /// Represents a currency with a currency name and code.

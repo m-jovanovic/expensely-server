@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Abstractions.Primitives;
-using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Messages;
 using Expensely.Domain.Repositories;
 using Raven.Client.Documents.Session;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Expensely.Domain.Abstractions.Primitives;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Modules.Messages
 {
     /// <summary>
     /// Represents the consumer for the specific message.

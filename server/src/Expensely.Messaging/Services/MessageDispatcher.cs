@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Abstractions.Maybe;
-using Expensely.Domain.Core;
+using Expensely.Domain.Modules.Messages;
 using Expensely.Messaging.Factories;
 using Microsoft.Extensions.DependencyInjection;
 
