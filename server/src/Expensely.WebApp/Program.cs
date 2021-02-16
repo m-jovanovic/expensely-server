@@ -1,12 +1,11 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Expensely.WebApp.Infrastructure;
+using Expensely.Infrastructure.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Raven.Client.Documents;
 using Serilog;
 
 namespace Expensely.WebApp
@@ -28,11 +27,9 @@ namespace Expensely.WebApp
 
                 using (IServiceScope scope = host.Services.CreateScope())
                 {
-                    IConfiguration configuration = scope.ServiceProvider.GetService<IConfiguration>();
+                    ILoggerConfigurator loggerConfigurator = scope.ServiceProvider.GetRequiredService<ILoggerConfigurator>();
 
-                    IDocumentStore documentStore = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
-
-                    LoggerConfigurator.Configure(configuration, documentStore);
+                    loggerConfigurator.Configure();
                 }
 
                 Log.Information("Application starting.");

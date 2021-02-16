@@ -1,31 +1,42 @@
 ﻿using System;
 using System.Threading;
+using Expensely.Common.Abstractions.ServiceLifetimes;
 using Microsoft.Extensions.Configuration;
 using Raven.Client.Documents;
 using Serilog;
 using Serilog.Events;
 
-namespace Expensely.WebApp.Infrastructure
+namespace Expensely.Infrastructure.Logging
 {
     /// <summary>
     /// Represents the logger configurator.
     /// </summary>
-    public static class LoggerConfigurator
+    public sealed class LoggerConfigurator : ILoggerConfigurator, ITransient
     {
         private const string SourceContextKey = "SourceContext";
         private const string InternalSourceContext = "Expensely";
         private static readonly TimeSpan DefaultExpirationInDays = TimeSpan.FromDays(5);
         private static readonly TimeSpan DefaultErrorExpirationInDays = TimeSpan.FromDays(7);
 
+        private readonly IConfiguration _configuration;
+        private readonly IDocumentStore _documentStore;
+
         /// <summary>
-        /// Configures the logger using the specified configuration and the specified document store.
+        /// Initializes a new instance of the <see cref="LoggerConfigurator"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <param name="documentStore">The document store.</param>
-        public static void Configure(IConfiguration configuration, IDocumentStore documentStore) =>
+        public LoggerConfigurator(IConfiguration configuration, IDocumentStore documentStore)
+        {
+            _configuration = configuration;
+            _documentStore = documentStore;
+        }
+
+        /// <inheritdoc />
+        public void Configure() =>
             Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .WriteTo.RavenDB(documentStore, logExpirationCallback: LogExpirationCallback)
+                .ReadFrom.Configuration(_configuration)
+                .WriteTo.RavenDB(_documentStore, logExpirationCallback: LogExpirationCallback)
                 .CreateLogger();
 
         /// <summary>
