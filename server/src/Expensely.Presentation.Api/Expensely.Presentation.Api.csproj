@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Expensely.Application.Abstractions\Expensely.Application.Abstractions.csproj" />
     <ProjectReference Include="..\Expensely.Application.Commands\Expensely.Application.Commands.csproj" />
     <ProjectReference Include="..\Expensely.Application.Queries\Expensely.Application.Queries.csproj" />
   </ItemGroup>

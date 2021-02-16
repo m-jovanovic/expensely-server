@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Expensely.Common.Abstractions\Expensely.Common.Abstractions.csproj" />
-    <ProjectReference Include="..\Expensely.Domain.Abstractions\Expensely.Domain.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
