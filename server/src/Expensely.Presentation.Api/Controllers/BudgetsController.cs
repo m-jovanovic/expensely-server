@@ -5,7 +5,7 @@ using Expensely.Application.Commands.Budgets;
 using Expensely.Contracts.Budgets;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Presentation.Api.Constants;
-using Expensely.Presentation.Api.Contracts;
+using Expensely.Presentation.Api.Errors;
 using Expensely.Presentation.Api.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Http;

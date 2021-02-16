@@ -8,7 +8,7 @@ using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Presentation.Api.Constants;
-using Expensely.Presentation.Api.Contracts;
+using Expensely.Presentation.Api.Errors;
 using Expensely.Presentation.Api.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Http;

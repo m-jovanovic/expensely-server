@@ -3,12 +3,12 @@
 namespace Expensely.Presentation.Api
 {
     /// <summary>
-    /// Represents the controllers assembly.
+    /// Represents the presentation assembly.
     /// </summary>
     public static class PresentationAssembly
     {
         /// <summary>
-        /// The controllers assembly.
+        /// The presentation assembly.
         /// </summary>
         public static readonly Assembly Assembly = Assembly.GetCallingAssembly();
     }

@@ -1,6 +1,6 @@
 ﻿using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Abstractions.Result;
-using Expensely.Presentation.Api.Contracts;
+using Expensely.Presentation.Api.Errors;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +14,7 @@ namespace Expensely.Presentation.Api.Infrastructure
     [Authorize]
     [Route("api")]
     [ApiController]
-    public class ApiController : ControllerBase
+    public abstract class ApiController : ControllerBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiController"/> class.
