@@ -11,9 +11,6 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Scrutor" Version="3.3.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
-    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
-    <PackageReference Include="Serilog.Sinks.RavenDB" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
@@ -25,7 +22,6 @@
     <ProjectReference Include="..\Expensely.Infrastructure\Expensely.Infrastructure.csproj" />
     <ProjectReference Include="..\Expensely.Persistence\Expensely.Persistence.csproj" />
     <ProjectReference Include="..\Expensely.Presentation.Api\Expensely.Presentation.Api.csproj" />
-    <ProjectReference Include="..\Expensely.Presentation.Middleware\Expensely.Presentation.Middleware.csproj" />
   </ItemGroup>
 
 

@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Exceptions;
 using Expensely.Domain.Abstractions.Exceptions;
 using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Presentation.Api.Errors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Expensely.Presentation.Middleware.Internal
+namespace Expensely.Presentation.Api.Middleware
 {
     /// <summary>
     /// Represents the global exception handler middleware.

@@ -1,7 +1,7 @@
-﻿using Expensely.Presentation.Middleware.Internal;
+﻿using Expensely.Presentation.Api.Middleware;
 using Microsoft.AspNetCore.Builder;
 
-namespace Expensely.Presentation.Middleware
+namespace Expensely.Presentation.Api.Extensions
 {
     /// <summary>
     /// Contains extension methods for configuring the application builder.
