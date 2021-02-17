@@ -53,7 +53,12 @@ namespace Expensely.Infrastructure.Logging
         /// <returns>The timespan indicating when the specified log event should expire.</returns>
         private TimeSpan LogExpirationCallback(LogEvent logEvent)
         {
-            TimeSpan documentExpiration = Timeout.InfiniteTimeSpan;
+            TimeSpan documentExpiration = logEvent.Level switch
+            {
+                LogEventLevel.Error => _loggingSettings.ErrorExpirationInDays,
+                LogEventLevel.Fatal => _loggingSettings.ErrorExpirationInDays,
+                _ => _loggingSettings.ExpirationInDays
+            };
 
             if (!logEvent.Properties.TryGetValue(SourceContextKey, out LogEventPropertyValue propertyValue))
             {
@@ -65,19 +70,12 @@ namespace Expensely.Infrastructure.Logging
                 return documentExpiration;
             }
 
-            if (scalarValue.Value?.ToString()?.StartsWith(AppSourceContext, StringComparison.Ordinal) ?? false)
+            if (!scalarValue.Value.ToString()!.StartsWith(AppSourceContext, StringComparison.Ordinal))
             {
                 return documentExpiration;
             }
 
-            documentExpiration = logEvent.Level switch
-            {
-                LogEventLevel.Error => _loggingSettings.ErrorExpirationInDays,
-                LogEventLevel.Fatal => _loggingSettings.ErrorExpirationInDays,
-                _ => _loggingSettings.ExpirationInDays
-            };
-
-            return documentExpiration;
+            return Timeout.InfiniteTimeSpan;
         }
     }
 }
