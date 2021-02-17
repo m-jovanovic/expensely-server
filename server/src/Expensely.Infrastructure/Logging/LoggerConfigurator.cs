@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
-using Expensely.Common.Abstractions.ServiceLifetimes;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Raven.Client.Documents;
 using Serilog;
 using Serilog.Events;
@@ -11,25 +11,28 @@ namespace Expensely.Infrastructure.Logging
     /// <summary>
     /// Represents the logger configurator.
     /// </summary>
-    public sealed class LoggerConfigurator : ILoggerConfigurator, ITransient
+    public sealed class LoggerConfigurator : ILoggerConfigurator
     {
         private const string SourceContextKey = "SourceContext";
-        private const string InternalSourceContext = "Expensely";
-        private static readonly TimeSpan DefaultExpirationInDays = TimeSpan.FromDays(5);
-        private static readonly TimeSpan DefaultErrorExpirationInDays = TimeSpan.FromDays(7);
-
+        private const string AppSourceContext = "Expensely";
         private readonly IConfiguration _configuration;
         private readonly IDocumentStore _documentStore;
+        private readonly LoggingSettings _loggingSettings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoggerConfigurator"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <param name="documentStore">The document store.</param>
-        public LoggerConfigurator(IConfiguration configuration, IDocumentStore documentStore)
+        /// <param name="loggingSettingsOptions">The logging settings options.</param>
+        public LoggerConfigurator(
+            IConfiguration configuration,
+            IDocumentStore documentStore,
+            IOptions<LoggingSettings> loggingSettingsOptions)
         {
             _configuration = configuration;
             _documentStore = documentStore;
+            _loggingSettings = loggingSettingsOptions.Value;
         }
 
         /// <inheritdoc />
@@ -48,21 +51,33 @@ namespace Expensely.Infrastructure.Logging
         /// All the log events have some default expiration.
         /// </remarks>
         /// <returns>The timespan indicating when the specified log event should expire.</returns>
-        private static TimeSpan LogExpirationCallback(LogEvent logEvent)
+        private TimeSpan LogExpirationCallback(LogEvent logEvent)
         {
-            if (logEvent.Properties.TryGetValue(SourceContextKey, out LogEventPropertyValue propertyValue) &&
-                propertyValue is ScalarValue scalarValue &&
-                (scalarValue.Value?.ToString()?.StartsWith(InternalSourceContext, StringComparison.InvariantCulture) ?? false))
+            TimeSpan documentExpiration = Timeout.InfiniteTimeSpan;
+
+            if (!logEvent.Properties.TryGetValue(SourceContextKey, out LogEventPropertyValue propertyValue))
             {
-                return Timeout.InfiniteTimeSpan;
+                return documentExpiration;
             }
 
-            return logEvent.Level switch
+            if (propertyValue is not ScalarValue scalarValue)
             {
-                LogEventLevel.Error => DefaultErrorExpirationInDays,
-                LogEventLevel.Fatal => DefaultErrorExpirationInDays,
-                _ => DefaultExpirationInDays
+                return documentExpiration;
+            }
+
+            if (scalarValue.Value?.ToString()?.StartsWith(AppSourceContext, StringComparison.Ordinal) ?? false)
+            {
+                return documentExpiration;
+            }
+
+            documentExpiration = logEvent.Level switch
+            {
+                LogEventLevel.Error => _loggingSettings.ErrorExpirationInDays,
+                LogEventLevel.Fatal => _loggingSettings.ErrorExpirationInDays,
+                _ => _loggingSettings.ExpirationInDays
             };
+
+            return documentExpiration;
         }
     }
 }

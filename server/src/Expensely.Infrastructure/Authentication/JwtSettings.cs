@@ -1,4 +1,4 @@
-﻿namespace Expensely.Infrastructure.Authentication.Settings
+﻿namespace Expensely.Infrastructure.Authentication
 {
     /// <summary>
     /// Represents the JWT configuration settings.

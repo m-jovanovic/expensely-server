@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Expensely.Infrastructure.Authentication.Settings;
+using Expensely.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;

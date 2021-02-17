@@ -1,4 +1,4 @@
-﻿using Expensely.Infrastructure.Authentication.Settings;
+﻿using Expensely.Infrastructure.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 

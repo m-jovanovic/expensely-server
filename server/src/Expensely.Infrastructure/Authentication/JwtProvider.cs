@@ -12,7 +12,6 @@ using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users;
-using Expensely.Infrastructure.Authentication.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
