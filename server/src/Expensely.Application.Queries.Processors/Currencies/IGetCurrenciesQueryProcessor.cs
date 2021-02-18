@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using Expensely.Application.Contracts.Currencies;
 using Expensely.Application.Queries.Currencies;
 using Expensely.Application.Queries.Processors.Abstractions;
-using Expensely.Contracts.Currencies;
 
 namespace Expensely.Application.Queries.Processors.Currencies
 {

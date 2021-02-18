@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Contracts.Categories;
 using Expensely.Application.Queries.Categories;
 using Expensely.Application.Queries.Processors.Categories;
-using Expensely.Contracts.Categories;
 using Expensely.Domain.Modules.Shared;
 
 namespace Expensely.Persistence.QueryProcessors.Categories

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using Expensely.Application.Contracts.Categories;
 using Expensely.Application.Queries.Categories;
 using Expensely.Application.Queries.Processors.Abstractions;
-using Expensely.Contracts.Categories;
 
 namespace Expensely.Application.Queries.Processors.Categories
 {

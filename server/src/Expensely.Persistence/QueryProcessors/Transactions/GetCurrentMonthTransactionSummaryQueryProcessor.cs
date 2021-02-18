@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
+using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Queries.Processors.Transactions;
 using Expensely.Application.Queries.Transactions;
-using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Transactions;

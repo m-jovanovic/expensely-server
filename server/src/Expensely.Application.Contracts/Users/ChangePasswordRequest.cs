@@ -1,4 +1,4 @@
-﻿namespace Expensely.Contracts.Users
+﻿namespace Expensely.Application.Contracts.Users
 {
     /// <summary>
     /// Represents the change password request.

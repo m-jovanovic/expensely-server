@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Contracts.Categories;
 using Expensely.Application.Queries.Categories;
-using Expensely.Contracts.Categories;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Infrastructure;
 using MediatR;

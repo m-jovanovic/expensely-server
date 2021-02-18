@@ -3,7 +3,7 @@ using System.Globalization;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Transactions;
 
-namespace Expensely.Contracts.Transactions
+namespace Expensely.Application.Contracts.Transactions
 {
     /// <summary>
     /// Represents the transaction response.

@@ -1,4 +1,4 @@
-﻿namespace Expensely.Contracts.Categories
+﻿namespace Expensely.Application.Contracts.Categories
 {
     /// <summary>
     /// Represents the category response.

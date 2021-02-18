@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Expensely.Application.Contracts.Currencies;
 using Expensely.Common.Abstractions.Messaging;
-using Expensely.Contracts.Currencies;
 
 namespace Expensely.Application.Queries.Currencies
 {

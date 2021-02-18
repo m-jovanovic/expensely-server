@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Contracts.Budgets
+namespace Expensely.Application.Contracts.Budgets
 {
     /// <summary>
     /// Represents the create budget request.

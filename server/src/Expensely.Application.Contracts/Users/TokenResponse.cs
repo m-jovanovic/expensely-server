@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Contracts.Users
+namespace Expensely.Application.Contracts.Users
 {
     /// <summary>
     /// Represents the authentication token response.

@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Transactions;
+using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Queries.Transactions;
 using Expensely.Common.Abstractions.Clock;
-using Expensely.Contracts.Transactions;
 using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Abstractions.Result;
 using Expensely.Presentation.Api.Constants;

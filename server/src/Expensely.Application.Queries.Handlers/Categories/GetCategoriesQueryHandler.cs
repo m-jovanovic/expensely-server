@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Contracts.Categories;
 using Expensely.Application.Queries.Categories;
 using Expensely.Application.Queries.Processors.Categories;
 using Expensely.Common.Abstractions.Messaging;
-using Expensely.Contracts.Categories;
 
 namespace Expensely.Application.Queries.Handlers.Categories
 {

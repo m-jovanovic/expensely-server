@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Expensely.Contracts.Budgets
+namespace Expensely.Application.Contracts.Transactions
 {
     /// <summary>
-    /// Represents the create budget request.
+    /// Represents the create expense request.
     /// </summary>
-    public sealed class CreateBudgetRequest
+    public sealed class CreateTransactionRequest
     {
         /// <summary>
         /// Gets the user identifier.
@@ -13,9 +13,14 @@ namespace Expensely.Contracts.Budgets
         public Guid UserId { get; init; }
 
         /// <summary>
-        /// Gets the name.
+        /// Gets the description.
         /// </summary>
-        public string Name { get; init; }
+        public string Description { get; init; }
+
+        /// <summary>
+        /// Gets the category.
+        /// </summary>
+        public int Category { get; init; }
 
         /// <summary>
         /// Gets the amount.
@@ -28,13 +33,13 @@ namespace Expensely.Contracts.Budgets
         public int Currency { get; init; }
 
         /// <summary>
-        /// Gets the start date.
+        /// Gets the occurred on date.
         /// </summary>
-        public DateTime StartDate { get; init; }
+        public DateTime OccurredOn { get; init; }
 
         /// <summary>
-        /// Gets the end date.
+        /// Gets the transaction type.
         /// </summary>
-        public DateTime EndDate { get; init; }
+        public int TransactionType { get; init; }
     }
 }

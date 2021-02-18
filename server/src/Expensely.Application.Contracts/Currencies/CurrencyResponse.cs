@@ -1,4 +1,4 @@
-﻿namespace Expensely.Contracts.Currencies
+﻿namespace Expensely.Application.Contracts.Currencies
 {
     /// <summary>
     /// Represents the currency response.

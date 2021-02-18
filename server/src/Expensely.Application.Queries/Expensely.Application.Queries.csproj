@@ -7,8 +7,8 @@
   <Import Project="..\..\CodeAnalysis.targets" />
 
   <ItemGroup>
+    <ProjectReference Include="..\Expensely.Application.Contracts\Expensely.Application.Contracts.csproj" />
     <ProjectReference Include="..\Expensely.Common.Abstractions\Expensely.Common.Abstractions.csproj" />
-    <ProjectReference Include="..\Expensely.Contracts\Expensely.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

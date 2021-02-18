@@ -1,6 +1,6 @@
 ﻿using Expensely.Domain.Modules.Transactions;
 
-namespace Expensely.Contracts.Transactions
+namespace Expensely.Application.Contracts.Transactions
 {
     /// <summary>
     /// Represents the transaction amount per type.

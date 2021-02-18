@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Contracts.Transactions
+namespace Expensely.Application.Contracts.Transactions
 {
     /// <summary>
     /// Represents the update expense request.

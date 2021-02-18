@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Expensely.Contracts.Transactions
+namespace Expensely.Application.Contracts.Transactions
 {
     /// <summary>
     /// Represents the transaction list response.
