@@ -19,6 +19,8 @@ namespace Expensely.WebApp.ServiceInstallers.BackgroundTasks
 
             services.ConfigureOptions<MessageProcessingJobSettingsSetup>();
 
+            services.ConfigureOptions<MessageProcessingJobSetup>();
+
             services.AddQuartz(configure => configure.UseMicrosoftDependencyInjectionScopedJobFactory());
 
             services.AddQuartzHostedService();
