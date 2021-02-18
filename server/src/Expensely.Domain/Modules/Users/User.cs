@@ -95,8 +95,7 @@ namespace Expensely.Domain.Modules.Users
 
             user.Raise(new UserCreatedEvent
             {
-                Id = Guid.Parse(user.Id),
-                Email = user.Email
+                UserId = user.Id
             });
 
             return user;

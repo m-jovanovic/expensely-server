@@ -1,5 +1,4 @@
-﻿using System;
-using Expensely.Domain.Abstractions.Events;
+﻿using Expensely.Domain.Abstractions.Events;
 
 namespace Expensely.Domain.Events.Users
 {
@@ -11,11 +10,6 @@ namespace Expensely.Domain.Events.Users
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid Id { get; init; }
-
-        /// <summary>
-        /// Gets the email.
-        /// </summary>
-        public string Email { get; init; }
+        public string UserId { get; init; }
     }
 }
