@@ -1,4 +1,6 @@
-﻿using Expensely.WebApp.Abstractions;
+﻿using Expensely.Application.Abstractions.Email;
+using Expensely.Infrastructure.Email;
+using Expensely.WebApp.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.WebApp.ServiceInstallers.Email
@@ -9,6 +11,11 @@ namespace Expensely.WebApp.ServiceInstallers.Email
     public sealed class EmailServiceInstaller : IServiceInstaller
     {
         /// <inheritdoc />
-        public void InstallServices(IServiceCollection services) => services.ConfigureOptions<EmailSettingsSetup>();
+        public void InstallServices(IServiceCollection services)
+        {
+            services.ConfigureOptions<EmailSettingsSetup>();
+
+            services.AddTransient<IEmailSender, EmailSender>();
+        }
     }
 }

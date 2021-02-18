@@ -28,7 +28,7 @@ namespace Expensely.Infrastructure.Authentication
         /// <summary>
         /// Initializes a new instance of the <see cref="JwtProvider"/> class.
         /// </summary>
-        /// <param name="jwtOptions">The JWT options.</param>
+        /// <param name="jwtOptions">The JWT settings options.</param>
         /// <param name="systemTime">The current date and time.</param>
         public JwtProvider(IOptions<JwtSettings> jwtOptions, ISystemTime systemTime)
         {
