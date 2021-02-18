@@ -3,6 +3,7 @@ using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Email;
+using Expensely.Application.Contracts.Email;
 using Microsoft.Extensions.Options;
 
 namespace Expensely.Infrastructure.Email
@@ -21,28 +22,23 @@ namespace Expensely.Infrastructure.Email
         public EmailSender(IOptions<EmailSettings> emailSettingsOptions) => _emailSettings = emailSettingsOptions.Value;
 
         /// <inheritdoc />
-        public async Task SendAsync(
-            string recipient,
-            string subject,
-            string body,
-            bool isBodyHtml = false,
-            CancellationToken cancellationToken = default)
+        public async Task SendAsync(MailRequest mailRequest, CancellationToken cancellationToken = default)
         {
             using var smtpClient = new SmtpClient(_emailSettings.Host, _emailSettings.Port)
             {
                 EnableSsl = _emailSettings.EnableSsl,
-                Credentials = new NetworkCredential(_emailSettings.Email, _emailSettings.Password)
+                Credentials = new NetworkCredential(_emailSettings.SenderEmail, _emailSettings.Password)
             };
 
             using var message = new MailMessage
             {
-                From = new MailAddress(_emailSettings.Email, _emailSettings.DisplayName),
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = isBodyHtml
+                From = new MailAddress(_emailSettings.SenderEmail, _emailSettings.DisplayName),
+                Subject = mailRequest.Subject,
+                Body = mailRequest.Body,
+                IsBodyHtml = mailRequest.IsBodyHtml
             };
 
-            message.To.Add(recipient);
+            message.To.Add(mailRequest.RecipientEmail);
 
             await smtpClient.SendMailAsync(message, cancellationToken);
         }

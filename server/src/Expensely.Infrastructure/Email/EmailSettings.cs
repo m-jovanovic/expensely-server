@@ -21,9 +21,9 @@
         public bool EnableSsl { get; init; }
 
         /// <summary>
-        /// Gets the email.
+        /// Gets the sender email.
         /// </summary>
-        public string Email { get; init; }
+        public string SenderEmail { get; init; }
 
         /// <summary>
         /// Gets the password.

@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Contracts.Email;
 
 namespace Expensely.Application.Abstractions.Email
 {
@@ -11,12 +12,9 @@ namespace Expensely.Application.Abstractions.Email
         /// <summary>
         /// Sends an email message with the specified parameters.
         /// </summary>
-        /// <param name="recipient">The email recipient.</param>
-        /// <param name="subject">The email subject.</param>
-        /// <param name="body">The email body.</param>
-        /// <param name="isBodyHtml">The value indicating whether the body is HTML or not.</param>
+        /// <param name="mailRequest">The mail request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The completed task.</returns>
-        Task SendAsync(string recipient, string subject, string body, bool isBodyHtml = false, CancellationToken cancellationToken = default);
+        Task SendAsync(MailRequest mailRequest, CancellationToken cancellationToken = default);
     }
 }
