@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Events.Users;
 using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Users.Events;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
@@ -141,7 +141,7 @@ namespace Expensely.Domain.Modules.Users
 
             Raise(new UserPrimaryCurrencyChangedEvent
             {
-                UserId = Guid.Parse(Id)
+                UserId = Id
             });
 
             return Result.Success();
@@ -166,7 +166,7 @@ namespace Expensely.Domain.Modules.Users
 
             Raise(new UserCurrencyAddedEvent
             {
-                UserId = Guid.Parse(Id),
+                UserId = Id
                 Currency = currency.Value
             });
 
@@ -193,7 +193,7 @@ namespace Expensely.Domain.Modules.Users
 
             Raise(new UserCurrencyRemovedEvent
             {
-                UserId = Guid.Parse(Id),
+                UserId = Id
                 Currency = currency.Value
             });
 
@@ -216,7 +216,7 @@ namespace Expensely.Domain.Modules.Users
 
             Raise(new UserPasswordVerificationFailedEvent
             {
-                UserId = Guid.Parse(Id)
+                UserId = Id
             });
 
             return false;
@@ -245,7 +245,7 @@ namespace Expensely.Domain.Modules.Users
 
             Raise(new UserPasswordChangedEvent
             {
-                UserId = Guid.Parse(Id)
+                UserId = Id
             });
 
             return Result.Success();

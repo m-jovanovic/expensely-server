@@ -1,7 +1,6 @@
-﻿using System;
-using Expensely.Domain.Primitives;
+﻿using Expensely.Domain.Primitives;
 
-namespace Expensely.Domain.Events.Users
+namespace Expensely.Domain.Modules.Users.Events
 {
     /// <summary>
     /// Represents the event that is raised when a user's primary currency has been changed.
@@ -11,6 +10,6 @@ namespace Expensely.Domain.Events.Users
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid UserId { get; init; }
+        public string UserId { get; init; }
     }
 }
