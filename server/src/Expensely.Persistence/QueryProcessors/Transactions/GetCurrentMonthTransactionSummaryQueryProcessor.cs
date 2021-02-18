@@ -62,7 +62,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
             string FormatAmount(TransactionType transactionType)
             {
                 Transactions_Monthly.Result monthlyTransaction = monthlyTransactions
-                    .FirstOrDefault(x => x.TransactionType == transactionType);
+                    .FirstOrDefault(x => x.TransactionType == transactionType.Value);
 
                 return currency.Format(monthlyTransaction?.Amount ?? decimal.Zero);
             }

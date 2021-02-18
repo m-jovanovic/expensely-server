@@ -21,7 +21,7 @@ namespace Expensely.Persistence.Indexes.Transactions
                     UserId = transaction.UserId,
                     Year = transaction.OccurredOn.Year,
                     Month = transaction.OccurredOn.Month,
-                    TransactionType = transaction.TransactionType,
+                    TransactionType = transaction.TransactionType.Value,
                     Currency = transaction.Money.Currency.Value,
                     Amount = transaction.Money.Amount
                 };
@@ -64,7 +64,7 @@ namespace Expensely.Persistence.Indexes.Transactions
             /// <summary>
             /// Gets the transaction type.
             /// </summary>
-            public TransactionType TransactionType { get; init; }
+            public int TransactionType { get; init; }
 
             /// <summary>
             /// Gets the currency.
