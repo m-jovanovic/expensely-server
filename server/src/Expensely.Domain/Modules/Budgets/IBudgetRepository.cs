@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Domain.Modules.Budgets;
 using Expensely.Domain.Primitives.Maybe;
 
-namespace Expensely.Domain.Repositories
+namespace Expensely.Domain.Modules.Budgets
 {
     /// <summary>
     /// Represents the budget repository interface.

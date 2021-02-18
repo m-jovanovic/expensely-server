@@ -1,11 +1,8 @@
 ﻿using System;
-using Expensely.Domain.Contracts;
-using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives.Result;
-using Expensely.Domain.Services;
 
-namespace Expensely.Domain.Factories
+namespace Expensely.Domain.Modules.Transactions
 {
     /// <summary>
     /// Represents the transaction factory.

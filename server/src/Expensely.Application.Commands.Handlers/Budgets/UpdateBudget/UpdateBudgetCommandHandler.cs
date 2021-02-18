@@ -10,7 +10,6 @@ using Expensely.Domain.Modules.Budgets;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
-using Expensely.Domain.Repositories;
 
 namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
 {

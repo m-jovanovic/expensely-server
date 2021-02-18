@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Domain.Modules.Messages;
 
-namespace Expensely.Domain.Repositories
+namespace Expensely.Domain.Modules.Messages
 {
     /// <summary>
     /// Represents the message repository.

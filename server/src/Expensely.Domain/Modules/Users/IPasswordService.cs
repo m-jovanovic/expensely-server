@@ -1,6 +1,4 @@
-﻿using Expensely.Domain.Modules.Users;
-
-namespace Expensely.Domain.Services
+﻿namespace Expensely.Domain.Modules.Users
 {
     /// <summary>
     /// Represents the password service interface.

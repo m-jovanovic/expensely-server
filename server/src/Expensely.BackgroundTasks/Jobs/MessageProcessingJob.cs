@@ -6,7 +6,6 @@ using Expensely.BackgroundTasks.Services;
 using Expensely.BackgroundTasks.Settings;
 using Expensely.Domain.Modules.Messages;
 using Expensely.Domain.Primitives.Maybe;
-using Expensely.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Quartz;

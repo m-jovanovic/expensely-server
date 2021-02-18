@@ -8,7 +8,6 @@ using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
-using Expensely.Domain.Repositories;
 
 namespace Expensely.Application.Commands.Handlers.Users.AddUserCurrency
 {

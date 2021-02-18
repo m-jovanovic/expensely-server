@@ -1,12 +1,10 @@
 ﻿using System;
-using Expensely.Domain.Contracts;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Shared;
-using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives.Result;
 
-namespace Expensely.Domain.Services
+namespace Expensely.Domain.Modules.Transactions
 {
     /// <summary>
     /// Represents the transaction details validator.

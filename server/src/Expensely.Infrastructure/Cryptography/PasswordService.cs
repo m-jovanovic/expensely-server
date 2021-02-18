@@ -2,7 +2,6 @@
 using System.Security.Cryptography;
 using Expensely.Common.Abstractions.ServiceLifetimes;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.Services;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace Expensely.Infrastructure.Cryptography

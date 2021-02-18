@@ -9,7 +9,6 @@ using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
-using Expensely.Domain.Repositories;
 
 namespace Expensely.Application.Commands.Handlers.Transactions.DeleteTransaction
 {

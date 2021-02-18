@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Expensely.Domain.Exceptions;
+using Expensely.Domain.Modules.Shared.Exceptions;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Primitives;
 
-namespace Expensely.Domain.Exceptions
+namespace Expensely.Domain.Modules.Budgets.Exceptions
 {
     /// <summary>
     /// Represents the exception that is occurs when there is an attempt to instantiate a budget instance

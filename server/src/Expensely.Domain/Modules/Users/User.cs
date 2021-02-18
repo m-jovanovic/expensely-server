@@ -7,7 +7,6 @@ using Expensely.Domain.Modules.Users.Events;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
-using Expensely.Domain.Services;
 using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.Modules.Users
@@ -166,7 +165,7 @@ namespace Expensely.Domain.Modules.Users
 
             Raise(new UserCurrencyAddedEvent
             {
-                UserId = Id
+                UserId = Id,
                 Currency = currency.Value
             });
 
@@ -193,7 +192,7 @@ namespace Expensely.Domain.Modules.Users
 
             Raise(new UserCurrencyRemovedEvent
             {
-                UserId = Id
+                UserId = Id,
                 Currency = currency.Value
             });
 

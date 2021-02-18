@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Expensely.Domain.Modules.Budgets;
 using Expensely.Domain.Primitives.Maybe;
-using Expensely.Domain.Repositories;
 using Raven.Client.Documents.Session;
 
 namespace Expensely.Persistence.Repositories

@@ -1,5 +1,4 @@
-﻿using Expensely.Domain.Factories;
-using Expensely.Domain.Services;
+﻿using Expensely.Domain.Modules.Transactions;
 using Expensely.WebApp.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 

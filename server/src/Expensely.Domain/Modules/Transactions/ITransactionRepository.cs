@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Primitives.Maybe;
 
-namespace Expensely.Domain.Repositories
+namespace Expensely.Domain.Modules.Transactions
 {
     /// <summary>
     /// Represents the transaction repository interface.

@@ -1,7 +1,6 @@
 ﻿using System;
-using Expensely.Domain.Primitives;
 
-namespace Expensely.Domain.Exceptions
+namespace Expensely.Domain.Primitives
 {
     /// <summary>
     /// Represents an exception that occurs in the domain.

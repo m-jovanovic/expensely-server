@@ -1,5 +1,4 @@
 ﻿using Expensely.Domain.Modules.Users;
-using Expensely.Domain.Services;
 using Moq;
 
 namespace Expensely.Domain.UnitTests.Infrastructure

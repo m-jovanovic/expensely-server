@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Modules.Messages;
-using Expensely.Domain.Repositories;
 using Expensely.Persistence.Indexes.Messages;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;

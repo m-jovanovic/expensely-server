@@ -11,7 +11,6 @@ using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
-using Expensely.Domain.Repositories;
 
 namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
 {

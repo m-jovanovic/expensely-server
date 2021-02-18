@@ -4,12 +4,10 @@ using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Commands.Transactions;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Factories;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
-using Expensely.Domain.Repositories;
 
 namespace Expensely.Application.Commands.Handlers.Transactions.CreateTransaction
 {

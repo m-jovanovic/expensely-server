@@ -6,7 +6,6 @@ using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Modules.Users.Events;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
-using Expensely.Domain.Services;
 using Expensely.Domain.UnitTests.Infrastructure;
 using FluentAssertions;
 using Moq;

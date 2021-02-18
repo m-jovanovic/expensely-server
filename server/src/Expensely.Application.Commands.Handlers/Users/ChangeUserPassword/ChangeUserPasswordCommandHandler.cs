@@ -7,8 +7,6 @@ using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives.Maybe;
 using Expensely.Domain.Primitives.Result;
-using Expensely.Domain.Repositories;
-using Expensely.Domain.Services;
 
 namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPassword
 {

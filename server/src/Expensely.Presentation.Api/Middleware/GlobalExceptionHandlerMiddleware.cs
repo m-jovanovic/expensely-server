@@ -4,7 +4,6 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Exceptions;
-using Expensely.Domain.Exceptions;
 using Expensely.Domain.Primitives;
 using Expensely.Presentation.Api.Errors;
 using Microsoft.AspNetCore.Http;

@@ -1,5 +1,4 @@
 ﻿using System;
-using Expensely.Domain.Contracts;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives;
