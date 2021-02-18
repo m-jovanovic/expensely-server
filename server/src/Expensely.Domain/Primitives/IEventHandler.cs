@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Expensely.Domain.Abstractions.Events
+namespace Expensely.Domain.Primitives
 {
     /// <summary>
     /// Represents the handler for a specific event.

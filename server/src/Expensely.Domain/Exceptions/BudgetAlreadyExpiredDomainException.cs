@@ -1,5 +1,4 @@
-﻿using Expensely.Domain.Abstractions.Exceptions;
-using Expensely.Domain.Abstractions.Primitives;
+﻿using Expensely.Domain.Primitives;
 
 namespace Expensely.Domain.Exceptions
 {

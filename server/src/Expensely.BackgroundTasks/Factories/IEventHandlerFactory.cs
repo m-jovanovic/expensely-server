@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Expensely.Domain.Abstractions.Events;
+using Expensely.Domain.Primitives;
 
 namespace Expensely.BackgroundTasks.Factories
 {

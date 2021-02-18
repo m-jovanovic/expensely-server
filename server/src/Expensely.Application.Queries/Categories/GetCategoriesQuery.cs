@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Categories;
-using Expensely.Common.Abstractions.Messaging;
 
 namespace Expensely.Application.Queries.Categories
 {

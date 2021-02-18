@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using Expensely.Common.Abstractions.Clock;
-using Expensely.Domain.Abstractions.Primitives;
+using Expensely.Domain.Primitives;
 using Expensely.Persistence.Serialization;
 using Expensely.Persistence.Settings;
 using Microsoft.Extensions.Options;

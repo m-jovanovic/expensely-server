@@ -1,4 +1,4 @@
-﻿using Expensely.Domain.Abstractions.Primitives;
+﻿using Expensely.Domain.Primitives;
 
 namespace Expensely.Application.Commands.Handlers.Validation
 {

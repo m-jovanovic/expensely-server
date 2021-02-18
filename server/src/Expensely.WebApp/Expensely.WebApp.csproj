@@ -24,5 +24,4 @@
     <ProjectReference Include="..\Expensely.Presentation.Api\Expensely.Presentation.Api.csproj" />
   </ItemGroup>
 
-
 </Project>

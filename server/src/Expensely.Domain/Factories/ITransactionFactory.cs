@@ -1,7 +1,7 @@
 ﻿using System;
-using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
+using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Domain.Factories
 {

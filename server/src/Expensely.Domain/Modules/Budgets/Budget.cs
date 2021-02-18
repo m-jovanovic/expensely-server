@@ -1,7 +1,7 @@
 ﻿using System;
-using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Exceptions;
 using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.Modules.Budgets

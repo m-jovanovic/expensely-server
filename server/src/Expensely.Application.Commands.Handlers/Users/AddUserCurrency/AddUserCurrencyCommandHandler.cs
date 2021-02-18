@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Commands.Users;
-using Expensely.Common.Abstractions.Messaging;
-using Expensely.Domain.Abstractions.Maybe;
-using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users;
+using Expensely.Domain.Primitives.Maybe;
+using Expensely.Domain.Primitives.Result;
 using Expensely.Domain.Repositories;
 
 namespace Expensely.Application.Commands.Handlers.Users.AddUserCurrency

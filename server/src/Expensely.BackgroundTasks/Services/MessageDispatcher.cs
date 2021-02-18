@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.BackgroundTasks.Factories;
 using Expensely.Common.Abstractions.Clock;
-using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Modules.Messages;
+using Expensely.Domain.Primitives.Maybe;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.BackgroundTasks.Services

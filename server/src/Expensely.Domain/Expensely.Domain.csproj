@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <Import Project="..\..\CodeAnalysis.targets" />
-    
+
   <ItemGroup>
-    <ProjectReference Include="..\Expensely.Domain.Abstractions\Expensely.Domain.Abstractions.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
 </Project>

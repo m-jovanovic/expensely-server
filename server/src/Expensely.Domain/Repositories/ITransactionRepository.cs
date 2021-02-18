@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Modules.Transactions;
+using Expensely.Domain.Primitives.Maybe;
 
 namespace Expensely.Domain.Repositories
 {

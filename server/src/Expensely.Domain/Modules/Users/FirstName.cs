@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Expensely.Domain.Abstractions.Primitives;
-using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Primitives;
+using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Domain.Modules.Users
 {

@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Common.Abstractions.ServiceLifetimes;
-using Expensely.Domain.Abstractions.Events;
 using Expensely.Domain.Modules.Messages;
+using Expensely.Domain.Primitives;
 using Expensely.Domain.Repositories;
 
 namespace Expensely.Infrastructure.Messaging

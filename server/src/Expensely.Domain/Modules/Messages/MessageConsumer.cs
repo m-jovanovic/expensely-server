@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Expensely.Domain.Abstractions.Primitives;
+using Expensely.Domain.Primitives;
 
 namespace Expensely.Domain.Modules.Messages
 {

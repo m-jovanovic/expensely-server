@@ -1,11 +1,11 @@
 ﻿using System;
-using Expensely.Domain.Abstractions.Maybe;
-using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Events.Users;
 using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users;
+using Expensely.Domain.Primitives.Maybe;
+using Expensely.Domain.Primitives.Result;
 using Expensely.Domain.Services;
 using Expensely.Domain.UnitTests.Infrastructure;
 using FluentAssertions;

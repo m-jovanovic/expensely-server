@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Users;
 using Expensely.Application.Contracts.Users;
-using Expensely.Domain.Abstractions.Result;
+using Expensely.Domain.Primitives.Result;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Errors;
 using Expensely.Presentation.Api.Infrastructure;

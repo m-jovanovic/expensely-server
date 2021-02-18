@@ -1,7 +1,7 @@
-using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Transactions;
+using Expensely.Domain.Primitives.Result;
 using Expensely.Domain.UnitTests.Infrastructure;
 using FluentAssertions;
 using Xunit;

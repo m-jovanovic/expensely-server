@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Common.Abstractions.Messaging;
-using Expensely.Domain.Abstractions.Result;
+using Expensely.Application.Abstractions.Messaging;
+using Expensely.Domain.Primitives.Result;
 using FluentValidation;
 using MediatR;
 using ValidationException = Expensely.Application.Abstractions.Exceptions.ValidationException;

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Expensely.Domain.Abstractions.Maybe;
-using Expensely.Domain.Abstractions.Primitives;
-using Expensely.Domain.Abstractions.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Events.Users;
 using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Primitives;
+using Expensely.Domain.Primitives.Maybe;
+using Expensely.Domain.Primitives.Result;
 using Expensely.Domain.Services;
 using Expensely.Domain.Utility;
 

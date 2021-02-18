@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Common.Abstractions.Messaging;
+using Expensely.Application.Abstractions.Messaging;
 
 namespace Expensely.Application.Queries.Processors.Abstractions
 {

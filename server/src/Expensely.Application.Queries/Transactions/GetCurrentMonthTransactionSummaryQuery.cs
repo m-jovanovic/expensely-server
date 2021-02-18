@@ -1,7 +1,7 @@
 ﻿using System;
+using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Transactions;
-using Expensely.Common.Abstractions.Messaging;
-using Expensely.Domain.Abstractions.Maybe;
+using Expensely.Domain.Primitives.Maybe;
 
 namespace Expensely.Application.Queries.Transactions
 {

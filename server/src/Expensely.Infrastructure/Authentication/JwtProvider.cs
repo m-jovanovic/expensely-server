@@ -8,10 +8,10 @@ using System.Text;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.ServiceLifetimes;
-using Expensely.Domain.Abstractions.Maybe;
 using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users;
+using Expensely.Domain.Primitives.Maybe;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 

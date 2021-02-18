@@ -1,7 +1,7 @@
-﻿using Expensely.Domain.Abstractions.Result;
+﻿using Expensely.Domain.Primitives.Result;
 using MediatR;
 
-namespace Expensely.Common.Abstractions.Messaging
+namespace Expensely.Application.Abstractions.Messaging
 {
     /// <summary>
     /// Represents the command handler interface.

@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Expensely.Application.Abstractions\Expensely.Application.Abstractions.csproj" />
     <ProjectReference Include="..\Expensely.Application.Queries.Processors\Expensely.Application.Queries.Processors.csproj" />
   </ItemGroup>
 

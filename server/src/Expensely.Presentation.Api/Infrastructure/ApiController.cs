@@ -1,5 +1,5 @@
-﻿using Expensely.Domain.Abstractions.Primitives;
-using Expensely.Domain.Abstractions.Result;
+﻿using Expensely.Domain.Primitives;
+using Expensely.Domain.Primitives.Result;
 using Expensely.Presentation.Api.Errors;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

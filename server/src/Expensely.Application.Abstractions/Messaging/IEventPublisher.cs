@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Domain.Abstractions.Events;
+using Expensely.Domain.Primitives;
 
 namespace Expensely.Application.Abstractions.Messaging
 {

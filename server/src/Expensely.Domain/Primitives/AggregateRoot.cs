@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Expensely.Domain.Abstractions.Events;
 using Newtonsoft.Json;
 
-namespace Expensely.Domain.Abstractions.Primitives
+namespace Expensely.Domain.Primitives
 {
     /// <summary>
     /// Represents the aggregate root.

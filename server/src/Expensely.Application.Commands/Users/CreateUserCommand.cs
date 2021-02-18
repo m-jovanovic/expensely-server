@@ -1,5 +1,5 @@
-﻿using Expensely.Common.Abstractions.Messaging;
-using Expensely.Domain.Abstractions.Result;
+﻿using Expensely.Application.Abstractions.Messaging;
+using Expensely.Domain.Primitives.Result;
 
 namespace Expensely.Application.Commands.Users
 {

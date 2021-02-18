@@ -1,4 +1,4 @@
-﻿namespace Expensely.Domain.Abstractions.Events
+﻿namespace Expensely.Domain.Primitives
 {
     /// <summary>
     /// Represents the interface for an event that is raised within the domain.

@@ -6,12 +6,4 @@
 
   <Import Project="..\..\CodeAnalysis.targets" />
 
-  <ItemGroup>
-    <PackageReference Include="MediatR" Version="9.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Expensely.Domain.Abstractions\Expensely.Domain.Abstractions.csproj" />
-  </ItemGroup>
-
 </Project>

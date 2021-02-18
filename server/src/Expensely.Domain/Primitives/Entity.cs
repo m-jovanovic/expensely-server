@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Domain.Abstractions.Primitives
+namespace Expensely.Domain.Primitives
 {
     /// <summary>
     /// Represents the base class that all entities derive from.

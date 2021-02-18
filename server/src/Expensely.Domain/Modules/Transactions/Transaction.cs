@@ -1,8 +1,8 @@
 ﻿using System;
-using Expensely.Domain.Abstractions.Primitives;
 using Expensely.Domain.Contracts;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users;
+using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.Modules.Transactions
