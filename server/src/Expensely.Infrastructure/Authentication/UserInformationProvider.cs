@@ -36,11 +36,6 @@ namespace Expensely.Infrastructure.Authentication
         /// <inheritdoc />
         public Maybe<Currency> PrimaryCurrency { get; }
 
-        /// <summary>
-        /// Crates the primary currency, if it exists.
-        /// </summary>
-        /// <param name="httpContextAccessor">The HTTP context accessor.</param>
-        /// <returns>The maybe instance that may contain the primary currency.</returns>
         private static Maybe<Currency> CreatePrimaryCurrency(IHttpContextAccessor httpContextAccessor)
         {
             string primaryCurrencyString = httpContextAccessor.HttpContext?.User.GetPrimaryCurrency() ?? string.Empty;

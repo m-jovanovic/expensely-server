@@ -63,12 +63,6 @@ namespace Expensely.Infrastructure.Cryptography
         /// <inheritdoc />
         public void Dispose() => _rng.Dispose();
 
-        /// <summary>
-        /// Verifies the bytes of the hashed password with the specified password.
-        /// </summary>
-        /// <param name="hashedPassword">The bytes of the hashed password.</param>
-        /// <param name="password">The password to verify with.</param>
-        /// <returns>True if the hashes match, otherwise false.</returns>
         private static bool VerifyPasswordHashInternal(byte[] hashedPassword, string password)
         {
             try
@@ -98,12 +92,6 @@ namespace Expensely.Infrastructure.Cryptography
             }
         }
 
-        /// <summary>
-        /// Returns true if the specified byte arrays are equal, otherwise false.
-        /// </summary>
-        /// <param name="a">The first byte array.</param>
-        /// <param name="b">The second byte array.</param>
-        /// <returns>True if the arrays are equal, otherwise false.</returns>
         private static bool ByteArraysEqual(byte[] a, byte[] b)
         {
             if (a == null && b == null)
@@ -126,11 +114,6 @@ namespace Expensely.Infrastructure.Cryptography
             return areSame;
         }
 
-        /// <summary>
-        /// Returns the bytes of the hash for the specified password.
-        /// </summary>
-        /// <param name="password">The password to be hashed.</param>
-        /// <returns>The bytes of the hash for the specified password.</returns>
         private byte[] HashPasswordInternal(string password)
         {
             byte[] salt = GetRandomSalt();
@@ -146,10 +129,6 @@ namespace Expensely.Infrastructure.Cryptography
             return outputBytes;
         }
 
-        /// <summary>
-        /// Gets a randomly generated salt.
-        /// </summary>
-        /// <returns>The randomly generated salt.</returns>
         private byte[] GetRandomSalt()
         {
             var salt = new byte[SaltSize];

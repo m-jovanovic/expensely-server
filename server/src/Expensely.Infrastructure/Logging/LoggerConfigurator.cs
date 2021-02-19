@@ -42,15 +42,6 @@ namespace Expensely.Infrastructure.Logging
                 .WriteTo.RavenDB(_documentStore, logExpirationCallback: LogExpirationCallback)
                 .CreateLogger();
 
-        /// <summary>
-        /// Returns the timespan indicating when the specified log event should expire.
-        /// </summary>
-        /// <param name="logEvent">The log event.</param>
-        /// <remarks>
-        /// If the log event came from inside our system, there is not expiration as we consider those logs valuable.
-        /// All the log events have some default expiration.
-        /// </remarks>
-        /// <returns>The timespan indicating when the specified log event should expire.</returns>
         private TimeSpan LogExpirationCallback(LogEvent logEvent)
         {
             TimeSpan documentExpiration = logEvent.Level switch
@@ -75,6 +66,7 @@ namespace Expensely.Infrastructure.Logging
                 return documentExpiration;
             }
 
+            // If the log event came from inside our system, there is no expiration as we consider those logs valuable.
             return Timeout.InfiniteTimeSpan;
         }
     }

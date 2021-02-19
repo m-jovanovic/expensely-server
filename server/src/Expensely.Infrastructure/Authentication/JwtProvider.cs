@@ -72,11 +72,6 @@ namespace Expensely.Infrastructure.Authentication
                 _systemTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenExpirationInMinutes));
         }
 
-        /// <summary>
-        /// Creates the collection of claims for the specified user.
-        /// </summary>
-        /// <param name="user">The user.</param>
-        /// <returns>The collection of claims for the specified user.</returns>
         private static IEnumerable<Claim> CreateClaims(User user)
         {
             yield return new Claim(JwtClaimTypes.UserId, user.Id);
