@@ -68,10 +68,6 @@ namespace Expensely.Persistence.Providers
         /// <inheritdoc />
         public void Dispose() => DocumentStore?.Dispose();
 
-        /// <summary>
-        /// Creates the database if it does not exist.
-        /// </summary>
-        /// <param name="documentStore">The document store.</param>
         private static void CreateDatabaseIfItDoesNotExist(IDocumentStore documentStore)
         {
             var getDatabaseRecordOperation = new GetDatabaseRecordOperation(documentStore.Database);
@@ -88,10 +84,6 @@ namespace Expensely.Persistence.Providers
             documentStore.Maintenance.Server.Send(createDatabaseOperation);
         }
 
-        /// <summary>
-        /// Configures the document expiration options for the database.
-        /// </summary>
-        /// <param name="documentStore">The document store.</param>
         private static void ConfigureExpirationOptions(IDocumentStore documentStore)
         {
             var configureExpirationOperation = new ConfigureExpirationOperation(new ExpirationConfiguration
@@ -103,11 +95,6 @@ namespace Expensely.Persistence.Providers
             documentStore.Maintenance.Send(configureExpirationOperation);
         }
 
-        /// <summary>
-        /// Sets the auditable entity values when the before store event is raised.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="eventArgs">The event arguments.</param>
         private void SetAuditableEntityValues_OnBeforeStore(object sender, BeforeStoreEventArgs eventArgs)
         {
             if (eventArgs.Entity is not IAuditableEntity auditableEntity)
@@ -125,12 +112,6 @@ namespace Expensely.Persistence.Providers
             }
         }
 
-        /// <summary>
-        /// Applies the set property method for the specified auditable entity.
-        /// </summary>
-        /// <param name="auditableEntity">The auditable entity.</param>
-        /// <param name="propertySetterMethodsDictionary">The dictionary containing the set property methods.</param>
-        /// <param name="propertyName">The property name.</param>
         private void ApplySetPropertyMethod(
             IAuditableEntity auditableEntity,
             IDictionary<Type, MethodInfo> propertySetterMethodsDictionary,

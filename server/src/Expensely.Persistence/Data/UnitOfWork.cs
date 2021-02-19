@@ -34,7 +34,7 @@ namespace Expensely.Persistence.Data
         {
             IDictionary<string, DocumentsChanges[]> documentChanges = _session.Advanced.WhatChanged();
 
-            if (!documentChanges.Keys.Any())
+            if (!documentChanges.Any())
             {
                 return;
             }
@@ -52,6 +52,8 @@ namespace Expensely.Persistence.Data
                 {
                     await _session.StoreAsync(new Message(@event), cancellationToken);
                 }
+
+                aggregateRoot.ClearEvents();
             }
         }
     }

@@ -86,12 +86,6 @@ namespace Expensely.Persistence.Serialization
                 objectType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                     .Where(x => x.GetCustomAttribute(typeof(JsonIgnoreAttribute)) == null));
 
-            members.AddRange(
-                objectType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                    .Where(x =>
-                        x.GetCustomAttribute(typeof(JsonIgnoreAttribute)) == null &&
-                        !x.Name.Contains("BackingField", StringComparison.Ordinal)));
-
             return members;
         }
     }
