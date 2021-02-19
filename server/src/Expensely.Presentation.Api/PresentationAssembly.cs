@@ -10,6 +10,6 @@ namespace Expensely.Presentation.Api
         /// <summary>
         /// The presentation assembly.
         /// </summary>
-        public static readonly Assembly Assembly = Assembly.GetCallingAssembly();
+        public static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
     }
 }

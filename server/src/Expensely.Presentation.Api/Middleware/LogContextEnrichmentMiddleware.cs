@@ -9,41 +9,29 @@ namespace Expensely.Presentation.Api.Middleware
     /// <summary>
     /// Represents the log context enrichment middleware.
     /// </summary>
-    internal sealed class LogContextEnrichmentMiddleware
+    public sealed class LogContextEnrichmentMiddleware : IMiddleware
     {
-        private readonly RequestDelegate _next;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LogContextEnrichmentMiddleware"/> class.
-        /// </summary>
-        /// <param name="next">The delegate pointing to the next middleware in the chain.</param>
-        public LogContextEnrichmentMiddleware(RequestDelegate next) => _next = next;
-
-        /// <summary>
-        /// Invokes the middleware with the specified <see cref="HttpContext"/>.
-        /// </summary>
-        /// <param name="httpContext">The HTTP httpContext.</param>
-        /// <returns>The task that can be awaited by the next middleware.</returns>
-        public async Task InvokeAsync(HttpContext httpContext)
+        /// <inheritdoc />
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            using (LogContext.Push(GetEnrichers(httpContext)))
+            using (LogContext.Push(GetEnrichers(context)))
             {
-                await _next(httpContext);
+                await next(context);
             }
         }
 
         /// <summary>
         /// Gets the array of enrichers for the current request.
         /// </summary>
-        /// <param name="httpContext">The HTTP context.</param>
+        /// <param name="context">The HTTP context.</param>
         /// <returns>The array of enrichers for the current request.</returns>
-        private static ILogEventEnricher[] GetEnrichers(HttpContext httpContext) =>
+        private static ILogEventEnricher[] GetEnrichers(HttpContext context) =>
             new ILogEventEnricher[]
             {
-                new PropertyEnricher("IPAddress", httpContext.Connection.RemoteIpAddress),
-                new PropertyEnricher("RequestHost", httpContext.Request.Host),
-                new PropertyEnricher("RequestPathBase", httpContext.Request.PathBase),
-                new PropertyEnricher("RequestQueryParams", httpContext.Request.QueryString)
+                new PropertyEnricher("IPAddress", context.Connection.RemoteIpAddress),
+                new PropertyEnricher("RequestHost", context.Request.Host),
+                new PropertyEnricher("RequestPathBase", context.Request.PathBase),
+                new PropertyEnricher("RequestQueryParams", context.Request.QueryString)
             };
     }
 }

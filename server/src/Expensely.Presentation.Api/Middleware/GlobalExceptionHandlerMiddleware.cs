@@ -14,63 +14,53 @@ namespace Expensely.Presentation.Api.Middleware
     /// <summary>
     /// Represents the global exception handler middleware.
     /// </summary>
-    internal sealed class GlobalExceptionHandlerMiddleware
+    public sealed class GlobalExceptionHandlerMiddleware : IMiddleware
     {
         private static readonly JsonSerializerOptions JsonSerializerOptions = new()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        private readonly RequestDelegate _next;
         private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalExceptionHandlerMiddleware"/> class.
         /// </summary>
-        /// <param name="next">The delegate pointing to the next middleware in the chain.</param>
         /// <param name="logger">The logger.</param>
-        public GlobalExceptionHandlerMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlerMiddleware> logger)
-        {
-            _next = next;
-            _logger = logger;
-        }
+        public GlobalExceptionHandlerMiddleware(ILogger<GlobalExceptionHandlerMiddleware> logger) => _logger = logger;
 
-        /// <summary>
-        /// Invokes the middleware with the specified <see cref="HttpContext"/>.
-        /// </summary>
-        /// <param name="httpContext">The HTTP httpContext.</param>
-        /// <returns>The task that can be awaited by the next middleware.</returns>
-        public async Task InvokeAsync(HttpContext httpContext)
+        /// <inheritdoc />
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             try
             {
-                await _next(httpContext);
+                await next(context);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception occurred: {Message}", ex.Message);
 
-                await HandleExceptionAsync(httpContext, ex);
+                await HandleExceptionAsync(context, ex);
             }
         }
 
         /// <summary>
         /// Handles the specified <see cref="Exception"/> for the specified <see cref="HttpContext"/>.
         /// </summary>
-        /// <param name="httpContext">The HTTP httpContext.</param>
+        /// <param name="context">The HTTP httpContext.</param>
         /// <param name="exception">The exception.</param>
         /// <returns>The HTTP response that is modified based on the exception.</returns>
-        private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
+        private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             (HttpStatusCode httpStatusCode, IReadOnlyCollection<Error> errors) = GetHttpStatusCodeAndErrors(exception);
 
-            httpContext.Response.ContentType = "application/json";
+            context.Response.ContentType = "application/json";
 
-            httpContext.Response.StatusCode = (int)httpStatusCode;
+            context.Response.StatusCode = (int)httpStatusCode;
 
             string response = JsonSerializer.Serialize(new ApiErrorResponse(errors), JsonSerializerOptions);
 
-            await httpContext.Response.WriteAsync(response);
+            await context.Response.WriteAsync(response);
         }
 
         /// <summary>
