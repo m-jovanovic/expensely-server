@@ -19,7 +19,7 @@ namespace Expensely.Domain.Primitives.Maybe
         /// <summary>
         /// Gets the default instance.
         /// </summary>
-        public static Maybe<T> None => new Maybe<T>(default);
+        public static Maybe<T> None => new(default);
 
         /// <summary>
         /// Gets a value indicating whether or not the value exists.
@@ -45,7 +45,7 @@ namespace Expensely.Domain.Primitives.Maybe
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The new <see cref="Maybe{T}"/> instance.</returns>
-        public static Maybe<T> From(T value) => new Maybe<T>(value);
+        public static Maybe<T> From(T value) => new(value);
 
         /// <inheritdoc />
         public bool Equals(Maybe<T> other)

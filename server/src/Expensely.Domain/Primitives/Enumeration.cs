@@ -118,11 +118,6 @@ namespace Expensely.Domain.Primitives
         /// <inheritdoc />
         public override int GetHashCode() => Value.GetHashCode();
 
-        /// <summary>
-        /// Gets all of the defined enumeration options.
-        /// </summary>
-        /// <param name="enumType">The enumeration type.</param>
-        /// <returns>The enumerable collection of enumerations.</returns>
         private static IEnumerable<TEnum> GetAllEnumerationOptions(Type enumType) =>
             Assembly
                 .GetAssembly(enumType)?
@@ -130,12 +125,6 @@ namespace Expensely.Domain.Primitives
                 .Where(enumType.IsAssignableFrom)
                 .SelectMany(GetFieldsOfType<TEnum>);
 
-        /// <summary>
-        /// Gets the fields of the specified type for the specified type.
-        /// </summary>
-        /// <typeparam name="TFieldType">The field type.</typeparam>
-        /// <param name="type">The type whose fields are being retrieved.</param>
-        /// <returns>The fields of the specified type for the specified type.</returns>
         private static List<TFieldType> GetFieldsOfType<TFieldType>(Type type) =>
             type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
                 .Where(fieldInfo => type.IsAssignableFrom(fieldInfo.FieldType))

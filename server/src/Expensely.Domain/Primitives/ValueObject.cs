@@ -50,7 +50,7 @@ namespace Expensely.Domain.Primitives
                 return false;
             }
 
-            if (!(obj is ValueObject valueObject))
+            if (obj is not ValueObject valueObject)
             {
                 return false;
             }
@@ -59,8 +59,7 @@ namespace Expensely.Domain.Primitives
         }
 
         /// <inheritdoc />
-        public override int GetHashCode() =>
-            GetAtomicValues().Aggregate(default(int), (obj, _) => HashCode.Combine(obj.GetHashCode()));
+        public override int GetHashCode() => GetAtomicValues().Aggregate(default(int), (obj, _) => HashCode.Combine(obj.GetHashCode()));
 
         /// <summary>
         /// Gets the atomic values of the value object.
