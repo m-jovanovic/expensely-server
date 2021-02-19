@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.BackgroundTasks.Services;
-using Expensely.BackgroundTasks.Settings;
+using Expensely.BackgroundTasks.MessageProcessing.Services;
+using Expensely.BackgroundTasks.MessageProcessing.Settings;
 using Expensely.Domain.Modules.Messages;
 using Expensely.Domain.Primitives.Maybe;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Quartz;
 
-namespace Expensely.BackgroundTasks.Jobs
+namespace Expensely.BackgroundTasks.MessageProcessing
 {
     /// <summary>
     /// Represents the message processing background service.

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Expensely.Domain.Modules.Messages;
 using Expensely.Domain.Primitives.Maybe;
 
-namespace Expensely.BackgroundTasks.Services
+namespace Expensely.BackgroundTasks.MessageProcessing.Services
 {
     /// <summary>
     /// Represents the message dispatcher interface.

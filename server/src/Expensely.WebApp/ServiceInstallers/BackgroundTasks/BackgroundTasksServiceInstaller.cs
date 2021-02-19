@@ -1,6 +1,6 @@
-﻿using Expensely.BackgroundTasks.Factories;
-using Expensely.BackgroundTasks.Jobs;
-using Expensely.BackgroundTasks.Services;
+﻿using Expensely.BackgroundTasks.MessageProcessing;
+using Expensely.BackgroundTasks.MessageProcessing.Factories;
+using Expensely.BackgroundTasks.MessageProcessing.Services;
 using Expensely.WebApp.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;

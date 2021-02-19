@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Expensely.Domain.Primitives;
 
-namespace Expensely.BackgroundTasks.Factories
+namespace Expensely.BackgroundTasks.MessageProcessing.Factories
 {
     /// <summary>
     /// Represents the event handler factory interface.

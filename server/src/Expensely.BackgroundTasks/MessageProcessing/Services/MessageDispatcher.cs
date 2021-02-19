@@ -3,13 +3,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
-using Expensely.BackgroundTasks.Factories;
+using Expensely.BackgroundTasks.MessageProcessing.Factories;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Modules.Messages;
 using Expensely.Domain.Primitives.Maybe;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Expensely.BackgroundTasks.Services
+namespace Expensely.BackgroundTasks.MessageProcessing.Services
 {
     /// <summary>
     /// Represents the message dispatcher.

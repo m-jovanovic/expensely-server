@@ -1,4 +1,4 @@
-﻿using Expensely.BackgroundTasks.Settings;
+﻿using Expensely.BackgroundTasks.MessageProcessing.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 

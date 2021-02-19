@@ -1,4 +1,4 @@
-﻿namespace Expensely.BackgroundTasks.Settings
+﻿namespace Expensely.BackgroundTasks.MessageProcessing.Settings
 {
     /// <summary>
     /// Represents the message processing job configuration settings.

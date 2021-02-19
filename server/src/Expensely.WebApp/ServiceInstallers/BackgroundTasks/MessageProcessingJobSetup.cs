@@ -1,5 +1,5 @@
-﻿using Expensely.BackgroundTasks.Jobs;
-using Expensely.BackgroundTasks.Settings;
+﻿using Expensely.BackgroundTasks.MessageProcessing;
+using Expensely.BackgroundTasks.MessageProcessing.Settings;
 using Microsoft.Extensions.Options;
 using Quartz;
 

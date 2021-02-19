@@ -5,7 +5,7 @@ using System.Reflection;
 using Expensely.Domain.Primitives;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Expensely.BackgroundTasks.Factories
+namespace Expensely.BackgroundTasks.MessageProcessing.Factories
 {
     /// <summary>
     /// Represents the event handler factory.
