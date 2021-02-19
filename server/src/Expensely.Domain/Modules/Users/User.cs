@@ -18,7 +18,6 @@ namespace Expensely.Domain.Modules.Users
     {
         private readonly HashSet<Currency> _currencies = new();
         private Currency _primaryCurrency;
-        private string _passwordHash;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
@@ -40,7 +39,7 @@ namespace Expensely.Domain.Modules.Users
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-            _passwordHash = passwordService.Hash(password);
+            PasswordHash = passwordService.Hash(password);
         }
 
         /// <summary>
@@ -67,6 +66,11 @@ namespace Expensely.Domain.Modules.Users
         /// Gets the email.
         /// </summary>
         public Email Email { get; private set; }
+
+        /// <summary>
+        /// Gets the password hash.
+        /// </summary>
+        public string PasswordHash { get; private set; }
 
         /// <summary>
         /// Gets the refresh token.
@@ -208,7 +212,7 @@ namespace Expensely.Domain.Modules.Users
         /// <returns>True if the password hashes match, otherwise false.</returns>
         public bool VerifyPassword(Password password, IPasswordService passwordService)
         {
-            if (passwordService.HashesMatch(password, _passwordHash))
+            if (passwordService.HashesMatch(password, PasswordHash))
             {
                 return true;
             }
@@ -235,12 +239,12 @@ namespace Expensely.Domain.Modules.Users
                 return Result.Failure(DomainErrors.User.InvalidEmailOrPassword);
             }
 
-            if (passwordService.HashesMatch(newPassword, _passwordHash))
+            if (passwordService.HashesMatch(newPassword, PasswordHash))
             {
                 return Result.Failure(DomainErrors.User.PasswordIsIdentical);
             }
 
-            _passwordHash = passwordService.Hash(newPassword);
+            PasswordHash = passwordService.Hash(newPassword);
 
             Raise(new UserPasswordChangedEvent
             {
