@@ -46,22 +46,12 @@ namespace Expensely.WebApp
             }
         }
 
-        /// <summary>
-        /// Creates the host builder for the specified arguments.
-        /// </summary>
-        /// <param name="args">The arguments.</param>
-        /// <returns>The host builder.</returns>
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()
                 .ConfigureAppConfiguration(WithApplicationConfiguration)
                 .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
 
-        /// <summary>
-        /// Configures the application configuration.
-        /// </summary>
-        /// <param name="hostBuilderContext">The host builder context.</param>
-        /// <param name="configurationBuilder">The configuration builder.</param>
         private static void WithApplicationConfiguration(HostBuilderContext hostBuilderContext, IConfigurationBuilder configurationBuilder)
         {
             configurationBuilder
