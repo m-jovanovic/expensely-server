@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
@@ -79,17 +80,15 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
             return Maybe<Exception>.None;
         }
 
-        /// <summary>
-        /// Handles the event for the specified event handler and the provided parameters.
-        /// </summary>
-        /// <param name="handler">The event handler instance.</param>
-        /// <param name="parameters">The event handler parameters.</param>
-        /// <returns>The task to allow awaiting the call.</returns>
-        private Task HandleEvent(object handler, object[] parameters) =>
-            (Task)_eventHandlerFactory
-                .GetHandleMethod(
-                    handler.GetType(),
-                    parameters.Select(x => x.GetType()).ToArray())
-                .Invoke(handler, parameters);
+        private Task HandleEvent(object handler, object[] parameters)
+        {
+            MethodInfo handleMethod = _eventHandlerFactory.GetHandleMethod(
+                handler.GetType(),
+                parameters.Select(x => x.GetType()).ToArray());
+
+            var handleMethodTask = (Task)handleMethod.Invoke(handler, parameters);
+
+            return handleMethodTask;
+        }
     }
 }
