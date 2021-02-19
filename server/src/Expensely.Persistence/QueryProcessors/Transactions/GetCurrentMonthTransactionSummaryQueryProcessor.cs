@@ -41,9 +41,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
             GetCurrentMonthTransactionSummaryQuery query,
             CancellationToken cancellationToken = default)
         {
-            if (query.UserId != _userInformationProvider.UserId ||
-                _userInformationProvider.PrimaryCurrency.HasNoValue ||
-                query.PrimaryCurrency != _userInformationProvider.PrimaryCurrency.Value.Value)
+            if (query.UserId != _userInformationProvider.UserId)
             {
                 return Maybe<TransactionSummaryResponse>.None;
             }
@@ -54,10 +52,10 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                     x.UserId == query.UserId &&
                     x.Year == query.StartOfMonth.Year &&
                     x.Month == query.StartOfMonth.Month &&
-                    x.Currency == query.PrimaryCurrency)
+                    x.Currency == query.Currency)
                 .ToArrayAsync(cancellationToken);
 
-            Currency currency = Currency.FromValue(query.PrimaryCurrency).Value;
+            Currency currency = Currency.FromValue(query.Currency).Value;
 
             string FormatAmount(TransactionType transactionType)
             {

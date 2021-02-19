@@ -53,7 +53,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// Gets the current month transaction summary for the specified parameters.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <param name="primaryCurrency">The primary currency.</param>
+        /// <param name="currency">The currency.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the transaction summary is found, otherwise 404 - Not Found.</returns>
         [HttpGet(ApiRoutes.Transactions.GetCurrentMonthTransactionSummary)]
@@ -61,10 +61,10 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCurrentMonthTransactionSummary(
             Guid userId,
-            int primaryCurrency,
+            int currency,
             CancellationToken cancellationToken) =>
             await Maybe<GetCurrentMonthTransactionSummaryQuery>
-                .From(new GetCurrentMonthTransactionSummaryQuery(userId, primaryCurrency, _systemTime.UtcNow))
+                .From(new GetCurrentMonthTransactionSummaryQuery(userId, currency, _systemTime.UtcNow))
                 .Bind(query => Sender.Send(query, cancellationToken))
                 .Match(Ok, NotFound);
 

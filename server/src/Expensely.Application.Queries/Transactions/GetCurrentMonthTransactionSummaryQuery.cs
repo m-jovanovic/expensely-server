@@ -13,13 +13,13 @@ namespace Expensely.Application.Queries.Transactions
         /// <summary>
         /// Initializes a new instance of the <see cref="GetCurrentMonthTransactionSummaryQuery"/> class.
         /// </summary>
-        /// <param name="userId">The user identifier provider.</param>
-        /// <param name="primaryCurrency">The primary currency.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="currency">The currency.</param>
         /// <param name="utcNow">The current date and time in UTC format.</param>
-        public GetCurrentMonthTransactionSummaryQuery(Guid userId, int primaryCurrency, DateTime utcNow)
+        public GetCurrentMonthTransactionSummaryQuery(Guid userId, int currency, DateTime utcNow)
         {
             UserId = userId.ToString();
-            PrimaryCurrency = primaryCurrency;
+            Currency = currency;
             StartOfMonth = new DateTime(utcNow.Year, utcNow.Month, 1).Date;
         }
 
@@ -29,9 +29,9 @@ namespace Expensely.Application.Queries.Transactions
         public string UserId { get; }
 
         /// <summary>
-        /// Gets the primary currency.
+        /// Gets the currency.
         /// </summary>
-        public int PrimaryCurrency { get; }
+        public int Currency { get; }
 
         /// <summary>
         /// Gets the start of month date.
