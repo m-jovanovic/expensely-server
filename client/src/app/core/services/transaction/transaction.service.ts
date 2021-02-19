@@ -26,7 +26,7 @@ export class TransactionService extends ApiService {
     return this.get(`${ApiRoutes.Transactions.getTransactions}?userId=${userId}&limit=${limit}&cursor=${cursor}`);
   }
 
-  getCurrentMonthTransactionSummary(userId: string, primaryCurrency: number): Observable<TransactionSummaryResponse> {
-    return this.get(`${ApiRoutes.Transactions.getCurrentMonthTransactionSummary}?userId=${userId}&primaryCurrency=${primaryCurrency}`);
+  getCurrentMonthTransactionSummary(userId: string, currency: number): Observable<TransactionSummaryResponse> {
+    return this.get(`${ApiRoutes.Transactions.getCurrentMonthTransactionSummary}?userId=${userId}&currency=${currency}`);
   }
 }

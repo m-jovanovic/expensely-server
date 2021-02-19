@@ -1,5 +1,5 @@
 export class LoadTransactionSummary {
   public static readonly type = '[TransactionSummary] Load';
 
-  constructor(public userId: string, public primaryCurrency: number) {}
+  constructor(public userId: string, public currency: number) {}
 }
