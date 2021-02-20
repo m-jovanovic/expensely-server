@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Expensely.Domain.Primitives;
 
 namespace Expensely.Domain.Modules.Messages
@@ -44,6 +45,11 @@ namespace Expensely.Domain.Modules.Messages
         /// </summary>
         public bool Processed { get; private set; }
 
+        /// <summary>
+        /// Gets the message consumers.
+        /// </summary>
+        public IReadOnlyCollection<MessageConsumer> MessageConsumers => _messageConsumers.ToArray();
+
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; private set; }
 
@@ -56,9 +62,9 @@ namespace Expensely.Domain.Modules.Messages
         public void MarkAsProcessed() => Processed = true;
 
         /// <summary>
-        /// Marks that a failure to process the message has occurred and increments the retry count.
+        /// Increments the retry count.
         /// </summary>
-        public void FailureToProcess() => RetryCount++;
+        public void IncrementRetryCount() => RetryCount++;
 
         /// <summary>
         /// Adds the consumer with the specified name.
@@ -72,6 +78,6 @@ namespace Expensely.Domain.Modules.Messages
         /// </summary>
         /// <param name="consumerName">The consumer name.</param>
         /// <returns>True if the consumer with the specified name has processed the message, otherwise false.</returns>
-        public bool IsConsumedBy(string consumerName) => _messageConsumers.Contains(new MessageConsumer(consumerName, default));
+        public bool HasBeenProcessedBy(string consumerName) => _messageConsumers.Contains(new MessageConsumer(consumerName, default));
     }
 }

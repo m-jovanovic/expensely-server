@@ -18,28 +18,28 @@ namespace Expensely.BackgroundTasks.MessageProcessing
     [DisallowConcurrentExecution]
     public sealed class MessageProcessingJob : IJob
     {
+        private readonly MessageProcessingJobSettings _settings;
         private readonly IMessageRepository _messageRepository;
         private readonly IMessageDispatcher _messageDispatcher;
         private readonly ILogger<MessageProcessingJob> _logger;
-        private readonly int _batchSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageProcessingJob"/> class.
         /// </summary>
+        /// <param name="messageProcessingJobSettingsOptions">The message processing job settings options.</param>
         /// <param name="messageRepository">The message repository.</param>
         /// <param name="messageDispatcher">The message dispatcher.</param>
         /// <param name="logger">The logger.</param>
-        /// <param name="messageProcessingJobSettingsOptions">The message processing job settings options.</param>
         public MessageProcessingJob(
+            IOptions<MessageProcessingJobSettings> messageProcessingJobSettingsOptions,
             IMessageRepository messageRepository,
             IMessageDispatcher messageDispatcher,
-            ILogger<MessageProcessingJob> logger,
-            IOptions<MessageProcessingJobSettings> messageProcessingJobSettingsOptions)
+            ILogger<MessageProcessingJob> logger)
         {
+            _settings = messageProcessingJobSettingsOptions.Value;
             _messageRepository = messageRepository;
             _messageDispatcher = messageDispatcher;
             _logger = logger;
-            _batchSize = messageProcessingJobSettingsOptions.Value.BatchSize;
         }
 
         /// <inheritdoc />
@@ -50,7 +50,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing
             try
             {
                 IReadOnlyCollection<Message> unprocessedMessages =
-                    await _messageRepository.GetUnprocessedAsync(_batchSize, cancellationToken);
+                    await _messageRepository.GetUnprocessedAsync(_settings.BatchSize, cancellationToken);
 
                 foreach (Message message in unprocessedMessages)
                 {
@@ -63,16 +63,14 @@ namespace Expensely.BackgroundTasks.MessageProcessing
 
                     _logger.LogError(
                         maybeException.Value,
-                        "Exception occurred while processing {MessageId} {ExceptionMessage}",
+                        "Exception occurred while processing message {@MessageId}: {@ExceptionMessage}",
                         message.Id,
                         maybeException.Value.Message);
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception occurred while processing messages {ExceptionMessage}", ex.Message);
-
-                throw;
+                _logger.LogError(ex, "Unexpected exception occurred while processing messages: {@ExceptionMessage}", ex.Message);
             }
         }
     }

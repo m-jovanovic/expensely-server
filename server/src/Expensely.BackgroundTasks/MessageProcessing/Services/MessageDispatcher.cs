@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
@@ -8,7 +6,6 @@ using Expensely.BackgroundTasks.MessageProcessing.Factories;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Modules.Messages;
 using Expensely.Domain.Primitives.Maybe;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.BackgroundTasks.MessageProcessing.Services
 {
@@ -18,7 +15,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
     public sealed class MessageDispatcher : IMessageDispatcher
     {
         private readonly IEventHandlerFactory _eventHandlerFactory;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IEventHandlerHandleMethodFactory _eventHandlerHandleMethodFactory;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemTime _systemTime;
 
@@ -26,51 +23,49 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
         /// Initializes a new instance of the <see cref="MessageDispatcher"/> class.
         /// </summary>
         /// <param name="eventHandlerFactory">The event handler factory.</param>
-        /// <param name="serviceProvider">The service provider.</param>
+        /// <param name="eventHandlerHandleMethodFactory">The event handler handle method factory.</param>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="systemTime">The system time.</param>
         public MessageDispatcher(
             IEventHandlerFactory eventHandlerFactory,
-            IServiceProvider serviceProvider,
+            IEventHandlerHandleMethodFactory eventHandlerHandleMethodFactory,
             IUnitOfWork unitOfWork,
             ISystemTime systemTime)
         {
             _eventHandlerFactory = eventHandlerFactory;
-            _serviceProvider = serviceProvider;
             _unitOfWork = unitOfWork;
             _systemTime = systemTime;
+            _eventHandlerHandleMethodFactory = eventHandlerHandleMethodFactory;
         }
 
         /// <inheritdoc />
         public async Task<Maybe<Exception>> DispatchAsync(Message message, CancellationToken cancellationToken)
         {
-            using IServiceScope scope = _serviceProvider.CreateScope();
-
-            foreach (object handler in _eventHandlerFactory.GetHandlers(message.Event, scope.ServiceProvider))
+            foreach (object handler in _eventHandlerFactory.GetHandlers(message.Event))
             {
                 string consumerName = handler.GetType().Name;
 
-                if (message.IsConsumedBy(consumerName))
+                if (message.HasBeenProcessedBy(consumerName))
                 {
                     continue;
                 }
 
                 try
                 {
-                    await HandleEvent(handler, new object[] { message.Event, cancellationToken });
+                    await _eventHandlerHandleMethodFactory.GetHandleMethodTask(handler, new object[] { message.Event, cancellationToken });
+
+                    message.AddConsumer(consumerName, _systemTime.UtcNow);
+
+                    await _unitOfWork.SaveChangesAsync(cancellationToken);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    message.FailureToProcess();
+                    message.IncrementRetryCount();
 
                     await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-                    return e;
+                    return ex;
                 }
-
-                message.AddConsumer(consumerName, _systemTime.UtcNow);
-
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
             }
 
             message.MarkAsProcessed();
@@ -78,17 +73,6 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Maybe<Exception>.None;
-        }
-
-        private Task HandleEvent(object handler, object[] parameters)
-        {
-            MethodInfo handleMethod = _eventHandlerFactory.GetHandleMethod(
-                handler.GetType(),
-                parameters.Select(x => x.GetType()).ToArray());
-
-            var handleMethodTask = (Task)handleMethod.Invoke(handler, parameters);
-
-            return handleMethodTask;
         }
     }
 }

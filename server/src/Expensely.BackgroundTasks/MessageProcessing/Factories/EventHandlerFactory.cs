@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Reflection;
 using Expensely.Domain.Primitives;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,45 +10,37 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Factories
     /// </summary>
     public sealed class EventHandlerFactory : IEventHandlerFactory
     {
-        private const string HandleMethodName = "Handle";
         private static readonly Type EventHandlerGenericType = typeof(IEventHandler<>).GetGenericTypeDefinition();
-        private static readonly ConcurrentDictionary<Type, Type> EventHandlerInterfaceDefinitionsDictionary = new();
-        private static readonly ConcurrentDictionary<(Type HandlerType, Type[] HandleMethodArgumentTypes), MethodInfo>
-            EventHandlerHandleMethodDictionary = new();
+        private static readonly Dictionary<Type, Type> EventHandlersDictionary = new();
+
+        private readonly IServiceProvider _serviceProvider;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EventHandlerFactory"/> class.
+        /// </summary>
+        /// <param name="serviceProvider">The service provider.</param>
+        public EventHandlerFactory(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
         /// <inheritdoc />
-        public IEnumerable<object> GetHandlers(IEvent @event, IServiceProvider serviceProvider)
+        public IEnumerable<object> GetHandlers(IEvent @event)
         {
             if (@event is null)
             {
                 throw new ArgumentNullException(nameof(@event));
             }
 
-            Type serviceType = EventHandlerInterfaceDefinitionsDictionary.GetOrAdd(
-                @event.GetType(),
-                eventType => EventHandlerGenericType.MakeGenericType(eventType));
+            Type eventType = @event.GetType();
 
-            IEnumerable<object> eventHandlers = serviceProvider.GetServices(serviceType);
+            if (!EventHandlersDictionary.TryGetValue(eventType, out Type handlerType))
+            {
+                handlerType = EventHandlerGenericType.MakeGenericType(eventType);
+
+                EventHandlersDictionary.Add(eventType, handlerType);
+            }
+
+            IEnumerable<object> eventHandlers = _serviceProvider.GetServices(handlerType);
 
             return eventHandlers;
-        }
-
-        /// <inheritdoc />
-        public MethodInfo GetHandleMethod(Type handlerType, Type[] types)
-        {
-            if (handlerType is null)
-            {
-                throw new ArgumentNullException(nameof(handlerType));
-            }
-
-            if (types is null)
-            {
-                throw new ArgumentNullException(nameof(types));
-            }
-
-            return EventHandlerHandleMethodDictionary.GetOrAdd(
-                (handlerType, types),
-                x => x.HandlerType.GetMethod(HandleMethodName, x.HandleMethodArgumentTypes));
         }
     }
 }
