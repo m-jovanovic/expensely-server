@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Shared;
@@ -76,6 +77,11 @@ namespace Expensely.Domain.Modules.Users
         /// Gets the refresh token.
         /// </summary>
         public RefreshToken RefreshToken { get; private set; }
+
+        /// <summary>
+        /// Gets the currencies.
+        /// </summary>
+        public IReadOnlyCollection<Currency> Currencies => _currencies.ToList();
 
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; private set; }
