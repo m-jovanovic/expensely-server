@@ -9,9 +9,7 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.ServiceLifetimes;
 using Expensely.Domain.Modules.Authentication;
-using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.Primitives.Maybe;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -77,12 +75,9 @@ namespace Expensely.Infrastructure.Authentication
             yield return new Claim(JwtClaimTypes.UserId, user.Id);
             yield return new Claim(JwtClaimTypes.Email, user.Email);
             yield return new Claim(JwtClaimTypes.Name, user.GetFullName());
-
-            Maybe<Currency> maybePrimaryCurrency = user.GetPrimaryCurrency();
-
             yield return new Claim(
                JwtClaimTypes.PrimaryCurrency,
-               maybePrimaryCurrency.HasValue ? maybePrimaryCurrency.Value.Value.ToString(CultureInfo.InvariantCulture) : string.Empty);
+               user.PrimaryCurrency is null ? string.Empty : user.PrimaryCurrency.Value.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

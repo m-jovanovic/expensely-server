@@ -18,7 +18,6 @@ namespace Expensely.Domain.Modules.Users
     public sealed class User : AggregateRoot, IAuditableEntity
     {
         private readonly HashSet<Currency> _currencies = new();
-        private Currency _primaryCurrency;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
@@ -83,6 +82,11 @@ namespace Expensely.Domain.Modules.Users
         /// </summary>
         public IReadOnlyCollection<Currency> Currencies => _currencies.ToList();
 
+        /// <summary>
+        /// Gets the primary currency.
+        /// </summary>
+        public Currency PrimaryCurrency { get; private set; }
+
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; private set; }
 
@@ -117,12 +121,6 @@ namespace Expensely.Domain.Modules.Users
         public string GetFullName() => $"{FirstName.Value} {LastName.Value}";
 
         /// <summary>
-        /// Gets the maybe instance that may contain the primary currency.
-        /// </summary>
-        /// <returns>The maybe instance that may contain the user's primary currency.</returns>
-        public Maybe<Currency> GetPrimaryCurrency() => _primaryCurrency?.IsEmpty() ?? true ? Maybe<Currency>.None : _primaryCurrency;
-
-        /// <summary>
         /// Checks if the user's currencies contain the specified currency.
         /// </summary>
         /// <param name="currency">The currency to be checked.</param>
@@ -141,12 +139,12 @@ namespace Expensely.Domain.Modules.Users
                 return Result.Failure(DomainErrors.User.CurrencyDoesNotExist);
             }
 
-            if (_primaryCurrency == currency)
+            if (PrimaryCurrency == currency)
             {
                 return Result.Failure(DomainErrors.User.PrimaryCurrencyIsIdentical);
             }
 
-            _primaryCurrency = currency;
+            PrimaryCurrency = currency;
 
             Raise(new UserPrimaryCurrencyChangedEvent
             {
@@ -168,9 +166,9 @@ namespace Expensely.Domain.Modules.Users
                 return Result.Failure(DomainErrors.User.CurrencyAlreadyExists);
             }
 
-            if (_currencies.Count == 1 && (_primaryCurrency?.IsEmpty() ?? true))
+            if (_currencies.Count == 1 && (PrimaryCurrency?.IsEmpty() ?? true))
             {
-                _primaryCurrency = currency;
+                ChangePrimaryCurrency(currency);
             }
 
             Raise(new UserCurrencyAddedEvent
@@ -190,7 +188,7 @@ namespace Expensely.Domain.Modules.Users
         /// <returns>The success result if the currency was removed, otherwise an error result.</returns>
         public Result RemoveCurrency(Currency currency)
         {
-            if (_primaryCurrency == currency)
+            if (PrimaryCurrency == currency)
             {
                 return Result.Failure(DomainErrors.User.RemovingPrimaryCurrency);
             }

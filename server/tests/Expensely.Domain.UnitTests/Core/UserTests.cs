@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Shared;
@@ -86,10 +87,10 @@ namespace Expensely.Domain.UnitTests.Core
             User user = UserTestData.ValidUser;
 
             // Act
-            Maybe<Currency> primaryCurrency = user.GetPrimaryCurrency();
+            Currency primaryCurrency = user.PrimaryCurrency;
 
             // Assert
-            primaryCurrency.HasNoValue.Should().BeTrue();
+            primaryCurrency.Should().BeNull();
         }
 
         [Fact]
@@ -129,10 +130,10 @@ namespace Expensely.Domain.UnitTests.Core
             user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
             // Act
-            Maybe<Currency> primaryCurrency = user.GetPrimaryCurrency();
+            Currency primaryCurrency = user.PrimaryCurrency;
 
             // Assert
-            primaryCurrency.Value.Should().Be(CurrencyTestData.DefaultCurrency);
+            primaryCurrency.Should().Be(CurrencyTestData.DefaultCurrency);
         }
 
         [Fact]
@@ -147,7 +148,7 @@ namespace Expensely.Domain.UnitTests.Core
             user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
             // Assert
-            user.Events.Should().ContainSingle().And.AllBeOfType<UserCurrencyAddedEvent>();
+            user.Events.Should().Contain(@event => @event is UserCurrencyAddedEvent);
         }
 
         [Fact]
@@ -269,7 +270,7 @@ namespace Expensely.Domain.UnitTests.Core
             user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
             // Assert
-            user.GetPrimaryCurrency().Value.Should().Be(CurrencyTestData.DefaultCurrency);
+            user.PrimaryCurrency.Should().Be(CurrencyTestData.DefaultCurrency);
         }
 
         [Fact]
