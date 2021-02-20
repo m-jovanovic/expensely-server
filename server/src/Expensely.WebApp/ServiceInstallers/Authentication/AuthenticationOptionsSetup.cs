@@ -10,6 +10,6 @@ namespace Expensely.WebApp.ServiceInstallers.Authentication
     public sealed class AuthenticationOptionsSetup : IConfigureOptions<AuthenticationOptions>
     {
         /// <inheritdoc />
-        public void Configure(AuthenticationOptions options) => options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        public void Configure(AuthenticationOptions options) => options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     }
 }
