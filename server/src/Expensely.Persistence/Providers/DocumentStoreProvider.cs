@@ -106,7 +106,7 @@ namespace Expensely.Persistence.Providers
             {
                 ApplySetPropertyMethod(auditableEntity, SetCreatedOnMethodDictionary, nameof(IAuditableEntity.CreatedOnUtc));
             }
-            else if (auditableEntity.ModifiedOnUtc is null)
+            else
             {
                 ApplySetPropertyMethod(auditableEntity, SetModifiedOnMethodDictionary, nameof(IAuditableEntity.ModifiedOnUtc));
             }
