@@ -57,7 +57,7 @@ namespace Expensely.Application.Events.Handlers.Users
 
             stringBuilder.AppendLine($"Hello {user.GetFullName()} and welcome to Expensely!");
             stringBuilder.AppendLine();
-            stringBuilder.AppendLine("We honestly hope to you will enjoy everything that we have to offer.");
+            stringBuilder.AppendLine("We honestly hope that you will enjoy everything that we have to offer.");
             stringBuilder.AppendLine();
             stringBuilder.AppendLine("Sincerely,");
             stringBuilder.AppendLine("The Expensely team");
