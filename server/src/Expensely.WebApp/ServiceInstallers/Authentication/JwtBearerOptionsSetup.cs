@@ -14,7 +14,7 @@ namespace Expensely.WebApp.ServiceInstallers.Authentication
     {
         private const string ConfigurationSectionName = "Authentication";
         private readonly IConfiguration _configuration;
-        private readonly JwtSettings _jwtSettings;
+        private readonly JwtSettings _settings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JwtBearerOptionsSetup"/> class.
@@ -24,7 +24,7 @@ namespace Expensely.WebApp.ServiceInstallers.Authentication
         public JwtBearerOptionsSetup(IConfiguration configuration, IOptions<JwtSettings> jwtSettingsOptions)
         {
             _configuration = configuration;
-            _jwtSettings = jwtSettingsOptions.Value;
+            _settings = jwtSettingsOptions.Value;
         }
 
         /// <inheritdoc />
@@ -32,12 +32,11 @@ namespace Expensely.WebApp.ServiceInstallers.Authentication
         {
             _configuration.GetSection(ConfigurationSectionName).Bind(options);
 
-            options.TokenValidationParameters.ValidIssuer = _jwtSettings.Issuer;
+            options.TokenValidationParameters.ValidIssuer = _settings.Issuer;
 
-            options.TokenValidationParameters.ValidAudience = _jwtSettings.Audience;
+            options.TokenValidationParameters.ValidAudience = _settings.Audience;
 
-            options.TokenValidationParameters.IssuerSigningKey =
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecurityKey));
+            options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.SecurityKey));
         }
     }
 }

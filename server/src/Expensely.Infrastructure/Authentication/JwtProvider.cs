@@ -20,7 +20,7 @@ namespace Expensely.Infrastructure.Authentication
     /// </summary>
     public sealed class JwtProvider : IJwtProvider, ITransient
     {
-        private readonly JwtSettings _jwtSettings;
+        private readonly JwtSettings _settings;
         private readonly ISystemTime _systemTime;
 
         /// <summary>
@@ -30,22 +30,22 @@ namespace Expensely.Infrastructure.Authentication
         /// <param name="systemTime">The current date and time.</param>
         public JwtProvider(IOptions<JwtSettings> jwtOptions, ISystemTime systemTime)
         {
-            _jwtSettings = jwtOptions.Value;
+            _settings = jwtOptions.Value;
             _systemTime = systemTime;
         }
 
         /// <inheritdoc />
         public string CreateToken(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecurityKey));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.SecurityKey));
 
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            DateTime tokenExpirationTime = _systemTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationInMinutes);
+            DateTime tokenExpirationTime = _systemTime.UtcNow.AddMinutes(_settings.AccessTokenExpirationInMinutes);
 
             var token = new JwtSecurityToken(
-                _jwtSettings.Issuer,
-                _jwtSettings.Audience,
+                _settings.Issuer,
+                _settings.Audience,
                 CreateClaims(user),
                 null,
                 tokenExpirationTime,
@@ -67,7 +67,7 @@ namespace Expensely.Infrastructure.Authentication
 
             return new RefreshToken(
                 Convert.ToBase64String(refreshTokenBytes),
-                _systemTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenExpirationInMinutes));
+                _systemTime.UtcNow.AddMinutes(_settings.RefreshTokenExpirationInMinutes));
         }
 
         private static IEnumerable<Claim> CreateClaims(User user)
