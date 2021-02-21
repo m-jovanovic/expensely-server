@@ -6,7 +6,7 @@ import { State, StateContext, Action, Selector } from '@ngxs/store';
 import { AuthenticationStateModel } from './authentication-state.model';
 import { Login, Logout, RefreshToken, Register } from './authentication.actions';
 import { TokenResponse, LoginRequest, RegisterRequest, RefreshTokenRequest } from '../../contracts';
-import { AuthenticationService } from '../../services';
+import { AuthenticationService, RouterService } from '../../services';
 
 @State<AuthenticationStateModel>({
   name: 'authentication',
@@ -39,14 +39,8 @@ export class AuthenticationState {
   }
 
   @Action(Logout)
-  logout(context: StateContext<AuthenticationStateModel>): Observable<any> {
-    return this.authenticationService.logout().pipe(
-      tap(() => {
-        context.patchState({
-          token: ''
-        });
-      })
-    );
+  logout(): Observable<any> {
+    return this.authenticationService.logout();
   }
 
   @Action(Register)
@@ -60,7 +54,7 @@ export class AuthenticationState {
   refreshToken(context: StateContext<AuthenticationStateModel>): Observable<TokenResponse> {
     const authenticationState = context.getState();
 
-    if (!authenticationState.refreshToken || authenticationState.refreshTokenExpiresOnUtc < new Date()) {
+    if (!authenticationState?.refreshTokenExpiresOnUtc || new Date(authenticationState.refreshTokenExpiresOnUtc).getTime() < Date.now()) {
       context.dispatch(new Logout());
 
       return of(null);
