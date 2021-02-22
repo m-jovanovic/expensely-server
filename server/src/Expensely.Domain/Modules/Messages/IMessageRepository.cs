@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Common.Primitives.Maybe;
 
 namespace Expensely.Domain.Modules.Messages
 {
@@ -9,6 +10,14 @@ namespace Expensely.Domain.Modules.Messages
     /// </summary>
     public interface IMessageRepository
     {
+        /// <summary>
+        /// Gets the message with the specified identifier, if one exists.
+        /// </summary>
+        /// <param name="messageId">The message identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The maybe instance that may contain the message with the specified identifier.</returns>
+        Task<Maybe<Message>> GetByIdAsync(string messageId, CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Gets the specified number of unprocessed messages.
         /// </summary>
@@ -24,5 +33,11 @@ namespace Expensely.Domain.Modules.Messages
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The completed task.</returns>
         Task AddAsync(Message message, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Removes the specified message from the repository.
+        /// </summary>
+        /// <param name="message">The message to be removed.</param>
+        void Remove(Message message);
     }
 }

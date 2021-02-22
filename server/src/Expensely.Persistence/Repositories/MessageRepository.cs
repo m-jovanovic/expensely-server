@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Messages;
 using Expensely.Persistence.Indexes.Messages;
 using Raven.Client.Documents;
@@ -23,6 +24,10 @@ namespace Expensely.Persistence.Repositories
         public MessageRepository(IAsyncDocumentSession session) => _session = session;
 
         /// <inheritdoc />
+        public async Task<Maybe<Message>> GetByIdAsync(string messageId, CancellationToken cancellationToken = default) =>
+            await _session.LoadAsync<Message>(messageId, cancellationToken);
+
+        /// <inheritdoc />
         public async Task<IReadOnlyCollection<Message>> GetUnprocessedAsync(int numberOfMessages, CancellationToken cancellationToken = default)
         {
             Message[] messages = await _session
@@ -38,5 +43,8 @@ namespace Expensely.Persistence.Repositories
         /// <inheritdoc />
         public async Task AddAsync(Message message, CancellationToken cancellationToken = default) =>
             await _session.StoreAsync(message, cancellationToken);
+
+        /// <inheritdoc />
+        public void Remove(Message message) => _session.Delete(message);
     }
 }
