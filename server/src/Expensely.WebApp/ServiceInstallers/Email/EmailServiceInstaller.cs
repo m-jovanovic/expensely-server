@@ -15,6 +15,8 @@ namespace Expensely.WebApp.ServiceInstallers.Email
         {
             services.ConfigureOptions<EmailSettingsSetup>();
 
+            services.ConfigureOptions<NotificationSettingsSetup>();
+
             services.AddTransient<IEmailSender, EmailSender>();
         }
     }
