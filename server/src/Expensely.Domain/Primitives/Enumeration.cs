@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Expensely.Domain.Primitives.Maybe;
+using Expensely.Shared.Primitives.Maybe;
 
 namespace Expensely.Domain.Primitives
 {
@@ -104,12 +104,17 @@ namespace Expensely.Domain.Primitives
                 return false;
             }
 
+            if (GetType() != obj.GetType())
+            {
+                return false;
+            }
+
             if (obj is not Enumeration<TEnum> otherValue)
             {
                 return false;
             }
 
-            return GetType() == obj.GetType() && otherValue.Value.Equals(Value);
+            return otherValue.Value.Equals(Value);
         }
 
         /// <inheritdoc />

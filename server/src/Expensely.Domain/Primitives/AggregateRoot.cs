@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Expensely.Domain.Abstractions;
 using Newtonsoft.Json;
 
 namespace Expensely.Domain.Primitives

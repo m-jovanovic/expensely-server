@@ -62,6 +62,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.UnitT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain.UnitTests", "tests\Expensely.Domain.UnitTests\Expensely.Domain.UnitTests.csproj", "{9F015B22-D937-459A-9CF5-F759594AACEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Shared.Primitives", "src\Expensely.Shared.Primitives\Expensely.Shared.Primitives.csproj", "{627DF6F5-16F5-4E0F-AFD5-5FD9303D2026}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,6 +138,10 @@ Global
 		{9F015B22-D937-459A-9CF5-F759594AACEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F015B22-D937-459A-9CF5-F759594AACEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F015B22-D937-459A-9CF5-F759594AACEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{627DF6F5-16F5-4E0F-AFD5-5FD9303D2026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{627DF6F5-16F5-4E0F-AFD5-5FD9303D2026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{627DF6F5-16F5-4E0F-AFD5-5FD9303D2026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{627DF6F5-16F5-4E0F-AFD5-5FD9303D2026}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,6 +172,7 @@ Global
 		{5A240AB3-CC83-43F4-AB31-D4685AC7FC10} = {288F5452-E668-4A6D-8FFF-5DF85F3E574D}
 		{10B9A9F4-20A5-40CB-A623-16174972BB93} = {B7E638B2-FAE2-45E8-93D4-4E8AC44A6FB9}
 		{9F015B22-D937-459A-9CF5-F759594AACEB} = {B7E638B2-FAE2-45E8-93D4-4E8AC44A6FB9}
+		{627DF6F5-16F5-4E0F-AFD5-5FD9303D2026} = {4E290B18-69E5-49B4-8B9D-70D64BEF994A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB4933FD-6088-49D4-8154-2506F5D17543}

@@ -5,7 +5,7 @@ using Expensely.Application.Abstractions.Data;
 using Expensely.BackgroundTasks.MessageProcessing.Factories;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Modules.Messages;
-using Expensely.Domain.Primitives.Maybe;
+using Expensely.Shared.Primitives.Maybe;
 
 namespace Expensely.BackgroundTasks.MessageProcessing.Services
 {

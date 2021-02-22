@@ -5,6 +5,7 @@ using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Currencies;
 using Expensely.Application.Queries.Currencies;
 using Expensely.Application.Queries.Processors.Currencies;
+using Expensely.Common.Abstractions.Messaging;
 
 namespace Expensely.Application.Queries.Handlers.Currencies
 {

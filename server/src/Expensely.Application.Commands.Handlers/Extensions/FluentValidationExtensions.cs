@@ -1,5 +1,6 @@
 ﻿using System;
 using Expensely.Domain.Primitives;
+using Expensely.Shared.Primitives.Errors;
 using FluentValidation;
 
 namespace Expensely.Application.Commands.Handlers.Extensions

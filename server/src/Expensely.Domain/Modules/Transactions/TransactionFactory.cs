@@ -1,6 +1,6 @@
 ﻿using System;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.Primitives.Result;
+using Expensely.Shared.Primitives.Result;
 
 namespace Expensely.Domain.Modules.Transactions
 {

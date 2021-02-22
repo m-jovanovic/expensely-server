@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Expensely.Application.Abstractions.Messaging
+namespace Expensely.Common.Abstractions.Messaging
 {
     /// <summary>
     /// Represents the query interface.

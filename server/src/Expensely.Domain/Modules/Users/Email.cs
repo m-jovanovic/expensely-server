@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Primitives;
-using Expensely.Domain.Primitives.Result;
+using Expensely.Shared.Primitives.Result;
 
 namespace Expensely.Domain.Modules.Users
 {

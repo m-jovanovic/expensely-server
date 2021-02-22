@@ -1,5 +1,4 @@
 using System.Reflection;
-using Expensely.Presentation.Api.Extensions;
 using Expensely.WebApp.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

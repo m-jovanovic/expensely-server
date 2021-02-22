@@ -6,9 +6,8 @@ using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users.Events;
 using Expensely.Domain.Primitives;
-using Expensely.Domain.Primitives.Maybe;
-using Expensely.Domain.Primitives.Result;
 using Expensely.Domain.Utility;
+using Expensely.Shared.Primitives.Result;
 
 namespace Expensely.Domain.Modules.Users
 {

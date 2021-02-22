@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
-namespace Expensely.Domain.Primitives
+namespace Expensely.Shared.Primitives.Errors
 {
     /// <summary>
     /// Represents a concrete domain error.
     /// </summary>
-    public sealed class Error : ValueObject
+    public sealed class Error : IEquatable<Error>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Error"/> class.
@@ -36,10 +36,33 @@ namespace Expensely.Domain.Primitives
         public static implicit operator string(Error error) => error?.Code ?? string.Empty;
 
         /// <inheritdoc />
-        protected override IEnumerable<object> GetAtomicValues()
+        public bool Equals(Error other)
         {
-            yield return Code;
-            yield return Message;
+            if (other is null)
+            {
+                return false;
+            }
+
+            return Code == other.Code && Message == other.Message;
         }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (obj is null)
+            {
+                return false;
+            }
+
+            if (obj is not Error error)
+            {
+                return false;
+            }
+
+            return Equals(error);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode() => HashCode.Combine(Code, Message);
     }
 }

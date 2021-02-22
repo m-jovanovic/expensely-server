@@ -1,4 +1,5 @@
-﻿using Expensely.Domain.Primitives;
+﻿using Expensely.Domain.Abstractions;
+using Expensely.Domain.Primitives;
 
 namespace Expensely.Domain.Modules.Users.Events
 {

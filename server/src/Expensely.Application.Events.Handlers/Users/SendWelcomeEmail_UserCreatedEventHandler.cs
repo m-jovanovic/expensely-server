@@ -3,10 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Email;
 using Expensely.Application.Contracts.Email;
+using Expensely.Domain.Abstractions;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Modules.Users.Events;
 using Expensely.Domain.Primitives;
-using Expensely.Domain.Primitives.Maybe;
+using Expensely.Shared.Primitives.Maybe;
 
 namespace Expensely.Application.Events.Handlers.Users
 {

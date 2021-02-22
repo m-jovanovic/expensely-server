@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Common.Abstractions.ServiceLifetimes;
+using Expensely.Domain.Abstractions;
 using Expensely.Domain.Modules.Messages;
 using Expensely.Domain.Primitives;
 

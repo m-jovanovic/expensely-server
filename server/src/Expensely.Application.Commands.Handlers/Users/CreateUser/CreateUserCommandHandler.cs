@@ -3,9 +3,10 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Commands.Users;
+using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.Primitives.Result;
+using Expensely.Shared.Primitives.Result;
 
 namespace Expensely.Application.Commands.Handlers.Users.CreateUser
 {

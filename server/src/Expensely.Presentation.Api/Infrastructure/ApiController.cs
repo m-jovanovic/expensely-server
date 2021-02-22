@@ -1,6 +1,7 @@
 ﻿using Expensely.Domain.Primitives;
-using Expensely.Domain.Primitives.Result;
 using Expensely.Presentation.Api.Errors;
+using Expensely.Shared.Primitives.Errors;
+using Expensely.Shared.Primitives.Result;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

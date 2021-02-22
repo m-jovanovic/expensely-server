@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.Primitives.Maybe;
 using Expensely.Persistence.Indexes.Users;
+using Expensely.Shared.Primitives.Maybe;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 

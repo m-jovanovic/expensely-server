@@ -4,7 +4,7 @@ using Serilog.Context;
 using Serilog.Core;
 using Serilog.Core.Enrichers;
 
-namespace Expensely.Presentation.Api.Middleware
+namespace Expensely.WebApp.Middleware
 {
     /// <summary>
     /// Represents the log context enrichment middleware.

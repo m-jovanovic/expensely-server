@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
+using Expensely.Domain.Abstractions;
 using Expensely.Domain.Modules.Messages;
 using Expensely.Domain.Primitives;
 using Raven.Client.Documents.Session;

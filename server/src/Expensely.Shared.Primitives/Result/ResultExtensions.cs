@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Expensely.Shared.Primitives.Errors;
 
-namespace Expensely.Domain.Primitives.Result
+namespace Expensely.Shared.Primitives.Result
 {
     /// <summary>
     /// Contains extension methods for the result class.

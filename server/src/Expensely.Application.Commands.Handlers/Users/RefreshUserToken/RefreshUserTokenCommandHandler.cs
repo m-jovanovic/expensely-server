@@ -6,11 +6,12 @@ using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Commands.Users;
 using Expensely.Application.Contracts.Users;
 using Expensely.Common.Abstractions.Clock;
+using Expensely.Common.Abstractions.Messaging;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.Primitives.Maybe;
-using Expensely.Domain.Primitives.Result;
+using Expensely.Shared.Primitives.Maybe;
+using Expensely.Shared.Primitives.Result;
 
 namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
 {

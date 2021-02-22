@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Expensely.Domain.Abstractions;
 using Expensely.Domain.Primitives;
 
 namespace Expensely.BackgroundTasks.MessageProcessing.Factories

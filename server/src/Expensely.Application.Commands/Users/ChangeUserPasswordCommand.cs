@@ -1,6 +1,6 @@
 ﻿using System;
-using Expensely.Application.Abstractions.Messaging;
-using Expensely.Domain.Primitives.Result;
+using Expensely.Common.Abstractions.Messaging;
+using Expensely.Shared.Primitives.Result;
 
 namespace Expensely.Application.Commands.Users
 {

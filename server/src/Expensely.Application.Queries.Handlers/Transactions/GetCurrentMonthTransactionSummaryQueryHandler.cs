@@ -4,7 +4,8 @@ using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Queries.Processors.Transactions;
 using Expensely.Application.Queries.Transactions;
-using Expensely.Domain.Primitives.Maybe;
+using Expensely.Common.Abstractions.Messaging;
+using Expensely.Shared.Primitives.Maybe;
 
 namespace Expensely.Application.Queries.Handlers.Transactions
 {
