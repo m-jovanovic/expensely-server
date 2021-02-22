@@ -1,4 +1,4 @@
-﻿using Expensely.Presentation.Api;
+﻿using System.Reflection;
 using Expensely.WebApp.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +14,7 @@ namespace Expensely.WebApp.ServiceInstallers.Middleware
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services) =>
             services.Scan(scan =>
-                scan.FromAssemblies(PresentationAssembly.Assembly)
+                scan.FromAssemblies(Assembly.GetExecutingAssembly())
                     .AddClasses(filter => filter.AssignableTo<IMiddleware>())
                     .UsingRegistrationStrategy(RegistrationStrategy.Throw)
                     .AsSelf()
