@@ -3,9 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.BackgroundTasks.MessageProcessing.Factories;
+using Expensely.BackgroundTasks.MessageProcessing.Settings;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Messages;
+using Microsoft.Extensions.Options;
 
 namespace Expensely.BackgroundTasks.MessageProcessing.Services
 {
@@ -14,6 +16,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
     /// </summary>
     public sealed class MessageDispatcher : IMessageDispatcher
     {
+        private readonly MessageProcessingJobSettings _settings;
         private readonly IEventHandlerFactory _eventHandlerFactory;
         private readonly IEventHandlerHandleMethodFactory _eventHandlerHandleMethodFactory;
         private readonly IUnitOfWork _unitOfWork;
@@ -22,16 +25,19 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageDispatcher"/> class.
         /// </summary>
+        /// <param name="messageProcessingJobSettingsOptions">The message processing job settings options.</param>
         /// <param name="eventHandlerFactory">The event handler factory.</param>
         /// <param name="eventHandlerHandleMethodFactory">The event handler handle method factory.</param>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="systemTime">The system time.</param>
         public MessageDispatcher(
+            IOptions<MessageProcessingJobSettings> messageProcessingJobSettingsOptions,
             IEventHandlerFactory eventHandlerFactory,
             IEventHandlerHandleMethodFactory eventHandlerHandleMethodFactory,
             IUnitOfWork unitOfWork,
             ISystemTime systemTime)
         {
+            _settings = messageProcessingJobSettingsOptions.Value;
             _eventHandlerFactory = eventHandlerFactory;
             _unitOfWork = unitOfWork;
             _systemTime = systemTime;
@@ -60,7 +66,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
                 }
                 catch (Exception ex)
                 {
-                    message.IncrementRetryCount();
+                    message.Retry(_settings.RetryCountThreshold);
 
                     await _unitOfWork.SaveChangesAsync(cancellationToken);
 

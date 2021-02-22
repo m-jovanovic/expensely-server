@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Expensely.Domain.Abstractions;
+using Expensely.Domain.Modules.Messages.Events;
 using Expensely.Domain.Primitives;
 
 namespace Expensely.Domain.Modules.Messages
 {
     /// <summary>
-    /// Represents the message that can be published.
+    /// Represents the message that contains the event that has been published.
     /// </summary>
-    public sealed class Message : Entity, IAuditableEntity
+    public sealed class Message : AggregateRoot, IAuditableEntity
     {
         private readonly HashSet<MessageConsumer> _messageConsumers = new();
 
@@ -63,9 +64,25 @@ namespace Expensely.Domain.Modules.Messages
         public void MarkAsProcessed() => Processed = true;
 
         /// <summary>
-        /// Increments the retry count.
+        /// Attempts to retry the message processing.
         /// </summary>
-        public void IncrementRetryCount() => RetryCount++;
+        /// <param name="retryCountThreshold">The retry count threshold.</param>
+        public void Retry(int retryCountThreshold)
+        {
+            RetryCount++;
+
+            if (RetryCount < retryCountThreshold)
+            {
+                return;
+            }
+
+            Raise(new MessageRetryCountExceededEvent
+            {
+                MessageId = Id
+            });
+
+            MarkAsProcessed();
+        }
 
         /// <summary>
         /// Adds the consumer with the specified name.
