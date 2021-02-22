@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Messages;
-using Expensely.Shared.Primitives.Maybe;
 
 namespace Expensely.BackgroundTasks.MessageProcessing.Services
 {

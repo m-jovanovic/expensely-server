@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Expensely.Domain.Primitives;
-using Expensely.Shared.Primitives.Errors;
+using Expensely.Common.Primitives.Errors;
 using FluentValidation.Results;
 
 namespace Expensely.Application.Abstractions.Exceptions

@@ -1,7 +1,7 @@
-﻿using Expensely.Domain.Errors;
+﻿using Expensely.Common.Primitives.Result;
+using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Primitives;
-using Expensely.Shared.Primitives.Result;
 
 namespace Expensely.Domain.Modules.Transactions
 {

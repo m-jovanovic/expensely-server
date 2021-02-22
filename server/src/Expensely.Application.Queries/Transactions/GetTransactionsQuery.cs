@@ -2,7 +2,7 @@
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Queries.Utility;
 using Expensely.Common.Abstractions.Messaging;
-using Expensely.Shared.Primitives.Maybe;
+using Expensely.Common.Primitives.Maybe;
 
 namespace Expensely.Application.Queries.Transactions
 {

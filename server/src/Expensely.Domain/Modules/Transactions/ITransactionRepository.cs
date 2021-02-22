@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Shared.Primitives.Maybe;
+using Expensely.Common.Primitives.Maybe;
 
 namespace Expensely.Domain.Modules.Transactions
 {

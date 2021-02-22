@@ -1,4 +1,4 @@
-﻿using Expensely.Shared.Primitives.Result;
+﻿using Expensely.Common.Primitives.Result;
 using MediatR;
 
 namespace Expensely.Common.Abstractions.Messaging

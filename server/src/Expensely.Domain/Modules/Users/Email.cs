@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Primitives;
-using Expensely.Shared.Primitives.Result;
 
 namespace Expensely.Domain.Modules.Users
 {

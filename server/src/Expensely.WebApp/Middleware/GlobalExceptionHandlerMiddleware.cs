@@ -4,9 +4,9 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Exceptions;
+using Expensely.Common.Primitives.Errors;
 using Expensely.Domain.Exceptions;
 using Expensely.Presentation.Api.Errors;
-using Expensely.Shared.Primitives.Errors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 

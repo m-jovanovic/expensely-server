@@ -4,13 +4,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Messaging;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.Constants;
 using Expensely.Common.Abstractions.Messaging;
-using Expensely.Domain.Primitives;
-using Expensely.Shared.Primitives.Errors;
-using Expensely.Shared.Primitives.Result;
+using Expensely.Common.Primitives.Errors;
+using Expensely.Common.Primitives.Result;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

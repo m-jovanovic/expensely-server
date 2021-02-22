@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Shared.Primitives.Errors;
+using Expensely.Common.Primitives.Errors;
 
 namespace Expensely.Domain.Exceptions
 {

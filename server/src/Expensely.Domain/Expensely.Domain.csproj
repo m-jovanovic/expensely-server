@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Expensely.Shared.Primitives\Expensely.Shared.Primitives.csproj" />
+    <ProjectReference Include="..\Expensely.Common.Primitives\Expensely.Common.Primitives.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,5 @@
-﻿using Expensely.Domain.Exceptions;
-using Expensely.Domain.Primitives;
-using Expensely.Shared.Primitives.Errors;
+﻿using Expensely.Common.Primitives.Errors;
+using Expensely.Domain.Exceptions;
 
 namespace Expensely.Domain.Modules.Shared.Exceptions
 {

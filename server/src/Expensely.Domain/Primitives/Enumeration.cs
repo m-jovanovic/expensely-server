@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Expensely.Shared.Primitives.Maybe;
+using Expensely.Common.Primitives.Maybe;
 
 namespace Expensely.Domain.Primitives
 {

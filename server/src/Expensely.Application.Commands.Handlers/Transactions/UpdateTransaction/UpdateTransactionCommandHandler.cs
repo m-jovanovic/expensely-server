@@ -2,15 +2,14 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Commands.Transactions;
 using Expensely.Common.Abstractions.Messaging;
+using Expensely.Common.Primitives.Maybe;
+using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
-using Expensely.Shared.Primitives.Maybe;
-using Expensely.Shared.Primitives.Result;
 
 namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Shared.Primitives.Maybe
+namespace Expensely.Common.Primitives.Maybe
 {
     /// <summary>
     /// Represents a wrapper around a value that may or may not be null.

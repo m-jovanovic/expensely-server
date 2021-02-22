@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using Expensely.Domain.Primitives;
-using Expensely.Shared.Primitives.Errors;
+using Expensely.Common.Primitives.Errors;
 
 namespace Expensely.Presentation.Api.Errors
 {

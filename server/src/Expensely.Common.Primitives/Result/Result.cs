@@ -1,7 +1,7 @@
 ﻿using System;
-using Expensely.Shared.Primitives.Errors;
+using Expensely.Common.Primitives.Errors;
 
-namespace Expensely.Shared.Primitives.Result
+namespace Expensely.Common.Primitives.Result
 {
     /// <summary>
     /// Represents a result of some operation, with status information and possibly an error.

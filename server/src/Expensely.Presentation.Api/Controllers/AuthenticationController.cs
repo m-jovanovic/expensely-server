@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Users;
 using Expensely.Application.Contracts.Users;
+using Expensely.Common.Primitives.Result;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Errors;
 using Expensely.Presentation.Api.Infrastructure;
-using Expensely.Shared.Primitives.Result;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

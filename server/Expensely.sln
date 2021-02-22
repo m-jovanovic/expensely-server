@@ -22,13 +22,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{CB149E68-EA3D-45D4-BA29-D973ABCBD35F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{4E290B18-69E5-49B4-8B9D-70D64BEF994A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{4E290B18-69E5-49B4-8B9D-70D64BEF994A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{288F5452-E668-4A6D-8FFF-5DF85F3E574D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain", "src\Expensely.Domain\Expensely.Domain.csproj", "{7D73DC06-BEED-4741-9F87-C16BDB198FD3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Common.Abstractions", "src\Expensely.Common.Abstractions\Expensely.Common.Abstractions.csproj", "{172DD32C-86B7-4E5C-B474-0DB5E1A6EEF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Common.Primitives", "src\Expensely.Common.Primitives\Expensely.Common.Primitives.csproj", "{627DF6F5-16F5-4E0F-AFD5-5FD9303D2026}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Contracts", "src\Expensely.Application.Contracts\Expensely.Application.Contracts.csproj", "{53D7DCAC-6838-42BB-860D-E6E8DED12402}"
 EndProject
@@ -61,8 +63,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.UnitTests", "tests\Expensely.Application.UnitTests\Expensely.Application.UnitTests.csproj", "{10B9A9F4-20A5-40CB-A623-16174972BB93}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain.UnitTests", "tests\Expensely.Domain.UnitTests\Expensely.Domain.UnitTests.csproj", "{9F015B22-D937-459A-9CF5-F759594AACEB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Shared.Primitives", "src\Expensely.Shared.Primitives\Expensely.Shared.Primitives.csproj", "{627DF6F5-16F5-4E0F-AFD5-5FD9303D2026}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

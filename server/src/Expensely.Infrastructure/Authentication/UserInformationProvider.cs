@@ -1,8 +1,8 @@
 ﻿using Expensely.Application.Abstractions.Authentication;
 using Expensely.Common.Abstractions.ServiceLifetimes;
+using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Infrastructure.Extensions;
-using Expensely.Shared.Primitives.Maybe;
 using Microsoft.AspNetCore.Http;
 
 namespace Expensely.Infrastructure.Authentication

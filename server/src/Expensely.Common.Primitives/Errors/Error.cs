@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Shared.Primitives.Errors
+namespace Expensely.Common.Primitives.Errors
 {
     /// <summary>
     /// Represents a concrete domain error.

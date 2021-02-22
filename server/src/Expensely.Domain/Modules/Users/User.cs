@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users.Events;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
-using Expensely.Shared.Primitives.Result;
 
 namespace Expensely.Domain.Modules.Users
 {
