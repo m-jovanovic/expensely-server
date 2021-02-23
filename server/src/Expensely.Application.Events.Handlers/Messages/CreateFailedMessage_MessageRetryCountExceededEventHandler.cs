@@ -47,6 +47,8 @@ namespace Expensely.Application.Events.Handlers.Messages
 
             await _failedMessageRepository.AddAsync(failedMessage, cancellationToken);
 
+            _messageRepository.Remove(maybeMessage.Value);
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }

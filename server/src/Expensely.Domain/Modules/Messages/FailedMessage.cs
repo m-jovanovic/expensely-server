@@ -12,7 +12,9 @@ namespace Expensely.Domain.Modules.Messages
         /// Initializes a new instance of the <see cref="FailedMessage"/> class.
         /// </summary>
         /// <param name="message">The message that has failed.</param>
-        public FailedMessage(Message message) => Message = message;
+        public FailedMessage(Message message)
+            : base(Guid.NewGuid())
+            => Message = message;
 
         /// <summary>
         /// Gets the message.
