@@ -6,6 +6,8 @@ export class Login {
 
 export class Logout {
   public static readonly type = '[Authentication] Logout';
+
+  constructor(public returnUrl?: string) {}
 }
 
 export class Register {

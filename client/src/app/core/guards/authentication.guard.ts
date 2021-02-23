@@ -12,14 +12,16 @@ export class AuthenticationGuard implements CanActivate, CanLoad {
   constructor(private authenticationFacade: AuthenticationFacade) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.isAuthenticated();
+    return this.isAuthenticated(state.url);
   }
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> {
-    return this.isAuthenticated();
+    return this.isAuthenticated(
+      segments.map((urlSegment) => urlSegment.path).reduce((previous, current) => (previous += `/${current}`), '')
+    );
   }
 
-  private isAuthenticated(): Observable<boolean> {
+  private isAuthenticated(returnUrl: string): Observable<boolean> {
     return this.authenticationFacade.isLoggedIn$.pipe(
       take(1),
       tap((isLoggedIn: boolean) => {
@@ -27,7 +29,7 @@ export class AuthenticationGuard implements CanActivate, CanLoad {
           return;
         }
 
-        this.authenticationFacade.logout().subscribe();
+        this.authenticationFacade.logout(returnUrl).subscribe();
       })
     );
   }

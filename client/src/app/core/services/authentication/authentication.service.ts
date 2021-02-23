@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 
@@ -15,7 +16,7 @@ import { LoginRequest, RefreshTokenRequest, RegisterRequest, TokenResponse } fro
 export class AuthenticationService extends ApiService {
   private refreshTokenTimer;
 
-  constructor(client: HttpClient, private routerService: RouterService, private jwtService: JwtService) {
+  constructor(client: HttpClient, private routerService: RouterService, private jwtService: JwtService, private route: ActivatedRoute) {
     super(client);
   }
 
@@ -25,15 +26,19 @@ export class AuthenticationService extends ApiService {
       tap((tokenResponse: TokenResponse) => {
         this.startRefreshTokenTimer(tokenResponse);
 
-        this.routerService.navigate(['']);
+        const returnUrl: string = this.route.snapshot.queryParamMap.get('returnUrl') || '';
+
+        this.routerService.navigate([returnUrl]);
       })
     );
   }
 
-  logout(): Observable<any> {
+  logout(returnUrl?: string): Observable<any> {
     this.stopRefreshTokenTimer();
 
-    return this.routerService.navigate(['/login']);
+    const params: Params = returnUrl ? { queryParams: returnUrl } : null;
+
+    return this.routerService.navigate(['/login'], params);
   }
 
   register(request: RegisterRequest): Observable<any> {

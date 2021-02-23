@@ -22,8 +22,8 @@ export class AuthenticationFacade {
     return this.store.dispatch(new Login(email, password));
   }
 
-  logout(): Observable<any> {
-    return this.store.dispatch(new Logout());
+  logout(returnUrl?: string): Observable<any> {
+    return this.store.dispatch(new Logout(returnUrl));
   }
 
   register(firstName: string, lastName: string, email: string, password: string, confirmationPassword: string): Observable<any> {

@@ -39,8 +39,8 @@ export class AuthenticationState {
   }
 
   @Action(Logout)
-  logout(): Observable<any> {
-    return this.authenticationService.logout();
+  logout(context: StateContext<AuthenticationStateModel>, action: Logout): Observable<any> {
+    return this.authenticationService.logout(action.returnUrl);
   }
 
   @Action(Register)
