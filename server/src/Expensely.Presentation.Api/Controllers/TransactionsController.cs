@@ -50,6 +50,18 @@ namespace Expensely.Presentation.Api.Controllers
                 .Match(Ok, NotFound);
 
         /// <summary>
+        /// Gets the transaction for the specified identifier.
+        /// </summary>
+        /// <param name="transactionId">The transaction identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>200 - OK if the transaction with the specified identifier is found, otherwise 404 - Not Found.</returns>
+        public async Task<IActionResult> GetTransactionById(Guid transactionId, CancellationToken cancellationToken) =>
+            await Maybe<GetTransactionByIdQuery>
+                .From(new GetTransactionByIdQuery(transactionId.ToString()))
+                .Bind(query => Sender.Send(query, cancellationToken))
+                .Match(Ok, NotFound);
+
+        /// <summary>
         /// Gets the current month transaction summary for the specified parameters.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
