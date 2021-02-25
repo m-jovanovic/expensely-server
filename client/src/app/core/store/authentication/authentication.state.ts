@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { State, StateContext, Action } from '@ngxs/store';
 
@@ -48,9 +48,7 @@ export class AuthenticationState {
     const authenticationState = context.getState();
 
     if (!authenticationState?.refreshTokenExpiresOnUtc || new Date(authenticationState.refreshTokenExpiresOnUtc).getTime() < Date.now()) {
-      context.dispatch(new Logout());
-
-      return of(null);
+      return throwError(new Error('Refresh token has expired!'));
     }
 
     return this.authenticationService.refreshToken(new RefreshTokenRequest(authenticationState.refreshToken)).pipe(

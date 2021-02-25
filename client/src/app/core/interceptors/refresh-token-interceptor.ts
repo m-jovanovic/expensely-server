@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { catchError, concatMap } from 'rxjs/operators';
 
 import { AuthenticationFacade } from '../store';
-import { catchError, mergeMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,17 +15,17 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      catchError((httpErrorResponse: HttpErrorResponse) => {
-        if (httpErrorResponse.status !== this.unauthorizedStatusCode) {
-          return throwError(httpErrorResponse);
+      catchError((error: HttpErrorResponse) => {
+        if (error.status !== this.unauthorizedStatusCode) {
+          return throwError(error);
         }
 
         return this.authenticationFacade.refreshToken().pipe(
-          mergeMap(() => {
+          concatMap(() => {
             return next.handle(req);
           }),
-          catchError((innerHttpErrorResponse: HttpErrorResponse) => {
-            return throwError(innerHttpErrorResponse);
+          catchError((innerError: HttpErrorResponse) => {
+            return throwError(innerError);
           })
         );
       })
