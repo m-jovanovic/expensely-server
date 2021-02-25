@@ -14,18 +14,14 @@ import { LoginRequest, RefreshTokenRequest, RegisterRequest, TokenResponse } fro
   providedIn: 'root'
 })
 export class AuthenticationService extends ApiService {
-  private refreshTokenTimer;
-
-  constructor(client: HttpClient, private routerService: RouterService, private jwtService: JwtService, private route: ActivatedRoute) {
+  constructor(client: HttpClient, private routerService: RouterService, private route: ActivatedRoute) {
     super(client);
   }
 
   login(request: LoginRequest): Observable<TokenResponse> {
     return this.post<TokenResponse>(ApiRoutes.Authentication.login, request).pipe(
       first(),
-      tap((tokenResponse: TokenResponse) => {
-        this.startRefreshTokenTimer(tokenResponse);
-
+      tap(() => {
         const returnUrl: string = this.route.snapshot.queryParamMap.get('returnUrl') || '';
 
         this.routerService.navigate([returnUrl]);
@@ -34,8 +30,6 @@ export class AuthenticationService extends ApiService {
   }
 
   logout(returnUrl?: string): Observable<any> {
-    this.stopRefreshTokenTimer();
-
     const params: Params = returnUrl ? { returnUrl: returnUrl } : null;
 
     return this.routerService.navigate(['/login'], params);
@@ -46,32 +40,6 @@ export class AuthenticationService extends ApiService {
   }
 
   refreshToken(request: RefreshTokenRequest): Observable<TokenResponse> {
-    return this.post<TokenResponse>(ApiRoutes.Authentication.refreshToken, request).pipe(
-      first(),
-      tap((tokenResponse: TokenResponse) => {
-        this.startRefreshTokenTimer(tokenResponse);
-      })
-    );
-  }
-
-  private startRefreshTokenTimer(tokenResponse: TokenResponse): void {
-    const tokenInfo = this.jwtService.decodeToken(tokenResponse.token);
-
-    const tokenExpiresOn = new Date(tokenInfo.exp);
-
-    const oneMinuteInMilliseconds = 60 * 1000;
-
-    const tokenExpirationInMilliseconds = tokenExpiresOn.getTime() - Date.now();
-
-    const timeoutInMilliseconds = tokenExpirationInMilliseconds - oneMinuteInMilliseconds;
-
-    this.refreshTokenTimer = setTimeout(
-      () => this.refreshToken(new RefreshTokenRequest(tokenResponse.refreshToken)).subscribe(),
-      timeoutInMilliseconds
-    );
-  }
-
-  private stopRefreshTokenTimer(): void {
-    clearTimeout(this.refreshTokenTimer);
+    return this.post<TokenResponse>(ApiRoutes.Authentication.refreshToken, request).pipe(first());
   }
 }
