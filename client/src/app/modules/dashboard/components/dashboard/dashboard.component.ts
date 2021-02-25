@@ -13,12 +13,12 @@ export class DashboardComponent implements OnInit {
   constructor(public transactionFacade: TransactionFacade, public transactionSummaryFacade: TransactionSummaryFacade) {}
 
   ngOnInit(): void {
-    this.transactionFacade.loadTransactions(this.numberOfTransactions).subscribe();
+    this.transactionFacade.loadTransactions(this.numberOfTransactions);
 
-    this.transactionSummaryFacade.loadTransactionSummary().subscribe();
+    this.transactionSummaryFacade.loadTransactionSummary();
   }
 
   deleteTransaction(transactionId: string): void {
-    this.transactionFacade.deleteTransaction(transactionId).subscribe();
+    this.transactionFacade.deleteTransaction(transactionId);
   }
 }
