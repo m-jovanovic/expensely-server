@@ -25,8 +25,6 @@ export class TransactionSummaryFacade {
   constructor(private store: Store, private authenticationFacade: AuthenticationFacade) {}
 
   loadTransactionSummary(): Observable<any> {
-    return this.store.dispatch(
-      new LoadTransactionSummary(this.authenticationFacade.userId, this.authenticationFacade.tokenInfo?.primaryCurrency)
-    );
+    return this.store.dispatch(new LoadTransactionSummary(this.authenticationFacade.userId, this.authenticationFacade.userPrimaryCurrency));
   }
 }

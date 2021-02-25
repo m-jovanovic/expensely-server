@@ -19,4 +19,25 @@ export class AuthenticationSelectors {
   static getIsLoggedIn(tokenInfo: TokenInfo): boolean {
     return tokenInfo?.exp > Date.now();
   }
+
+  @Selector([AuthenticationSelectors.getTokenInfo])
+  static getUserId(tokenInfo: TokenInfo): string {
+    return tokenInfo.userId;
+  }
+
+  @Selector([AuthenticationSelectors.getTokenInfo])
+  static getUserPrimaryCurrency(tokenInfo: TokenInfo): number {
+    return tokenInfo.primaryCurrency;
+  }
+
+  @Selector([AuthenticationSelectors.getTokenInfo])
+  static getUserInitials(tokenInfo: TokenInfo): string {
+    const nameParts = tokenInfo?.name.split(' ').map((part) => part.toUpperCase());
+
+    if (nameParts?.length === 0 || nameParts?.some((x) => x.length === 0)) {
+      return '';
+    }
+
+    return `${nameParts[0][0]}${nameParts[1][0]}`;
+  }
 }

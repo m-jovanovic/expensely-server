@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 
 import { Login, Logout, RefreshToken, Register } from './authentication.actions';
 import { AuthenticationSelectors } from './authentication.selectors';
-import { JwtService } from '../../services/common/jwt-service';
-import { TokenInfo } from '../../contracts/authentication/token-info';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +12,7 @@ export class AuthenticationFacade {
   @Select(AuthenticationSelectors.getIsLoggedIn)
   isLoggedIn$: Observable<boolean>;
 
-  constructor(private store: Store, private jwtService: JwtService) {}
+  constructor(private store: Store) {}
 
   login(email: string, password: string): Observable<any> {
     return this.store.dispatch(new Login(email, password));
@@ -36,15 +34,15 @@ export class AuthenticationFacade {
     return this.store.selectSnapshot(AuthenticationSelectors.getToken);
   }
 
-  get tokenInfo(): TokenInfo | null {
-    return this.decodeToken(this.token);
-  }
-
   get userId(): string | null {
-    return this.tokenInfo?.userId;
+    return this.store.selectSnapshot(AuthenticationSelectors.getUserId);
   }
 
-  private decodeToken(token: string): TokenInfo | null {
-    return this.jwtService.decodeToken(token);
+  get userInitials(): string | null {
+    return this.store.selectSnapshot(AuthenticationSelectors.getUserInitials);
+  }
+
+  get userPrimaryCurrency(): number {
+    return this.store.selectSnapshot(AuthenticationSelectors.getUserPrimaryCurrency);
   }
 }

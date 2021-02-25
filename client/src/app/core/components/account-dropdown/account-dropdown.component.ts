@@ -1,6 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 
-import { TokenInfo } from '@expensely/core/contracts';
 import { AuthenticationFacade } from '@expensely/core/store';
 
 @Component({
@@ -22,7 +21,7 @@ export class AccountDropdownComponent implements OnInit {
   constructor(private elementRef: ElementRef, private authenticationFacade: AuthenticationFacade) {}
 
   ngOnInit(): void {
-    this.userInitials = this.parseUserInitials(this.authenticationFacade.tokenInfo);
+    this.userInitials = this.authenticationFacade.userInitials;
   }
 
   toggleDropdownMenu(): void {
@@ -31,15 +30,5 @@ export class AccountDropdownComponent implements OnInit {
 
   logout(): void {
     this.authenticationFacade.logout();
-  }
-
-  private parseUserInitials(tokenInfo: TokenInfo): string {
-    const nameParts = tokenInfo.name.split(' ');
-
-    if (nameParts.length === 0 || nameParts.some((x) => x.length === 0)) {
-      return 'N/A';
-    }
-
-    return `${nameParts[0][0]}${nameParts[1][0]}`;
   }
 }
