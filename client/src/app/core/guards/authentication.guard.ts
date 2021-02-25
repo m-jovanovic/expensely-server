@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { first, tap } from 'rxjs/operators';
 
 import { AuthenticationFacade } from '../store/authentication/authentication.facade';
 
@@ -23,13 +23,13 @@ export class AuthenticationGuard implements CanActivate, CanLoad {
 
   private isAuthenticated(returnUrl: string): Observable<boolean> {
     return this.authenticationFacade.isLoggedIn$.pipe(
-      take(1),
+      first(),
       tap((isLoggedIn: boolean) => {
         if (isLoggedIn) {
           return;
         }
 
-        this.authenticationFacade.logout(returnUrl).subscribe();
+        this.authenticationFacade.logout(returnUrl);
       })
     );
   }
