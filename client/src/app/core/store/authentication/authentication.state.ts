@@ -18,11 +18,6 @@ import { AuthenticationService, RouterService } from '../../services';
 })
 @Injectable()
 export class AuthenticationState {
-  @Selector()
-  static token(state: AuthenticationStateModel): string {
-    return state.token;
-  }
-
   constructor(private authenticationService: AuthenticationService) {}
 
   @Action(Login)

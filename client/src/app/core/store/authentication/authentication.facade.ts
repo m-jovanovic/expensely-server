@@ -3,8 +3,8 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AuthenticationState } from './authentication.state';
 import { Login, Logout, RefreshToken, Register } from './authentication.actions';
+import { AuthenticationSelectors } from './authentication.selectors';
 import { JwtService } from '../../services/common/jwt-service';
 import { TokenInfo } from '../../contracts/authentication/token-info';
 
@@ -35,7 +35,7 @@ export class AuthenticationFacade {
   }
 
   get token(): string | null {
-    return this.store.selectSnapshot(AuthenticationState.token);
+    return this.store.selectSnapshot(AuthenticationSelectors.getToken);
   }
 
   get tokenInfo(): TokenInfo | null {
@@ -51,6 +51,6 @@ export class AuthenticationFacade {
   }
 
   private initializeIsLoggedIn(): void {
-    this.isLoggedIn$ = this.store.select(AuthenticationState.token).pipe(map((token) => this.decodeToken(token)?.exp > Date.now()));
+    this.isLoggedIn$ = this.store.select(AuthenticationSelectors.getToken).pipe(map((token) => this.decodeToken(token)?.exp > Date.now()));
   }
 }
