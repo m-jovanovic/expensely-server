@@ -1,3 +1,4 @@
+import { TokenInfo } from '@expensely/core/contracts';
 import { Selector } from '@ngxs/store';
 
 import { AuthenticationStateModel } from './authentication-state.model';
@@ -10,7 +11,12 @@ export class AuthenticationSelectors {
   }
 
   @Selector([AuthenticationState])
-  static getIsLoggedIn(state: AuthenticationStateModel): boolean {
-    return state.tokenInfo.exp > Date.now();
+  static getTokenInfo(state: AuthenticationStateModel): TokenInfo {
+    return state.tokenInfo;
+  }
+
+  @Selector([AuthenticationSelectors.getTokenInfo])
+  static getIsLoggedIn(tokenInfo: TokenInfo): boolean {
+    return tokenInfo?.exp > Date.now();
   }
 }
