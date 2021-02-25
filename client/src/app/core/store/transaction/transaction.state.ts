@@ -20,21 +20,6 @@ import { CreateTransactionRequest, TransactionListResponse, TransactionResponse 
 })
 @Injectable()
 export class TransactionState {
-  @Selector()
-  static transactions(state: TransactionStateModel): TransactionResponse[] {
-    return state.transactions;
-  }
-
-  @Selector()
-  static isLoading(state: TransactionStateModel): boolean {
-    return state.isLoading;
-  }
-
-  @Selector()
-  static error(state: TransactionStateModel): boolean {
-    return state.error;
-  }
-
   constructor(private transactionService: TransactionService) {}
 
   @Action(CreateTransaction)

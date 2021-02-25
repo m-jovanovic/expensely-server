@@ -4,20 +4,20 @@ import { Select, Store } from '@ngxs/store';
 
 import { AuthenticationFacade } from '../authentication';
 import { CreateTransaction, DeleteTransaction, LoadTransactions } from './transaction.actions';
-import { TransactionState } from './transaction.state';
+import { TransactionSelectors } from './transaction.selectors';
 import { TransactionResponse } from '../../contracts/transactions/transaction-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionFacade {
-  @Select(TransactionState.transactions)
+  @Select(TransactionSelectors.transactions)
   transactions$: Observable<TransactionResponse>;
 
-  @Select(TransactionState.isLoading)
+  @Select(TransactionSelectors.isLoading)
   isLoading$: Observable<boolean>;
 
-  @Select(TransactionState.error)
+  @Select(TransactionSelectors.error)
   error$: Observable<boolean>;
 
   constructor(private store: Store, private authenticationFacade: AuthenticationFacade) {}
