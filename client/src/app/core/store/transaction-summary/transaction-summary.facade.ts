@@ -4,22 +4,22 @@ import { Observable } from 'rxjs';
 
 import { AuthenticationFacade } from '../authentication';
 import { LoadTransactionSummary } from './transaction-summary.actions';
-import { TransactionSummaryState } from './transaction-summary.state';
+import { TransactionSummarySelectors } from './transaction-summary.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionSummaryFacade {
-  @Select(TransactionSummaryState.income)
+  @Select(TransactionSummarySelectors.income)
   income$: Observable<string>;
 
-  @Select(TransactionSummaryState.expense)
+  @Select(TransactionSummarySelectors.expense)
   expense$: Observable<string>;
 
-  @Select(TransactionSummaryState.isLoading)
+  @Select(TransactionSummarySelectors.isLoading)
   isLoading$: Observable<boolean>;
 
-  @Select(TransactionSummaryState.error)
+  @Select(TransactionSummarySelectors.error)
   error$: Observable<boolean>;
 
   constructor(private store: Store, private authenticationFacade: AuthenticationFacade) {}

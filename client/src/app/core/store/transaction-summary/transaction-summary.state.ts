@@ -20,26 +20,6 @@ import { TransactionSummaryResponse } from '@expensely/core/contracts/transactio
 })
 @Injectable()
 export class TransactionSummaryState {
-  @Selector()
-  static expense(state: TransactionSummaryStateModel): string {
-    return state.expense;
-  }
-
-  @Selector()
-  static income(state: TransactionSummaryStateModel): string {
-    return state.income;
-  }
-
-  @Selector()
-  static isLoading(state: TransactionSummaryStateModel): boolean {
-    return state.isLoading;
-  }
-
-  @Selector()
-  static error(state: TransactionSummaryStateModel): boolean {
-    return state.error;
-  }
-
   constructor(private transactionService: TransactionService) {}
 
   @Action(LoadTransactionSummary)
