@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { Login, Logout, RefreshToken, Register } from './authentication.actions';
 import { AuthenticationSelectors } from './authentication.selectors';
@@ -12,11 +11,10 @@ import { TokenInfo } from '../../contracts/authentication/token-info';
   providedIn: 'root'
 })
 export class AuthenticationFacade {
+  @Select(AuthenticationSelectors.getIsLoggedIn)
   isLoggedIn$: Observable<boolean>;
 
-  constructor(private store: Store, private jwtService: JwtService) {
-    this.initializeIsLoggedIn();
-  }
+  constructor(private store: Store, private jwtService: JwtService) {}
 
   login(email: string, password: string): Observable<any> {
     return this.store.dispatch(new Login(email, password));
@@ -48,9 +46,5 @@ export class AuthenticationFacade {
 
   private decodeToken(token: string): TokenInfo | null {
     return this.jwtService.decodeToken(token);
-  }
-
-  private initializeIsLoggedIn(): void {
-    this.isLoggedIn$ = this.store.select(AuthenticationSelectors.getToken).pipe(map((token) => this.decodeToken(token)?.exp > Date.now()));
   }
 }

@@ -19,7 +19,11 @@ import { environment } from '../environments/environment';
       enabled: environment.production
     }),
     NgxsModule.forRoot([AuthenticationState], {
-      developmentMode: !environment.production
+      developmentMode: !environment.production,
+      selectorOptions: {
+        suppressErrors: false,
+        injectContainerState: false
+      }
     }),
     NgxsStoragePluginModule.forRoot({
       key: [AuthenticationState]
