@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { State, StateContext, Action, Selector } from '@ngxs/store';
+import { State, StateContext, Action } from '@ngxs/store';
 
 import { CurrencyStateModel } from './currency-state.model';
 import { LoadCurrencies } from './currency.actions';
@@ -18,16 +18,6 @@ import { CurrencyResponse } from '../../contracts/transactions/currency-response
 })
 @Injectable()
 export class CurrencyState {
-  @Selector()
-  static currencies(state: CurrencyStateModel): CurrencyResponse[] {
-    return state.currencies;
-  }
-
-  @Selector()
-  static isLoading(state: CurrencyStateModel): boolean {
-    return state.isLoading;
-  }
-
   constructor(private currencyService: CurrencyService) {}
 
   @Action(LoadCurrencies)

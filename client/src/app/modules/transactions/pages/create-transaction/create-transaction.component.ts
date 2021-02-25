@@ -59,9 +59,9 @@ export class CreateTransactionComponent implements OnInit {
       })
     );
 
-    this.categoryFacade.loadCategories().subscribe();
+    this.categoryFacade.loadCategories();
 
-    this.currencyFacade.loadCurrencies().subscribe();
+    this.currencyFacade.loadCurrencies();
   }
 
   onCancel(): void {

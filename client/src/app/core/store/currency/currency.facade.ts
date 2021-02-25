@@ -3,17 +3,17 @@ import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 
 import { LoadCurrencies } from './currency.actions';
-import { CurrencyState } from './currency.state';
+import { CurrencySelectors } from './currency.selectors';
 import { CurrencyResponse } from '../../contracts/transactions/currency-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CurrencyFacade {
-  @Select(CurrencyState.currencies)
+  @Select(CurrencySelectors.getCurrencies)
   currencies$: Observable<CurrencyResponse[]>;
 
-  @Select(CurrencyState.isLoading)
+  @Select(CurrencySelectors.getIsLoading)
   isLoading$: Observable<boolean>;
 
   constructor(private store: Store) {}
