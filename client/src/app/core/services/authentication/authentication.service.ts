@@ -36,7 +36,7 @@ export class AuthenticationService extends ApiService {
   logout(returnUrl?: string): Observable<any> {
     this.stopRefreshTokenTimer();
 
-    const params: Params = returnUrl ? { queryParams: returnUrl } : null;
+    const params: Params = returnUrl ? { returnUrl: returnUrl } : null;
 
     return this.routerService.navigate(['/login'], params);
   }

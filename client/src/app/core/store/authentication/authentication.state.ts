@@ -6,7 +6,7 @@ import { State, StateContext, Action } from '@ngxs/store';
 import { AuthenticationStateModel, initialState } from './authentication-state.model';
 import { Login, Logout, RefreshToken, Register } from './authentication.actions';
 import { TokenResponse, LoginRequest, RegisterRequest, RefreshTokenRequest } from '../../contracts';
-import { AuthenticationService } from '../../services';
+import { AuthenticationService, JwtService } from '../../services';
 
 @State<AuthenticationStateModel>({
   name: 'authentication',
@@ -14,17 +14,15 @@ import { AuthenticationService } from '../../services';
 })
 @Injectable()
 export class AuthenticationState {
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(private authenticationService: AuthenticationService, private jwtService: JwtService) {}
 
   @Action(Login)
   login(context: StateContext<AuthenticationStateModel>, action: Login): Observable<TokenResponse> {
     return this.authenticationService.login(new LoginRequest(action.email, action.password)).pipe(
       tap((response: TokenResponse) => {
-        context.patchState({
-          token: response.token,
-          refreshToken: response.refreshToken,
-          refreshTokenExpiresOnUtc: response.refreshTokenExpiresOnUtc
-        });
+        const authenticationStateModel = this.convertTokenResponseToAuthenticationStateModel(response);
+
+        context.patchState(authenticationStateModel);
       })
     );
   }
@@ -57,12 +55,19 @@ export class AuthenticationState {
 
     return this.authenticationService.refreshToken(new RefreshTokenRequest(authenticationState.refreshToken)).pipe(
       tap((response: TokenResponse) => {
-        context.patchState({
-          token: response.token,
-          refreshToken: response.refreshToken,
-          refreshTokenExpiresOnUtc: response.refreshTokenExpiresOnUtc
-        });
+        const authenticationStateModel = this.convertTokenResponseToAuthenticationStateModel(response);
+
+        context.patchState(authenticationStateModel);
       })
     );
+  }
+
+  private convertTokenResponseToAuthenticationStateModel(tokenResponse: TokenResponse): AuthenticationStateModel {
+    return {
+      token: tokenResponse.token,
+      refreshToken: tokenResponse.refreshToken,
+      refreshTokenExpiresOnUtc: tokenResponse.refreshTokenExpiresOnUtc,
+      tokenInfo: this.jwtService.decodeToken(tokenResponse.token)
+    };
   }
 }
