@@ -15,33 +15,39 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
-        canLoad: [AuthenticationGuard]
+        canLoad: [AuthenticationGuard],
+        canActivate: [AuthenticationGuard],
+        loadChildren: () => import('./modules').then((m) => m.DashboardModule)
       },
       {
         path: 'transactions',
-        loadChildren: () => import('./modules').then((m) => m.TransactionsModule),
-        canLoad: [AuthenticationGuard]
+        canLoad: [AuthenticationGuard],
+        canActivate: [AuthenticationGuard],
+        loadChildren: () => import('./modules').then((m) => m.TransactionsModule)
       },
       {
         path: 'budgets',
-        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
-        canLoad: [AuthenticationGuard]
+        canLoad: [AuthenticationGuard],
+        canActivate: [AuthenticationGuard],
+        loadChildren: () => import('./modules').then((m) => m.DashboardModule)
       },
       {
         path: 'subscription',
-        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
-        canLoad: [AuthenticationGuard]
+        canLoad: [AuthenticationGuard],
+        canActivate: [AuthenticationGuard],
+        loadChildren: () => import('./modules').then((m) => m.DashboardModule)
       },
       {
         path: 'account',
-        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
-        canLoad: [AuthenticationGuard]
+        canLoad: [AuthenticationGuard],
+        canActivate: [AuthenticationGuard],
+        loadChildren: () => import('./modules').then((m) => m.DashboardModule)
       },
       {
         path: 'settings',
-        loadChildren: () => import('./modules').then((m) => m.DashboardModule),
-        canLoad: [AuthenticationGuard]
+        canLoad: [AuthenticationGuard],
+        canActivate: [AuthenticationGuard],
+        loadChildren: () => import('./modules').then((m) => m.DashboardModule)
       }
     ]
   },
