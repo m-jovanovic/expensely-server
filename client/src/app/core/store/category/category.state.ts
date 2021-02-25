@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { State, StateContext, Action, Selector } from '@ngxs/store';
+import { State, StateContext, Action } from '@ngxs/store';
 
 import { CategoryStateModel } from './category-state.model';
 import { LoadCategories } from './category.actions';
@@ -18,16 +18,6 @@ import { CategoryResponse } from '../../contracts/transactions/category-response
 })
 @Injectable()
 export class CategoryState {
-  @Selector()
-  static categories(state: CategoryStateModel): CategoryResponse[] {
-    return state.categories;
-  }
-
-  @Selector()
-  static isLoading(state: CategoryStateModel): boolean {
-    return state.isLoading;
-  }
-
   constructor(private categoryService: CategoryService) {}
 
   @Action(LoadCategories)

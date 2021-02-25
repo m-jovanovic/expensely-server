@@ -3,17 +3,17 @@ import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 
 import { LoadCategories } from './category.actions';
-import { CategoryState } from './category.state';
+import { CategorySelectors } from './category.selectors';
 import { CategoryResponse } from '@expensely/core/contracts/transactions/category-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryFacade {
-  @Select(CategoryState.categories)
+  @Select(CategorySelectors.getCategories)
   categories$: Observable<CategoryResponse[]>;
 
-  @Select(CategoryState.isLoading)
+  @Select(CategorySelectors.getIsLoading)
   isLoading$: Observable<boolean>;
 
   constructor(private store: Store) {}
