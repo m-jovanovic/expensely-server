@@ -1,20 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { State, StateContext, Action, Selector } from '@ngxs/store';
+import { State, StateContext, Action } from '@ngxs/store';
 
-import { AuthenticationStateModel } from './authentication-state.model';
+import { AuthenticationStateModel, initialState } from './authentication-state.model';
 import { Login, Logout, RefreshToken, Register } from './authentication.actions';
 import { TokenResponse, LoginRequest, RegisterRequest, RefreshTokenRequest } from '../../contracts';
-import { AuthenticationService, RouterService } from '../../services';
+import { AuthenticationService } from '../../services';
 
 @State<AuthenticationStateModel>({
   name: 'authentication',
-  defaults: {
-    token: '',
-    refreshToken: '',
-    refreshTokenExpiresOnUtc: null
-  }
+  defaults: initialState
 })
 @Injectable()
 export class AuthenticationState {
@@ -35,7 +31,11 @@ export class AuthenticationState {
 
   @Action(Logout)
   logout(context: StateContext<AuthenticationStateModel>, action: Logout): Observable<any> {
-    return this.authenticationService.logout(action.returnUrl);
+    return this.authenticationService.logout(action.returnUrl).pipe(
+      tap(() => {
+        context.patchState(initialState);
+      })
+    );
   }
 
   @Action(Register)
