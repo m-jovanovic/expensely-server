@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 
 import { ApiRoutes } from '../../constants/api-routes';
 import { ApiService } from '../api/api.service';
 import { RouterService } from '../common/router.service';
-import { JwtService } from '../common/jwt-service';
 import { LoginRequest, RefreshTokenRequest, RegisterRequest, TokenResponse } from '../../contracts';
 
 @Injectable({
@@ -21,18 +20,16 @@ export class AuthenticationService extends ApiService {
   login(request: LoginRequest): Observable<TokenResponse> {
     return this.post<TokenResponse>(ApiRoutes.Authentication.login, request).pipe(
       first(),
-      tap(() => {
-        const returnUrl: string = this.route.snapshot.queryParamMap.get('returnUrl') || '';
+      tap(async () => {
+        const returnUrl: string = this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
 
-        this.routerService.navigate([returnUrl]);
+        await this.routerService.navigateByUrl(returnUrl);
       })
     );
   }
 
-  logout(returnUrl?: string): Observable<any> {
-    const params: Params = returnUrl ? { returnUrl: returnUrl } : null;
-
-    return this.routerService.navigate(['/login'], params);
+  async logout(returnUrl?: string): Promise<boolean> {
+    return await this.routerService.navigateToLogin(returnUrl);
   }
 
   register(request: RegisterRequest): Observable<any> {

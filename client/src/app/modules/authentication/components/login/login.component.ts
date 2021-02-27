@@ -60,8 +60,8 @@ export class LoginComponent implements OnInit {
       .subscribe();
   }
 
-  redirectToRegister(): void {
-    this.routerService.navigate(['/register']);
+  async redirectToRegister(): Promise<boolean> {
+    return await this.routerService.navigateByUrl('/register');
   }
 
   handleLoginError(errorResponse: ApiErrorResponse): void {

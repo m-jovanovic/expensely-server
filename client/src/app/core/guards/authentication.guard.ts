@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
-import { first, tap } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { RouterService } from '../services';
 
 import { AuthenticationFacade } from '../store/authentication/authentication.facade';
 
@@ -9,28 +9,35 @@ import { AuthenticationFacade } from '../store/authentication/authentication.fac
   providedIn: 'root'
 })
 export class AuthenticationGuard implements CanActivate, CanLoad {
-  constructor(private authenticationFacade: AuthenticationFacade) {}
+  constructor(private authenticationFacade: AuthenticationFacade, private routerService: RouterService) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return this.isAuthenticated(state.url);
   }
 
-  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> {
+  canLoad(route: Route, segments: UrlSegment[]): Promise<boolean> {
     return this.isAuthenticated(
       segments.map((urlSegment) => urlSegment.path).reduce((previous, current) => (previous += `/${current}`), '')
     );
   }
 
-  private isAuthenticated(returnUrl: string): Observable<boolean> {
-    return this.authenticationFacade.isLoggedIn$.pipe(
-      first(),
-      tap((isLoggedIn: boolean) => {
-        if (isLoggedIn) {
-          return;
-        }
+  private async isAuthenticated(returnUrl: string): Promise<boolean> {
+    const isLoggedIn: boolean = await this.authenticationFacade.isLoggedIn$.pipe(take(1)).toPromise();
 
-        this.authenticationFacade.logout(returnUrl);
-      })
-    );
+    if (isLoggedIn) {
+      return true;
+    }
+
+    try {
+      await this.authenticationFacade.refreshToken().toPromise();
+
+      return true;
+    } catch {
+      await this.authenticationFacade.logout().toPromise();
+
+      await this.routerService.navigateToLogin(returnUrl);
+
+      return false;
+    }
   }
 }

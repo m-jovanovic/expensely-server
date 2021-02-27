@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
 
 import { AuthenticationFacade } from '../store';
 import { environment } from '../../../environments/environment';
-import { catchError, filter, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

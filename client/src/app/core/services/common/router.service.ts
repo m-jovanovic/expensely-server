@@ -1,16 +1,33 @@
-import { Injectable } from '@angular/core';
-import { NavigationExtras, Params } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Store } from '@ngxs/store';
-import { Navigate } from '@ngxs/router-plugin';
+import { Injectable, NgZone } from '@angular/core';
+import { Params, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RouterService {
-  constructor(private store: Store) {}
+  constructor(private zone: NgZone, private router: Router) {}
 
-  navigate(paths: any[], queryParams?: Params | undefined, extras?: NavigationExtras | undefined): Observable<any> {
-    return this.store.dispatch(new Navigate(paths, queryParams, extras));
+  async navigateByUrl(url: string | UrlTree): Promise<boolean> {
+    return await this.zone.run(() => {
+      return this.router.navigateByUrl(url);
+    });
+  }
+
+  async navigate(paths: any[], queryParams?: Params | undefined): Promise<boolean> {
+    return await this.zone.run(() => {
+      return this.router.navigate(paths, { queryParams });
+    });
+  }
+
+  async navigateToLogin(returnUrl?: string): Promise<boolean> {
+    let loginUrl = '/login';
+
+    if (returnUrl) {
+      loginUrl += `?returnUrl=${returnUrl}`;
+    }
+
+    const urlTree = this.router.parseUrl(loginUrl);
+
+    return await this.navigateByUrl(urlTree);
   }
 }

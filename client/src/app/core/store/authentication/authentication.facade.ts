@@ -18,8 +18,8 @@ export class AuthenticationFacade {
     return this.store.dispatch(new Login(email, password));
   }
 
-  logout(returnUrl?: string): Observable<any> {
-    return this.store.dispatch(new Logout(returnUrl));
+  logout(): Observable<any> {
+    return this.store.dispatch(new Logout());
   }
 
   register(firstName: string, lastName: string, email: string, password: string, confirmationPassword: string): Observable<any> {

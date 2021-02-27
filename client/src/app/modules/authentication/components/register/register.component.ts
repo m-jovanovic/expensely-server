@@ -99,7 +99,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  redirectToLogin(): void {
-    this.routerService.navigate(['/login']);
+  async redirectToLogin(): Promise<boolean> {
+    return await this.routerService.navigateByUrl('/login');
   }
 }

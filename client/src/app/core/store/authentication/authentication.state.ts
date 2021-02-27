@@ -20,20 +20,18 @@ export class AuthenticationState {
   login(context: StateContext<AuthenticationStateModel>, action: Login): Observable<TokenResponse> {
     return this.authenticationService.login(new LoginRequest(action.email, action.password)).pipe(
       tap((response: TokenResponse) => {
-        const authenticationStateModel = this.convertTokenResponseToAuthenticationStateModel(response);
+        const authenticationState: AuthenticationStateModel = this.convertTokenResponseToAuthenticationStateModel(response);
 
-        context.patchState(authenticationStateModel);
+        context.patchState(authenticationState);
       })
     );
   }
 
   @Action(Logout)
-  logout(context: StateContext<AuthenticationStateModel>, action: Logout): Observable<any> {
-    return this.authenticationService.logout(action.returnUrl).pipe(
-      tap(() => {
-        context.patchState(initialState);
-      })
-    );
+  logout(context: StateContext<AuthenticationStateModel>, action: Logout): void {
+    context.patchState(initialState);
+
+    this.authenticationService.logout();
   }
 
   @Action(Register)
@@ -45,17 +43,17 @@ export class AuthenticationState {
 
   @Action(RefreshToken)
   refreshToken(context: StateContext<AuthenticationStateModel>): Observable<TokenResponse> {
-    const authenticationState = context.getState();
+    const state: AuthenticationStateModel = context.getState();
 
-    if (!authenticationState?.refreshTokenExpiresOnUtc || new Date(authenticationState.refreshTokenExpiresOnUtc).getTime() < Date.now()) {
+    if (!state?.refreshTokenExpiresOnUtc || new Date(state.refreshTokenExpiresOnUtc).getTime() < Date.now()) {
       return throwError(new Error('Refresh token has expired!'));
     }
 
-    return this.authenticationService.refreshToken(new RefreshTokenRequest(authenticationState.refreshToken)).pipe(
+    return this.authenticationService.refreshToken(new RefreshTokenRequest(state.refreshToken)).pipe(
       tap((response: TokenResponse) => {
-        const authenticationStateModel = this.convertTokenResponseToAuthenticationStateModel(response);
+        const authenticationState: AuthenticationStateModel = this.convertTokenResponseToAuthenticationStateModel(response);
 
-        context.patchState(authenticationStateModel);
+        context.patchState(authenticationState);
       })
     );
   }

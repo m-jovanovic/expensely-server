@@ -64,8 +64,8 @@ export class CreateTransactionComponent implements OnInit {
     this.currencyFacade.loadCurrencies();
   }
 
-  onCancel(): void {
-    this.routerService.navigate(['']);
+  async onCancel(): Promise<boolean> {
+    return await this.routerService.navigateByUrl('/dashboard');
   }
 
   onSubmit(): void {
@@ -106,7 +106,7 @@ export class CreateTransactionComponent implements OnInit {
           this.createTransactionForm.enable();
         })
       )
-      .subscribe(() => this.routerService.navigate(['']));
+      .subscribe(() => this.routerService.navigateByUrl('/dashboard'));
   }
 
   private handleCreateTransactionError(errorResponse: ApiErrorResponse): void {}
