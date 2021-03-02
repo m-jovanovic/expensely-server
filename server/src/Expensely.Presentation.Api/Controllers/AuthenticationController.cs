@@ -78,7 +78,7 @@ namespace Expensely.Presentation.Api.Controllers
         public async Task<IActionResult> RefreshToken(
             [FromBody] RefreshTokenRequest refreshTokenRequest, CancellationToken cancellationToken) =>
             await Result.Create(refreshTokenRequest, ApiErrors.UnProcessableRequest)
-                .Map(request => new RefreshUserTokenCommand(request.RefreshToken))
+                .Map(request => new RefreshTokenCommand(request.RefreshToken))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
     }

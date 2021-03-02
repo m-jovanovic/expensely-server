@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Commands.Users;
+using Expensely.Application.Commands.Authentication;
 using Expensely.Application.Contracts.Users;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.Messaging;
@@ -15,9 +15,9 @@ using Expensely.Domain.Modules.Users;
 namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
 {
     /// <summary>
-    /// Represents the <see cref="RefreshUserTokenCommand"/> handler.
+    /// Represents the <see cref="RefreshTokenCommand"/> handler.
     /// </summary>
-    public sealed class RefreshUserTokenCommandHandler : ICommandHandler<RefreshUserTokenCommand, Result<TokenResponse>>
+    public sealed class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand, Result<TokenResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -25,13 +25,13 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
         private readonly ISystemTime _systemTime;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RefreshUserTokenCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="RefreshTokenCommandHandler"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
         /// <param name="systemTime">The system time.</param>
-        public RefreshUserTokenCommandHandler(
+        public RefreshTokenCommandHandler(
             IUserRepository userRepository,
             IUnitOfWork unitOfWork,
             IJwtProvider jwtProvider,
@@ -44,7 +44,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
         }
 
         /// <inheritdoc />
-        public async Task<Result<TokenResponse>> Handle(RefreshUserTokenCommand request, CancellationToken cancellationToken)
+        public async Task<Result<TokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
             Maybe<User> maybeUser = await _userRepository.GetByRefreshTokenAsync(request.RefreshToken, cancellationToken);
 
