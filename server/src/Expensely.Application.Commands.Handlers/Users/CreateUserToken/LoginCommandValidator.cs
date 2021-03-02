@@ -1,19 +1,19 @@
-﻿using Expensely.Application.Commands.Handlers.Extensions;
+﻿using Expensely.Application.Commands.Authentication;
+using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
-using Expensely.Application.Commands.Users;
 using FluentValidation;
 
 namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
 {
     /// <summary>
-    /// Represents the <see cref="CreateUserCommand"/> validator.
+    /// Represents the <see cref="RegisterCommand"/> validator.
     /// </summary>
-    public sealed class CreateUserTokenCommandValidator : AbstractValidator<CreateUserTokenCommand>
+    public sealed class LoginCommandValidator : AbstractValidator<LoginCommand>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserTokenCommandValidator "/> class.
+        /// Initializes a new instance of the <see cref="LoginCommandValidator "/> class.
         /// </summary>
-        public CreateUserTokenCommandValidator()
+        public LoginCommandValidator()
         {
             RuleFor(x => x.Email).NotEmpty().WithError(ValidationErrors.User.EmailIsRequired);
 

@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Authentication;
-using Expensely.Application.Commands.Users;
 using Expensely.Application.Contracts.Users;
 using Expensely.Common.Primitives.Result;
 using Expensely.Presentation.Api.Constants;
@@ -41,7 +40,7 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest, CancellationToken cancellationToken) =>
             await Result.Create(loginRequest, ApiErrors.UnProcessableRequest)
-                .Map(request => new CreateUserTokenCommand(request.Email, request.Password))
+                .Map(request => new LoginCommand(request.Email, request.Password))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
