@@ -60,7 +60,7 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetTransactionById(Guid transactionId, CancellationToken cancellationToken) =>
             await Maybe<GetTransactionByIdQuery>
-                .From(new GetTransactionByIdQuery(transactionId.ToString()))
+                .From(new GetTransactionByIdQuery(transactionId))
                 .Bind(query => Sender.Send(query, cancellationToken))
                 .Match(Ok, NotFound);
 
