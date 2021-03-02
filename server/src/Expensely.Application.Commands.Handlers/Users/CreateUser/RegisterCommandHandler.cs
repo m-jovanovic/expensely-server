@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Commands.Users;
+using Expensely.Application.Commands.Authentication;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
@@ -10,21 +10,21 @@ using Expensely.Domain.Modules.Users;
 namespace Expensely.Application.Commands.Handlers.Users.CreateUser
 {
     /// <summary>
-    /// Represents the <see cref="CreateUserCommand"/> handler.
+    /// Represents the <see cref="RegisterCommand"/> handler.
     /// </summary>
-    public sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Result>
+    public sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand, Result>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordService _passwordService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="RegisterCommandHandler"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="passwordService">The password service.</param>
-        public CreateUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordService passwordService)
+        public RegisterCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordService passwordService)
         {
             _passwordService = passwordService;
             _userRepository = userRepository;
@@ -32,7 +32,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
         }
 
         /// <inheritdoc />
-        public async Task<Result> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             Result<FirstName> firstNameResult = FirstName.Create(request.FirstName);
             Result<LastName> lastNameResult = LastName.Create(request.LastName);

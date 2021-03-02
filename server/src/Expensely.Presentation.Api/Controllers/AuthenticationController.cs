@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Commands.Authentication;
 using Expensely.Application.Commands.Users;
 using Expensely.Application.Contracts.Users;
 using Expensely.Common.Primitives.Result;
@@ -56,7 +57,7 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest, CancellationToken cancellationToken) =>
             await Result.Create(registerRequest, ApiErrors.UnProcessableRequest)
-                .Map(request => new CreateUserCommand(
+                .Map(request => new RegisterCommand(
                     request.FirstName,
                     request.LastName,
                     request.Email,

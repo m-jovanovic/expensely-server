@@ -1,22 +1,22 @@
 ﻿using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Result;
 
-namespace Expensely.Application.Commands.Users
+namespace Expensely.Application.Commands.Authentication
 {
     /// <summary>
-    /// Represents the command for creating a user.
+    /// Represents the command for registering a new user.
     /// </summary>
-    public sealed class CreateUserCommand : ICommand<Result>
+    public sealed class RegisterCommand : ICommand<Result>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserCommand"/> class.
+        /// Initializes a new instance of the <see cref="RegisterCommand"/> class.
         /// </summary>
         /// <param name="firstName">The first name.</param>
         /// <param name="lastName">The last name.</param>
         /// <param name="email">The user email.</param>
         /// <param name="password">The password.</param>
         /// <param name="confirmationPassword">The confirmation password.</param>
-        public CreateUserCommand(string firstName, string lastName, string email, string password, string confirmationPassword)
+        public RegisterCommand(string firstName, string lastName, string email, string password, string confirmationPassword)
         {
             Email = email;
             FirstName = firstName;
