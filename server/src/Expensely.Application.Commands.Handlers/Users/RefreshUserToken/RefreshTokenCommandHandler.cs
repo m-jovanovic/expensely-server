@@ -4,13 +4,11 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Authentication;
 using Expensely.Application.Contracts.Authentication;
-using Expensely.Application.Contracts.Users;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
@@ -61,15 +59,13 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
                 return Result.Failure<TokenResponse>(DomainErrors.RefreshToken.Expired);
             }
 
-            string token = _jwtProvider.CreateToken(user);
+            AccessTokens accessTokens = _jwtProvider.CreateAccessTokens(user);
 
-            RefreshToken refreshToken = _jwtProvider.CreateRefreshToken();
-
-            user.ChangeRefreshToken(refreshToken);
+            user.ChangeRefreshToken(accessTokens.RefreshToken);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new TokenResponse(token, refreshToken.Token, refreshToken.ExpiresOnUtc);
+            return accessTokens.CreateTokenResponse();
         }
     }
 }

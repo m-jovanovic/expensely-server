@@ -1,5 +1,4 @@
 ﻿using Expensely.Application.Contracts.Authentication;
-using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Application.Abstractions.Authentication
@@ -10,16 +9,10 @@ namespace Expensely.Application.Abstractions.Authentication
     public interface IJwtProvider
     {
         /// <summary>
-        /// Creates a new JWT for the specified user.
+        /// Creates the access tokens for the specified user.
         /// </summary>
         /// <param name="user">The user.</param>
-        /// <returns>The JWT for the specified user.</returns>
-        string CreateToken(User user);
-
-        /// <summary>
-        /// Creates a new refresh token.
-        /// </summary>
-        /// <returns>The refresh token and the expires on date and time in UTC format.</returns>
-        RefreshToken CreateRefreshToken();
+        /// <returns>The access tokens for the specified user.</returns>
+        AccessTokens CreateAccessTokens(User user);
     }
 }

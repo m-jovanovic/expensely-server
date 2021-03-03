@@ -36,7 +36,26 @@ namespace Expensely.Infrastructure.Authentication
         }
 
         /// <inheritdoc />
-        public string CreateToken(User user)
+        public AccessTokens CreateAccessTokens(User user)
+        {
+            string token = CreateToken(user);
+
+            RefreshToken refreshToken = CreateRefreshToken();
+
+            return new AccessTokens(token, refreshToken);
+        }
+
+        private static IEnumerable<Claim> CreateClaims(User user)
+        {
+            yield return new Claim(JwtClaimTypes.UserId, user.Id);
+            yield return new Claim(JwtClaimTypes.Email, user.Email);
+            yield return new Claim(JwtClaimTypes.Name, user.GetFullName());
+            yield return new Claim(
+                JwtClaimTypes.PrimaryCurrency,
+                user.PrimaryCurrency is null ? string.Empty : user.PrimaryCurrency.Value.ToString(CultureInfo.InvariantCulture));
+        }
+
+        private string CreateToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.SecurityKey));
 
@@ -57,8 +76,7 @@ namespace Expensely.Infrastructure.Authentication
             return tokenValue;
         }
 
-        /// <inheritdoc />
-        public RefreshToken CreateRefreshToken()
+        private RefreshToken CreateRefreshToken()
         {
             var refreshTokenBytes = new byte[64];
 
@@ -69,16 +87,6 @@ namespace Expensely.Infrastructure.Authentication
             return new RefreshToken(
                 Convert.ToBase64String(refreshTokenBytes),
                 _systemTime.UtcNow.AddMinutes(_settings.RefreshTokenExpirationInMinutes));
-        }
-
-        private static IEnumerable<Claim> CreateClaims(User user)
-        {
-            yield return new Claim(JwtClaimTypes.UserId, user.Id);
-            yield return new Claim(JwtClaimTypes.Email, user.Email);
-            yield return new Claim(JwtClaimTypes.Name, user.GetFullName());
-            yield return new Claim(
-               JwtClaimTypes.PrimaryCurrency,
-               user.PrimaryCurrency is null ? string.Empty : user.PrimaryCurrency.Value.ToString(CultureInfo.InvariantCulture));
         }
     }
 }
