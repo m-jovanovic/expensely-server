@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Authentication;
+using Expensely.Application.Contracts.Authentication;
 using Expensely.Application.Contracts.Users;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.Messaging;

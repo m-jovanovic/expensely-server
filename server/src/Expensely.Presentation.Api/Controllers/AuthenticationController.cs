@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Authentication;
-using Expensely.Application.Contracts.Users;
+using Expensely.Application.Contracts.Authentication;
 using Expensely.Common.Primitives.Result;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Errors;

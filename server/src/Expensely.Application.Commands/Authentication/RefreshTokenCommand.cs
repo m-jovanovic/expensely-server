@@ -1,4 +1,5 @@
-﻿using Expensely.Application.Contracts.Users;
+﻿using Expensely.Application.Contracts.Authentication;
+using Expensely.Application.Contracts.Users;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Result;
 

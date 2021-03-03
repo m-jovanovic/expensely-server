@@ -1,4 +1,4 @@
-﻿namespace Expensely.Application.Contracts.Users
+﻿namespace Expensely.Application.Contracts.Authentication
 {
     /// <summary>
     /// Represents the login request.
