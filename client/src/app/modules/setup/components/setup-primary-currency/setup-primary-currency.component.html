@@ -15,7 +15,7 @@
               required
               class="w-full border-transparent bg-transparent text-gray-500 rounded-md focus:border-teal-400 focus:ring-teal-400"
             >
-              <option *ngFor="let currency of currencies; let i = index" [value]="currency.id" [selected]="false">
+              <option *ngFor="let currency of currencies$ | async; let i = index" [value]="currency.id" [selected]="false">
                 {{ currency.code }} - {{ currency.name }}
               </option>
             </select>
