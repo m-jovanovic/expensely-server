@@ -5,6 +5,10 @@ export namespace ApiRoutes {
     public static readonly refreshToken = 'authentication/refresh-token';
   }
 
+  export class Users {
+    public static readonly changePrimaryCurrency = 'users/{userId}/currencies/{currency}/primary';
+  }
+
   export class Transactions {
     public static readonly createTransaction = 'transactions';
     public static readonly deleteTransaction = 'transactions/{transactionId}';
