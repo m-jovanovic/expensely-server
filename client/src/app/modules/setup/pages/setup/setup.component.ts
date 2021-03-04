@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { CurrencyFacade, CurrencyResponse } from '@expensely/core';
 
 @Component({
   selector: 'exp-setup',
@@ -6,7 +9,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./setup.component.scss']
 })
 export class SetupComponent implements OnInit {
-  constructor() {}
+  currencies$: Observable<CurrencyResponse[]>;
+  isLoading$: Observable<boolean>;
 
-  ngOnInit(): void {}
+  constructor(private currencyFacade: CurrencyFacade) {}
+
+  ngOnInit(): void {
+    this.currencyFacade.loadCurrencies();
+
+    this.currencies$ = this.currencyFacade.currencies$;
+
+    this.isLoading$ = this.currencyFacade.isLoading$;
+  }
 }
