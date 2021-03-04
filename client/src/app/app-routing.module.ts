@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { AuthenticationGuard } from './core';
-import { MainLayoutComponent, EmptyLayoutComponent } from './core/components';
+import { EmptyLayoutComponent, MainLayoutComponent } from './core/components';
 
 const routes: Routes = [
   {
@@ -58,6 +59,12 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./modules').then((m) => m.AuthenticationModule)
+      },
+      {
+        path: 'setup',
+        canLoad: [AuthenticationGuard],
+        canActivate: [AuthenticationGuard],
+        loadChildren: () => import('./modules').then((m) => m.SetupModule)
       }
     ]
   },
