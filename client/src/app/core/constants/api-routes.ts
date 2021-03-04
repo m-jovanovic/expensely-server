@@ -6,6 +6,7 @@ export namespace ApiRoutes {
   }
 
   export class Users {
+    public static readonly addCurrency = 'users/{userId}/currencies/{currency}';
     public static readonly changePrimaryCurrency = 'users/{userId}/currencies/{currency}/primary';
   }
 

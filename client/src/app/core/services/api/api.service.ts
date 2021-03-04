@@ -18,7 +18,7 @@ export abstract class ApiService {
     return this.client.post<T>(`${environment.apiUrl}/${route}`, body);
   }
 
-  protected put<T>(route: string, body: any): Observable<T> {
+  protected put<T>(route: string, body?: any): Observable<T> {
     return this.client.put<T>(`${environment.apiUrl}/${route}`, body);
   }
 
