@@ -6,7 +6,7 @@ on:
       - "server/**"
 
 env:
-  DOTNET_VERSION: "5.0.102"
+  DOTNET_VERSION: "5.0.200"
 
 jobs:
   test:
