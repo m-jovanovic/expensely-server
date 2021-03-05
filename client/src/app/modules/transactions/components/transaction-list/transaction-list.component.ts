@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { TransactionResponse } from '@expensely/core';
 
@@ -7,7 +7,7 @@ import { TransactionResponse } from '@expensely/core';
   templateUrl: './transaction-list.component.html',
   styleUrls: ['./transaction-list.component.scss']
 })
-export class TransactionListComponent implements OnInit {
+export class TransactionListComponent {
   @Input()
   transactions: TransactionResponse[];
 
@@ -18,10 +18,4 @@ export class TransactionListComponent implements OnInit {
   error: boolean;
 
   constructor() {}
-
-  ngOnInit(): void {}
-
-  deleteTransaction(transactionId: string): void {
-    console.log(transactionId);
-  }
 }
