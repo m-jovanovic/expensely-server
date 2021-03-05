@@ -1,42 +1,44 @@
-<ul class="divide-y divide-gray-200 space-y-2 md:space-y-4 pb-4">
-  <!-- Spinner -->
-  <div *ngIf="isLoading" class="flex items-center justify-center py-10">
-    <exp-spinner class="w-24 h-24"></exp-spinner>
-  </div>
-
-  <!-- Error message -->
-  <div *ngIf="error && !isLoading" class="flex items-center justify-center h-40">
-    <p class="text-base text-center">Transactions are currently unavailable.</p>
-  </div>
-
-  <!-- No transactions  found  -->
-  <div *ngIf="!isLoading && !error && !transactions?.length" class="flex items-center justify-center h-40">
-    <p class="text-base text-center">It seems that you don't have any transactions.</p>
-  </div>
-
-  <!-- Transactions list items -->
-  <li class="px-4 pt-1 md:pt-2" *ngFor="let transaction of transactions">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center justify-center space-x-6">
-        <div>
-          <div class="tracking-wide text-gray-400">
-            {{ transaction.occurredOn }}
-          </div>
-        </div>
-        <div class="flex flex-col justify-start">
-          <div class="text-lg tracking-wide">
-            {{ transaction.description }}
-          </div>
-          <div class="tracking-wide text-sm text-gray-500 mt-1">
-            <span class="bg-red-200 rounded-l-full rounded-r-full px-2 py-1">
-              {{ transaction.category }}
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="text-lg text-gray-700">
-        {{ transaction.formattedAmount }}
-      </div>
+<div class="relative">
+  <ul class="divide-y divide-gray-200 space-y-2 md:space-y-4 pb-4">
+    <!-- Error message -->
+    <div *ngIf="error && !isLoading" class="flex items-center justify-center h-40">
+      <p class="text-base text-center">Transactions are currently unavailable.</p>
     </div>
-  </li>
-</ul>
+
+    <!-- No transactions  found  -->
+    <div *ngIf="!isLoading && !error && !transactions?.length" class="flex items-center justify-center h-40">
+      <p class="text-base text-center">It seems that you don't have any transactions.</p>
+    </div>
+
+    <!-- Transactions list items -->
+    <li class="px-4 pt-1 md:pt-2" *ngFor="let transaction of transactions">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center justify-center space-x-6">
+          <div>
+            <div class="tracking-wide text-gray-400">
+              {{ transaction.occurredOn }}
+            </div>
+          </div>
+          <div class="flex flex-col justify-start">
+            <div class="text-lg tracking-wide">
+              {{ transaction.description }}
+            </div>
+            <div class="tracking-wide text-sm text-gray-500 mt-1">
+              <span class="bg-red-200 rounded-l-full rounded-r-full px-2 py-1">
+                {{ transaction.category }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="text-lg text-gray-700">
+          {{ transaction.formattedAmount }}
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <!-- Spinner -->
+  <div *ngIf="isLoading" [ngClass]="{ 'py-20': !transactions?.length }">
+    <exp-spinner class="absolute inset-center w-24 h-24"></exp-spinner>
+  </div>
+</div>
