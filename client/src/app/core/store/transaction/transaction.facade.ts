@@ -12,7 +12,7 @@ import { TransactionResponse } from '../../contracts/transactions/transaction-re
 })
 export class TransactionFacade {
   @Select(TransactionSelectors.transactions)
-  transactions$: Observable<TransactionResponse>;
+  transactions$: Observable<TransactionResponse[]>;
 
   @Select(TransactionSelectors.isLoading)
   isLoading$: Observable<boolean>;

@@ -1,0 +1,19 @@
+<div class="bg-white rounded-lg shadow-lg w-full">
+  <div class="flex items-center p-4 space-x-4">
+    <svg class="w-6 md:w-7 h-6 md:h-7 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+      />
+    </svg>
+    <h1 class="text-xl sm:text-2xl tracking-wide text-gray-700">Transactions</h1>
+  </div>
+
+  <exp-transaction-list
+    [transactions]="transactions$ | async"
+    [isLoading]="isLoading$ | async"
+    [error]="error$ | async"
+  ></exp-transaction-list>
+</div>

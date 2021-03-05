@@ -65,7 +65,7 @@ export class CreateTransactionComponent implements OnInit {
   }
 
   async onCancel(): Promise<boolean> {
-    return await this.routerService.navigateByUrl('/dashboard');
+    return await this.routerService.navigateByUrl('/transactions');
   }
 
   onSubmit(): void {
@@ -106,10 +106,12 @@ export class CreateTransactionComponent implements OnInit {
           this.createTransactionForm.enable();
         })
       )
-      .subscribe(() => this.routerService.navigateByUrl('/dashboard'));
+      .subscribe(() => this.routerService.navigateByUrl('/transactions'));
   }
 
-  private handleCreateTransactionError(errorResponse: ApiErrorResponse): void {}
+  private handleCreateTransactionError(errorResponse: ApiErrorResponse): void {
+    // TODO: Handle errors.
+  }
 
   private getCurrentDateString(): string {
     return new Date().toISOString().substring(0, 10);
