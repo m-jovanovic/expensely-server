@@ -23,3 +23,9 @@ export class LoadTransactions {
 
   constructor(public userId: string, public limit: number) {}
 }
+
+export class LoadMoreTransactions {
+  public static readonly type = '[Transactions] Load More';
+
+  constructor(public userId: string, public limit: number) {}
+}

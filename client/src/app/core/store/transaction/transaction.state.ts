@@ -5,7 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { State, StateContext, Action, Selector } from '@ngxs/store';
 
 import { TransactionStateModel } from './transaction-state.model';
-import { CreateTransaction, DeleteTransaction, LoadTransactions } from './transaction.actions';
+import { CreateTransaction, DeleteTransaction, LoadMoreTransactions, LoadTransactions } from './transaction.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
 import { CreateTransactionRequest, TransactionListResponse, TransactionResponse } from '../../contracts/transactions';
 
@@ -72,6 +72,7 @@ export class TransactionState {
       tap(() => {
         context.patchState({
           isLoading: false,
+          error: false,
           transactions: filteredTransactions
         });
       }),
@@ -97,6 +98,40 @@ export class TransactionState {
       tap((response: TransactionListResponse) => {
         context.patchState({
           transactions: response.items,
+          cursor: response.cursor,
+          isLoading: false,
+          error: false
+        });
+      }),
+      catchError((error: HttpErrorResponse) => {
+        context.patchState({
+          isLoading: false,
+          error: true
+        });
+
+        return throwError(error);
+      })
+    );
+  }
+
+  @Action(LoadMoreTransactions)
+  loadMoreTransactions(context: StateContext<TransactionStateModel>, action: LoadMoreTransactions): Observable<any> {
+    context.patchState({
+      isLoading: true
+    });
+
+    const cursor = context.getState().cursor;
+
+    if (cursor === '') {
+      return;
+    }
+
+    let initialTransactions = context.getState().transactions;
+
+    return this.transactionService.getTransactions(action.userId, action.limit, cursor).pipe(
+      tap((response: TransactionListResponse) => {
+        context.patchState({
+          transactions: [...response.items, ...initialTransactions],
           cursor: response.cursor,
           isLoading: false,
           error: false
