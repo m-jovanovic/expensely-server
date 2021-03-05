@@ -59,7 +59,7 @@ export class SetupPrimaryCurrencyComponent implements OnInit {
     this.setupForm.disable();
 
     this.userFacade
-      .addCurrency(this.setupForm.value.currency)
+      .addUserCurrency(this.setupForm.value.currency)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           this.handleError(new ApiErrorResponse(error));

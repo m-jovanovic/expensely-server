@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { State, StateContext, Action } from '@ngxs/store';
 
 import { UserStateModel } from './user-state.mode';
-import { AddCurrency, ChangePrimaryCurrency } from './user.actions';
+import { AddUserCurrency, ChangeUserPrimaryCurrency } from './user.actions';
 import { UserService } from '../../../core/services';
 
 @State<UserStateModel>({
@@ -13,13 +13,13 @@ import { UserService } from '../../../core/services';
 export class UserState {
   constructor(private userService: UserService) {}
 
-  @Action(AddCurrency)
-  addCurrency(context: StateContext<UserStateModel>, action: AddCurrency): Observable<any> {
-    return this.userService.addCurrency(action.userId, action.currency);
+  @Action(AddUserCurrency)
+  addCurrency(context: StateContext<UserStateModel>, action: AddUserCurrency): Observable<any> {
+    return this.userService.addUserCurrency(action.userId, action.currency);
   }
 
-  @Action(ChangePrimaryCurrency)
-  changePrimaryCurrency(context: StateContext<UserStateModel>, action: ChangePrimaryCurrency): Observable<any> {
-    return this.userService.changePrimaryCurrency(action.userId, action.currency);
+  @Action(ChangeUserPrimaryCurrency)
+  changePrimaryCurrency(context: StateContext<UserStateModel>, action: ChangeUserPrimaryCurrency): Observable<any> {
+    return this.userService.changeUserPrimaryCurrency(action.userId, action.currency);
   }
 }
