@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+
+import { TransactionFacade, TransactionResponse } from '@expensely/core';
 
 @Component({
   selector: 'exp-transaction-details',
@@ -7,11 +10,18 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./transaction-details.component.scss']
 })
 export class TransactionDetailsComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
+  transaction$: Observable<TransactionResponse>;
+  isLoading$: Observable<boolean>;
+
+  constructor(private route: ActivatedRoute, private transactionFacade: TransactionFacade) {}
 
   ngOnInit(): void {
+    this.transaction$ = this.transactionFacade.transaction$;
+
+    this.isLoading$ = this.transactionFacade.isLoading$;
+
     const transactionId = this.route.snapshot.paramMap.get('id');
 
-    console.log(transactionId);
+    this.transactionFacade.getTransactionById(transactionId);
   }
 }

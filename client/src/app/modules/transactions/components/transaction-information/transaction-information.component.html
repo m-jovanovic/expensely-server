@@ -1,0 +1,16 @@
+<div *ngIf="!isLoading">
+  {{ transaction.id }}
+  <br />
+  {{ transaction.description }}
+  <br />
+  {{ transaction.occurredOn }}
+  <br />
+  {{ transaction.category }}
+  <br />
+  {{ transaction.formattedAmount }}
+</div>
+
+<!-- Spinner -->
+<div *ngIf="isLoading">
+  <exp-spinner class="absolute inset-center w-24 h-24"></exp-spinner>
+</div>

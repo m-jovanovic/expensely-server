@@ -1,1 +1,3 @@
-<p>transaction-details works!</p>
+<div class="bg-white shadow-lg rounded-md w-full h-full p-4 relative">
+  <exp-transaction-information [transaction]="transaction$ | async" [isLoading]="isLoading$ | async"> </exp-transaction-information>
+</div>

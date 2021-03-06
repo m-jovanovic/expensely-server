@@ -9,9 +9,16 @@ import { CreateTransactionComponent } from './pages/create-transaction/create-tr
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
 import { TransactionDetailsComponent } from './pages/transaction-details/transaction-details.component';
+import { TransactionInformationComponent } from './components/transaction-information/transaction-information.component';
 
 @NgModule({
-  declarations: [CreateTransactionComponent, TransactionComponent, TransactionListComponent, TransactionDetailsComponent],
+  declarations: [
+    CreateTransactionComponent,
+    TransactionComponent,
+    TransactionListComponent,
+    TransactionDetailsComponent,
+    TransactionInformationComponent
+  ],
   imports: [
     SharedModule,
     ReactiveFormsModule,
