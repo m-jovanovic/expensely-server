@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { State, StateContext, Action, Selector } from '@ngxs/store';
+import { State, StateContext, Action } from '@ngxs/store';
 
 import { TransactionListStateModel } from './transaction-list-state.model';
 import { CreateTransaction, DeleteTransaction, LoadMoreTransactions, LoadTransactions } from './transaction-list.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
-import { CreateTransactionRequest, TransactionListResponse, TransactionResponse } from '../../contracts/transactions';
+import { CreateTransactionRequest, TransactionListResponse } from '../../contracts/transactions';
 
 @State<TransactionListStateModel>({
   name: 'transaction_list',
