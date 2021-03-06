@@ -6,14 +6,15 @@ export namespace ApiRoutes {
   }
 
   export class Users {
-    public static readonly addCurrency = 'users/{userId}/currencies/{currency}';
-    public static readonly changePrimaryCurrency = 'users/{userId}/currencies/{currency}/primary';
+    public static readonly addUserCurrency = 'users/{userId}/currencies/{currency}';
+    public static readonly changeUserPrimaryCurrency = 'users/{userId}/currencies/{currency}/primary';
   }
 
   export class Transactions {
     public static readonly createTransaction = 'transactions';
     public static readonly deleteTransaction = 'transactions/{transactionId}';
     public static readonly getTransactions = 'transactions';
+    public static readonly getTransaction = 'transactions/{transactionId}';
     public static readonly getCurrentMonthTransactionSummary = 'transactions/summary/current-month';
   }
 
