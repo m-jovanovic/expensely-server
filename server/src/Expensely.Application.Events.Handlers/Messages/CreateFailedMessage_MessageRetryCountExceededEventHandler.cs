@@ -11,7 +11,7 @@ namespace Expensely.Application.Events.Handlers.Messages
     /// <summary>
     /// Represents the <see cref="MessageRetryCountExceededEvent"/> handler.
     /// </summary>
-    public sealed class CreateFailedMessage_MessageRetryCountExceededEventHandler : IEventHandler<MessageRetryCountExceededEvent>
+    public sealed class CreateFailedMessage_MessageRetryCountExceededEventHandler : EventHandler<MessageRetryCountExceededEvent>
     {
         private readonly IMessageRepository _messageRepository;
         private readonly IFailedMessageRepository _failedMessageRepository;
@@ -34,7 +34,7 @@ namespace Expensely.Application.Events.Handlers.Messages
         }
 
         /// <inheritdoc />
-        public async Task Handle(MessageRetryCountExceededEvent @event, CancellationToken cancellationToken = default)
+        public override async Task Handle(MessageRetryCountExceededEvent @event, CancellationToken cancellationToken = default)
         {
             Maybe<Message> maybeMessage = await _messageRepository.GetByIdAsync(@event.MessageId, cancellationToken);
 
@@ -47,6 +47,7 @@ namespace Expensely.Application.Events.Handlers.Messages
 
             await _failedMessageRepository.AddAsync(failedMessage, cancellationToken);
 
+            // TODO: Check again if the original message needs to be removed.
             _messageRepository.Remove(maybeMessage.Value);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);

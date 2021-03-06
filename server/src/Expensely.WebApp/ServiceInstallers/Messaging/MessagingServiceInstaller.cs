@@ -3,6 +3,7 @@ using Expensely.Application.Abstractions.Behaviors;
 using Expensely.Application.Commands.Handlers;
 using Expensely.Application.Events.Handlers;
 using Expensely.Application.Queries.Handlers;
+using Expensely.Domain.Abstractions;
 using Expensely.WebApp.Abstractions;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +33,14 @@ namespace Expensely.WebApp.ServiceInstallers.Messaging
             services.Scan(scan =>
                 scan.FromAssemblies(EventHandlersAssembly.Assembly)
                     .AddClasses(filter => filter.Where(type => type.Name.EndsWith(EventHandlerPostfix, StringComparison.Ordinal)))
-                    .AsImplementedInterfaces()
+                    .As(eventHandlerType =>
+                    {
+                        Type eventType = eventHandlerType!.BaseType!.GenericTypeArguments[0];
+
+                        Type eventHandlerInterfaceType = typeof(IEventHandler<>).MakeGenericType(eventType);
+
+                        return new[] { eventHandlerInterfaceType };
+                    })
                     .WithScopedLifetime());
     }
 }

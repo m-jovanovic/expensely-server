@@ -13,7 +13,7 @@ namespace Expensely.Application.Events.Handlers.Users
     /// <summary>
     /// Represents the <see cref="UserCreatedEvent"/> handler.
     /// </summary>
-    public sealed class SendWelcomeEmail_UserCreatedEventHandler : IEventHandler<UserCreatedEvent>
+    public sealed class SendWelcomeEmail_UserCreatedEventHandler : EventHandler<UserCreatedEvent>
     {
         private readonly IUserRepository _userRepository;
         private readonly IEmailSender _emailSender;
@@ -30,7 +30,7 @@ namespace Expensely.Application.Events.Handlers.Users
         }
 
         /// <inheritdoc />
-        public async Task Handle(UserCreatedEvent @event, CancellationToken cancellationToken = default)
+        public override async Task Handle(UserCreatedEvent @event, CancellationToken cancellationToken = default)
         {
             Maybe<User> maybeUser = await _userRepository.GetByIdAsync(@event.UserId, cancellationToken);
 

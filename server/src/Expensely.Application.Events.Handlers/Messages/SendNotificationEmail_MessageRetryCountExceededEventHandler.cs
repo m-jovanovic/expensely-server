@@ -11,7 +11,7 @@ namespace Expensely.Application.Events.Handlers.Messages
     /// <summary>
     /// Represents the <see cref="MessageRetryCountExceededEvent"/> handler.
     /// </summary>
-    public sealed class SendNotificationEmail_MessageRetryCountExceededEventHandler : IEventHandler<MessageRetryCountExceededEvent>
+    public sealed class SendNotificationEmail_MessageRetryCountExceededEventHandler : EventHandler<MessageRetryCountExceededEvent>
     {
         private readonly NotificationSettings _settings;
         private readonly IEmailSender _emailSender;
@@ -30,7 +30,7 @@ namespace Expensely.Application.Events.Handlers.Messages
         }
 
         /// <inheritdoc />
-        public async Task Handle(MessageRetryCountExceededEvent @event, CancellationToken cancellationToken = default)
+        public override async Task Handle(MessageRetryCountExceededEvent @event, CancellationToken cancellationToken = default)
         {
             var mailRequest = new MailRequest
             {
