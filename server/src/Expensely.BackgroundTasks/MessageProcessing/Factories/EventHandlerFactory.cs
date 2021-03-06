@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Expensely.Domain.Abstractions;
-using Expensely.Domain.Primitives;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.BackgroundTasks.MessageProcessing.Factories
@@ -11,7 +11,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Factories
     /// </summary>
     public sealed class EventHandlerFactory : IEventHandlerFactory
     {
-        private static readonly Type EventHandlerGenericType = typeof(IEventHandler<>).GetGenericTypeDefinition();
+        private static readonly Type EventHandlerGenericType = typeof(IEventHandler<>);
         private static readonly Dictionary<Type, Type> EventHandlersDictionary = new();
 
         private readonly IServiceProvider _serviceProvider;
@@ -23,7 +23,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Factories
         public EventHandlerFactory(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
         /// <inheritdoc />
-        public IEnumerable<object> GetHandlers(IEvent @event)
+        public IEnumerable<IEventHandler> GetHandlers(IEvent @event)
         {
             if (@event is null)
             {
@@ -32,14 +32,14 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Factories
 
             Type eventType = @event.GetType();
 
-            if (!EventHandlersDictionary.TryGetValue(eventType, out Type handlerType))
+            if (!EventHandlersDictionary.TryGetValue(eventType, out Type eventHandlerType))
             {
-                handlerType = EventHandlerGenericType.MakeGenericType(eventType);
+                eventHandlerType = EventHandlerGenericType.MakeGenericType(eventType);
 
-                EventHandlersDictionary.Add(eventType, handlerType);
+                EventHandlersDictionary.Add(eventType, eventHandlerType);
             }
 
-            IEnumerable<object> eventHandlers = _serviceProvider.GetServices(handlerType);
+            IEventHandler[] eventHandlers = _serviceProvider.GetServices(eventHandlerType).Cast<IEventHandler>().ToArray();
 
             return eventHandlers;
         }

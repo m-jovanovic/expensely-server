@@ -29,8 +29,6 @@ namespace Expensely.WebApp.ServiceInstallers.BackgroundTasks
 
             services.AddScoped<IEventHandlerFactory, EventHandlerFactory>();
 
-            services.AddTransient<IEventHandlerHandleMethodFactory, EventHandlerHandleMethodFactory>();
-
             services.AddScoped<IMessageDispatcher, MessageDispatcher>();
         }
     }

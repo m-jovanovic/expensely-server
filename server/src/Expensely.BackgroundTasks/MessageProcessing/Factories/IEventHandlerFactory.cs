@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Expensely.Domain.Abstractions;
-using Expensely.Domain.Primitives;
 
 namespace Expensely.BackgroundTasks.MessageProcessing.Factories
 {
@@ -14,6 +13,6 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Factories
         /// </summary>
         /// <param name="event">The event.</param>
         /// <returns>The collection of event handler instances for the specified event.</returns>
-        IEnumerable<object> GetHandlers(IEvent @event);
+        IEnumerable<IEventHandler> GetHandlers(IEvent @event);
     }
 }

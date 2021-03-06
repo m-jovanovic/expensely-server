@@ -6,6 +6,7 @@ using Expensely.BackgroundTasks.MessageProcessing.Factories;
 using Expensely.BackgroundTasks.MessageProcessing.Settings;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Primitives.Maybe;
+using Expensely.Domain.Abstractions;
 using Expensely.Domain.Modules.Messages;
 using Microsoft.Extensions.Options;
 
@@ -18,7 +19,6 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
     {
         private readonly MessageProcessingJobSettings _settings;
         private readonly IEventHandlerFactory _eventHandlerFactory;
-        private readonly IEventHandlerHandleMethodFactory _eventHandlerHandleMethodFactory;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemTime _systemTime;
 
@@ -27,13 +27,11 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
         /// </summary>
         /// <param name="messageProcessingJobSettingsOptions">The message processing job settings options.</param>
         /// <param name="eventHandlerFactory">The event handler factory.</param>
-        /// <param name="eventHandlerHandleMethodFactory">The event handler handle method factory.</param>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="systemTime">The system time.</param>
         public MessageDispatcher(
             IOptions<MessageProcessingJobSettings> messageProcessingJobSettingsOptions,
             IEventHandlerFactory eventHandlerFactory,
-            IEventHandlerHandleMethodFactory eventHandlerHandleMethodFactory,
             IUnitOfWork unitOfWork,
             ISystemTime systemTime)
         {
@@ -41,13 +39,12 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
             _eventHandlerFactory = eventHandlerFactory;
             _unitOfWork = unitOfWork;
             _systemTime = systemTime;
-            _eventHandlerHandleMethodFactory = eventHandlerHandleMethodFactory;
         }
 
         /// <inheritdoc />
         public async Task<Maybe<Exception>> DispatchAsync(Message message, CancellationToken cancellationToken)
         {
-            foreach (object handler in _eventHandlerFactory.GetHandlers(message.Event))
+            foreach (IEventHandler handler in _eventHandlerFactory.GetHandlers(message.Event))
             {
                 string consumerName = handler.GetType().Name;
 
@@ -58,7 +55,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
 
                 try
                 {
-                    await _eventHandlerHandleMethodFactory.GetHandleMethodTask(handler, new object[] { message.Event, cancellationToken });
+                    await handler.Handle(message.Event, cancellationToken);
 
                     message.AddConsumer(consumerName, _systemTime.UtcNow);
 
