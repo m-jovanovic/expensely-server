@@ -10,7 +10,7 @@ import { TransactionService } from '../../services/transaction/transaction.servi
 import { CreateTransactionRequest, TransactionListResponse, TransactionResponse } from '../../contracts/transactions';
 
 @State<TransactionListStateModel>({
-  name: 'transaction-list',
+  name: 'transaction_list',
   defaults: {
     transactions: [],
     cursor: '',
