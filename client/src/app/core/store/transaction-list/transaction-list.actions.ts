@@ -1,5 +1,5 @@
 export class CreateTransaction {
-  public static readonly type = '[Transactions] Create';
+  public static readonly type = '[Transaction List] Create';
 
   constructor(
     public userId: string,
@@ -13,19 +13,19 @@ export class CreateTransaction {
 }
 
 export class DeleteTransaction {
-  public static readonly type = '[Transactions] Delete';
+  public static readonly type = '[Transaction List] Delete';
 
   constructor(public transactionId: string) {}
 }
 
 export class LoadTransactions {
-  public static readonly type = '[Transactions] Load';
+  public static readonly type = '[Transaction List] Load';
 
   constructor(public userId: string, public limit: number) {}
 }
 
 export class LoadMoreTransactions {
-  public static readonly type = '[Transactions] Load More';
+  public static readonly type = '[Transaction List] Load More';
 
   constructor(public userId: string, public limit: number) {}
 }

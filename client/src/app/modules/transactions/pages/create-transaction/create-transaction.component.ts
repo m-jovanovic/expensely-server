@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import {
-  TransactionFacade,
+  TransactionListFacade,
   CategoryFacade,
   CurrencyFacade,
   RouterService,
@@ -27,7 +27,7 @@ export class CreateTransactionComponent implements OnInit {
   requestSent = false;
 
   constructor(
-    private transactionFacade: TransactionFacade,
+    private transactionFacade: TransactionListFacade,
     private categoryFacade: CategoryFacade,
     private currencyFacade: CurrencyFacade,
     private formBuilder: FormBuilder,

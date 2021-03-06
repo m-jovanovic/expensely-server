@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { NgxsModule } from '@ngxs/store';
 
 import { SharedModule } from '@expensely/shared';
-import { TransactionState, TransactionSummaryState } from '@expensely/core';
+import { TransactionListState, TransactionSummaryState } from '@expensely/core';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -11,6 +11,6 @@ import { TransactionListComponent } from './components/transaction-list/transact
 
 @NgModule({
   declarations: [DashboardComponent, TransactionSummaryComponent, TransactionListComponent],
-  imports: [SharedModule, DashboardRoutingModule, NgxsModule.forFeature([TransactionState, TransactionSummaryState])]
+  imports: [SharedModule, DashboardRoutingModule, NgxsModule.forFeature([TransactionListState, TransactionSummaryState])]
 })
 export class DashboardModule {}

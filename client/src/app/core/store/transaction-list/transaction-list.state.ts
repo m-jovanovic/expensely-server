@@ -4,13 +4,13 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { State, StateContext, Action, Selector } from '@ngxs/store';
 
-import { TransactionStateModel } from './transaction-state.model';
-import { CreateTransaction, DeleteTransaction, LoadMoreTransactions, LoadTransactions } from './transaction.actions';
+import { TransactionListStateModel } from './transaction-list-state.model';
+import { CreateTransaction, DeleteTransaction, LoadMoreTransactions, LoadTransactions } from './transaction-list.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
 import { CreateTransactionRequest, TransactionListResponse, TransactionResponse } from '../../contracts/transactions';
 
-@State<TransactionStateModel>({
-  name: 'transactions',
+@State<TransactionListStateModel>({
+  name: 'transaction-list',
   defaults: {
     transactions: [],
     cursor: '',
@@ -19,11 +19,11 @@ import { CreateTransactionRequest, TransactionListResponse, TransactionResponse 
   }
 })
 @Injectable()
-export class TransactionState {
+export class TransactionListState {
   constructor(private transactionService: TransactionService) {}
 
   @Action(CreateTransaction)
-  createTransaction(context: StateContext<TransactionStateModel>, action: CreateTransaction): Observable<any> {
+  createTransaction(context: StateContext<TransactionListStateModel>, action: CreateTransaction): Observable<any> {
     context.patchState({
       isLoading: true
     });
@@ -59,7 +59,7 @@ export class TransactionState {
   }
 
   @Action(DeleteTransaction)
-  deleteTransaction(context: StateContext<TransactionStateModel>, action: DeleteTransaction): Observable<any> {
+  deleteTransaction(context: StateContext<TransactionListStateModel>, action: DeleteTransaction): Observable<any> {
     context.patchState({
       isLoading: true
     });
@@ -89,7 +89,7 @@ export class TransactionState {
   }
 
   @Action(LoadTransactions)
-  loadTransactions(context: StateContext<TransactionStateModel>, action: LoadTransactions): Observable<any> {
+  loadTransactions(context: StateContext<TransactionListStateModel>, action: LoadTransactions): Observable<any> {
     context.patchState({
       isLoading: true
     });
@@ -115,7 +115,7 @@ export class TransactionState {
   }
 
   @Action(LoadMoreTransactions)
-  loadMoreTransactions(context: StateContext<TransactionStateModel>, action: LoadMoreTransactions): Observable<any> {
+  loadMoreTransactions(context: StateContext<TransactionListStateModel>, action: LoadMoreTransactions): Observable<any> {
     context.patchState({
       isLoading: true
     });

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TransactionFacade, TransactionSummaryFacade } from '@expensely/core';
+import { TransactionListFacade, TransactionSummaryFacade } from '@expensely/core';
 
 @Component({
   selector: 'exp-dashboard',
@@ -10,7 +10,7 @@ import { TransactionFacade, TransactionSummaryFacade } from '@expensely/core';
 export class DashboardComponent implements OnInit {
   private readonly numberOfTransactions = 10;
 
-  constructor(public transactionFacade: TransactionFacade, public transactionSummaryFacade: TransactionSummaryFacade) {}
+  constructor(public transactionFacade: TransactionListFacade, public transactionSummaryFacade: TransactionSummaryFacade) {}
 
   ngOnInit(): void {
     this.transactionFacade.loadTransactions(this.numberOfTransactions);

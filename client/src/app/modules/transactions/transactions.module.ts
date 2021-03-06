@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 
 import { SharedModule } from '@expensely/shared';
-import { TransactionState, CategoryState, CurrencyState } from '@expensely/core/store';
+import { TransactionListState, CategoryState, CurrencyState } from '@expensely/core/store';
 import { TransactionsRoutingModule } from './transactions-routing.module';
 import { CreateTransactionComponent } from './pages/create-transaction/create-transaction.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
@@ -16,7 +16,7 @@ import { TransactionDetailsComponent } from './pages/transaction-details/transac
     SharedModule,
     ReactiveFormsModule,
     TransactionsRoutingModule,
-    NgxsModule.forFeature([TransactionState, CategoryState, CurrencyState])
+    NgxsModule.forFeature([TransactionListState, CategoryState, CurrencyState])
   ]
 })
 export class TransactionsModule {}

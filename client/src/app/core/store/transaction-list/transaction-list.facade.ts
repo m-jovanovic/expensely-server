@@ -3,21 +3,21 @@ import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 
 import { AuthenticationFacade } from '../authentication';
-import { CreateTransaction, DeleteTransaction, LoadTransactions } from './transaction.actions';
-import { TransactionSelectors } from './transaction.selectors';
+import { CreateTransaction, DeleteTransaction, LoadTransactions } from './transaction-list.actions';
+import { TransactionListSelectors } from './transaction-list.selectors';
 import { TransactionResponse } from '../../contracts/transactions/transaction-response';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TransactionFacade {
-  @Select(TransactionSelectors.transactions)
+export class TransactionListFacade {
+  @Select(TransactionListSelectors.transactions)
   transactions$: Observable<TransactionResponse[]>;
 
-  @Select(TransactionSelectors.isLoading)
+  @Select(TransactionListSelectors.isLoading)
   isLoading$: Observable<boolean>;
 
-  @Select(TransactionSelectors.error)
+  @Select(TransactionListSelectors.error)
   error$: Observable<boolean>;
 
   constructor(private store: Store, private authenticationFacade: AuthenticationFacade) {}
