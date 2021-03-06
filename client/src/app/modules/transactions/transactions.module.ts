@@ -8,9 +8,10 @@ import { TransactionsRoutingModule } from './transactions-routing.module';
 import { CreateTransactionComponent } from './pages/create-transaction/create-transaction.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
+import { TransactionDetailsComponent } from './pages/transaction-details/transaction-details.component';
 
 @NgModule({
-  declarations: [CreateTransactionComponent, TransactionComponent, TransactionListComponent],
+  declarations: [CreateTransactionComponent, TransactionComponent, TransactionListComponent, TransactionDetailsComponent],
   imports: [
     SharedModule,
     ReactiveFormsModule,

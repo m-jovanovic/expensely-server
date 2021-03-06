@@ -11,7 +11,7 @@
     </div>
 
     <!-- Transactions list items -->
-    <li class="px-4 pt-1 md:pt-2" *ngFor="let transaction of transactions">
+    <li class="px-4 pt-1 md:pt-2 cursor-pointer" *ngFor="let transaction of transactions" (click)="selectTransaction(transaction.id)">
       <div class="flex items-center justify-between">
         <div class="flex items-center justify-center space-x-6">
           <div>

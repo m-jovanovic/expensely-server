@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { TransactionFacade, TransactionResponse } from '@expensely/core';
+import { RouterService, TransactionFacade, TransactionResponse } from '@expensely/core';
 
 @Component({
   selector: 'exp-transactions',
@@ -14,7 +14,7 @@ export class TransactionComponent implements OnInit {
   isLoading$: Observable<boolean>;
   error$: Observable<boolean>;
 
-  constructor(private transactionFacade: TransactionFacade) {}
+  constructor(private transactionFacade: TransactionFacade, private routerService: RouterService) {}
 
   ngOnInit(): void {
     this.transactions$ = this.transactionFacade.transactions$;
@@ -22,5 +22,9 @@ export class TransactionComponent implements OnInit {
     this.error$ = this.transactionFacade.error$;
 
     this.transactionFacade.loadTransactions(this.limit);
+  }
+
+  async selectTransaction(transactionId: string): Promise<boolean> {
+    return await this.routerService.navigate(['/transactions', transactionId]);
   }
 }

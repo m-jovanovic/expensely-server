@@ -15,5 +15,6 @@
     [transactions]="transactions$ | async"
     [isLoading]="isLoading$ | async"
     [error]="error$ | async"
+    (transactionSelectedEvent)="selectTransaction($event)"
   ></exp-transaction-list>
 </div>

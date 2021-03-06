@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { TransactionResponse } from '@expensely/core';
 
@@ -17,5 +17,12 @@ export class TransactionListComponent {
   @Input()
   error: boolean;
 
+  @Output()
+  transactionSelectedEvent = new EventEmitter<string>();
+
   constructor() {}
+
+  selectTransaction(transactionId: string): void {
+    this.transactionSelectedEvent.emit(transactionId);
+  }
 }
