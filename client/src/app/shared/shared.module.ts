@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SpinnerComponent } from './components';
+import { ConfirmationDialogComponent, SpinnerComponent } from './components';
 
 @NgModule({
-  declarations: [SpinnerComponent],
+  declarations: [ConfirmationDialogComponent, SpinnerComponent],
   imports: [CommonModule],
   exports: [CommonModule, SpinnerComponent]
 })
