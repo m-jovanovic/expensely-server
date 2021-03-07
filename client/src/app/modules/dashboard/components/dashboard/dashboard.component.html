@@ -9,9 +9,9 @@
 
   <exp-transaction-list
     class="flex-grow mt-4 md:mt-0 ml-0 md:ml-8"
-    [transactions]="transactionFacade.transactions$ | async"
-    [isLoading]="transactionFacade.isLoading$ | async"
-    [error]="transactionFacade.error$ | async"
+    [transactions]="transactionListFacade.transactions$ | async"
+    [isLoading]="transactionListFacade.isLoading$ | async"
+    [error]="transactionListFacade.error$ | async"
     (deleteTransactionEvent)="deleteTransaction($event)"
   ></exp-transaction-list>
 </div>

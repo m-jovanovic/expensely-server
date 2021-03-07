@@ -12,22 +12,22 @@ export class DashboardComponent implements OnInit {
   private readonly numberOfTransactions = 10;
 
   constructor(
-    public transactionFacade: TransactionListFacade,
+    public transactionListFacade: TransactionListFacade,
     public transactionSummaryFacade: TransactionSummaryFacade,
     private confirmationDialogService: ConfirmationDialogService
   ) {}
 
   ngOnInit(): void {
-    this.transactionFacade.loadTransactions(this.numberOfTransactions);
+    this.transactionListFacade.loadTransactions(this.numberOfTransactions);
 
     this.transactionSummaryFacade.loadTransactionSummary();
   }
 
   deleteTransaction(transactionId: string): void {
     this.confirmationDialogService.open({
-      message: 'Are you sure you want to remove this transaction?',
+      message: 'Are you sure you want to delete this transaction?',
       cancelButtonText: 'Cancel',
-      confirmButtonText: 'Remove'
+      confirmButtonText: 'Delete'
     });
 
     this.confirmationDialogService.afterClosed().subscribe((confirmed) => {
@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
         return;
       }
 
-      this.transactionFacade.deleteTransaction(transactionId);
+      this.transactionListFacade.deleteTransaction(transactionId);
     });
   }
 }
