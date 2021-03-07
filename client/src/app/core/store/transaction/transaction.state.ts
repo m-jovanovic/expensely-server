@@ -5,7 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { State, StateContext, Action } from '@ngxs/store';
 
 import { TransactionStateModel } from './transaction-state.model';
-import { GetTransactionById } from './transaction.actions';
+import { GetTransaction, DeleteTransaction } from './transaction.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
 import { TransactionResponse } from '../../contracts/transactions/transaction-response';
 
@@ -21,9 +21,10 @@ import { TransactionResponse } from '../../contracts/transactions/transaction-re
 export class TransactionState {
   constructor(private transactionService: TransactionService) {}
 
-  @Action(GetTransactionById)
-  loadTransactions(context: StateContext<TransactionStateModel>, action: GetTransactionById): Observable<any> {
+  @Action(GetTransaction)
+  getTransaction(context: StateContext<TransactionStateModel>, action: GetTransaction): Observable<any> {
     context.patchState({
+      transaction: null,
       isLoading: true
     });
 
@@ -38,6 +39,19 @@ export class TransactionState {
       catchError((error: HttpErrorResponse) => {
         context.patchState({
           isLoading: false,
+          error: true
+        });
+
+        return throwError(error);
+      })
+    );
+  }
+
+  @Action(DeleteTransaction)
+  deleteTransaction(context: StateContext<TransactionStateModel>, action: DeleteTransaction): Observable<any> {
+    return this.transactionService.deleteTransaction(action.transactionId).pipe(
+      catchError((error: HttpErrorResponse) => {
+        context.patchState({
           error: true
         });
 

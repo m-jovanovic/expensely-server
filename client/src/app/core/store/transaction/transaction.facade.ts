@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 
-import { GetTransactionById } from './transaction.actions';
+import { DeleteTransaction, GetTransaction } from './transaction.actions';
 import { TransactionSelectors } from './transaction.selectors';
 import { TransactionResponse } from '../../contracts/transactions/transaction-response';
 
@@ -21,7 +21,11 @@ export class TransactionFacade {
 
   constructor(private store: Store) {}
 
-  getTransactionById(transactionId: string): Observable<any> {
-    return this.store.dispatch(new GetTransactionById(transactionId));
+  getTransaction(transactionId: string): Observable<any> {
+    return this.store.dispatch(new GetTransaction(transactionId));
+  }
+
+  deleteTransaction(transactionId: string): Observable<any> {
+    return this.store.dispatch(new DeleteTransaction(transactionId));
   }
 }
