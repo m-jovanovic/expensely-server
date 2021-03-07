@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TransactionListFacade, TransactionSummaryFacade } from '@expensely/core';
+import { ConfirmationDialogService } from '@expensely/shared/services';
 
 @Component({
   selector: 'exp-dashboard',
@@ -10,7 +11,11 @@ import { TransactionListFacade, TransactionSummaryFacade } from '@expensely/core
 export class DashboardComponent implements OnInit {
   private readonly numberOfTransactions = 10;
 
-  constructor(public transactionFacade: TransactionListFacade, public transactionSummaryFacade: TransactionSummaryFacade) {}
+  constructor(
+    public transactionFacade: TransactionListFacade,
+    public transactionSummaryFacade: TransactionSummaryFacade,
+    private confirmationDialogService: ConfirmationDialogService
+  ) {}
 
   ngOnInit(): void {
     this.transactionFacade.loadTransactions(this.numberOfTransactions);
@@ -19,6 +24,18 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteTransaction(transactionId: string): void {
-    this.transactionFacade.deleteTransaction(transactionId);
+    this.confirmationDialogService.open({
+      message: 'Are you sure you want to remove this transaction?',
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Remove'
+    });
+
+    this.confirmationDialogService.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
+
+      this.transactionFacade.deleteTransaction(transactionId);
+    });
   }
 }
