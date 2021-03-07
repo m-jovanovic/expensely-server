@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { TransactionFacade, TransactionResponse } from '@expensely/core';
+import { RouterService, TransactionFacade, TransactionResponse } from '@expensely/core';
 
 @Component({
   selector: 'exp-transaction-details',
@@ -10,18 +10,23 @@ import { TransactionFacade, TransactionResponse } from '@expensely/core';
   styleUrls: ['./transaction-details.component.scss']
 })
 export class TransactionDetailsComponent implements OnInit {
+  transactionId: string;
   transaction$: Observable<TransactionResponse>;
   isLoading$: Observable<boolean>;
 
-  constructor(private route: ActivatedRoute, private transactionFacade: TransactionFacade) {}
+  constructor(private route: ActivatedRoute, private transactionFacade: TransactionFacade, private routerService: RouterService) {}
 
   ngOnInit(): void {
     this.transaction$ = this.transactionFacade.transaction$;
 
     this.isLoading$ = this.transactionFacade.isLoading$;
 
-    const transactionId = this.route.snapshot.paramMap.get('id');
+    this.transactionId = this.route.snapshot.paramMap.get('id');
 
-    this.transactionFacade.getTransactionById(transactionId);
+    this.transactionFacade.getTransaction(this.transactionId);
+  }
+
+  deleteTransaction(transactionId: string): void {
+    this.transactionFacade.deleteTransaction(transactionId).subscribe(() => this.routerService.navigate(['/transactions']));
   }
 }

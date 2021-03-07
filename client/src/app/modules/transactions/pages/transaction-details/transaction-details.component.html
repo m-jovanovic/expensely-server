@@ -1,3 +1,31 @@
-<div class="bg-white shadow-lg rounded-md w-full h-full p-4 relative">
-  <exp-transaction-information [transaction]="transaction$ | async" [isLoading]="isLoading$ | async"> </exp-transaction-information>
-</div>
+<ng-container
+  *ngIf="{
+    isLoading: isLoading$ | async,
+    transaction: transaction$ | async
+  } as data"
+>
+  <!-- Transaction details -->
+  <div *ngIf="!data.isLoading" class="flex justify-center w-full relative">
+    <div class="bg-white shadow-lg rounded-lg w-full md:max-w-2xl">
+      <div class="divide-y divide-gray-200">
+        <div class="p-4">
+          <!-- Transaction info -->
+          <exp-transaction-information [transaction]="data.transaction" [isLoading]="data.isLoading"></exp-transaction-information>
+        </div>
+        <div class="p-4">
+          <!-- Delete transaction -->
+          <exp-delete-transaction-button
+            [transactionId]="transactionId"
+            [isLoading]="data.isLoading"
+            (transactionDeletedEvent)="deleteTransaction($event)"
+          ></exp-delete-transaction-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spinner -->
+  <div *ngIf="data.isLoading">
+    <exp-spinner class="absolute inset-center w-20 h-20"></exp-spinner>
+  </div>
+</ng-container>

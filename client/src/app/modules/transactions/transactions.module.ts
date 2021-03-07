@@ -10,6 +10,7 @@ import { TransactionComponent } from './pages/transaction/transaction.component'
 import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
 import { TransactionDetailsComponent } from './pages/transaction-details/transaction-details.component';
 import { TransactionInformationComponent } from './components/transaction-information/transaction-information.component';
+import { DeleteTransactionButtonComponent } from './components/delete-transaction-button/delete-transaction-button.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { TransactionInformationComponent } from './components/transaction-inform
     TransactionComponent,
     TransactionListComponent,
     TransactionDetailsComponent,
-    TransactionInformationComponent
+    TransactionInformationComponent,
+    DeleteTransactionButtonComponent
   ],
   imports: [
     SharedModule,
