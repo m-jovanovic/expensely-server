@@ -1,11 +1,11 @@
-<exp-authentication-layout>
+<exp-authentication-layout *transloco="let t">
   <form class="w-64 md:w-88 bg-white shadow-md rounded" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="flex flex-col divide-y-2 divide-gray-200">
       <div class="px-4 md:px-6 py-4 md:py-6">
         <div class="space-y-2 md:space-y-4 mb-4 md:mb-6">
           <!-- First Name input and error messages -->
           <div>
-            <label for="firstName" class="sr-only">First name</label>
+            <label for="firstName" class="sr-only">{{ t('register.fields.firstName') }}</label>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
               [ngClass]="{
@@ -17,19 +17,19 @@
               name="firstName"
               formControlName="firstName"
               type="text"
-              placeholder="First name"
+              placeholder="{{ t('register.fields.firstName') }}"
               required
               maxlength="100"
             />
             <div *ngIf="submitted && registerForm.controls.firstName.errors" class="mt-2 text-xs text-red-500">
-              <div *ngIf="registerForm.controls.firstName.errors.required">The first name is required.</div>
-              <div *ngIf="registerForm.controls.firstName.errors.maxLength">The first name length is limited to 100 characters.</div>
+              <div *ngIf="registerForm.controls.firstName.errors.required">{{ t('register.errors.firstName.required') }}</div>
+              <div *ngIf="registerForm.controls.firstName.errors.maxlength">{{ t('register.errors.firstName.maxLength') }}</div>
             </div>
           </div>
 
           <!-- Last Name input and error messages -->
           <div>
-            <label for="lastName" class="sr-only">Last name</label>
+            <label for="lastName" class="sr-only">{{ t('register.fields.lastName') }}</label>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
               [ngClass]="{
@@ -41,19 +41,19 @@
               name="lastName"
               formControlName="lastName"
               type="text"
-              placeholder="Last name"
+              placeholder="{{ t('register.fields.lastName') }}"
               required
               maxlength="100"
             />
             <div *ngIf="submitted && registerForm.controls.lastName.errors" class="mt-2 text-xs text-red-500">
-              <div *ngIf="registerForm.controls.lastName.errors.required">The last name is required.</div>
-              <div *ngIf="registerForm.controls.lastName.errors.maxLength">The first name length is limited to 100 characters.</div>
+              <div *ngIf="registerForm.controls.lastName.errors.required">{{ t('register.errors.lastName.required') }}</div>
+              <div *ngIf="registerForm.controls.lastName.errors.maxlength">{{ t('register.errors.lastName.maxLength') }}</div>
             </div>
           </div>
 
           <!-- Email input and error messages -->
           <div>
-            <label for="email" class="sr-only">Email</label>
+            <label for="email" class="sr-only">{{ t('register.fields.email') }}</label>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
               [ngClass]="{
@@ -65,18 +65,18 @@
               name="email"
               formControlName="email"
               type="email"
-              placeholder="Email"
+              placeholder="{{ t('register.fields.email') }}"
               required
             />
             <div *ngIf="submitted && registerForm.controls.email.errors" class="mt-2 text-xs text-red-500">
-              <div *ngIf="registerForm.controls.email.errors.required">The email is required.</div>
-              <div *ngIf="registerForm.controls.email.errors.email">The email must be a valid email address.</div>
+              <div *ngIf="registerForm.controls.email.errors.required">{{ t('register.errors.email.required') }}</div>
+              <div *ngIf="registerForm.controls.email.errors.email">{{ t('register.errors.email.invalidFormat') }}</div>
             </div>
           </div>
 
           <!-- Password input and error messages -->
           <div>
-            <label for="password" class="sr-only">Password</label>
+            <label for="password" class="sr-only">{{ t('register.fields.password') }}</label>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
               [ngClass]="{
@@ -88,22 +88,21 @@
               name="password"
               formControlName="password"
               type="password"
-              placeholder="Password"
+              placeholder="{{ t('register.fields.password') }}"
               required
             />
             <div *ngIf="submitted && registerForm.controls.password.errors" class="mt-2 text-xs text-red-500">
-              <div *ngIf="registerForm.controls.password.errors.required">The password is required.</div>
-              <div *ngIf="registerForm.controls.password.errors.minLength">The minimum password length is 6 characters.</div>
+              <div *ngIf="registerForm.controls.password.errors.required">{{ t('register.errors.password.required') }}</div>
+              <div *ngIf="registerForm.controls.password.errors.minlength">{{ t('register.errors.password.minLength') }}</div>
               <div *ngIf="!registerForm.controls.password.errors.required && registerForm.controls.password.errors.passwordStrength">
-                The password must contain at least one lowercase letter, one uppercase letter, one number and one special character or
-                symbol.
+                {{ t('register.errors.password.passwordStrength') }}
               </div>
             </div>
           </div>
 
           <!-- Confirm password input and error messages -->
           <div>
-            <label for="confirmationPassword" class="sr-only">Confirm password</label>
+            <label for="confirmationPassword" class="sr-only">{{ t('register.fields.confirmationPassword') }}</label>
             <input
               class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
               [ngClass]="{
@@ -115,21 +114,23 @@
               name="confirmationPassword"
               formControlName="confirmationPassword"
               type="password"
-              placeholder="Confirm password"
+              placeholder="{{ t('register.fields.confirmationPassword') }}"
               required
             />
             <div *ngIf="submitted && registerForm.controls.confirmationPassword.errors" class="mt-2 text-xs text-red-500">
-              <div *ngIf="registerForm.controls.confirmationPassword.errors.required">The confirmation password is required.</div>
+              <div *ngIf="registerForm.controls.confirmationPassword.errors.required">
+                {{ t('register.errors.confirmationPassword.required') }}
+              </div>
               <div
                 *ngIf="
                   !registerForm.controls.confirmationPassword.errors.required &&
                   registerForm.controls.confirmationPassword.errors.confirmationPasswordMustMatch
                 "
               >
-                The password and confirmation password must match.
+                {{ t('register.errors.confirmationPassword.confirmationPasswordMustMatch') }}
               </div>
             </div>
-            <div *ngIf="emailAlreadyInUse" class="mt-2 text-sm text-red-500 text-center">The email you provided is already in use.</div>
+            <div *ngIf="emailAlreadyInUse" class="mt-2 text-sm text-red-500 text-center">{{ t('register.errors.emailAlreadyInUse') }}</div>
           </div>
         </div>
 
@@ -139,19 +140,19 @@
             class="w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
             type="submit"
           >
-            Sign Up
+            {{ t('register.actions.register') }}
           </button>
         </div>
       </div>
 
       <!-- Log In section -->
       <div class="flex flex-col items-center px-4 md:px-6 py-4 rounded-b bg-gray-50">
-        <p class="text-sm text-gray-500">Already have an account?</p>
+        <p class="text-sm text-gray-500">{{ t('register.actions.loginText') }}</p>
         <button
           class="w-28 px-4 py-2 mt-6 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
           (click)="redirectToLogin()"
         >
-          Log In
+          {{ t('register.actions.login') }}
         </button>
       </div>
     </div>
