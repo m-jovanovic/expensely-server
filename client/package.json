@@ -22,7 +22,6 @@
     "@angular/service-worker": "^11.2.4",
     "@ngneat/tailwind": "^6.0.3",
     "@ngneat/transloco": "^2.20.1",
-    "@ngxs/router-plugin": "^3.7.1",
     "@ngxs/storage-plugin": "^3.7.1",
     "@ngxs/store": "^3.7.1",
     "jwt-decode": "^3.1.2",
