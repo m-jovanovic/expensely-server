@@ -80,6 +80,7 @@
     "errors": {
       "currency": {
         "required": "The currency is required."
+      }
     }
   },
   "dashboard": {
