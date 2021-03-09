@@ -1,0 +1,95 @@
+<div
+  *transloco="let t"
+  class="flex flex-col items-center overflow-y-auto h-screen w-screen bg-gradient-to-b from-light-blue-900 to-cyan-600"
+>
+  <!-- Title and CTA -->
+  <div class="mt-auto flex flex-col items-center">
+    <h1 class="text-teal-400 tracking-wide text-4xl uppercase mt-10 md:text-8xl mb-4 md:mb-8">{{ t('login.text.title') }}</h1>
+    <p class="text-white font-medium text-lg md:text-4xl mb-8 md:mb-12">{{ t('login.text.subtitle') }}</p>
+  </div>
+
+  <!-- Content -->
+  <div class="mb-auto">
+    <div class="mb-10">
+      <form class="w-64 md:w-88 bg-white shadow-lg rounded" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="flex flex-col divide-y-2 divide-gray-200">
+          <div class="px-4 md:px-6 py-4 md:py-6">
+            <div class="space-y-2 md:space-y-4 mb-4 md:mb-6">
+              <!-- Email input and error messages -->
+              <div>
+                <label for="email" class="sr-only">{{ t('login.fields.email') }}</label>
+                <input
+                  class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+                  [ngClass]="{
+                    'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+                      submitted && loginForm.controls.email.errors,
+                    'focus:border-teal-400 focus:ring-teal-400': !submitted || !loginForm.controls.email.errors
+                  }"
+                  id="email"
+                  name="email"
+                  formControlName="email"
+                  type="email"
+                  placeholder="{{ t('login.fields.email') }}"
+                  required
+                />
+                <div *ngIf="submitted && loginForm.controls.email.errors" class="mt-2 text-xs text-red-500">
+                  <div *ngIf="loginForm.controls.email.errors.required">{{ t('login.errors.email.required') }}</div>
+                  <div *ngIf="loginForm.controls.email.errors.email">{{ t('login.errors.email.invalidFormat') }}</div>
+                </div>
+              </div>
+
+              <!-- Password input and error messages -->
+              <div>
+                <label for="password" class="sr-only">{{ t('login.fields.password') }}</label>
+                <input
+                  class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+                  [ngClass]="{
+                    'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500  focus:ring-red-500':
+                      submitted && loginForm.controls.password.errors,
+                    'focus:border-teal-400 focus:ring-teal-400': !submitted || !loginForm.controls.password.errors
+                  }"
+                  id="password"
+                  name="password"
+                  formControlName="password"
+                  type="password"
+                  placeholder="{{ t('login.fields.password') }}"
+                  required
+                />
+                <div *ngIf="submitted && loginForm.controls.password.errors" class="mt-2 text-xs text-red-500">
+                  <div *ngIf="loginForm.controls.password.errors.required">{{ t('login.errors.password.required') }}</div>
+                </div>
+                <div *ngIf="invalidEmailOrPassword" class="mt-2 text-xs text-red-500 text-center">
+                  {{ t('login.errors.invalidEmailOrPassword') }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Log In section -->
+            <div class="flex flex-col md:flex-row items-center md:justify-between">
+              <button
+                class="w-24 md:w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
+                type="submit"
+              >
+                {{ t('login.actions.login') }}
+              </button>
+              <a class="mt-3 md:mt-0 font-bold text-sm text-gray-400 hover:text-black" href="#">
+                {{ t('login.actions.forgotPassword') }}
+              </a>
+            </div>
+          </div>
+
+          <!-- Sign up section -->
+          <div class="flex flex-col items-center px-4 md:px-6 py-4 rounded-b bg-gray-50">
+            <p class="text-sm text-gray-500">{{ t('login.actions.registerText') }}</p>
+            <button
+              class="w-24 md:w-28 px-4 py-2 mt-4 md:mt-6 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
+              (click)="redirectToRegister()"
+            >
+              {{ t('login.actions.register') }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

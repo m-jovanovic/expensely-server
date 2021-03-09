@@ -1,0 +1,176 @@
+<div
+  *transloco="let t"
+  class="flex flex-col items-center overflow-y-auto h-screen w-screen bg-gradient-to-b from-light-blue-900 to-cyan-600"
+>
+  <!-- Title and CTA -->
+  <div class="mt-auto flex flex-col items-center">
+    <h1 class="text-teal-400 tracking-wide text-4xl uppercase mt-10 md:text-8xl mb-4 md:mb-8">{{ t('register.text.title') }}</h1>
+    <p class="text-white font-medium text-lg md:text-4xl mb-8 md:mb-12">{{ t('register.text.subtitle') }}</p>
+  </div>
+
+  <!-- Content -->
+  <div class="mb-auto">
+    <div class="mb-10">
+      <form class="w-64 md:w-88 bg-white shadow-md rounded" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="flex flex-col divide-y-2 divide-gray-200">
+          <div class="px-4 md:px-6 py-4 md:py-6">
+            <div class="space-y-2 md:space-y-4 mb-4 md:mb-6">
+              <!-- First Name input and error messages -->
+              <div>
+                <label for="firstName" class="sr-only">{{ t('register.fields.firstName') }}</label>
+                <input
+                  class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+                  [ngClass]="{
+                    'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+                      submitted && registerForm.controls.firstName.errors,
+                    'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.firstName.errors
+                  }"
+                  id="firstName"
+                  name="firstName"
+                  formControlName="firstName"
+                  type="text"
+                  placeholder="{{ t('register.fields.firstName') }}"
+                  required
+                  maxlength="100"
+                />
+                <div *ngIf="submitted && registerForm.controls.firstName.errors" class="mt-2 text-xs text-red-500">
+                  <div *ngIf="registerForm.controls.firstName.errors.required">{{ t('register.errors.firstName.required') }}</div>
+                  <div *ngIf="registerForm.controls.firstName.errors.maxlength">{{ t('register.errors.firstName.maxLength') }}</div>
+                </div>
+              </div>
+
+              <!-- Last Name input and error messages -->
+              <div>
+                <label for="lastName" class="sr-only">{{ t('register.fields.lastName') }}</label>
+                <input
+                  class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+                  [ngClass]="{
+                    'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+                      submitted && registerForm.controls.lastName.errors,
+                    'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.lastName.errors
+                  }"
+                  id="lastName"
+                  name="lastName"
+                  formControlName="lastName"
+                  type="text"
+                  placeholder="{{ t('register.fields.lastName') }}"
+                  required
+                  maxlength="100"
+                />
+                <div *ngIf="submitted && registerForm.controls.lastName.errors" class="mt-2 text-xs text-red-500">
+                  <div *ngIf="registerForm.controls.lastName.errors.required">{{ t('register.errors.lastName.required') }}</div>
+                  <div *ngIf="registerForm.controls.lastName.errors.maxlength">{{ t('register.errors.lastName.maxLength') }}</div>
+                </div>
+              </div>
+
+              <!-- Email input and error messages -->
+              <div>
+                <label for="email" class="sr-only">{{ t('register.fields.email') }}</label>
+                <input
+                  class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+                  [ngClass]="{
+                    'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+                      submitted && registerForm.controls.email.errors,
+                    'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.email.errors
+                  }"
+                  id="email"
+                  name="email"
+                  formControlName="email"
+                  type="email"
+                  placeholder="{{ t('register.fields.email') }}"
+                  required
+                />
+                <div *ngIf="submitted && registerForm.controls.email.errors" class="mt-2 text-xs text-red-500">
+                  <div *ngIf="registerForm.controls.email.errors.required">{{ t('register.errors.email.required') }}</div>
+                  <div *ngIf="registerForm.controls.email.errors.email">{{ t('register.errors.email.invalidFormat') }}</div>
+                </div>
+              </div>
+
+              <!-- Password input and error messages -->
+              <div>
+                <label for="password" class="sr-only">{{ t('register.fields.password') }}</label>
+                <input
+                  class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+                  [ngClass]="{
+                    'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+                      submitted && registerForm.controls.password.errors,
+                    'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.password.errors
+                  }"
+                  id="password"
+                  name="password"
+                  formControlName="password"
+                  type="password"
+                  placeholder="{{ t('register.fields.password') }}"
+                  required
+                />
+                <div *ngIf="submitted && registerForm.controls.password.errors" class="mt-2 text-xs text-red-500">
+                  <div *ngIf="registerForm.controls.password.errors.required">{{ t('register.errors.password.required') }}</div>
+                  <div *ngIf="registerForm.controls.password.errors.minlength">{{ t('register.errors.password.minLength') }}</div>
+                  <div *ngIf="!registerForm.controls.password.errors.required && registerForm.controls.password.errors.passwordStrength">
+                    {{ t('register.errors.password.passwordStrength') }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Confirm password input and error messages -->
+              <div>
+                <label for="confirmationPassword" class="sr-only">{{ t('register.fields.confirmationPassword') }}</label>
+                <input
+                  class="md:leading-8 shadow rounded border-gray-100 w-full py-2 px-3 focus:outline-none focus:ring-2"
+                  [ngClass]="{
+                    'border-red-500 ring-2 ring-inset ring-red-500 focus:border-red-500 focus:ring-red-500':
+                      submitted && registerForm.controls.confirmationPassword.errors,
+                    'focus:border-teal-400 focus:ring-teal-400': !submitted || !registerForm.controls.confirmationPassword.errors
+                  }"
+                  id="confirmationPassword"
+                  name="confirmationPassword"
+                  formControlName="confirmationPassword"
+                  type="password"
+                  placeholder="{{ t('register.fields.confirmationPassword') }}"
+                  required
+                />
+                <div *ngIf="submitted && registerForm.controls.confirmationPassword.errors" class="mt-2 text-xs text-red-500">
+                  <div *ngIf="registerForm.controls.confirmationPassword.errors.required">
+                    {{ t('register.errors.confirmationPassword.required') }}
+                  </div>
+                  <div
+                    *ngIf="
+                      !registerForm.controls.confirmationPassword.errors.required &&
+                      registerForm.controls.confirmationPassword.errors.confirmationPasswordMustMatch
+                    "
+                  >
+                    {{ t('register.errors.confirmationPassword.confirmationPasswordMustMatch') }}
+                  </div>
+                </div>
+                <div *ngIf="emailAlreadyInUse" class="mt-2 text-xs text-red-500 text-center">
+                  {{ t('register.errors.emailAlreadyInUse') }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Sign Up section -->
+            <div class="flex justify-center">
+              <button
+                class="w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
+                type="submit"
+              >
+                {{ t('register.actions.register') }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Log In section -->
+          <div class="flex flex-col items-center px-4 md:px-6 py-4 rounded-b bg-gray-50">
+            <p class="text-sm text-gray-500">{{ t('register.actions.loginText') }}</p>
+            <button
+              class="w-28 px-4 py-2 mt-6 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
+              (click)="redirectToLogin()"
+            >
+              {{ t('register.actions.login') }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

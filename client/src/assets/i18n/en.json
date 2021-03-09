@@ -1,9 +1,9 @@
 {
-  "authentication": {
-    "title": "Expensely",
-    "subtitle": "Let us take care of your expenses"
-  },
   "login": {
+    "text": {
+      "title": "Expensely",
+      "subtitle": "Let us take care of your expenses"
+    },
     "fields": {
       "email": "Email",
       "password": "Password"
@@ -26,6 +26,10 @@
     }
   },
   "register": {
+    "text": {
+      "title": "Expensely",
+      "subtitle": "Let us take care of your expenses"
+    },
     "fields": {
       "firstName": "First name",
       "lastName": "Last name",

@@ -57,8 +57,12 @@ const routes: Routes = [
     component: EmptyLayoutComponent,
     children: [
       {
-        path: '',
-        loadChildren: () => import('./modules').then((m) => m.AuthenticationModule)
+        path: 'login',
+        loadChildren: () => import('./modules').then((m) => m.LoginModule)
+      },
+      {
+        path: 'register',
+        loadChildren: () => import('./modules').then((m) => m.RegisterModule)
       },
       {
         path: 'setup',

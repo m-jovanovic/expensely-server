@@ -44,6 +44,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
         /// <inheritdoc />
         public async Task<Result<TokenResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
+            // TODO: Make sure that when the request gets here there is no need to check value objects.
             Result<Email> emailResult = Email.Create(request.Email);
             Result<Password> passwordResult = Password.Create(request.Password);
 

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { ApiErrorResponse, AuthenticationFacade, RouterService } from '@expensely/core';
+import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
 
 @Component({
   selector: 'exp-login',
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
   }
 
   handleLoginError(errorResponse: ApiErrorResponse): void {
-    if (errorResponse.hasErrors()) {
+    if (errorResponse.hasError(ErrorCodes.UserEmailOrPasswordInvalid)) {
       this.invalidEmailOrPassword = true;
     }
   }
