@@ -62,5 +62,19 @@
       },
       "emailAlreadyInUse": "The email you provided is already in use."
     }
+  },
+  "dashboard": {
+    "recentTransactions": {
+      "title": "Recent Transactions",
+      "notFound": "It seems that you don't have any recent transactions.",
+      "error": "Recent transactions are currently unavailable."
+    },
+    "transactionSummary": {
+      "expenses": "Expenses",
+      "incomes": "Incomes",
+      "timePeriod": "This month",
+      "expensesError": "Expenses summary is currently unavailable.",
+      "incomesError": "Incomes summary is currently unavailable."
+    }
   }
 }

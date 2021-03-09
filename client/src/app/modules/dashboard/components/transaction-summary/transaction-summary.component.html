@@ -3,9 +3,9 @@
   <div class="w-60 md:w-64 bg-white rounded-lg shadow-lg divide-y divide-gray-200">
     <!-- Title -->
     <div class="flex items-center px-4 py-2 md:py-4 space-x-3">
-      <div class="text-xl md:text-2xl font-medium tracking-wide text-gray-700">Expenses</div>
+      <div class="text-xl md:text-2xl font-medium tracking-wide text-gray-700">{{ t('dashboard.transactionSummary.expenses') }}</div>
       <div class="md:mt-1 rounded-full h-1 w-1 bg-gray-900"></div>
-      <div class="md:mt-1 text-base text-gray-400">This month</div>
+      <div class="md:mt-1 text-base text-gray-400">{{ t('dashboard.transactionSummary.timePeriod') }}</div>
     </div>
 
     <!-- Content -->
@@ -17,7 +17,7 @@
 
       <!-- Error message -->
       <div *ngIf="error && !isLoading">
-        <p class="text-base text-center">Expenses summary is currently unavailable.</p>
+        <p class="text-base text-center">{{ t('dashboard.transactionSummary.expensesError') }}</p>
       </div>
 
       <!-- Expenses transaction summary -->
@@ -31,9 +31,9 @@
   <div class="w-60 md:w-64 bg-white rounded-lg shadow-lg divide-y divide-gray-200">
     <!-- Title -->
     <div class="flex items-center px-4 py-2 md:py-4 space-x-3">
-      <div class="text-xl md:text-2xl font-medium tracking-wide text-gray-700">Incomes</div>
+      <div class="text-xl md:text-2xl font-medium tracking-wide text-gray-700">{{ t('dashboard.transactionSummary.incomes') }}</div>
       <div class="md:mt-1 rounded-full h-1 w-1 bg-gray-900"></div>
-      <div class="md:mt-1 text-base text-gray-400">This month</div>
+      <div class="md:mt-1 text-base text-gray-400">{{ t('dashboard.transactionSummary.timePeriod') }}</div>
     </div>
 
     <!-- Content -->
@@ -45,7 +45,7 @@
 
       <!-- Error message -->
       <div *ngIf="error && !isLoading">
-        <p class="text-base text-center">Incomes summary is currently unavailable.</p>
+        <p class="text-base text-center">{{ t('dashboard.transactionSummary.incomesError') }}</p>
       </div>
 
       <!-- Incomes transaction summary -->
