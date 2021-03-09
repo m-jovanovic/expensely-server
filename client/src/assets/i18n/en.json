@@ -67,6 +67,21 @@
       "emailAlreadyInUse": "The email you provided is already in use."
     }
   },
+  "setup": {
+    "text": {
+      "message": "You're almost ready! Before proceeding, please choose your primary currency."
+    },
+    "actions": {
+      "selectPrimaryCurrency": "Select Primary Currency"
+    },
+    "fields": {
+      "currency": "Currency"
+    },
+    "errors": {
+      "currency": {
+        "required": "The currency is required."
+    }
+  },
   "dashboard": {
     "recentTransactions": {
       "title": "Recent Transactions",

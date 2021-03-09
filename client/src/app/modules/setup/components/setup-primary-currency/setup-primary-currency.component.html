@@ -1,13 +1,13 @@
-<form class="w-full sm:w-88 bg-white shadow-lg rounded" [formGroup]="setupForm" (ngSubmit)="onSubmit()">
+<form *transloco="let t" class="w-full sm:w-88 bg-white shadow-lg rounded" [formGroup]="setupForm" (ngSubmit)="onSubmit()">
   <div class="flex flex-col">
     <div class="px-4 sm:px-6 py-4 sm:py-6">
       <div class="space-y-4 sm:space-y-6">
-        <p class="text-gray-700">You're almost ready! Before proceeding, please choose your primary currency.</p>
+        <p class="text-gray-700">{{ t('setup.text.message') }}</p>
 
         <!-- Currency -->
         <div>
           <div class="flex space-x-4 items-center">
-            <label for="currency" class="font-medium text-gray-500">Currency</label>
+            <label for="currency" class="font-medium text-gray-500">{{ t('setup.fields.currency') }}</label>
             <select
               id="currency"
               name="currency"
@@ -22,7 +22,7 @@
           </div>
 
           <div *ngIf="submitted && setupForm.controls.currency.errors" class="mt-2 text-sm text-red-500">
-            <div *ngIf="setupForm.controls.currency.errors.required">The currency is required.</div>
+            <div *ngIf="setupForm.controls.currency.errors.required">{{ t('setup.errors.currency.required') }}</div>
           </div>
         </div>
 
@@ -31,7 +31,7 @@
           class="w-full py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
           type="submit"
         >
-          Select Primary Currency
+          {{ t('setup.actions.selectPrimaryCurrency') }}
         </button>
 
         <div *ngIf="requestSent" class="flex items-center justify-center">
