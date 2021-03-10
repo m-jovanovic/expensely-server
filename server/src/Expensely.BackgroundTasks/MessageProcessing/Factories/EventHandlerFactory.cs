@@ -39,7 +39,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Factories
                 EventHandlersDictionary.Add(eventType, eventHandlerType);
             }
 
-            IEventHandler[] eventHandlers = _serviceProvider.GetServices(eventHandlerType).Cast<IEventHandler>().ToArray();
+            IEnumerable<IEventHandler> eventHandlers = _serviceProvider.GetServices(eventHandlerType).Cast<IEventHandler>();
 
             return eventHandlers;
         }
