@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 import { RouterService, TransactionListFacade, TransactionResponse } from '@expensely/core';
 
 @Component({
-  selector: 'exp-transactions',
-  templateUrl: './transaction.component.html',
-  styleUrls: ['./transaction.component.scss']
+  selector: 'exp-transactions-list',
+  templateUrl: './transaction-list.component.html',
+  styleUrls: ['./transaction-list.component.scss']
 })
-export class TransactionComponent implements OnInit {
+export class TransactionListComponent implements OnInit {
   private readonly limit = 25;
   transactions$: Observable<TransactionResponse[]>;
   isLoading$: Observable<boolean>;

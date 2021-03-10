@@ -1,0 +1,25 @@
+<!-- Transactions list items -->
+<div class="px-4 pt-1 md:pt-2 cursor-pointer" (click)="selectTransaction()">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center justify-center space-x-6">
+      <div>
+        <div class="tracking-wide text-gray-400">
+          {{ transaction.occurredOn }}
+        </div>
+      </div>
+      <div class="flex flex-col justify-start">
+        <div class="text-lg tracking-wide">
+          {{ transaction.description }}
+        </div>
+        <div class="tracking-wide text-sm text-gray-500 mt-1">
+          <span class="bg-red-200 rounded-l-full rounded-r-full px-2 py-1">
+            {{ transaction.category }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="text-lg text-gray-700">
+      {{ transaction.formattedAmount }}
+    </div>
+  </div>
+</div>
