@@ -2,8 +2,8 @@
   class="px-4 py-2 rounded-md font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
   (click)="deleteTransaction()"
 >
-  <div class="flex items-center space-x-2">
-    <span *ngIf="displayText">Delete</span>
+  <div *transloco="let t" class="flex items-center space-x-2">
+    <span *ngIf="displayText">{{ t('transactions.delete.actions.delete') }}</span>
     <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path
         stroke-linecap="round"

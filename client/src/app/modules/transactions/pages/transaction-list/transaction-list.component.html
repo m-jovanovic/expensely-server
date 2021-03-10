@@ -1,4 +1,4 @@
-<div class="bg-white rounded-lg shadow-lg w-full">
+<div *transloco="let t" class="bg-white rounded-lg shadow-lg w-full">
   <div class="flex items-center p-4 justify-between">
     <div class="flex items-center space-x-4">
       <svg class="w-6 md:w-7 h-6 md:h-7 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24">
@@ -9,14 +9,14 @@
           d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
         />
       </svg>
-      <h1 class="text-xl sm:text-2xl tracking-wide text-gray-700">Transactions</h1>
+      <h1 class="text-xl sm:text-2xl tracking-wide text-gray-700">{{ t('transactions.list.text.title') }}</h1>
     </div>
     <div>
       <a
         [routerLink]="['/transactions/create']"
         class="flex items-center pl-4 pr-3 py-2 rounded font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-500 hover:to-teal-500"
       >
-        <span>Create Transaction</span>
+        <span>{{ t('transactions.list.actions.createTransaction') }}</span>
 
         <svg class="w-7 h-7 stroke-current" fill="none" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -36,12 +36,12 @@
       <div class="pb-4">
         <!-- Error message -->
         <div *ngIf="data.error && !data.isLoading" class="flex items-center justify-center h-40">
-          <p class="text-base text-center">Transactions are currently unavailable.</p>
+          <p class="text-base text-center">{{ t('transactions.list.errors.error') }}</p>
         </div>
 
         <!-- No transactions  found  -->
         <div *ngIf="!data.isLoading && !data.error && !data.transactions?.length" class="flex items-center justify-center h-40">
-          <p class="text-base text-center">It seems that you don't have any transactions.</p>
+          <p class="text-base text-center">{{ t('transactions.list.errors.notFound') }}</p>
         </div>
 
         <div class="flex flex-col divide-y divide-gray-200 space-y-4">

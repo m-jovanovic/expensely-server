@@ -96,5 +96,48 @@
       "expensesError": "Expenses summary is currently unavailable.",
       "incomesError": "Incomes summary is currently unavailable."
     }
+  },
+  "transactions": {
+    "list": {
+      "text": {
+        "title": "Transactions"
+      },
+      "actions": {
+        "createTransaction": "Create Transaction"
+      },
+      "errors": {
+        "notFound": "It seems that you don't have any transactions.",
+        "error": "Transactions are currently unavailable."
+      }
+    },
+    "create": {
+      "text": {
+        "title": "Create a new Transaction"
+      },
+      "fields": {
+        "transactionType": "Transaction type",
+        "expenseTransactionType": "Expense",
+        "incomeTransactionType": "Income",
+        "description": "Description",
+        "category": "Category",
+        "amount": "Amount",
+        "currency": "Currency",
+        "occurredOn": "Occurred on"
+      },
+      "actions": {
+        "createTransaction": "Create Transaction",
+        "cancel": "Cancel"
+      }
+    },
+    "delete": {
+      "actions": {
+        "delete": "Delete Transaction"
+      },
+      "dialog": {
+        "message": "Are you sure you want to delete this transaction?",
+        "cancelButtonText": "Cancel",
+        "confirmButtonText": "Delete"
+      }
+    }
   }
 }

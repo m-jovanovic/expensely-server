@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { ConfirmationDialogService } from '@expensely/shared/services';
 
@@ -21,7 +22,7 @@ export class DeleteTransactionButtonComponent {
   @Output()
   transactionDeletedEvent = new EventEmitter<string>();
 
-  constructor(private confirmationDialogService: ConfirmationDialogService) {}
+  constructor(private confirmationDialogService: ConfirmationDialogService, private translationService: TranslocoService) {}
 
   deleteTransaction(): void {
     if (this.isLoading) {
@@ -29,9 +30,9 @@ export class DeleteTransactionButtonComponent {
     }
 
     this.confirmationDialogService.open({
-      message: 'Are you sure you want to delete this transaction?',
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Delete'
+      message: this.translationService.translate('transactions.delete.dialog.message'),
+      cancelButtonText: this.translationService.translate('transactions.delete.dialog.cancelButtonText'),
+      confirmButtonText: this.translationService.translate('transactions.delete.dialog.confirmButtonText')
     });
 
     this.confirmationDialogService.afterClosed().subscribe((confirmed) => {
