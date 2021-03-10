@@ -5,7 +5,7 @@ on: workflow_dispatch
 env:
   AZURE_WEBAPP_NAME: expensely-api
   AZURE_WEBAPP_PACKAGE_PATH: "."
-  DOTNET_VERSION: "5.0.200"
+  DOTNET_VERSION: "5.0.201"
 
 jobs:
   publish-to-azure-manual:
