@@ -1,4 +1,4 @@
-<div *transloco="let t" class="bg-white rounded-lg shadow-lg divide-y divide-gray-200 pb-4">
+<div *transloco="let t" class="bg-white rounded-lg shadow-lg pb-4">
   <!-- Title -->
   <div class="flex items-center space-x-3 px-4 py-2 md:py-4">
     <svg class="w-6 md:w-7 h-6 md:h-7 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24">
@@ -30,7 +30,7 @@
     </div>
 
     <!-- Transactions list items -->
-    <li class="px-4 pt-1 md:pt-2" *ngFor="let transaction of transactions">
+    <li class="px-4 pt-1 md:pt-2 cursor-pointer" *ngFor="let transaction of transactions" (click)="selectTransaction(transaction.id)">
       <div class="flex items-center justify-between">
         <div class="flex items-center justify-center space-x-6">
           <div>

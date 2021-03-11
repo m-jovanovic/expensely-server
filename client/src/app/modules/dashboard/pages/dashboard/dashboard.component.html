@@ -12,5 +12,6 @@
     [transactions]="transactionListFacade.transactions$ | async"
     [isLoading]="transactionListFacade.isLoading$ | async"
     [error]="transactionListFacade.error$ | async"
+    (transactionSelectedEvent)="selectTransaction($event)"
   ></exp-recent-transaction-list>
 </div>

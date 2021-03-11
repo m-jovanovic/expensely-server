@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { TransactionResponse } from '@expensely/core/contracts/transactions/transaction-response';
 
@@ -18,7 +18,14 @@ export class RecentTransactionListComponent implements OnInit {
   @Input()
   error: boolean;
 
+  @Output()
+  transactionSelectedEvent = new EventEmitter<string>();
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  selectTransaction(transactionId: string): void {
+    this.transactionSelectedEvent.emit(transactionId);
+  }
 }
