@@ -3,12 +3,12 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { TransactionResponse } from '@expensely/core/contracts/transactions/transaction-response';
 
 @Component({
-  selector: 'exp-transaction-list',
-  templateUrl: './transaction-list.component.html',
-  styleUrls: ['./transaction-list.component.scss'],
+  selector: 'exp-recent-transaction-list',
+  templateUrl: './recent-transaction-list.component.html',
+  styleUrls: ['./recent-transaction-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TransactionListComponent implements OnInit {
+export class RecentTransactionListComponent implements OnInit {
   @Input()
   transactions: TransactionResponse[];
 

@@ -3,14 +3,12 @@ import { NgxsModule } from '@ngxs/store';
 
 import { SharedModule } from '@expensely/shared';
 import { TransactionListState, TransactionSummaryState } from '@expensely/core';
-
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { TransactionSummaryComponent } from './components/transaction-summary/transaction-summary.component';
-import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
+import { DashboardComponent } from './pages';
+import { RecentTransactionListComponent, TransactionSummaryComponent } from './components';
 
 @NgModule({
-  declarations: [DashboardComponent, TransactionSummaryComponent, TransactionListComponent],
+  declarations: [DashboardComponent, TransactionSummaryComponent, RecentTransactionListComponent],
   imports: [SharedModule, DashboardRoutingModule, NgxsModule.forFeature([TransactionListState, TransactionSummaryState])]
 })
 export class DashboardModule {}

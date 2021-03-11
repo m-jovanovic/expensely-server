@@ -7,10 +7,10 @@
   >
   </exp-transaction-summary>
 
-  <exp-transaction-list
+  <exp-recent-transaction-list
     class="flex-grow mt-4 md:mt-0 ml-0 md:ml-8"
     [transactions]="transactionListFacade.transactions$ | async"
     [isLoading]="transactionListFacade.isLoading$ | async"
     [error]="transactionListFacade.error$ | async"
-  ></exp-transaction-list>
+  ></exp-recent-transaction-list>
 </div>
