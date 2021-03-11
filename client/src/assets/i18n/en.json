@@ -139,5 +139,11 @@
         "confirmButtonText": "Delete"
       }
     }
+  },
+  "navigation": {
+    "title": "Expensely",
+    "accountDropdown": {
+      "signOut": "Sign Out"
+    }
   }
 }

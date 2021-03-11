@@ -1,7 +1,7 @@
-<header class="flex items-center justify-between bg-white">
+<header *transloco="let t" class="flex items-center justify-between bg-white">
   <!-- App name & link -->
   <div class="flex items-center justify-center bg-indigo-700 w-64 py-3">
-    <a class="font-bold uppercase tracking-widest text-white text-3xl" href="/">Expensely</a>
+    <a class="font-bold uppercase tracking-widest text-white text-3xl" href="/">{{ t('navigation.title') }}</a>
   </div>
 
   <!-- Account dropdown -->

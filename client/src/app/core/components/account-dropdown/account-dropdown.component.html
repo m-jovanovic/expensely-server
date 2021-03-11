@@ -1,4 +1,4 @@
-<div class="relative">
+<div *transloco="let t" class="relative">
   <button
     type="button"
     class="block ml-4 h-12 w-12 bg-indigo-200 rounded-full border-2 border-gray-400 hover:border-gray-500 focus:outline-none focus:border-gray-600"
@@ -7,6 +7,8 @@
     <span class="text-lg font-semibold tracking-wide">{{ userInitials }}</span>
   </button>
   <div *ngIf="isDropdownMenuOpen" class="absolute z-10 right-0 w-32 rounded-lg mt-2 py-2 bg-white border shadow-lg">
-    <div class="block font-medium px-4 py-2 hover:bg-indigo-500 hover:text-white cursor-pointer" (click)="logout()">Sign out</div>
+    <div class="block font-medium px-4 py-2 hover:bg-indigo-500 hover:text-white cursor-pointer" (click)="logout()">
+      {{ t('navigation.accountDropdown.signOut') }}
+    </div>
   </div>
 </div>
