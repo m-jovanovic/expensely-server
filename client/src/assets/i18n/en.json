@@ -144,6 +144,14 @@
     "title": "Expensely",
     "accountDropdown": {
       "signOut": "Sign Out"
+    },
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "transactions": "Transactions",
+      "budgets": "Budgets",
+      "subscription": "Subscription",
+      "settings": "Settings",
+      "account": "Account"
     }
   }
 }
