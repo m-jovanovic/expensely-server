@@ -2,7 +2,7 @@ import { Selector } from '@ngxs/store';
 
 import { CategoryState } from './category.state';
 import { CategoryStateModel } from './category-state.model';
-import { CategoryResponse } from '../../contracts';
+import { CategoryResponse } from '../../contracts/transactions';
 
 export class CategorySelectors {
   @Selector([CategoryState])
