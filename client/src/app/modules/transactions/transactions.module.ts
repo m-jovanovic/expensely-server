@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 
 import { SharedModule } from '@expensely/shared';
-import { TransactionState, TransactionListState, CategoryState, CurrencyState } from '@expensely/core/store';
+import { TransactionState, TransactionListState, CategoryState, UserState } from '@expensely/core/store';
 import { TransactionsRoutingModule } from './transactions-routing.module';
 import { CreateTransactionComponent, TransactionDetailsComponent, TransactionListComponent } from './pages';
 import { DeleteTransactionButtonComponent, TransactionInformationComponent, TransactionListItemComponent } from './components';
@@ -21,7 +21,7 @@ import { DeleteTransactionButtonComponent, TransactionInformationComponent, Tran
     SharedModule,
     ReactiveFormsModule,
     TransactionsRoutingModule,
-    NgxsModule.forFeature([TransactionState, TransactionListState, CategoryState, CurrencyState])
+    NgxsModule.forFeature([TransactionState, TransactionListState, CategoryState, UserState])
   ]
 })
 export class TransactionsModule {}

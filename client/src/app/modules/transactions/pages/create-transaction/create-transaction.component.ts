@@ -7,12 +7,12 @@ import { catchError, tap } from 'rxjs/operators';
 import {
   TransactionListFacade,
   CategoryFacade,
-  CurrencyFacade,
   RouterService,
   TransactionType,
   CategoryResponse,
-  CurrencyResponse,
-  ApiErrorResponse
+  ApiErrorResponse,
+  UserFacade,
+  UserCurrencyResponse
 } from '@expensely/core';
 
 @Component({
@@ -23,13 +23,13 @@ import {
 export class CreateTransactionComponent implements OnInit {
   createTransactionForm: FormGroup;
   categories$: Observable<CategoryResponse[]>;
-  currencies$: Observable<CurrencyResponse[]>;
+  currencies$: Observable<UserCurrencyResponse[]>;
   requestSent = false;
 
   constructor(
     private transactionFacade: TransactionListFacade,
     private categoryFacade: CategoryFacade,
-    private currencyFacade: CurrencyFacade,
+    private userFacade: UserFacade,
     private formBuilder: FormBuilder,
     private routerService: RouterService
   ) {}
@@ -46,22 +46,19 @@ export class CreateTransactionComponent implements OnInit {
 
     this.categories$ = this.categoryFacade.categories$;
 
-    this.currencies$ = this.currencyFacade.currencies$.pipe(
+    this.currencies$ = this.userFacade.currencies$.pipe(
       tap((currenciesArray) => {
         if (!currenciesArray?.length) {
           return;
         }
 
-        // TODO: Default this to primary currency when implemented in response.
-        let firstCurrency = currenciesArray[0];
-
-        this.createTransactionForm.controls.currency.setValue(firstCurrency.id);
+        this.createTransactionForm.controls.currency.setValue(currenciesArray.find((x) => x.isPrimary).id);
       })
     );
 
     this.categoryFacade.loadCategories();
 
-    this.currencyFacade.loadCurrencies();
+    this.userFacade.loadUserCurrencies();
   }
 
   async onCancel(): Promise<boolean> {
