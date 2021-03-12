@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { ApiRoutes } from '../../constants/api-routes';
 import { ApiService } from '../api/api.service';
+import { UserCurrencyResponse } from '../../contracts/users';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,12 @@ import { ApiService } from '../api/api.service';
 export class UserService extends ApiService {
   constructor(client: HttpClient) {
     super(client);
+  }
+
+  getUserCurrencies(userId: string): Observable<UserCurrencyResponse> {
+    const url = ApiRoutes.Users.getUserCurrencies.replace('{userId}', userId);
+
+    return this.get(url);
   }
 
   addUserCurrency(userId: string, currency: number): Observable<any> {

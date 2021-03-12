@@ -60,8 +60,8 @@ namespace Expensely.Persistence.QueryProcessors.Users
                 .Select(x => new UserCurrencyResponse
                 {
                     Id = x.Value,
-                    Code = x.Code,
                     Name = x.Name,
+                    Code = x.Code,
                     IsPrimary = x.Value == userCurrencies.PrimaryCurrency.Value
                 })
                 .OrderByDescending(x => x.IsPrimary)
