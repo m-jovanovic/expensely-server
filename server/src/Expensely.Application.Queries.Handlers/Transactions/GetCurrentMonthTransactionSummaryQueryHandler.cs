@@ -25,7 +25,8 @@ namespace Expensely.Application.Queries.Handlers.Transactions
 
         /// <inheritdoc />
         public async Task<Maybe<TransactionSummaryResponse>> Handle(
-            GetCurrentMonthTransactionSummaryQuery request, CancellationToken cancellationToken) =>
+            GetCurrentMonthTransactionSummaryQuery request,
+            CancellationToken cancellationToken) =>
             await _processor.Process(request, cancellationToken);
     }
 }

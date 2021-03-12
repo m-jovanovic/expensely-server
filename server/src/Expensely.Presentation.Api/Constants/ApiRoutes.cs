@@ -39,12 +39,12 @@
             /// <summary>
             /// The update budget route.
             /// </summary>
-            public const string UpdateBudget = "budgets/{budgetId:guid}";
+            public const string UpdateBudget = "budgets/{budgetId}";
 
             /// <summary>
             /// The delete budget route.
             /// </summary>
-            public const string DeleteBudget = "budgets/{budgetId:guid}";
+            public const string DeleteBudget = "budgets/{budgetId}";
         }
 
         /// <summary>
@@ -60,7 +60,7 @@
             /// <summary>
             /// The get transaction by identifier route.
             /// </summary>
-            public const string GetTransactionById = "transactions/{transactionId:guid}";
+            public const string GetTransactionById = "transactions/{transactionId}";
 
             /// <summary>
             /// The get current month transaction summary route.
@@ -75,12 +75,12 @@
             /// <summary>
             /// The update transaction route.
             /// </summary>
-            public const string UpdateTransaction = "transactions/{transactionId:guid}";
+            public const string UpdateTransaction = "transactions/{transactionId}";
 
             /// <summary>
             /// The delete transaction route.
             /// </summary>
-            public const string DeleteTransaction = "transactions/{transactionId:guid}";
+            public const string DeleteTransaction = "transactions/{transactionId}";
         }
 
         /// <summary>
@@ -113,12 +113,12 @@
             /// <summary>
             /// The add user currency route.
             /// </summary>
-            public const string AddUserCurrency = "users/{userId:guid}/currencies/{currency:int}";
+            public const string AddUserCurrency = "users/{userId}/currencies/{currency:int}";
 
             /// <summary>
             /// The remove user currency route.
             /// </summary>
-            public const string RemoveUserCurrency = "users/{userId:guid}/currencies/{currency:int}";
+            public const string RemoveUserCurrency = "users/{userId}/currencies/{currency:int}";
 
             /// <summary>
             /// The change user primary currency route.
