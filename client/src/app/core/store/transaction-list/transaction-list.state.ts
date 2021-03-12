@@ -5,7 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { State, StateContext, Action } from '@ngxs/store';
 
 import { TransactionListStateModel } from './transaction-list-state.model';
-import { CreateTransaction, DeleteTransaction, LoadMoreTransactions, LoadTransactions } from './transaction-list.actions';
+import { CreateTransaction, LoadMoreTransactions, LoadTransactions } from './transaction-list.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
 import { CreateTransactionRequest, TransactionListResponse } from '../../contracts/transactions';
 
@@ -58,35 +58,35 @@ export class TransactionListState {
       );
   }
 
-  @Action(DeleteTransaction)
-  deleteTransaction(context: StateContext<TransactionListStateModel>, action: DeleteTransaction): Observable<any> {
-    context.patchState({
-      isLoading: true
-    });
+  // @Action(DeleteTransaction)
+  // deleteTransaction(context: StateContext<TransactionListStateModel>, action: DeleteTransaction): Observable<any> {
+  //   context.patchState({
+  //     isLoading: true
+  //   });
 
-    let initialTransactions = context.getState().transactions;
+  //   let initialTransactions = context.getState().transactions;
 
-    let filteredTransactions = initialTransactions.filter((x) => x.id !== action.transactionId);
+  //   let filteredTransactions = initialTransactions.filter((x) => x.id !== action.transactionId);
 
-    return this.transactionService.deleteTransaction(action.transactionId).pipe(
-      tap(() => {
-        context.patchState({
-          isLoading: false,
-          error: false,
-          transactions: filteredTransactions
-        });
-      }),
-      catchError((error: HttpErrorResponse) => {
-        context.patchState({
-          transactions: initialTransactions,
-          isLoading: false,
-          error: true
-        });
+  //   return this.transactionService.deleteTransaction(action.transactionId).pipe(
+  //     tap(() => {
+  //       context.patchState({
+  //         isLoading: false,
+  //         error: false,
+  //         transactions: filteredTransactions
+  //       });
+  //     }),
+  //     catchError((error: HttpErrorResponse) => {
+  //       context.patchState({
+  //         transactions: initialTransactions,
+  //         isLoading: false,
+  //         error: true
+  //       });
 
-        return throwError(error);
-      })
-    );
-  }
+  //       return throwError(error);
+  //     })
+  //   );
+  // }
 
   @Action(LoadTransactions)
   loadTransactions(context: StateContext<TransactionListStateModel>, action: LoadTransactions): Observable<any> {

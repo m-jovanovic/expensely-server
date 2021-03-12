@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 
 import { AuthenticationFacade } from '../authentication';
-import { CreateTransaction, DeleteTransaction, LoadTransactions } from './transaction-list.actions';
+import { CreateTransaction, LoadTransactions } from './transaction-list.actions';
 import { TransactionListSelectors } from './transaction-list.selectors';
 import { TransactionResponse } from '../../contracts/transactions/transaction-response';
 
@@ -33,10 +33,6 @@ export class TransactionListFacade {
     return this.store.dispatch(
       new CreateTransaction(this.authenticationFacade.userId, description, category, amount, currency, occurredOn, transactionType)
     );
-  }
-
-  deleteTransaction(transactionId: string): Observable<any> {
-    return this.store.dispatch(new DeleteTransaction(transactionId));
   }
 
   loadTransactions(limit: number): Observable<any> {

@@ -12,12 +12,6 @@ export class CreateTransaction {
   ) {}
 }
 
-export class DeleteTransaction {
-  public static readonly type = '[Transaction List] Delete';
-
-  constructor(public transactionId: string) {}
-}
-
 export class LoadTransactions {
   public static readonly type = '[Transaction List] Load';
 
