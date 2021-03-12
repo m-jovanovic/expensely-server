@@ -111,6 +111,11 @@
         public static class Users
         {
             /// <summary>
+            /// The get user currencies route.
+            /// </summary>
+            public const string GetUserCurrencies = "users/{userId}/currencies";
+
+            /// <summary>
             /// The add user currency route.
             /// </summary>
             public const string AddUserCurrency = "users/{userId}/currencies/{currency:int}";

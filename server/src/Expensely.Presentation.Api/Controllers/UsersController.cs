@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Users;
 using Expensely.Application.Contracts.Users;
+using Expensely.Application.Queries.Users;
+using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Errors;
@@ -26,6 +29,21 @@ namespace Expensely.Presentation.Api.Controllers
             : base(sender)
         {
         }
+
+        /// <summary>
+        /// Gets the transaction for the specified identifier.
+        /// </summary>
+        /// <param name="userId">The transaction identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>200 - OK if the transaction with the specified identifier is found, otherwise 404 - Not Found.</returns>
+        [HttpGet(ApiRoutes.Users.GetUserCurrencies)]
+        [ProducesResponseType(typeof(IReadOnlyCollection<UserCurrencyResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetUserCurrencies(Guid userId, CancellationToken cancellationToken) =>
+            await Maybe<GetUserCurrenciesQuery>
+                .From(new GetUserCurrenciesQuery(userId))
+                .Bind(query => Sender.Send(query, cancellationToken))
+                .Match(Ok, NotFound);
 
         /// <summary>
         /// Adds the specified currency to the user's currencies.
