@@ -14,7 +14,7 @@ export class UserService extends ApiService {
     super(client);
   }
 
-  getUserCurrencies(userId: string): Observable<UserCurrencyResponse> {
+  getUserCurrencies(userId: string): Observable<UserCurrencyResponse[]> {
     const url = ApiRoutes.Users.getUserCurrencies.replace('{userId}', userId);
 
     return this.get(url);

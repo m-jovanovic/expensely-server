@@ -1,3 +1,9 @@
+export class LoadUserCurrencies {
+  public static readonly type = '[User] Load Currencies';
+
+  constructor(public userId: string) {}
+}
+
 export class AddUserCurrency {
   public static readonly type = '[User] Add Currency';
 
