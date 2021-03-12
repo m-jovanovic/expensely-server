@@ -52,7 +52,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
             }
 
             var budget = new Budget(
-                maybeUser.Value.Id,
+                maybeUser.Value,
                 nameResult.Value,
                 new Money(request.Amount, Currency.FromValue(request.Currency).Value),
                 request.StartDate,

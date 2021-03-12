@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,8 +25,8 @@ namespace Expensely.Persistence.Repositories
         public MessageRepository(IAsyncDocumentSession session) => _session = session;
 
         /// <inheritdoc />
-        public async Task<Maybe<Message>> GetByIdAsync(string messageId, CancellationToken cancellationToken = default) =>
-            await _session.LoadAsync<Message>(messageId, cancellationToken);
+        public async Task<Maybe<Message>> GetByIdAsync(Ulid messageId, CancellationToken cancellationToken = default) =>
+            await _session.LoadAsync<Message>(messageId.ToString(), cancellationToken);
 
         /// <inheritdoc />
         public async Task<IReadOnlyCollection<Message>> GetUnprocessedAsync(int numberOfMessages, CancellationToken cancellationToken = default)

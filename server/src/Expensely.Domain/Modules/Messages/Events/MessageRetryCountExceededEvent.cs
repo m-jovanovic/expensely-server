@@ -1,4 +1,5 @@
-﻿using Expensely.Domain.Abstractions;
+﻿using System;
+using Expensely.Domain.Abstractions;
 
 namespace Expensely.Domain.Modules.Messages.Events
 {
@@ -10,6 +11,6 @@ namespace Expensely.Domain.Modules.Messages.Events
         /// <summary>
         /// Gets the message identifier.
         /// </summary>
-        public string MessageId { get; init; }
+        public Ulid MessageId { get; init; }
     }
 }

@@ -23,7 +23,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
 
             RuleFor(x => x.UserId)
                 .Must(x => x == userInformationProvider.UserId)
-                .When(x => !string.IsNullOrWhiteSpace(x.UserId))
+                .When(x => x.UserId != Ulid.Empty)
                 .WithError(ValidationErrors.User.InvalidPermissions);
 
             RuleFor(x => x.Name).NotEmpty().WithError(ValidationErrors.Budget.NameIsRequired);

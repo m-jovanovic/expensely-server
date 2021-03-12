@@ -1,4 +1,5 @@
-﻿using Expensely.Common.Primitives.Maybe;
+﻿using System;
+using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Shared;
 
 namespace Expensely.Application.Abstractions.Authentication
@@ -16,7 +17,7 @@ namespace Expensely.Application.Abstractions.Authentication
         /// <summary>
         /// Gets the user identifier of the currently authenticated user.
         /// </summary>
-        string UserId { get; }
+        Ulid UserId { get; }
 
         /// <summary>
         /// Gets the maybe instance that may contain the primary currency of the currently authenticated user.

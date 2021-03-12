@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Budgets;
@@ -20,8 +21,8 @@ namespace Expensely.Persistence.Repositories
         public BudgetRepository(IAsyncDocumentSession session) => _session = session;
 
         /// <inheritdoc />
-        public async Task<Maybe<Budget>> GetByIdAsync(string budgetId, CancellationToken cancellationToken = default) =>
-            await _session.LoadAsync<Budget>(budgetId, cancellationToken);
+        public async Task<Maybe<Budget>> GetByIdAsync(Ulid budgetId, CancellationToken cancellationToken = default) =>
+            await _session.LoadAsync<Budget>(budgetId.ToString(), cancellationToken);
 
         /// <inheritdoc />
         public async Task AddAsync(Budget budget, CancellationToken cancellationToken = default) =>

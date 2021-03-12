@@ -44,12 +44,13 @@ namespace Expensely.Persistence.Data
             {
                 object document = await _session.LoadAsync<object>(documentId, cancellationToken);
 
-                if (document is not AggregateRoot aggregateRoot || !aggregateRoot.Events.Any())
+                IReadOnlyCollection<IEvent> events;
+                if (document is not AggregateRoot aggregateRoot || !(events = aggregateRoot.GetEvents()).Any())
                 {
                     continue;
                 }
 
-                foreach (IEvent @event in aggregateRoot.Events)
+                foreach (IEvent @event in events)
                 {
                     await _session.StoreAsync(new Message(@event), cancellationToken);
                 }

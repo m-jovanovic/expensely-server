@@ -19,14 +19,14 @@ namespace Expensely.Application.Commands.Transactions
         /// <param name="currency">The currency value.</param>
         /// <param name="occurredOn">The date the transaction occurred on.</param>
         public UpdateTransactionCommand(
-            Guid transactionId,
+            Ulid transactionId,
             string description,
             int category,
             decimal amount,
             int currency,
             DateTime occurredOn)
         {
-            TransactionId = transactionId.ToString();
+            TransactionId = transactionId;
             Description = description;
             Category = category;
             Amount = amount;
@@ -37,7 +37,7 @@ namespace Expensely.Application.Commands.Transactions
         /// <summary>
         /// Gets the transaction identifier.
         /// </summary>
-        public string TransactionId { get; }
+        public Ulid TransactionId { get; }
 
         /// <summary>
         /// Gets the description.

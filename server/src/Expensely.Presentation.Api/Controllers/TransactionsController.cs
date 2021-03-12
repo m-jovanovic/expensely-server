@@ -43,7 +43,7 @@ namespace Expensely.Presentation.Api.Controllers
         [HttpGet(ApiRoutes.Transactions.GetTransactions)]
         [ProducesResponseType(typeof(TransactionListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetTransactions(Guid userId, int limit, string cursor, CancellationToken cancellationToken) =>
+        public async Task<IActionResult> GetTransactions(Ulid userId, int limit, string cursor, CancellationToken cancellationToken) =>
             await Maybe<GetTransactionsQuery>
                 .From(new GetTransactionsQuery(userId, limit, cursor, _systemTime.UtcNow))
                 .Bind(query => Sender.Send(query, cancellationToken))
@@ -58,7 +58,7 @@ namespace Expensely.Presentation.Api.Controllers
         [HttpGet(ApiRoutes.Transactions.GetTransactionById)]
         [ProducesResponseType(typeof(TransactionResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetTransactionById(Guid transactionId, CancellationToken cancellationToken) =>
+        public async Task<IActionResult> GetTransactionById(Ulid transactionId, CancellationToken cancellationToken) =>
             await Maybe<GetTransactionByIdQuery>
                 .From(new GetTransactionByIdQuery(transactionId))
                 .Bind(query => Sender.Send(query, cancellationToken))
@@ -75,7 +75,7 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(typeof(TransactionSummaryResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCurrentMonthTransactionSummary(
-            Guid userId,
+            Ulid userId,
             int currency,
             CancellationToken cancellationToken) =>
             await Maybe<GetCurrentMonthTransactionSummaryQuery>
@@ -120,7 +120,7 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> UpdateTransaction(
-            Guid transactionId,
+            Ulid transactionId,
             [FromBody] UpdateTransactionRequest updateTransactionRequest,
             CancellationToken cancellationToken) =>
             await Result.Create(updateTransactionRequest, ApiErrors.UnProcessableRequest)
@@ -143,7 +143,7 @@ namespace Expensely.Presentation.Api.Controllers
         [HttpDelete(ApiRoutes.Transactions.DeleteTransaction)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteTransaction(Guid transactionId, CancellationToken cancellationToken) =>
+        public async Task<IActionResult> DeleteTransaction(Ulid transactionId, CancellationToken cancellationToken) =>
             await Result.Success(new DeleteTransactionCommand(transactionId))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(NoContent, _ => NotFound());

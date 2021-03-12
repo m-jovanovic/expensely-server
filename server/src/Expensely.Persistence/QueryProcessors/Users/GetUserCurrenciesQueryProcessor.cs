@@ -43,7 +43,7 @@ namespace Expensely.Persistence.QueryProcessors.Users
             }
 
             var userCurrencies = await _session.Query<User>()
-                .Where(x => x.Id == query.UserId)
+                .Where(x => x.Id == query.UserId.ToString())
                 .Select(x => new
                 {
                     x.PrimaryCurrency,

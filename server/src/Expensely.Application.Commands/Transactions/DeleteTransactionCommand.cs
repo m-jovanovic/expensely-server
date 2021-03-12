@@ -13,11 +13,11 @@ namespace Expensely.Application.Commands.Transactions
         /// Initializes a new instance of the <see cref="DeleteTransactionCommand"/> class.
         /// </summary>
         /// <param name="transactionId">The transaction identifier.</param>
-        public DeleteTransactionCommand(Guid transactionId) => TransactionId = transactionId.ToString();
+        public DeleteTransactionCommand(Ulid transactionId) => TransactionId = transactionId;
 
         /// <summary>
         /// Gets the transaction identifier.
         /// </summary>
-        public string TransactionId { get; }
+        public Ulid TransactionId { get; }
     }
 }

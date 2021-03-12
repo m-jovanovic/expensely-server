@@ -16,9 +16,9 @@ namespace Expensely.Application.Commands.Users
         /// <param name="currentPassword">The current password.</param>
         /// <param name="newPassword">The password.</param>
         /// <param name="confirmationPassword">The confirmation password.</param>
-        public ChangeUserPasswordCommand(Guid userId, string currentPassword, string newPassword, string confirmationPassword)
+        public ChangeUserPasswordCommand(Ulid userId, string currentPassword, string newPassword, string confirmationPassword)
         {
-            UserId = userId.ToString();
+            UserId = userId;
             CurrentPassword = currentPassword;
             NewPassword = newPassword;
             ConfirmationPassword = confirmationPassword;
@@ -27,7 +27,7 @@ namespace Expensely.Application.Commands.Users
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public string UserId { get; }
+        public Ulid UserId { get; }
 
         /// <summary>
         /// Gets the current password.

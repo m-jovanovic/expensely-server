@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Common.Primitives.Maybe;
@@ -16,7 +17,7 @@ namespace Expensely.Domain.Modules.Messages
         /// <param name="messageId">The message identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The maybe instance that may contain the message with the specified identifier.</returns>
-        Task<Maybe<Message>> GetByIdAsync(string messageId, CancellationToken cancellationToken = default);
+        Task<Maybe<Message>> GetByIdAsync(Ulid messageId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets the specified number of unprocessed messages.

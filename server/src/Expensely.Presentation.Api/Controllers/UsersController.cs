@@ -39,7 +39,7 @@ namespace Expensely.Presentation.Api.Controllers
         [HttpGet(ApiRoutes.Users.GetUserCurrencies)]
         [ProducesResponseType(typeof(IReadOnlyCollection<UserCurrencyResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserCurrencies(Guid userId, CancellationToken cancellationToken) =>
+        public async Task<IActionResult> GetUserCurrencies(Ulid userId, CancellationToken cancellationToken) =>
             await Maybe<GetUserCurrenciesQuery>
                 .From(new GetUserCurrenciesQuery(userId))
                 .Bind(query => Sender.Send(query, cancellationToken))
@@ -56,7 +56,7 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> AddUserCurrency(Guid userId, int currency, CancellationToken cancellationToken) =>
+        public async Task<IActionResult> AddUserCurrency(Ulid userId, int currency, CancellationToken cancellationToken) =>
             await Result.Success(new AddUserCurrencyCommand(userId, currency))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
@@ -72,7 +72,7 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> RemoveUserCurrency(Guid userId, int currency, CancellationToken cancellationToken) =>
+        public async Task<IActionResult> RemoveUserCurrency(Ulid userId, int currency, CancellationToken cancellationToken) =>
             await Result.Success(new RemoveUserCurrencyCommand(userId, currency))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(NoContent, BadRequest);
@@ -88,7 +88,7 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> ChangeUserPrimaryCurrency(Guid userId, int currency, CancellationToken cancellationToken) =>
+        public async Task<IActionResult> ChangeUserPrimaryCurrency(Ulid userId, int currency, CancellationToken cancellationToken) =>
             await Result.Success(new ChangeUserPrimaryCurrencyCommand(userId, currency))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
@@ -105,7 +105,7 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> ChangeUserPassword(
-            Guid userId, [FromBody] ChangePasswordRequest request, CancellationToken cancellationToken) =>
+            Ulid userId, [FromBody] ChangePasswordRequest request, CancellationToken cancellationToken) =>
             await Result.Create(request, ApiErrors.UnProcessableRequest)
                 .Map(value => new ChangeUserPasswordCommand(userId, value.CurrentPassword, value.NewPassword, value.ConfirmationPassword))
                 .Bind(command => Sender.Send(command, cancellationToken))

@@ -14,16 +14,16 @@ namespace Expensely.Application.Commands.Users
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
-        public RemoveUserCurrencyCommand(Guid userId, int currency)
+        public RemoveUserCurrencyCommand(Ulid userId, int currency)
         {
-            UserId = userId.ToString();
+            UserId = userId;
             Currency = currency;
         }
 
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public string UserId { get; }
+        public Ulid UserId { get; }
 
         /// <summary>
         /// Gets the currency value.

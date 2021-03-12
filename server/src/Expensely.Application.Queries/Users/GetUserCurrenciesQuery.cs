@@ -15,11 +15,11 @@ namespace Expensely.Application.Queries.Users
         /// Initializes a new instance of the <see cref="GetUserCurrenciesQuery"/> class.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        public GetUserCurrenciesQuery(Guid userId) => UserId = userId.ToString();
+        public GetUserCurrenciesQuery(Ulid userId) => UserId = userId;
 
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public string UserId { get; }
+        public Ulid UserId { get; }
     }
 }

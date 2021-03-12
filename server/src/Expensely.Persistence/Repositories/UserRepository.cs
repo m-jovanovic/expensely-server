@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Users;
@@ -22,8 +23,8 @@ namespace Expensely.Persistence.Repositories
         public UserRepository(IAsyncDocumentSession session) => _session = session;
 
         /// <inheritdoc />
-        public async Task<Maybe<User>> GetByIdAsync(string userId, CancellationToken cancellationToken = default) =>
-            await _session.LoadAsync<User>(userId, cancellationToken);
+        public async Task<Maybe<User>> GetByIdAsync(Ulid userId, CancellationToken cancellationToken = default) =>
+            await _session.LoadAsync<User>(userId.ToString(), cancellationToken);
 
         /// <inheritdoc />
         public async Task<Maybe<User>> GetByEmailAsync(Email email, CancellationToken cancellationToken = default) =>

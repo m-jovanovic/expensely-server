@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Common.Primitives.Maybe;
 
@@ -15,7 +16,7 @@ namespace Expensely.Domain.Modules.Budgets
         /// <param name="budgetId">The budget identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The maybe instance that may contain the budget with the specified identifier.</returns>
-        Task<Maybe<Budget>> GetByIdAsync(string budgetId, CancellationToken cancellationToken = default);
+        Task<Maybe<Budget>> GetByIdAsync(Ulid budgetId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds the specified budget to the repository.

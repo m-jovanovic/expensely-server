@@ -11,9 +11,9 @@ namespace Expensely.Domain.Primitives
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
         /// <param name="id">The entity identifier.</param>
-        protected Entity(Guid id)
+        protected Entity(Ulid id)
         {
-            if (id == Guid.Empty)
+            if (id == Ulid.Empty)
             {
                 throw new ArgumentException("The entity identifier is required.", nameof(id));
             }

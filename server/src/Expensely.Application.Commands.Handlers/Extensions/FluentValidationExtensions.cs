@@ -1,6 +1,5 @@
 ﻿using System;
 using Expensely.Common.Primitives.Errors;
-using Expensely.Domain.Primitives;
 using FluentValidation;
 
 namespace Expensely.Application.Commands.Handlers.Extensions
@@ -18,8 +17,7 @@ namespace Expensely.Application.Commands.Handlers.Extensions
         /// <param name="rule">The current rule.</param>
         /// <param name="error">The error to use.</param>
         /// <returns>The same rule builder.</returns>
-        public static IRuleBuilderOptions<T, TProperty> WithError<T, TProperty>(
-            this IRuleBuilderOptions<T, TProperty> rule, Error error)
+        public static IRuleBuilderOptions<T, TProperty> WithError<T, TProperty>(this IRuleBuilderOptions<T, TProperty> rule, Error error)
         {
             if (error is null)
             {

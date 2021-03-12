@@ -19,7 +19,7 @@ namespace Expensely.Domain.Modules.Messages
         /// </summary>
         /// <param name="event">The event to be processed.</param>
         public Message(IEvent @event)
-            : base(Guid.NewGuid()) =>
+            : base(Ulid.NewUlid()) =>
             Event = @event;
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Expensely.Domain.Modules.Messages
 
             Raise(new MessageRetryCountExceededEvent
             {
-                MessageId = Id
+                MessageId = Ulid.Parse(Id)
             });
 
             MarkAsProcessed();

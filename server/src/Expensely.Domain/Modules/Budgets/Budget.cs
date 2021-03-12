@@ -1,6 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Modules.Budgets.Exceptions;
 using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
 
@@ -14,15 +15,15 @@ namespace Expensely.Domain.Modules.Budgets
         /// <summary>
         /// Initializes a new instance of the <see cref="Budget"/> class.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
+        /// <param name="user">The user.</param>
         /// <param name="name">The name of the budget.</param>
         /// <param name="money">The monetary amount of the budget.</param>
         /// <param name="startDate">The start date of the budget.</param>
         /// <param name="endDate">The end date of the budget.</param>
-        public Budget(string userId, Name name, Money money, DateTime startDate, DateTime endDate)
-            : base(Guid.NewGuid())
+        public Budget(User user, Name name, Money money, DateTime startDate, DateTime endDate)
+            : base(Ulid.NewUlid())
         {
-            Ensure.NotEmpty(userId, "The user identifier is required.", nameof(userId));
+            Ensure.NotNull(user, "The user is required.", nameof(user));
             Ensure.NotEmpty(name, "The name is required.", nameof(name));
             Ensure.NotEmpty(money, "The monetary amount is required.", nameof(money));
             Ensure.NotLessThanOrEqualToZero(money.Amount, "The monetary amount must be greater than zero", nameof(money));
@@ -30,7 +31,7 @@ namespace Expensely.Domain.Modules.Budgets
             Ensure.NotEmpty(endDate, "The end date is required.", nameof(endDate));
             EnsureStartDatePrecedesEndDate(startDate, endDate);
 
-            UserId = userId;
+            UserId = Ulid.Parse(user.Id);
             Name = name;
             Money = money;
             StartDate = startDate.Date;
@@ -50,7 +51,7 @@ namespace Expensely.Domain.Modules.Budgets
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public string UserId { get; private set; }
+        public Ulid UserId { get; private set; }
 
         /// <summary>
         /// Gets the name.

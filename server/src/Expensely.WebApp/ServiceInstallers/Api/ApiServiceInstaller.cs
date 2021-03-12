@@ -14,6 +14,8 @@ namespace Expensely.WebApp.ServiceInstallers.Api
         {
             services.ConfigureOptions<ApiBehaviorOptionsSetup>();
 
+            services.ConfigureOptions<MvcOptionsSetup>();
+
             services.AddControllers().AddApplicationPart(PresentationAssembly.Assembly);
 
             services.AddHttpContextAccessor();

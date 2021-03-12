@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -13,6 +14,11 @@ namespace Expensely.WebApp.ServiceInstallers.Documentation
         /// <inheritdoc />
         public void Configure(SwaggerGenOptions options)
         {
+            options.MapType<Ulid>(() => new OpenApiSchema
+            {
+                Type = "string"
+            });
+
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "1.0.0",

@@ -13,7 +13,7 @@ namespace Expensely.Domain.Modules.Messages
         /// </summary>
         /// <param name="message">The message that has failed.</param>
         public FailedMessage(Message message)
-            : base(Guid.NewGuid())
+            : base(Ulid.NewUlid())
             => Message = message;
 
         /// <summary>

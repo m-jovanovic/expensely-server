@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Transactions;
@@ -20,12 +21,12 @@ namespace Expensely.Persistence.Repositories
         public TransactionRepository(IAsyncDocumentSession session) => _session = session;
 
         /// <inheritdoc />
-        public async Task<Maybe<Transaction>> GetByIdAsync(string transactionId, CancellationToken cancellationToken = default) =>
-            await _session.LoadAsync<Transaction>(transactionId, cancellationToken);
+        public async Task<Maybe<Transaction>> GetByIdAsync(Ulid transactionId, CancellationToken cancellationToken = default) =>
+            await _session.LoadAsync<Transaction>(transactionId.ToString(), cancellationToken);
 
         /// <inheritdoc />
-        public async Task<Maybe<Transaction>> GetByIdWithUserAsync(string transactionId, CancellationToken cancellationToken = default) =>
-            await _session.Include<Transaction>(x => x.UserId).LoadAsync<Transaction>(transactionId, cancellationToken);
+        public async Task<Maybe<Transaction>> GetByIdWithUserAsync(Ulid transactionId, CancellationToken cancellationToken = default) =>
+            await _session.Include(nameof(Transaction.UserId)).LoadAsync<Transaction>(transactionId.ToString(), cancellationToken);
 
         /// <inheritdoc />
         public async Task AddAsync(Transaction transaction, CancellationToken cancellationToken = default) =>

@@ -18,9 +18,9 @@ namespace Expensely.Application.Commands.Budgets
         /// <param name="currency">The currency value.</param>
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
-        public UpdateBudgetCommand(Guid budgetId, string name, decimal amount, int currency, DateTime startDate, DateTime endDate)
+        public UpdateBudgetCommand(Ulid budgetId, string name, decimal amount, int currency, DateTime startDate, DateTime endDate)
         {
-            BudgetId = budgetId.ToString();
+            BudgetId = budgetId;
             Name = name;
             Amount = amount;
             Currency = currency;
@@ -31,7 +31,7 @@ namespace Expensely.Application.Commands.Budgets
         /// <summary>
         /// Gets the budget identifier.
         /// </summary>
-        public string BudgetId { get; }
+        public Ulid BudgetId { get; }
 
         /// <summary>
         /// Gets the name.

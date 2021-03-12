@@ -20,7 +20,7 @@ namespace Expensely.Application.Commands.Transactions
         /// <param name="occurredOn">The date the transaction occurred on.</param>
         /// <param name="transactionType">The transaction type.</param>
         public CreateTransactionCommand(
-            Guid userId,
+            Ulid userId,
             string description,
             int category,
             decimal amount,
@@ -28,7 +28,7 @@ namespace Expensely.Application.Commands.Transactions
             DateTime occurredOn,
             int transactionType)
         {
-            UserId = userId.ToString();
+            UserId = userId;
             Description = description;
             Category = category;
             Amount = amount;
@@ -40,7 +40,7 @@ namespace Expensely.Application.Commands.Transactions
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public string UserId { get; }
+        public Ulid UserId { get; }
 
         /// <summary>
         /// Gets the description.

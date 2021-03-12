@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Expensely.Domain.Abstractions;
-using Newtonsoft.Json;
 
 namespace Expensely.Domain.Primitives
 {
@@ -17,7 +16,7 @@ namespace Expensely.Domain.Primitives
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.
         /// </summary>
         /// <param name="id">The aggregate root identifier.</param>
-        protected AggregateRoot(Guid id)
+        protected AggregateRoot(Ulid id)
             : base(id)
         {
         }
@@ -33,10 +32,10 @@ namespace Expensely.Domain.Primitives
         }
 
         /// <summary>
-        /// Gets the events. This collection is readonly.
+        /// Gets the readonly collection of events.
         /// </summary>
-        [JsonIgnore]
-        public IReadOnlyCollection<IEvent> Events => _events.ToList();
+        /// <returns>The readonly collection of events.</returns>
+        public IReadOnlyCollection<IEvent> GetEvents() => _events.ToList();
 
         /// <summary>
         /// Clears all the events.

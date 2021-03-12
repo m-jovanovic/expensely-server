@@ -10,7 +10,7 @@ namespace Expensely.Application.Contracts.Budgets
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid UserId { get; init; }
+        public Ulid UserId { get; init; }
 
         /// <summary>
         /// Gets the name.

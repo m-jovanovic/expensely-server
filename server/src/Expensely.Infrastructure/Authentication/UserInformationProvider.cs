@@ -1,4 +1,5 @@
-﻿using Expensely.Application.Abstractions.Authentication;
+﻿using System;
+using Expensely.Application.Abstractions.Authentication;
 using Expensely.Common.Abstractions.ServiceLifetimes;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Shared;
@@ -18,9 +19,9 @@ namespace Expensely.Infrastructure.Authentication
         /// <param name="httpContextAccessor">The HTTP context accessor.</param>
         public UserInformationProvider(IHttpContextAccessor httpContextAccessor)
         {
-            string userId = httpContextAccessor.HttpContext?.User.GetUserId();
+            string userIdClaim = httpContextAccessor.HttpContext?.User.GetUserId();
 
-            IsAuthenticated = !string.IsNullOrWhiteSpace(userId);
+            IsAuthenticated = Ulid.TryParse(userIdClaim, out Ulid userId);
 
             UserId = userId;
 
@@ -31,7 +32,7 @@ namespace Expensely.Infrastructure.Authentication
         public bool IsAuthenticated { get; }
 
         /// <inheritdoc />
-        public string UserId { get; }
+        public Ulid UserId { get; }
 
         /// <inheritdoc />
         public Maybe<Currency> PrimaryCurrency { get; }

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Common.Primitives.Maybe;
 
@@ -15,7 +16,7 @@ namespace Expensely.Domain.Modules.Transactions
         /// <param name="transactionId">The transaction identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The maybe instance that may contain the transaction with the specified identifier.</returns>
-        Task<Maybe<Transaction>> GetByIdAsync(string transactionId, CancellationToken cancellationToken = default);
+        Task<Maybe<Transaction>> GetByIdAsync(Ulid transactionId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets the transaction with the specified identifier along with the user who created it, if one exists.
@@ -23,7 +24,7 @@ namespace Expensely.Domain.Modules.Transactions
         /// <param name="transactionId">The transaction identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The maybe instance that may contain the transaction with the specified identifier.</returns>
-        Task<Maybe<Transaction>> GetByIdWithUserAsync(string transactionId, CancellationToken cancellationToken = default);
+        Task<Maybe<Transaction>> GetByIdWithUserAsync(Ulid transactionId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds the specified transaction to the repository.

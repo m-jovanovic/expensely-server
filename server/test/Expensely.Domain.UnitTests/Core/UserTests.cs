@@ -49,7 +49,7 @@ namespace Expensely.Domain.UnitTests.Core
                 new Mock<IPasswordService>().Object);
 
             // Assert
-            user.Events.Should().ContainSingle().And.AllBeOfType<UserCreatedEvent>();
+            user.GetEvents().Should().ContainSingle().And.AllBeOfType<UserCreatedEvent>();
         }
 
         [Fact]
@@ -146,7 +146,7 @@ namespace Expensely.Domain.UnitTests.Core
             user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
             // Assert
-            user.Events.Should().Contain(@event => @event is UserCurrencyAddedEvent);
+            user.GetEvents().Should().Contain(@event => @event is UserCurrencyAddedEvent);
         }
 
         [Fact]
@@ -210,7 +210,7 @@ namespace Expensely.Domain.UnitTests.Core
             user.RemoveCurrency(CurrencyTestData.AuxiliaryCurrency);
 
             // Assert
-            user.Events.Should().ContainSingle().And.AllBeOfType<UserCurrencyRemovedEvent>();
+            user.GetEvents().Should().ContainSingle().And.AllBeOfType<UserCurrencyRemovedEvent>();
         }
 
         [Fact]
@@ -287,7 +287,7 @@ namespace Expensely.Domain.UnitTests.Core
             user.ChangePrimaryCurrency(CurrencyTestData.AuxiliaryCurrency);
 
             // Assert
-            user.Events.Should().ContainSingle().And.AllBeOfType<UserPrimaryCurrencyChangedEvent>();
+            user.GetEvents().Should().ContainSingle().And.AllBeOfType<UserPrimaryCurrencyChangedEvent>();
         }
 
         [Fact]
@@ -359,7 +359,7 @@ namespace Expensely.Domain.UnitTests.Core
             user.VerifyPassword(UserTestData.Password, passwordServiceMock.Object);
 
             // Assert
-            user.Events.Should().ContainSingle().And.AllBeOfType<UserPasswordVerificationFailedEvent>();
+            user.GetEvents().Should().ContainSingle().And.AllBeOfType<UserPasswordVerificationFailedEvent>();
         }
 
         [Fact]
@@ -474,7 +474,7 @@ namespace Expensely.Domain.UnitTests.Core
             user.ChangePassword(currentPassword, newPassword, passwordServiceMock.Object);
 
             // Assert
-            user.Events.Should().ContainSingle().And.AllBeOfType<UserPasswordChangedEvent>();
+            user.GetEvents().Should().ContainSingle().And.AllBeOfType<UserPasswordChangedEvent>();
         }
 
         [Fact]

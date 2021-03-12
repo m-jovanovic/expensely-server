@@ -27,7 +27,7 @@ namespace Expensely.Domain.Modules.Users
         /// <param name="password">The password.</param>
         /// <param name="passwordService">The password service.</param>
         private User(FirstName firstName, LastName lastName, Email email, Password password, IPasswordService passwordService)
-            : base(Guid.NewGuid())
+            : base(Ulid.NewUlid())
         {
             Ensure.NotEmpty(firstName, "The first name is required.", nameof(firstName));
             Ensure.NotEmpty(lastName, "The last name is required.", nameof(lastName));
@@ -107,7 +107,7 @@ namespace Expensely.Domain.Modules.Users
 
             user.Raise(new UserCreatedEvent
             {
-                UserId = user.Id
+                UserId = Ulid.Parse(user.Id)
             });
 
             return user;

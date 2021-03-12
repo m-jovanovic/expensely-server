@@ -27,7 +27,7 @@ namespace Expensely.Domain.Modules.Transactions
             Money money,
             DateTime occurredOn,
             TransactionType transactionType)
-            : base(Guid.NewGuid())
+            : base(Ulid.NewUlid())
         {
             Ensure.NotNull(user, "The user is required.", nameof(user));
             Ensure.NotNull(description, "The description is required.", nameof(description));
@@ -36,7 +36,7 @@ namespace Expensely.Domain.Modules.Transactions
             Ensure.NotEmpty(occurredOn, "The description is required.", nameof(occurredOn));
             Ensure.NotNull(transactionType, "The transaction type is required.", nameof(transactionType));
 
-            UserId = user.Id;
+            UserId = Ulid.Parse(user.Id);
             Description = description;
             Category = category;
             Money = money;
@@ -57,7 +57,7 @@ namespace Expensely.Domain.Modules.Transactions
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public string UserId { get; private set; }
+        public Ulid UserId { get; private set; }
 
         /// <summary>
         /// Gets the description.

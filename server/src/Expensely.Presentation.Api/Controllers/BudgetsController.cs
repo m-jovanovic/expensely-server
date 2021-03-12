@@ -63,7 +63,7 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> UpdateBudget(
-            Guid budgetId,
+            Ulid budgetId,
             [FromBody] UpdateBudgetRequest updateBudgetRequest,
             CancellationToken cancellationToken) =>
             await Result.Create(updateBudgetRequest, ApiErrors.UnProcessableRequest)
@@ -86,7 +86,7 @@ namespace Expensely.Presentation.Api.Controllers
         [HttpDelete(ApiRoutes.Budgets.DeleteBudget)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteBudget(Guid budgetId, CancellationToken cancellationToken) =>
+        public async Task<IActionResult> DeleteBudget(Ulid budgetId, CancellationToken cancellationToken) =>
             await Result.Success(new DeleteBudgetCommand(budgetId))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(NoContent, _ => NotFound());
