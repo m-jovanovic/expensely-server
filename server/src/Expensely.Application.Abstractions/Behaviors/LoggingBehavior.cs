@@ -81,7 +81,7 @@ namespace Expensely.Application.Abstractions.Behaviors
         {
             if (_userInformationProvider.IsAuthenticated)
             {
-                yield return _userInformationProvider.UserId;
+                yield return _userInformationProvider.UserId.ToString();
             }
 
             yield return requestName;
