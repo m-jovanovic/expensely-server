@@ -1,13 +1,13 @@
-<div *transloco="let t" class="grid grid-cols-6">
-  <div class="col-start-2 col-span-4 rounded-lg divide-y divide-gray-200 bg-white">
+<div *transloco="let t" class="flex justify-center w-full">
+  <div class="rounded-lg divide-y divide-gray-200 bg-white w-full md:max-w-2xl">
     <!-- Title -->
-    <div class="px-6 py-5">
+    <div class="px-6 py-4">
       <h3 class="text-lg font-medium text-gray-700">{{ t('transactions.create.text.title') }}</h3>
     </div>
 
-    <div class="rounded-b-md">
-      <form [formGroup]="createTransactionForm" (ngSubmit)="onSubmit()">
-        <div class="px-6 py-6 grid grid-cols-6 gap-6">
+    <form trapFocus [formGroup]="createTransactionForm" (ngSubmit)="onSubmit()">
+      <div class="rounded-b-md divide-y divide-gray-200">
+        <div class="px-6 py-6 space-y-4">
           <!-- Transaction type -->
           <div class="col-span-4">
             <label for="transactionType" class="block font-medium text-gray-500">{{
@@ -39,6 +39,11 @@
                 <label for="incomeTransactionType" class="block ml-3">{{ t('transactions.create.fields.incomeTransactionType') }}</label>
               </div>
             </div>
+            <div *ngIf="submitted && createTransactionForm.controls.transactionType.errors" class="mt-2 text-xs text-red-500">
+              <div *ngIf="createTransactionForm.controls.transactionType.errors.required">
+                {{ t('transactions.create.errors.transactionType.required') }}
+              </div>
+            </div>
           </div>
 
           <!-- Description -->
@@ -50,8 +55,17 @@
               formControlName="description"
               type="text"
               required
+              maxlength="100"
               class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-teal-400 focus:ring-teal-400"
             />
+            <div *ngIf="submitted && createTransactionForm.controls.description.errors" class="mt-2 text-xs text-red-500">
+              <div *ngIf="createTransactionForm.controls.description.errors.required">
+                {{ t('transactions.create.errors.description.required') }}
+              </div>
+              <div *ngIf="createTransactionForm.controls.description.errors.maxlength">
+                {{ t('transactions.create.errors.description.maxLength') }}
+              </div>
+            </div>
           </div>
 
           <!-- Category -->
@@ -66,6 +80,11 @@
             >
               <option *ngFor="let category of categories$ | async" [value]="category.id">{{ category.name }}</option>
             </select>
+            <div *ngIf="submitted && createTransactionForm.controls.category.errors" class="mt-2 text-xs text-red-500">
+              <div *ngIf="createTransactionForm.controls.category.errors.required">
+                {{ t('transactions.create.errors.category.required') }}
+              </div>
+            </div>
           </div>
 
           <!-- Amount and Currency -->
@@ -100,6 +119,19 @@
                 </select>
               </div>
             </div>
+            <div *ngIf="submitted && createTransactionForm.controls.amount.errors" class="mt-2 text-xs text-red-500">
+              <div *ngIf="createTransactionForm.controls.amount.errors.required">
+                {{ t('transactions.create.errors.amount.required') }}
+              </div>
+              <div *ngIf="createTransactionForm.controls.amount.errors.min">
+                {{ t('transactions.create.errors.amount.min') }}
+              </div>
+            </div>
+            <div *ngIf="submitted && createTransactionForm.controls.currency.errors" class="mt-2 text-xs text-red-500">
+              <div *ngIf="createTransactionForm.controls.currency.errors.required">
+                {{ t('transactions.create.errors.currency.required') }}
+              </div>
+            </div>
           </div>
 
           <!-- Occurred on -->
@@ -113,25 +145,36 @@
               required
               class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-teal-400 focus:ring-teal-400"
             />
+            <div *ngIf="submitted && createTransactionForm.controls.occurredOn.errors" class="mt-2 text-xs text-red-500">
+              <div *ngIf="createTransactionForm.controls.occurredOn.errors.required">
+                {{ t('transactions.create.errors.occurredOn.required') }}
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Action buttons -->
-        <div class="px-6 py-6 flex justify-end rounded-b-md bg-gray-50">
+        <div class="px-6 py-6 flex justify-end rounded-b-md">
           <div class="flex space-x-4 items-center">
             <div>
-              <button class="px-4 py-2 rounded-md font-medium text-teal-500 border-2 border-teal-500" (click)="onCancel()">
+              <button
+                class="px-4 py-2 rounded-md font-medium text-teal-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                (click)="onCancel()"
+              >
                 {{ t('transactions.create.actions.cancel') }}
               </button>
             </div>
             <div>
-              <button type="submit" class="px-4 py-2 rounded-md font-medium bg-teal-500 hover:bg-teal-600 text-white">
+              <button
+                type="submit"
+                class="px-4 py-2 rounded-md font-medium text-white bg-teal-500 hover:bg-teal-600 focus:bg-teal-600 focus:outline-none"
+              >
                 {{ t('transactions.create.actions.createTransaction') }}
               </button>
             </div>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </div>

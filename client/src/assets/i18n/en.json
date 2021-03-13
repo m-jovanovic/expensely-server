@@ -127,6 +127,28 @@
       "actions": {
         "createTransaction": "Create Transaction",
         "cancel": "Cancel"
+      },
+      "errors": {
+        "transactionType": {
+          "required": "The transaction type is required."
+        },
+        "description": {
+          "required": "The description is required.",
+          "maxLength": "The description length is limited to 100 characters."
+        },
+        "category": {
+          "required": "The category is required."
+        },
+        "amount": {
+          "required": "The amount is required.",
+          "min": "The amount must be greater than 0."
+        },
+        "currency": {
+          "required": "The currency is required."
+        },
+        "occurredOn": {
+          "required": "The date the transaction occurred on is required."
+        }
       }
     },
     "delete": {

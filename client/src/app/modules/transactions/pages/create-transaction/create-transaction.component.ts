@@ -12,7 +12,8 @@ import {
   CategoryResponse,
   ApiErrorResponse,
   UserFacade,
-  UserCurrencyResponse
+  UserCurrencyResponse,
+  CurrencyResponse
 } from '@expensely/core';
 
 @Component({
@@ -24,6 +25,7 @@ export class CreateTransactionComponent implements OnInit {
   createTransactionForm: FormGroup;
   categories$: Observable<CategoryResponse[]>;
   currencies$: Observable<UserCurrencyResponse[]>;
+  submitted = false;
   requestSent = false;
 
   constructor(
@@ -37,7 +39,7 @@ export class CreateTransactionComponent implements OnInit {
   ngOnInit(): void {
     this.createTransactionForm = this.formBuilder.group({
       transactionType: [TransactionType.Expense.toString(), Validators.required],
-      description: ['', Validators.required],
+      description: ['', [Validators.required, Validators.maxLength(100)]],
       category: ['', Validators.required],
       amount: ['0.00', [Validators.required, Validators.min(0.01)]],
       currency: ['', Validators.required],
@@ -47,12 +49,12 @@ export class CreateTransactionComponent implements OnInit {
     this.categories$ = this.categoryFacade.categories$;
 
     this.currencies$ = this.userFacade.currencies$.pipe(
-      tap((currenciesArray) => {
-        if (!currenciesArray?.length) {
+      tap((userCurrencies: UserCurrencyResponse[]) => {
+        if (!userCurrencies?.length) {
           return;
         }
 
-        this.createTransactionForm.controls.currency.setValue(currenciesArray.find((x) => x.isPrimary).id);
+        this.createTransactionForm.controls.currency.setValue(userCurrencies.find((x) => x.isPrimary).id);
       })
     );
 
@@ -69,6 +71,8 @@ export class CreateTransactionComponent implements OnInit {
     if (this.requestSent) {
       return;
     }
+
+    this.submitted = true;
 
     if (this.createTransactionForm.invalid) {
       this.requestSent = false;
@@ -99,6 +103,7 @@ export class CreateTransactionComponent implements OnInit {
           return of(true);
         }),
         tap(() => {
+          this.submitted = false;
           this.requestSent = false;
           this.createTransactionForm.enable();
         })
