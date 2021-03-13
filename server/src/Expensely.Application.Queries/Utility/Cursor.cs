@@ -28,18 +28,19 @@ namespace Expensely.Application.Queries.Utility
         /// Parses the values from the specified cursor.
         /// </summary>
         /// <param name="cursor">The cursor.</param>
-        /// <param name="expectedCount">The expected number of cursor values.</param>
+        /// <param name="expectedNumberOfValues">The expected number of values.</param>
         /// <returns>The decoded cursor values.</returns>
         /// <exception cref="ArgumentException"> if the expected count does not match that number of values.</exception>
-        public static string[] Parse(string cursor, int expectedCount)
+        public static string[] Parse(string cursor, int expectedNumberOfValues)
         {
             byte[] decodedCursor = Convert.FromBase64String(cursor);
 
             string[] cursorValues = Encoding.UTF8.GetString(decodedCursor).Split(',');
 
-            if (cursorValues.Length != expectedCount)
+            if (cursorValues.Length != expectedNumberOfValues)
             {
-                throw new InvalidOperationException("The specified cursor is invalid.");
+                throw new InvalidOperationException(
+                    $"Expected {expectedNumberOfValues} values but found {cursorValues.Length} values in the cursor.");
             }
 
             return cursorValues;

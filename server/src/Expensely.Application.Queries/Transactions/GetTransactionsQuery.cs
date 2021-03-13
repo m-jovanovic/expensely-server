@@ -62,7 +62,7 @@ namespace Expensely.Application.Queries.Transactions
 
             return (
                 DateTime.TryParse(cursorValues[0], out DateTime occurredOn) ? occurredOn : utcNow.Date,
-                DateTime.TryParse(cursorValues[1], out DateTime createdOnUtc) ? createdOnUtc : utcNow.Date);
+                DateTime.TryParse(cursorValues[1], out DateTime createdOnUtc) ? createdOnUtc : utcNow);
         }
     }
 }
