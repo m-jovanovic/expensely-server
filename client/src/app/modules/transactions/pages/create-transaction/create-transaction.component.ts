@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
 
 import {
   CategoryFacade,
@@ -21,11 +21,12 @@ import {
   styleUrls: ['./create-transaction.component.scss']
 })
 export class CreateTransactionComponent implements OnInit {
+  private requestSent = false;
   createTransactionForm: FormGroup;
   categories$: Observable<CategoryResponse[]>;
   currencies$: Observable<UserCurrencyResponse[]>;
+  isLoading$: Observable<boolean>;
   submitted = false;
-  requestSent = false;
 
   constructor(
     private transactionFacade: TransactionFacade,
@@ -56,6 +57,8 @@ export class CreateTransactionComponent implements OnInit {
         this.createTransactionForm.controls.currency.setValue(userCurrencies.find((x) => x.isPrimary).id);
       })
     );
+
+    this.isLoading$ = this.transactionFacade.isLoading$;
 
     this.categoryFacade.loadCategories();
 
