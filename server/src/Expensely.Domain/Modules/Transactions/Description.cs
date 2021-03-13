@@ -13,7 +13,7 @@ namespace Expensely.Domain.Modules.Transactions
         /// <summary>
         /// The description maximum length.
         /// </summary>
-        public const int MaxLength = 500;
+        public const int MaxLength = 100;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Description"/> class.
