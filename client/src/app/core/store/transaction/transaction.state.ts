@@ -5,9 +5,9 @@ import { catchError, tap } from 'rxjs/operators';
 import { State, StateContext, Action } from '@ngxs/store';
 
 import { TransactionStateModel } from './transaction-state.model';
-import { GetTransaction, DeleteTransaction } from './transaction.actions';
+import { GetTransaction, DeleteTransaction, CreateTransaction } from './transaction.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
-import { TransactionResponse } from '../../contracts/transactions/transaction-response';
+import { CreateTransactionRequest, TransactionResponse } from '../../contracts/transactions';
 
 @State<TransactionStateModel>({
   name: 'transaction',
@@ -45,6 +45,41 @@ export class TransactionState {
         return throwError(error);
       })
     );
+  }
+  @Action(CreateTransaction)
+  createTransaction(context: StateContext<TransactionStateModel>, action: CreateTransaction): Observable<any> {
+    context.patchState({
+      isLoading: true
+    });
+
+    // TODO: See if this should eagerly update transactions collection, or issue a new GET request?
+    return this.transactionService
+      .createTransaction(
+        new CreateTransactionRequest(
+          action.userId,
+          action.description,
+          action.category,
+          action.amount,
+          action.currency,
+          action.occurredOn,
+          action.transactionType
+        )
+      )
+      .pipe(
+        tap(() => {
+          context.patchState({
+            isLoading: false
+          });
+        }),
+        catchError((error: HttpErrorResponse) => {
+          context.patchState({
+            isLoading: false,
+            error: true
+          });
+
+          return throwError(error);
+        })
+      );
   }
 
   @Action(DeleteTransaction)
