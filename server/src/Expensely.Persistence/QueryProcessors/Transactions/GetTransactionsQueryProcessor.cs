@@ -45,7 +45,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
             }
 
             var transactions = await _session
-                .Query<Transaction, Transactions_ByUserIdAndOccurredOnAndCreatedOnAndTransactionType>()
+                .Query<Transaction, Transactions_ByUserIdAndOccurredOnAndCreatedOn>()
                 .Where(x =>
                     x.UserId == query.UserId &&
                     (x.OccurredOn < query.OccurredOn ||
