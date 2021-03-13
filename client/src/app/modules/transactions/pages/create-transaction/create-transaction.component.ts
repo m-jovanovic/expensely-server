@@ -96,22 +96,21 @@ export class CreateTransactionComponent implements OnInit {
         transactionType
       )
       .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.handleCreateTransactionError(new ApiErrorResponse(error));
-
-          return of(true);
-        }),
-        tap(() => {
+        finalize(() => {
           this.submitted = false;
           this.requestSent = false;
           this.createTransactionForm.enable();
         })
       )
-      .subscribe(() => this.routerService.navigateByUrl('/transactions'));
+      .subscribe(
+        () => this.routerService.navigateByUrl('/transactions'),
+        (error: HttpErrorResponse) => this.handleCreateTransactionError(new ApiErrorResponse(error))
+      );
   }
 
   private handleCreateTransactionError(errorResponse: ApiErrorResponse): void {
     // TODO: Handle errors.
+    console.log('Failed to create transaction.');
   }
 
   private getCurrentDateString(): string {
