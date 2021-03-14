@@ -1,8 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, filter, tap } from 'rxjs/operators';
+import { concatMap, finalize } from 'rxjs/operators';
 
 import { ApiErrorResponse, AuthenticationFacade, CurrencyFacade, CurrencyResponse, RouterService, UserFacade } from '@expensely/core';
 
@@ -12,11 +11,10 @@ import { ApiErrorResponse, AuthenticationFacade, CurrencyFacade, CurrencyRespons
   styleUrls: ['./setup-primary-currency.component.scss']
 })
 export class SetupPrimaryCurrencyComponent implements OnInit {
+  private requestSent = false;
   currencies$: Observable<CurrencyResponse[]>;
   setupForm: FormGroup;
   submitted = false;
-  requestSent = false;
-  error = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,28 +59,18 @@ export class SetupPrimaryCurrencyComponent implements OnInit {
     this.userFacade
       .addUserCurrency(this.setupForm.value.currency)
       .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.handleError(new ApiErrorResponse(error));
-
-          this.handleRequestCompleted();
-
-          return of(false);
-        }),
-        filter(() => !this.error),
-        concatMap(() => {
-          return this.authenticationFacade.refreshToken().pipe(
-            tap(() => {
-              this.redirectToDashboard();
-            })
-          );
-        })
+        concatMap(() => this.authenticationFacade.refreshToken()),
+        finalize(() => this.handleRequestCompleted())
       )
-      .subscribe();
+      .subscribe(
+        () => this.redirectToDashboard(),
+        (error: ApiErrorResponse) => this.handleError(error)
+      );
   }
 
   handleError(errorResponse: ApiErrorResponse): void {
     // TODO: Handle possible errors.
-    this.error = true;
+    console.log('Failed to add currency.');
   }
 
   private handleRequestCompleted(): void {

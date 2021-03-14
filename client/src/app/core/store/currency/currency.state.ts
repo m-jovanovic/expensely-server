@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { State, StateContext, Action } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { State, StateContext, Action } from '@ngxs/store';
 
 import { CurrencyStateModel } from './currency-state.model';
 import { LoadCurrencies } from './currency.actions';
 import { CurrencyService } from '../../services/currency/currency.service';
-import { CurrencyResponse } from '../../contracts/transactions/currency-response';
+import { ApiErrorResponse, CurrencyResponse } from '../../contracts';
 
 @State<CurrencyStateModel>({
   name: 'currencies',
@@ -33,7 +32,7 @@ export class CurrencyState {
           isLoading: false
         });
       }),
-      catchError((error: HttpErrorResponse) => {
+      catchError((error: ApiErrorResponse) => {
         context.patchState({
           isLoading: false
         });

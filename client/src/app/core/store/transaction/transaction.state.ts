@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { State, StateContext, Action } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { State, StateContext, Action } from '@ngxs/store';
 
 import { TransactionStateModel } from './transaction-state.model';
 import { GetTransaction, DeleteTransaction, CreateTransaction } from './transaction.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
-import { CreateTransactionRequest, TransactionResponse } from '../../contracts/transactions';
+import { ApiErrorResponse, CreateTransactionRequest, TransactionResponse } from '../../contracts';
 
 @State<TransactionStateModel>({
   name: 'transaction',
@@ -36,7 +35,7 @@ export class TransactionState {
           error: false
         });
       }),
-      catchError((error: HttpErrorResponse) => {
+      catchError((error: ApiErrorResponse) => {
         context.patchState({
           isLoading: false,
           error: true
@@ -71,7 +70,7 @@ export class TransactionState {
             isLoading: false
           });
         }),
-        catchError((error: HttpErrorResponse) => {
+        catchError((error: ApiErrorResponse) => {
           context.patchState({
             isLoading: false,
             error: true
@@ -85,7 +84,7 @@ export class TransactionState {
   @Action(DeleteTransaction)
   deleteTransaction(context: StateContext<TransactionStateModel>, action: DeleteTransaction): Observable<any> {
     return this.transactionService.deleteTransaction(action.transactionId).pipe(
-      catchError((error: HttpErrorResponse) => {
+      catchError((error: ApiErrorResponse) => {
         context.patchState({
           error: true
         });

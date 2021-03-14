@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { State, StateContext, Action } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { State, StateContext, Action } from '@ngxs/store';
 
 import { TransactionListStateModel } from './transaction-list-state.model';
 import { LoadMoreTransactions, LoadTransactions } from './transaction-list.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
-import { TransactionListResponse } from '../../contracts/transactions';
+import { ApiErrorResponse, TransactionListResponse } from '../../contracts';
 
 @State<TransactionListStateModel>({
   name: 'transaction_list',
@@ -37,7 +36,7 @@ export class TransactionListState {
           error: false
         });
       }),
-      catchError((error: HttpErrorResponse) => {
+      catchError((error: ApiErrorResponse) => {
         context.patchState({
           isLoading: false,
           error: true
@@ -71,7 +70,7 @@ export class TransactionListState {
           error: false
         });
       }),
-      catchError((error: HttpErrorResponse) => {
+      catchError((error: ApiErrorResponse) => {
         context.patchState({
           isLoading: false,
           error: true

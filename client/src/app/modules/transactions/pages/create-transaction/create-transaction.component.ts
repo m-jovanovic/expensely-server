@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 
@@ -107,7 +106,7 @@ export class CreateTransactionComponent implements OnInit {
       )
       .subscribe(
         () => this.routerService.navigateByUrl('/transactions'),
-        (error: HttpErrorResponse) => this.handleCreateTransactionError(new ApiErrorResponse(error))
+        (error: ApiErrorResponse) => this.handleCreateTransactionError(error)
       );
   }
 

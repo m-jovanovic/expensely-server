@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { State, StateContext, Action } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { State, StateContext, Action } from '@ngxs/store';
 
 import { CategoryStateModel } from './category-state.model';
 import { LoadCategories } from './category.actions';
 import { CategoryService } from '../../services/category/category.service';
-import { CategoryResponse } from '../../contracts/transactions/category-response';
+import { ApiErrorResponse, CategoryResponse } from '../../contracts';
 
 @State<CategoryStateModel>({
   name: 'categories',
@@ -33,7 +32,7 @@ export class CategoryState {
           isLoading: false
         });
       }),
-      catchError((error: HttpErrorResponse) => {
+      catchError((error: ApiErrorResponse) => {
         context.patchState({
           isLoading: false
         });

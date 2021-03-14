@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { State, StateContext, Action } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { State, StateContext, Action, Selector } from '@ngxs/store';
 
 import { TransactionSummaryStateModel } from './transaction-summary-state.model';
 import { LoadTransactionSummary } from './transaction-summary.actions';
-import { TransactionService } from '@expensely/core/services/transaction/transaction.service';
-import { TransactionSummaryResponse } from '@expensely/core/contracts/transactions/transaction-summary-response';
+import { TransactionService } from '../../services/transaction/transaction.service';
+import { ApiErrorResponse, TransactionSummaryResponse } from '../../contracts';
 
 @State<TransactionSummaryStateModel>({
   name: 'transaction_summary',
@@ -40,7 +39,7 @@ export class TransactionSummaryState {
           error: false
         });
       }),
-      catchError((error: HttpErrorResponse) => {
+      catchError((error: ApiErrorResponse) => {
         context.patchState({
           isLoading: false,
           error: true

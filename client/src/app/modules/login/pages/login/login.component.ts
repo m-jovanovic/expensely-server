@@ -1,8 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
 
@@ -12,9 +10,9 @@ import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } fro
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  private requestSent = false;
   loginForm: FormGroup;
   submitted = false;
-  requestSent = false;
   invalidEmailOrPassword = false;
 
   constructor(private formBuilder: FormBuilder, private authenticationFacade: AuthenticationFacade, private routerService: RouterService) {}
@@ -46,18 +44,16 @@ export class LoginComponent implements OnInit {
     this.authenticationFacade
       .login(this.loginForm.value.email, this.loginForm.value.password)
       .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.handleLoginError(new ApiErrorResponse(error));
-
-          return of(true);
-        }),
-        tap(() => {
+        finalize(() => {
           this.submitted = false;
           this.requestSent = false;
           this.loginForm.enable();
         })
       )
-      .subscribe();
+      .subscribe(
+        () => {},
+        (error: ApiErrorResponse) => this.handleLoginError(error)
+      );
   }
 
   async redirectToRegister(): Promise<boolean> {

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
 import { State, StateContext, Action } from '@ngxs/store';
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 import { initialState, UserStateModel } from './user-state.model';
 import { LoadUserCurrencies, AddUserCurrency, ChangeUserPrimaryCurrency } from './user.actions';
 import { UserService } from '../../../core/services';
-import { catchError, tap } from 'rxjs/operators';
-import { UserCurrencyResponse } from '@expensely/core/contracts';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ApiErrorResponse, UserCurrencyResponse } from '../../contracts';
 
 @State<UserStateModel>({
   name: 'user',
@@ -30,7 +29,7 @@ export class UserState {
           isLoading: false
         });
       }),
-      catchError((error: HttpErrorResponse) => {
+      catchError((error: ApiErrorResponse) => {
         context.patchState({
           isLoading: false,
           error: true
