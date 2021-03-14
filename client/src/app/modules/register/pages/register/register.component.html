@@ -152,8 +152,9 @@
             <!-- Sign Up section -->
             <div class="flex justify-center">
               <button
-                class="w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
                 type="submit"
+                [disabled]="isLoading$ | async"
+                class="w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600 disabled"
               >
                 {{ t('register.actions.register') }}
               </button>
@@ -164,7 +165,8 @@
           <div class="flex flex-col items-center px-4 md:px-6 py-4 rounded-b bg-gray-50">
             <p class="text-sm text-gray-500">{{ t('register.actions.loginText') }}</p>
             <button
-              class="w-28 px-4 py-2 mt-6 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
+              [disabled]="isLoading$ | async"
+              class="w-28 px-4 py-2 mt-6 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600 disabled"
               (click)="redirectToLogin()"
             >
               {{ t('register.actions.login') }}

@@ -1,8 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { of } from 'rxjs';
-import { catchError, tap, filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { finalize, concatMap } from 'rxjs/operators';
 
 import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, PasswordValidators, RouterService } from '@expensely/core';
 
@@ -13,6 +12,7 @@ import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, PasswordValidators,
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
+  isLoading$: Observable<boolean>;
   submitted = false;
   requestSent = false;
   emailAlreadyInUse = false;
@@ -27,6 +27,8 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6), PasswordValidators.passwordStrength]],
       confirmationPassword: ['', [Validators.required, PasswordValidators.confirmationPasswordMustMatch]]
     });
+
+    this.isLoading$ = this.authenticationFacade.isLoading$;
   }
 
   onSubmit(): void {
@@ -54,33 +56,17 @@ export class RegisterComponent implements OnInit {
         this.registerForm.value.confirmationPassword
       )
       .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.handleRegisterError(new ApiErrorResponse(error));
-
-          return of(true);
-        }),
-        tap(() => {
+        concatMap(() => this.authenticationFacade.login(this.registerForm.value.email, this.registerForm.value.password)),
+        finalize(() => {
           this.submitted = false;
-
-          this.setRequestSentToFalseAndEnableRegisterForm();
-        }),
-        filter(() => !this.emailAlreadyInUse),
-        tap(() => {
-          this.setRequestSentToTrueAndDisableRegisterForm();
-
-          return this.authenticationFacade.login(this.registerForm.value.email, this.registerForm.value.password).pipe(
-            catchError(() => {
-              this.redirectToLogin();
-
-              return of(true);
-            }),
-            tap(() => {
-              this.setRequestSentToFalseAndEnableRegisterForm();
-            })
-          );
+          this.requestSent = false;
+          this.registerForm.enable();
         })
       )
-      .subscribe();
+      .subscribe(
+        () => {},
+        (error: ApiErrorResponse) => this.handleRegisterError(error)
+      );
   }
 
   setRequestSentToTrueAndDisableRegisterForm(): void {
@@ -88,14 +74,11 @@ export class RegisterComponent implements OnInit {
     this.registerForm.disable();
   }
 
-  setRequestSentToFalseAndEnableRegisterForm(): void {
-    this.requestSent = false;
-    this.registerForm.enable();
-  }
-
   handleRegisterError(errorResponse: ApiErrorResponse): void {
     if (errorResponse.hasError(ErrorCodes.UserEmailAlreadyInUse)) {
       this.emailAlreadyInUse = true;
+    } else {
+      this.redirectToLogin();
     }
   }
 
