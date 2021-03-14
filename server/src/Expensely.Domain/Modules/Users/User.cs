@@ -101,7 +101,12 @@ namespace Expensely.Domain.Modules.Users
         /// <param name="password">The password.</param>
         /// <param name="passwordService">The password service.</param>
         /// <returns>The newly created user.</returns>
-        public static User Create(FirstName firstName, LastName lastName, Email email, Password password, IPasswordService passwordService)
+        internal static User Create(
+            FirstName firstName,
+            LastName lastName,
+            Email email,
+            Password password,
+            IPasswordService passwordService)
         {
             var user = new User(firstName, lastName, email, password, passwordService);
 
