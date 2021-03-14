@@ -8,7 +8,7 @@ import {
   Injector
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { take, takeLast } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 import { ConfirmationDialogComponent } from '../components';
 import { ConfirmationDialogData } from '../components/confirmation-dialog/confirmation-dialog.data';

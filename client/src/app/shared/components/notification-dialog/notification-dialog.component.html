@@ -1,0 +1,14 @@
+<div class="absolute inset-bottom p-4 rounded-lg text-white bg-gray-500 opacity-95 max-w-sm md:max-w-md w-full">
+  <div class="flex items-start justify-between space-x-4 cursor-pointer">
+    <div>
+      <p>{{ message }}</p>
+    </div>
+    <div>
+      <button class="focus:outline-none" (click)="close()">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
