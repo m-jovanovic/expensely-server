@@ -4,6 +4,9 @@ import { AfterViewInit, ElementRef, Directive, OnDestroy } from '@angular/core';
   selector: '[trapFocus]'
 })
 export class TrapFocusDirective implements AfterViewInit, OnDestroy {
+  private readonly querySelector =
+    'a[href], button, textarea, input[type="text"], input[type="number"], input[type="email"], ' +
+    'input[type="password"], input[type="date"], input[type="radio"], input[type="checkbox"], select';
   private htmlElement: HTMLElement;
   private firstFocusElement: HTMLElement;
   private lastFocusElement: HTMLElement;
@@ -20,9 +23,7 @@ export class TrapFocusDirective implements AfterViewInit, OnDestroy {
   private setHtmlElements() {
     this.htmlElement = this.element.nativeElement as HTMLElement;
 
-    const allFocusElements = this.htmlElement.querySelectorAll(
-      'a[href], button, textarea, input[type="text"], input[type="number"], input[type="date"], input[type="radio"], input[type="checkbox"], select'
-    );
+    const allFocusElements = this.htmlElement.querySelectorAll(this.querySelector);
 
     const enabledFocusElements = Array.from(allFocusElements)
       .filter((el: any) => !el.disabled)

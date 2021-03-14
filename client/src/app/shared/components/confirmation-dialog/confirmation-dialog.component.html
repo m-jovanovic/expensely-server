@@ -2,7 +2,7 @@
   <div class="bg-white rounded-md max-w-md" (click)="stopPropagation($event)">
     <div class="p-4">
       <div class="font-medium text-gray-500">{{ data.message }}</div>
-      <div class="flex justify-end mt-6 space-x-4">
+      <div trapFocus class="flex justify-end mt-6 space-x-4">
         <button
           class="px-4 py-2 rounded-md tracking-wider text-teal-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
           (click)="cancel($event)"
