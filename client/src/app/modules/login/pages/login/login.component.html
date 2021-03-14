@@ -66,16 +66,17 @@
             </div>
 
             <!-- Log In section -->
-            <div class="flex flex-col md:flex-row items-center md:justify-between">
+            <div class="flex flex-col items-center">
               <button
-                class="w-24 md:w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
                 type="submit"
+                [disabled]="isLoading$ | async"
+                class="w-24 md:w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600 disabled"
               >
                 {{ t('login.actions.login') }}
               </button>
-              <a class="mt-3 md:mt-0 font-bold text-sm text-gray-400 hover:text-black" href="#">
+              <!-- <a [disabled]="isLoading$ | async" class="mt-3 md:mt-0 font-bold text-sm text-gray-400 hover:text-black disabled" href="#">
                 {{ t('login.actions.forgotPassword') }}
-              </a>
+              </a> -->
             </div>
           </div>
 
@@ -83,7 +84,8 @@
           <div class="flex flex-col items-center px-4 md:px-6 py-4 rounded-b bg-gray-50">
             <p class="text-sm text-gray-500">{{ t('login.actions.registerText') }}</p>
             <button
-              class="w-24 md:w-28 px-4 py-2 mt-4 md:mt-6 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600"
+              [disabled]="isLoading$ | async"
+              class="w-24 md:w-28 px-4 py-2 mt-4 md:mt-6 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600 disabled"
               (click)="redirectToRegister()"
             >
               {{ t('login.actions.register') }}

@@ -9,6 +9,9 @@ import { AuthenticationSelectors } from './authentication.selectors';
   providedIn: 'root'
 })
 export class AuthenticationFacade {
+  @Select(AuthenticationSelectors.getIsLoading)
+  isLoading$: Observable<boolean>;
+
   @Select(AuthenticationSelectors.getIsLoggedIn)
   isLoggedIn$: Observable<boolean>;
 

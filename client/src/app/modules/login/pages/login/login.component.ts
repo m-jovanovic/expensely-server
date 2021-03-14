@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
@@ -12,6 +13,7 @@ import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } fro
 export class LoginComponent implements OnInit {
   private requestSent = false;
   loginForm: FormGroup;
+  isLoading$: Observable<boolean>;
   submitted = false;
   invalidEmailOrPassword = false;
 
@@ -22,6 +24,8 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+
+    this.isLoading$ = this.authenticationFacade.isLoading$;
   }
 
   onSubmit(): void {

@@ -6,6 +6,11 @@ import { AuthenticationState } from './authentication.state';
 
 export class AuthenticationSelectors {
   @Selector([AuthenticationState])
+  static getIsLoading(state: AuthenticationStateModel): boolean {
+    return state.isLoading;
+  }
+
+  @Selector([AuthenticationState])
   static getToken(state: AuthenticationStateModel): string {
     return state.token;
   }
