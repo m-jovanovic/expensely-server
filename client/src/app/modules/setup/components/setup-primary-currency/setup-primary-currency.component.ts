@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 
 import { ApiErrorResponse, AuthenticationFacade, CurrencyFacade, CurrencyResponse, RouterService, UserFacade } from '@expensely/core';
@@ -13,6 +13,7 @@ import { ApiErrorResponse, AuthenticationFacade, CurrencyFacade, CurrencyRespons
 export class SetupPrimaryCurrencyComponent implements OnInit {
   private requestSent = false;
   currencies$: Observable<CurrencyResponse[]>;
+  isLoading$: Observable<boolean>;
   setupForm: FormGroup;
   submitted = false;
 
@@ -38,6 +39,8 @@ export class SetupPrimaryCurrencyComponent implements OnInit {
     this.currencies$ = this.currencyFacade.currencies$;
 
     this.currencyFacade.loadCurrencies();
+
+    this.isLoading$ = this.userFacade.isLoading$;
   }
 
   onSubmit(): void {
@@ -60,7 +63,11 @@ export class SetupPrimaryCurrencyComponent implements OnInit {
       .addUserCurrency(this.setupForm.value.currency)
       .pipe(
         concatMap(() => this.authenticationFacade.refreshToken()),
-        finalize(() => this.handleRequestCompleted())
+        finalize(() => {
+          this.submitted = false;
+          this.requestSent = false;
+          this.setupForm.enable();
+        })
       )
       .subscribe(
         () => this.redirectToDashboard(),
@@ -71,12 +78,6 @@ export class SetupPrimaryCurrencyComponent implements OnInit {
   handleError(errorResponse: ApiErrorResponse): void {
     // TODO: Handle possible errors.
     console.log('Failed to add currency.');
-  }
-
-  private handleRequestCompleted(): void {
-    this.submitted = false;
-    this.requestSent = false;
-    this.setupForm.enable();
   }
 
   private redirectToDashboard(): void {
