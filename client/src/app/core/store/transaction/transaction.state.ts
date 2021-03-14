@@ -83,9 +83,19 @@ export class TransactionState {
 
   @Action(DeleteTransaction)
   deleteTransaction(context: StateContext<TransactionStateModel>, action: DeleteTransaction): Observable<any> {
+    context.patchState({
+      isLoading: true
+    });
+
     return this.transactionService.deleteTransaction(action.transactionId).pipe(
+      tap(() => {
+        context.patchState({
+          isLoading: false
+        });
+      }),
       catchError((error: ApiErrorResponse) => {
         context.patchState({
+          isLoading: false,
           error: true
         });
 

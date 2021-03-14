@@ -1,5 +1,6 @@
 <button
-  class="px-4 py-2 rounded-md font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+  [disabled]="isLoading"
+  class="px-4 py-2 rounded-md font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled"
   (click)="deleteTransaction()"
 >
   <div *transloco="let t" class="flex items-center space-x-2">
