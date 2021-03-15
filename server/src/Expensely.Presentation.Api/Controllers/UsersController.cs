@@ -7,6 +7,8 @@ using Expensely.Application.Contracts.Users;
 using Expensely.Application.Queries.Users;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
+using Expensely.Domain.Modules.Permissions;
+using Expensely.Infrastructure.Authorization.Attributes;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Errors;
 using Expensely.Presentation.Api.Infrastructure;
@@ -36,6 +38,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="userId">The transaction identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the transaction with the specified identifier is found, otherwise 404 - Not Found.</returns>
+        [HasPermission(Permission.UserRead)]
         [HttpGet(ApiRoutes.Users.GetUserCurrencies)]
         [ProducesResponseType(typeof(IReadOnlyCollection<UserCurrencyResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -52,6 +55,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="currency">The currency value.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the currency was added to the users currencies successfully, otherwise 400 - Bad Request.</returns>
+        [HasPermission(Permission.UserModify)]
         [HttpPost(ApiRoutes.Users.AddUserCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
@@ -68,6 +72,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="currency">The currency value.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>204 - No Content if the currency was removed from the users currencies successfully, otherwise 400 - Bad Request.</returns>
+        [HasPermission(Permission.UserModify)]
         [HttpDelete(ApiRoutes.Users.RemoveUserCurrency)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
@@ -84,6 +89,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="currency">The currency value.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the user's primary currency was changed successfully, otherwise 400 - Bad Request.</returns>
+        [HasPermission(Permission.UserModify)]
         [HttpPut(ApiRoutes.Users.ChangeUserPrimaryCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
@@ -100,6 +106,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="request">The change password request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the user's password was changed successfully, otherwise 400 - Bad Request.</returns>
+        [HasPermission(Permission.UserModify)]
         [HttpPut(ApiRoutes.Users.ChangeUserPassword)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]

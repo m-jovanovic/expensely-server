@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Expensely.Application.Commands\Expensely.Application.Commands.csproj" />
     <ProjectReference Include="..\Expensely.Application.Queries\Expensely.Application.Queries.csproj" />
+    <ProjectReference Include="..\Expensely.Infrastructure.Authorization\Expensely.Infrastructure.Authorization.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Categories;
 using Expensely.Application.Queries.Categories;
+using Expensely.Domain.Modules.Permissions;
+using Expensely.Infrastructure.Authorization.Attributes;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Infrastructure;
 using MediatR;
@@ -30,6 +32,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The readonly collection of all supported categories.</returns>
+        [HasPermission(Permission.CategoryRead)]
         [HttpGet(ApiRoutes.Categories.GetCategories)]
         [ProducesResponseType(typeof(IReadOnlyCollection<CategoryResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCategories(CancellationToken cancellationToken) =>

@@ -7,6 +7,8 @@ using Expensely.Application.Queries.Transactions;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
+using Expensely.Domain.Modules.Permissions;
+using Expensely.Infrastructure.Authorization.Attributes;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Errors;
 using Expensely.Presentation.Api.Infrastructure;
@@ -40,6 +42,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="cursor">The cursor.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if any transactions are found, otherwise 404 - Not Found.</returns>
+        [HasPermission(Permission.TransactionRead)]
         [HttpGet(ApiRoutes.Transactions.GetTransactions)]
         [ProducesResponseType(typeof(TransactionListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -55,6 +58,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="transactionId">The transaction identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the transaction with the specified identifier is found, otherwise 404 - Not Found.</returns>
+        [HasPermission(Permission.TransactionRead)]
         [HttpGet(ApiRoutes.Transactions.GetTransactionById)]
         [ProducesResponseType(typeof(TransactionResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -71,6 +75,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="currency">The currency.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the transaction summary is found, otherwise 404 - Not Found.</returns>
+        [HasPermission(Permission.TransactionRead)]
         [HttpGet(ApiRoutes.Transactions.GetCurrentMonthTransactionSummary)]
         [ProducesResponseType(typeof(TransactionSummaryResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -89,6 +94,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="createTransactionRequest">The create transaction request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the transaction was created successfully, otherwise 400 - Bad Request.</returns>
+        [HasPermission(Permission.TransactionModify)]
         [HttpPost(ApiRoutes.Transactions.CreateTransaction)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
@@ -115,6 +121,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="updateTransactionRequest">The update transaction request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the transaction was updated successfully, otherwise 400 - Bad Request.</returns>
+        [HasPermission(Permission.TransactionModify)]
         [HttpPut(ApiRoutes.Transactions.UpdateTransaction)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
@@ -140,6 +147,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="transactionId">The transaction identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>204 - No Content if the transaction was deleted successfully, otherwise 404 - Not Found.</returns>
+        [HasPermission(Permission.TransactionModify)]
         [HttpDelete(ApiRoutes.Transactions.DeleteTransaction)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
