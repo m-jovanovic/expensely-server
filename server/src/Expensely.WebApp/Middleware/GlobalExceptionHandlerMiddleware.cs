@@ -72,7 +72,7 @@ namespace Expensely.WebApp.Middleware
         private static (HttpStatusCode StatusCode, IReadOnlyCollection<Error> Errors) GetHttpStatusCodeAndErrors(Exception exception) =>
             exception switch
             {
-                ValidationException validationException => (HttpStatusCode.UnprocessableEntity, validationException.Errors),
+                ValidationException validationException => (HttpStatusCode.BadRequest, validationException.Errors),
                 DomainException domainException => (HttpStatusCode.UnprocessableEntity, new[] { domainException.Error }),
                 _ => (HttpStatusCode.InternalServerError, new[] { ApiErrors.ServerError })
             };
