@@ -13,7 +13,7 @@ export class JwtService {
       return {
         userId: decodedToken.sub,
         email: decodedToken.email,
-        name: decodedToken.name,
+        fullName: decodedToken.full_name,
         primaryCurrency: +decodedToken.primary_currency,
         exp: +decodedToken.exp * 1000
       } as TokenInfo;

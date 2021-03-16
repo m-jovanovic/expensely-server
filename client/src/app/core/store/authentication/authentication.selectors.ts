@@ -37,10 +37,14 @@ export class AuthenticationSelectors {
 
   @Selector([AuthenticationSelectors.getTokenInfo])
   static getUserInitials(tokenInfo: TokenInfo): string {
-    const nameParts = tokenInfo?.name.split(' ').map((part) => part.toUpperCase());
+    const nameParts = tokenInfo?.fullName.split(' ').map((part) => part.toUpperCase());
 
     if (nameParts?.length === 0 || nameParts?.some((x) => x.length === 0)) {
       return '';
+    }
+
+    if (nameParts.length != 2) {
+      return nameParts[0][0];
     }
 
     return `${nameParts[0][0]}${nameParts[1][0]}`;
