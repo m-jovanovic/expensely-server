@@ -11,10 +11,10 @@ export class JwtService {
       const decodedToken: any = jwt_decode(token);
 
       return {
-        userId: decodedToken.userId,
+        userId: decodedToken.sub,
         email: decodedToken.email,
         name: decodedToken.name,
-        primaryCurrency: +decodedToken.primaryCurrency,
+        primaryCurrency: +decodedToken.primary_currency,
         exp: +decodedToken.exp * 1000
       } as TokenInfo;
     } catch {
