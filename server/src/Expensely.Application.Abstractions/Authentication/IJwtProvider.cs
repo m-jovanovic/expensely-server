@@ -9,10 +9,10 @@ namespace Expensely.Application.Abstractions.Authentication
     public interface IJwtProvider
     {
         /// <summary>
-        /// Creates the access tokens for the specified user.
+        /// Gets the access tokens for the specified user.
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>The access tokens for the specified user.</returns>
-        AccessTokens CreateAccessTokens(User user);
+        AccessTokens GetAccessTokens(User user);
     }
 }

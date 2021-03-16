@@ -69,7 +69,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
                 return Result.Failure<TokenResponse>(DomainErrors.User.InvalidEmailOrPassword);
             }
 
-            AccessTokens accessTokens = _jwtProvider.CreateAccessTokens(user);
+            AccessTokens accessTokens = _jwtProvider.GetAccessTokens(user);
 
             user.ChangeRefreshToken(accessTokens.RefreshToken);
 

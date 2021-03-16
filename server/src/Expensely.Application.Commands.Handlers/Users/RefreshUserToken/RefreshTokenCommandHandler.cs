@@ -59,7 +59,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
                 return Result.Failure<TokenResponse>(DomainErrors.RefreshToken.Expired);
             }
 
-            AccessTokens accessTokens = _jwtProvider.CreateAccessTokens(user);
+            AccessTokens accessTokens = _jwtProvider.GetAccessTokens(user);
 
             user.ChangeRefreshToken(accessTokens.RefreshToken);
 

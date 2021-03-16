@@ -39,7 +39,7 @@ namespace Expensely.Infrastructure.Authentication
         }
 
         /// <inheritdoc />
-        public AccessTokens CreateAccessTokens(User user)
+        public AccessTokens GetAccessTokens(User user)
         {
             string token = CreateToken(user);
 
