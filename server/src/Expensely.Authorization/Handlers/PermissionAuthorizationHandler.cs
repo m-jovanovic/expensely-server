@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Expensely.Application.Abstractions.Authentication;
 using Expensely.Authorization.Requirements;
 using Expensely.Domain.Modules.Permissions;
 using Microsoft.AspNetCore.Authorization;
@@ -16,18 +18,14 @@ namespace Expensely.Authorization.Handlers
         /// <inheritdoc />
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
-            Claim permissionClaim = context.User?.Claims?.FirstOrDefault(x => x.Type == "permissions");
-
-            if (permissionClaim is null)
+            if (!Enum.TryParse(requirement.PermissionName, false, out Permission requiredPermission))
             {
                 return Task.CompletedTask;
             }
 
-            Permission[] permissions = UnpackPermissions(permissionClaim);
+            IEnumerable<Permission> permissions = GetPermissions(context.User);
 
-            if (Enum.TryParse(requirement.PermissionName, false, out Permission requiredPermission) &&
-                (permissions.Contains(requiredPermission) ||
-                 permissions.Contains(Permission.AccessEverything)))
+            if (permissions.Any(x => x == requiredPermission || x == Permission.AccessEverything))
             {
                 context.Succeed(requirement);
             }
@@ -35,13 +33,16 @@ namespace Expensely.Authorization.Handlers
             return Task.CompletedTask;
         }
 
-        private static Permission[] UnpackPermissions(Claim permissionClaim)
+        private static IEnumerable<Permission> GetPermissions(ClaimsPrincipal claimsPrincipal)
         {
-            string permissionClaimValue = permissionClaim.Value;
+            if (claimsPrincipal is null)
+            {
+                return Array.Empty<Permission>();
+            }
 
-            Permission[] permissions = permissionClaimValue
-                .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(Enum.Parse<Permission>).ToArray();
+            IEnumerable<Permission> permissions = claimsPrincipal.Claims
+                .Where(x => x.Type == CustomJwtClaimTypes.Permissions)
+                .Select(x => Enum.Parse<Permission>(x.Value));
 
             return permissions;
         }
