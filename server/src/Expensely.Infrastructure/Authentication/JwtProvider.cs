@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Expensely.Application.Abstractions.Authentication;
+using Expensely.Application.Abstractions.Authorization;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.ServiceLifetimes;
@@ -22,17 +22,20 @@ namespace Expensely.Infrastructure.Authentication
     public sealed class JwtProvider : IJwtProvider, ITransient
     {
         private readonly JwtSettings _settings;
+        private readonly IClaimsProvider _claimsProvider;
         private readonly ISystemTime _systemTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JwtProvider"/> class.
         /// </summary>
         /// <param name="jwtOptions">The JWT settings options.</param>
+        /// <param name="claimsProvider">The claims provider.</param>
         /// <param name="systemTime">The current date and time.</param>
-        public JwtProvider(IOptions<JwtSettings> jwtOptions, ISystemTime systemTime)
+        public JwtProvider(IOptions<JwtSettings> jwtOptions, IClaimsProvider claimsProvider, ISystemTime systemTime)
         {
             _settings = jwtOptions.Value;
             _systemTime = systemTime;
+            _claimsProvider = claimsProvider;
         }
 
         /// <inheritdoc />
@@ -45,16 +48,6 @@ namespace Expensely.Infrastructure.Authentication
             return new AccessTokens(token, refreshToken);
         }
 
-        private static IEnumerable<Claim> CreateClaims(User user)
-        {
-            yield return new Claim(JwtRegisteredClaimNames.Sub, user.Id);
-            yield return new Claim(JwtRegisteredClaimNames.Email, user.Email);
-            yield return new Claim(CustomJwtClaimTypes.Name, user.GetFullName());
-            yield return new Claim(
-                CustomJwtClaimTypes.PrimaryCurrency,
-                user.PrimaryCurrency is null ? string.Empty : user.PrimaryCurrency.Value.ToString(CultureInfo.InvariantCulture));
-        }
-
         private string CreateToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.SecurityKey));
@@ -63,10 +56,12 @@ namespace Expensely.Infrastructure.Authentication
 
             DateTime tokenExpirationTime = _systemTime.UtcNow.AddMinutes(_settings.AccessTokenExpirationInMinutes);
 
+            IEnumerable<Claim> claims = _claimsProvider.GetClaimsForUser(user);
+
             var token = new JwtSecurityToken(
                 _settings.Issuer,
                 _settings.Audience,
-                CreateClaims(user),
+                claims,
                 null,
                 tokenExpirationTime,
                 signingCredentials);

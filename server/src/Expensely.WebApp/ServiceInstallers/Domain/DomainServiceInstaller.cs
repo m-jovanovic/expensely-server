@@ -13,6 +13,7 @@ namespace Expensely.WebApp.ServiceInstallers.Domain
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services)
         {
+            // TODO: Use Scrutor.
             services.AddTransient<ITransactionDetailsValidator, TransactionDetailsValidator>();
 
             services.AddTransient<ITransactionFactory, TransactionFactory>();

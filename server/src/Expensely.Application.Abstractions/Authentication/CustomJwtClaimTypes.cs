@@ -1,4 +1,4 @@
-﻿namespace Expensely.Infrastructure.Authentication
+﻿namespace Expensely.Application.Abstractions.Authentication
 {
     /// <summary>
     /// Contains the custom JWT claim types used in the application.

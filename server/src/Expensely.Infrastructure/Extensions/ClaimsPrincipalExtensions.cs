@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Expensely.Infrastructure.Authentication;
+using Expensely.Application.Abstractions.Authentication;
 
 namespace Expensely.Infrastructure.Extensions
 {

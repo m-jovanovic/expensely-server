@@ -25,6 +25,7 @@ namespace Expensely.WebApp.ServiceInstallers.BackgroundTasks
 
             services.AddQuartzHostedService();
 
+            // TODO: Use Scrutor.
             services.AddTransient<MessageProcessingJob>();
 
             services.AddScoped<IEventHandlerFactory, EventHandlerFactory>();
