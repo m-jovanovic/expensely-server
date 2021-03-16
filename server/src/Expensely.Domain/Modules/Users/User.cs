@@ -4,6 +4,7 @@ using System.Linq;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Authentication;
+using Expensely.Domain.Modules.Permissions;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users.Events;
 using Expensely.Domain.Primitives;
@@ -17,6 +18,7 @@ namespace Expensely.Domain.Modules.Users
     public sealed class User : AggregateRoot, IAuditableEntity
     {
         private readonly HashSet<Currency> _currencies = new();
+        private readonly HashSet<Permission> _permissions = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
@@ -70,6 +72,11 @@ namespace Expensely.Domain.Modules.Users
         /// Gets the password hash.
         /// </summary>
         public string PasswordHash { get; private set; }
+
+        /// <summary>
+        /// Gets the permissions.
+        /// </summary>
+        public IReadOnlyCollection<Permission> Permissions => _permissions.ToList();
 
         /// <summary>
         /// Gets the refresh token.
@@ -261,6 +268,12 @@ namespace Expensely.Domain.Modules.Users
 
             return Result.Success();
         }
+
+        /// <summary>
+        /// Adds the specified permission to the user.
+        /// </summary>
+        /// <param name="permission">The permission.</param>
+        public void AddPermission(Permission permission) => _permissions.Add(permission);
 
         /// <summary>
         /// Changes the user's refresh token with the specified refresh token.

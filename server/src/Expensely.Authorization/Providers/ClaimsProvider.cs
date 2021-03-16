@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Authorization;
 using Expensely.Common.Abstractions.ServiceLifetimes;
+using Expensely.Domain.Modules.Permissions;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Authorization.Providers
@@ -27,7 +28,10 @@ namespace Expensely.Authorization.Providers
                 CustomJwtClaimTypes.PrimaryCurrency,
                 user.PrimaryCurrency is null ? string.Empty : user.PrimaryCurrency.Value.ToString(CultureInfo.InvariantCulture));
 
-            yield return new Claim(CustomJwtClaimTypes.Permissions, string.Empty);
+            foreach (Permission permission in user.Permissions)
+            {
+                yield return new Claim(CustomJwtClaimTypes.Permissions, permission.ToString());
+            }
         }
     }
 }
