@@ -36,7 +36,7 @@ namespace Expensely.WebApp.ServiceInstallers.Authorization
             services.Scan(scan =>
                 scan.FromAssemblies(AuthorizationAssembly.Assembly)
                     .AddClasses(filter => filter.AssignableTo<IAuthorizationPolicyProvider>(), false)
-                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                    .UsingRegistrationStrategy(RegistrationStrategy.Replace())
                     .AsImplementedInterfaces()
                     .WithSingletonLifetime());
 
@@ -44,7 +44,7 @@ namespace Expensely.WebApp.ServiceInstallers.Authorization
             services.Scan(scan =>
                 scan.FromAssemblies(AuthorizationAssembly.Assembly)
                     .AddClasses(filter => filter.AssignableTo<IAuthorizationHandler>(), false)
-                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                    .UsingRegistrationStrategy(RegistrationStrategy.Replace())
                     .AsImplementedInterfaces()
                     .WithSingletonLifetime());
     }
