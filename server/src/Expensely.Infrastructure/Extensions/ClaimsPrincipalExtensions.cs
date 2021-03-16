@@ -9,19 +9,11 @@ namespace Expensely.Infrastructure.Extensions
     public static class ClaimsPrincipalExtensions
     {
         /// <summary>
-        /// Gets the user identifier claim value if it exists.
-        /// </summary>
-        /// <param name="claimsPrincipal">The claims principal.</param>
-        /// <returns>The user identifier claim value if it exists, otherwise null.</returns>
-        public static string GetUserId(this ClaimsPrincipal claimsPrincipal) =>
-            claimsPrincipal.FindFirstValue(JwtClaimTypes.UserId);
-
-        /// <summary>
         /// Gets the primary currency claim value if it exists.
         /// </summary>
         /// <param name="claimsPrincipal">The claims principal.</param>
         /// <returns>The primary currency claim value if it exists, otherwise null.</returns>
         public static string GetPrimaryCurrency(this ClaimsPrincipal claimsPrincipal) =>
-            claimsPrincipal.FindFirstValue(JwtClaimTypes.PrimaryCurrency);
+            claimsPrincipal.FindFirstValue(CustomJwtClaimTypes.PrimaryCurrency);
     }
 }

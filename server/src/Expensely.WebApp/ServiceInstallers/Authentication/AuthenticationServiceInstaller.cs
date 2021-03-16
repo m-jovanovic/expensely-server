@@ -1,4 +1,6 @@
-﻿using Expensely.WebApp.Abstractions;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Expensely.WebApp.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.WebApp.ServiceInstallers.Authentication
@@ -11,6 +13,8 @@ namespace Expensely.WebApp.ServiceInstallers.Authentication
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services)
         {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap[JwtRegisteredClaimNames.Sub] = ClaimTypes.Name;
+
             services.ConfigureOptions<JwtSettingsSetup>();
 
             services.ConfigureOptions<JwtBearerOptionsSetup>();

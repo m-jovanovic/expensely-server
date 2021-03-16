@@ -19,7 +19,7 @@ namespace Expensely.Infrastructure.Authentication
         /// <param name="httpContextAccessor">The HTTP context accessor.</param>
         public UserInformationProvider(IHttpContextAccessor httpContextAccessor)
         {
-            string userIdClaim = httpContextAccessor.HttpContext?.User.GetUserId();
+            string userIdClaim = httpContextAccessor?.HttpContext?.User?.Identity?.Name;
 
             IsAuthenticated = Ulid.TryParse(userIdClaim, out Ulid userId);
 

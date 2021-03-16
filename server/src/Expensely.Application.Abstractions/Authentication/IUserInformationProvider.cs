@@ -22,6 +22,7 @@ namespace Expensely.Application.Abstractions.Authentication
         /// <summary>
         /// Gets the maybe instance that may contain the primary currency of the currently authenticated user.
         /// </summary>
+        // TODO: Figure out if this should be removed.
         Maybe<Currency> PrimaryCurrency { get; }
     }
 }

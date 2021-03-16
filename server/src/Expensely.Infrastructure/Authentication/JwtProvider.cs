@@ -47,11 +47,11 @@ namespace Expensely.Infrastructure.Authentication
 
         private static IEnumerable<Claim> CreateClaims(User user)
         {
-            yield return new Claim(JwtClaimTypes.UserId, user.Id);
-            yield return new Claim(JwtClaimTypes.Email, user.Email);
-            yield return new Claim(JwtClaimTypes.Name, user.GetFullName());
+            yield return new Claim(JwtRegisteredClaimNames.Sub, user.Id);
+            yield return new Claim(JwtRegisteredClaimNames.Email, user.Email);
+            yield return new Claim(CustomJwtClaimTypes.Name, user.GetFullName());
             yield return new Claim(
-                JwtClaimTypes.PrimaryCurrency,
+                CustomJwtClaimTypes.PrimaryCurrency,
                 user.PrimaryCurrency is null ? string.Empty : user.PrimaryCurrency.Value.ToString(CultureInfo.InvariantCulture));
         }
 
