@@ -1,4 +1,5 @@
-﻿using Expensely.Domain.Modules.Transactions;
+﻿using Expensely.Domain.Modules.Permissions;
+using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
 using Expensely.WebApp.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,8 @@ namespace Expensely.WebApp.ServiceInstallers.Domain
             services.AddTransient<ITransactionDetailsValidator, TransactionDetailsValidator>();
 
             services.AddTransient<ITransactionFactory, TransactionFactory>();
+
+            services.AddTransient<IPermissionProvider, PermissionProvider>();
 
             services.AddScoped<IUserFactory, UserFactory>();
         }
