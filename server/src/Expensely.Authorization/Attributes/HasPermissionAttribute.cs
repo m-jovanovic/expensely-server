@@ -1,7 +1,7 @@
 ﻿using Expensely.Domain.Modules.Permissions;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Expensely.Infrastructure.Authorization.Attributes
+namespace Expensely.Authorization.Attributes
 {
     /// <summary>
     /// Represents the attribute for authorizing an action based on the <see cref="Permission"/>.

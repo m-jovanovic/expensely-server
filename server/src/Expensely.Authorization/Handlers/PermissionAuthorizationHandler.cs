@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Expensely.Authorization.Requirements;
 using Expensely.Domain.Modules.Permissions;
-using Expensely.Infrastructure.Authorization.Requirements;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Expensely.Infrastructure.Authorization.Handlers
+namespace Expensely.Authorization.Handlers
 {
     /// <summary>
     /// Represents the permission authorization handler.

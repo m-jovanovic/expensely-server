@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace Expensely.Infrastructure.Authorization.Requirements
+namespace Expensely.Authorization.Requirements
 {
     /// <summary>
     /// Represents the permission authorization requirement.

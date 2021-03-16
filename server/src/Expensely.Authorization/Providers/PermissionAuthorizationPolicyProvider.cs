@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Expensely.Infrastructure.Authorization.Requirements;
+using Expensely.Authorization.Requirements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
-namespace Expensely.Infrastructure.Authorization.Providers
+namespace Expensely.Authorization.Providers
 {
     /// <summary>
     /// Represents the permission authorization policy provider.

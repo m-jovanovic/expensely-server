@@ -48,9 +48,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Queri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Queries.Handlers", "src\Expensely.Application.Queries.Handlers\Expensely.Application.Queries.Handlers.csproj", "{86A2B3EB-6313-4332-A387-5D3FA1B46D3B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Infrastructure", "src\Expensely.Infrastructure\Expensely.Infrastructure.csproj", "{8A887C18-8839-4CF9-B60E-5CD4D7A6A7D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Authorization", "src\Expensely.Authorization\Expensely.Authorization.csproj", "{CB53467E-0CAA-471D-95B1-E3CCF72309C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Infrastructure.Authorization", "src\Expensely.Infrastructure.Authorization\Expensely.Infrastructure.Authorization.csproj", "{3FB00B97-1C61-47CE-9BFE-F5148CA0958A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Infrastructure", "src\Expensely.Infrastructure\Expensely.Infrastructure.csproj", "{8A887C18-8839-4CF9-B60E-5CD4D7A6A7D9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Persistence", "src\Expensely.Persistence\Expensely.Persistence.csproj", "{92EA6CEB-40F1-44D9-8D99-09A20C47C279}"
 EndProject
@@ -144,10 +144,10 @@ Global
 		{9F015B22-D937-459A-9CF5-F759594AACEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F015B22-D937-459A-9CF5-F759594AACEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F015B22-D937-459A-9CF5-F759594AACEB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3FB00B97-1C61-47CE-9BFE-F5148CA0958A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3FB00B97-1C61-47CE-9BFE-F5148CA0958A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3FB00B97-1C61-47CE-9BFE-F5148CA0958A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3FB00B97-1C61-47CE-9BFE-F5148CA0958A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB53467E-0CAA-471D-95B1-E3CCF72309C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB53467E-0CAA-471D-95B1-E3CCF72309C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB53467E-0CAA-471D-95B1-E3CCF72309C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB53467E-0CAA-471D-95B1-E3CCF72309C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,7 +179,7 @@ Global
 		{5A240AB3-CC83-43F4-AB31-D4685AC7FC10} = {288F5452-E668-4A6D-8FFF-5DF85F3E574D}
 		{10B9A9F4-20A5-40CB-A623-16174972BB93} = {B7E638B2-FAE2-45E8-93D4-4E8AC44A6FB9}
 		{9F015B22-D937-459A-9CF5-F759594AACEB} = {B7E638B2-FAE2-45E8-93D4-4E8AC44A6FB9}
-		{3FB00B97-1C61-47CE-9BFE-F5148CA0958A} = {857A0DD3-628F-4F38-A9AE-218E89388729}
+		{CB53467E-0CAA-471D-95B1-E3CCF72309C7} = {857A0DD3-628F-4F38-A9AE-218E89388729}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB4933FD-6088-49D4-8154-2506F5D17543}
