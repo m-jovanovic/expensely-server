@@ -14,5 +14,10 @@
         /// The primary currency claim type.
         /// </summary>
         public const string PrimaryCurrency = "primary_currency";
+
+        /// <summary>
+        /// The permissions claim type.
+        /// </summary>
+        public const string Permissions = "permissions";
     }
 }

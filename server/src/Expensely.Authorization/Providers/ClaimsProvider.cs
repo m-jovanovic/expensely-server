@@ -23,6 +23,7 @@ namespace Expensely.Authorization.Providers
             yield return new Claim(
                 CustomJwtClaimTypes.PrimaryCurrency,
                 user.PrimaryCurrency is null ? string.Empty : user.PrimaryCurrency.Value.ToString(CultureInfo.InvariantCulture));
+            yield return new Claim(CustomJwtClaimTypes.Permissions, string.Empty);
         }
     }
 }
