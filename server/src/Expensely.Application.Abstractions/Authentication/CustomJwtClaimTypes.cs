@@ -8,7 +8,7 @@
         /// <summary>
         /// The name claim type.
         /// </summary>
-        public const string Name = "name";
+        public const string FullName = "full_name";
 
         /// <summary>
         /// The primary currency claim type.

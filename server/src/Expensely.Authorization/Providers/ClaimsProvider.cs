@@ -18,11 +18,15 @@ namespace Expensely.Authorization.Providers
         public IEnumerable<Claim> GetClaimsForUser(User user)
         {
             yield return new Claim(JwtRegisteredClaimNames.Sub, user.Id);
+
             yield return new Claim(JwtRegisteredClaimNames.Email, user.Email);
-            yield return new Claim(CustomJwtClaimTypes.Name, user.GetFullName());
+
+            yield return new Claim(CustomJwtClaimTypes.FullName, user.GetFullName());
+
             yield return new Claim(
                 CustomJwtClaimTypes.PrimaryCurrency,
                 user.PrimaryCurrency is null ? string.Empty : user.PrimaryCurrency.Value.ToString(CultureInfo.InvariantCulture));
+
             yield return new Claim(CustomJwtClaimTypes.Permissions, string.Empty);
         }
     }
