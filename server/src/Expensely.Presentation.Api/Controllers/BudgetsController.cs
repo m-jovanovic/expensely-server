@@ -3,7 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Budgets;
 using Expensely.Application.Contracts.Budgets;
+using Expensely.Authorization.Attributes;
 using Expensely.Common.Primitives.Result;
+using Expensely.Domain.Modules.Permissions;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Errors;
 using Expensely.Presentation.Api.Infrastructure;
@@ -33,6 +35,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="createBudgetRequest">The create budget request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the budget was created successfully, otherwise 400 - Bad Request.</returns>
+        [HasPermission(Permission.BudgetModify)]
         [HttpPost(ApiRoutes.Budgets.CreateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
@@ -58,6 +61,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="updateBudgetRequest">The update budget request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the budget was updated successfully, otherwise 400 - Bad Request.</returns>
+        [HasPermission(Permission.BudgetModify)]
         [HttpPut(ApiRoutes.Budgets.UpdateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
@@ -83,6 +87,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="budgetId">The budget identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>204 - No Content if the budget was deleted successfully, otherwise 404 - Not Found.</returns>
+        [HasPermission(Permission.BudgetModify)]
         [HttpDelete(ApiRoutes.Budgets.DeleteBudget)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

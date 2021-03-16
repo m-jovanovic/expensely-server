@@ -41,6 +41,16 @@
         CurrencyRead = 30,
 
         /// <summary>
+        /// The budget read permission.
+        /// </summary>
+        BudgetRead = 40,
+
+        /// <summary>
+        /// The budget modify permission.
+        /// </summary>
+        BudgetModify = 41,
+
+        /// <summary>
         /// The access everything permission.
         /// </summary>
         AccessEverything = int.MaxValue
