@@ -37,9 +37,11 @@ namespace Expensely.Authorization.Handlers
 
         private static Permission[] UnpackPermissions(Claim permissionClaim)
         {
-            string claimValue = permissionClaim.Value;
+            string permissionClaimValue = permissionClaim.Value;
 
-            Permission[] permissions = claimValue.Split(',').Select(Enum.Parse<Permission>).ToArray();
+            Permission[] permissions = permissionClaimValue
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(Enum.Parse<Permission>).ToArray();
 
             return permissions;
         }
