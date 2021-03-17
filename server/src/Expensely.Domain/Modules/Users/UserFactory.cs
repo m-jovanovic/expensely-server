@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Modules.Permissions;
+using Expensely.Domain.Modules.Authorization;
 
 namespace Expensely.Domain.Modules.Users
 {

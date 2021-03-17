@@ -4,7 +4,7 @@ using System.Linq;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Authentication;
-using Expensely.Domain.Modules.Permissions;
+using Expensely.Domain.Modules.Authorization;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users.Events;
 using Expensely.Domain.Primitives;

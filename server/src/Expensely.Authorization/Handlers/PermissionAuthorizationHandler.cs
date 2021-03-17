@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Authorization.Requirements;
-using Expensely.Domain.Modules.Permissions;
+using Expensely.Domain.Modules.Authorization;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Expensely.Authorization.Handlers

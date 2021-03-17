@@ -5,7 +5,7 @@ using System.Security.Claims;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Authorization;
 using Expensely.Common.Abstractions.ServiceLifetimes;
-using Expensely.Domain.Modules.Permissions;
+using Expensely.Domain.Modules.Authorization;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Authorization.Providers

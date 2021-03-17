@@ -1,4 +1,4 @@
-﻿using Expensely.Domain.Modules.Permissions;
+﻿using Expensely.Domain.Modules.Authorization;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
 using Expensely.WebApp.Abstractions;

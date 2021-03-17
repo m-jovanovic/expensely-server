@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Contracts.Currencies;
 using Expensely.Application.Queries.Currencies;
 using Expensely.Authorization.Attributes;
-using Expensely.Domain.Modules.Permissions;
+using Expensely.Domain.Modules.Authorization;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Infrastructure;
 using MediatR;

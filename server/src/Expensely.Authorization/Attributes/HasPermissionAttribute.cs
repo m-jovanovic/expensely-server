@@ -1,4 +1,4 @@
-﻿using Expensely.Domain.Modules.Permissions;
+﻿using Expensely.Domain.Modules.Authorization;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Expensely.Authorization.Attributes

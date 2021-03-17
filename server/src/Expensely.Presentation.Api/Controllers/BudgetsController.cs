@@ -5,7 +5,7 @@ using Expensely.Application.Commands.Budgets;
 using Expensely.Application.Contracts.Budgets;
 using Expensely.Authorization.Attributes;
 using Expensely.Common.Primitives.Result;
-using Expensely.Domain.Modules.Permissions;
+using Expensely.Domain.Modules.Authorization;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Errors;
 using Expensely.Presentation.Api.Infrastructure;
