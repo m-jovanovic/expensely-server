@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Expensely.Authorization.Abstractions;
 using Expensely.Common.Abstractions.ServiceLifetimes;
-using Expensely.Domain.Modules.Authorization;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Authorization.Providers

@@ -1,4 +1,4 @@
-﻿using Expensely.Domain.Modules.Authentication;
+﻿using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Application.Contracts.Authentication
 {

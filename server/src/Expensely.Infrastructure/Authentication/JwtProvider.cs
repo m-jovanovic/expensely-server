@@ -9,7 +9,6 @@ using Expensely.Application.Abstractions.Authorization;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.ServiceLifetimes;
-using Expensely.Domain.Modules.Authentication;
 using Expensely.Domain.Modules.Users;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

@@ -8,7 +8,7 @@ namespace Expensely.Authorization.Providers
     /// <summary>
     /// Represents the permission authorization policy provider.
     /// </summary>
-    public sealed class PermissionAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
+    internal sealed class PermissionAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PermissionAuthorizationPolicyProvider"/> class.

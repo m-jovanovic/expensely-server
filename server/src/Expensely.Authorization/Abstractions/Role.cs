@@ -1,17 +1,22 @@
 ﻿using System.Collections.Generic;
 using Expensely.Domain.Primitives;
 
-namespace Expensely.Domain.Modules.Authorization
+namespace Expensely.Authorization.Abstractions
 {
     /// <summary>
     /// Represents the role enumeration.
     /// </summary>
-    public abstract class Role : Enumeration<Role>
+    internal abstract class Role : Enumeration<Role>
     {
         /// <summary>
         /// The user role.
         /// </summary>
         public static readonly Role User = new UserRole();
+
+        /// <summary>
+        /// The administrator role.
+        /// </summary>
+        public static readonly Role Administrator = new AdminRole();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Role"/> class.
@@ -47,6 +52,19 @@ namespace Expensely.Domain.Modules.Authorization
                 yield return Permission.BudgetModify;
                 yield return Permission.CategoryRead;
                 yield return Permission.CurrencyRead;
+            }
+        }
+
+        private sealed class AdminRole : Role
+        {
+            public AdminRole()
+                : base(2, nameof(Administrator))
+            {
+            }
+
+            public override IEnumerable<Permission> GetPermissions()
+            {
+                yield return Permission.AccessEverything;
             }
         }
     }

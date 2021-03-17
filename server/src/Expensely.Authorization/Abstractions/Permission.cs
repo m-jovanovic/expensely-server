@@ -1,4 +1,4 @@
-﻿namespace Expensely.Domain.Modules.Authorization
+﻿namespace Expensely.Authorization.Abstractions
 {
     /// <summary>
     /// Represents the permissions enumeration.

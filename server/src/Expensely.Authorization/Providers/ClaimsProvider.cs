@@ -4,8 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Authorization;
+using Expensely.Authorization.Abstractions;
 using Expensely.Common.Abstractions.ServiceLifetimes;
-using Expensely.Domain.Modules.Authorization;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Authorization.Providers
