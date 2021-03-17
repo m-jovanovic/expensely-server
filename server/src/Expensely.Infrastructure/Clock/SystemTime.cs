@@ -1,5 +1,5 @@
 ﻿using Expensely.Common.Abstractions.Clock;
-using Expensely.Common.Abstractions.ServiceLifetimes;
+using Expensely.Common.Primitives.ServiceLifetimes;
 
 namespace Expensely.Infrastructure.Clock
 {

@@ -1,5 +1,5 @@
 ﻿using Expensely.Authorization;
-using Expensely.Common.Abstractions.ServiceLifetimes;
+using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.WebApp.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;

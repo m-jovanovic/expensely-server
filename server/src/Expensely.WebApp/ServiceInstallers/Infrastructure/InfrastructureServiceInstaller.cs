@@ -1,4 +1,4 @@
-﻿using Expensely.Common.Abstractions.ServiceLifetimes;
+﻿using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Infrastructure;
 using Expensely.WebApp.Abstractions;
 using Microsoft.Extensions.DependencyInjection;

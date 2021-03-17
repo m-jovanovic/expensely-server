@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
-using Expensely.Common.Abstractions.ServiceLifetimes;
+using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Domain.Modules.Users;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 

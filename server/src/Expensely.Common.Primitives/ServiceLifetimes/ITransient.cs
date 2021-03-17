@@ -1,4 +1,4 @@
-﻿namespace Expensely.Common.Abstractions.ServiceLifetimes
+﻿namespace Expensely.Common.Primitives.ServiceLifetimes
 {
     /// <summary>
     /// Represents the transient service lifetime.
