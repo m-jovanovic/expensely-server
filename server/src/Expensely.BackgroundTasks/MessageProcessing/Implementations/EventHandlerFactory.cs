@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Expensely.BackgroundTasks.MessageProcessing.Abstractions;
 using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Domain.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Expensely.BackgroundTasks.MessageProcessing.Factories
+namespace Expensely.BackgroundTasks.MessageProcessing.Implementations
 {
     /// <summary>
     /// Represents the event handler factory.

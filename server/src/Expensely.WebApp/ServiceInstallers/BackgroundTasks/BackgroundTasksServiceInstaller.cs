@@ -1,5 +1,4 @@
 ﻿using Expensely.BackgroundTasks;
-using Expensely.BackgroundTasks.MessageProcessing;
 using Expensely.WebApp.Abstractions;
 using Expensely.WebApp.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,9 +24,9 @@ namespace Expensely.WebApp.ServiceInstallers.BackgroundTasks
 
             services.AddQuartzHostedService();
 
-            services.AddTransient<MessageProcessingJob>();
+            services.AddTransientAsMatchingInterface(BackgroundTasksAssembly.Assembly);
 
-            services.AddScopedServices(BackgroundTasksAssembly.Assembly);
+            services.AddScopedAsMatchingInterface(BackgroundTasksAssembly.Assembly);
         }
     }
 }

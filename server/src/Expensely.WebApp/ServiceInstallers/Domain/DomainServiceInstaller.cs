@@ -13,9 +13,9 @@ namespace Expensely.WebApp.ServiceInstallers.Domain
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services)
         {
-            services.AddTransientServices(DomainAssembly.Assembly);
+            services.AddTransientAsMatchingInterface(DomainAssembly.Assembly);
 
-            services.AddScopedServices(DomainAssembly.Assembly);
+            services.AddScopedAsMatchingInterface(DomainAssembly.Assembly);
         }
     }
 }

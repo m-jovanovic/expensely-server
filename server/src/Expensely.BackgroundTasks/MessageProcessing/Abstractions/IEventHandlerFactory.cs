@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Expensely.Domain.Abstractions;
 
-namespace Expensely.BackgroundTasks.MessageProcessing.Factories
+namespace Expensely.BackgroundTasks.MessageProcessing.Abstractions
 {
     /// <summary>
     /// Represents the event handler factory interface.

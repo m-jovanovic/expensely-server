@@ -1,4 +1,4 @@
-﻿using Expensely.BackgroundTasks.MessageProcessing;
+﻿using Expensely.BackgroundTasks.MessageProcessing.Abstractions;
 using Expensely.BackgroundTasks.MessageProcessing.Settings;
 using Microsoft.Extensions.Options;
 using Quartz;
@@ -6,7 +6,7 @@ using Quartz;
 namespace Expensely.WebApp.ServiceInstallers.BackgroundTasks
 {
     /// <summary>
-    /// Represents the <see cref="MessageProcessingJob"/> setup.
+    /// Represents the <see cref="IMessageProcessingJob"/> setup.
     /// </summary>
     public sealed class MessageProcessingJobSetup : IPostConfigureOptions<QuartzOptions>
     {
@@ -22,9 +22,9 @@ namespace Expensely.WebApp.ServiceInstallers.BackgroundTasks
         /// <inheritdoc />
         public void PostConfigure(string name, QuartzOptions options)
         {
-            var jobKey = new JobKey(nameof(MessageProcessingJob));
+            var jobKey = new JobKey(IMessageProcessingJob.Name);
 
-            options.AddJob<MessageProcessingJob>(jobBuilder => jobBuilder.WithIdentity(jobKey));
+            options.AddJob<IMessageProcessingJob>(jobBuilder => jobBuilder.WithIdentity(jobKey));
 
             options.AddTrigger(triggerBuilder => triggerBuilder
                 .ForJob(jobKey)

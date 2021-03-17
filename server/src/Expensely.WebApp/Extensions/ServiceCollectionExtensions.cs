@@ -25,11 +25,11 @@ namespace Expensely.WebApp.Extensions
         }
 
         /// <summary>
-        /// Registers the transient services from the specified assembly with DI container.
+        /// Registers the transient services from the specified assembly as matching interface.
         /// </summary>
         /// <param name="services">The services.</param>
         /// <param name="assembly">The assembly to scan for transient services.</param>
-        public static void AddTransientServices(this IServiceCollection services, Assembly assembly) =>
+        public static void AddTransientAsMatchingInterface(this IServiceCollection services, Assembly assembly) =>
             services.Scan(scan =>
                 scan.FromAssemblies(assembly)
                     .AddClasses(filter => filter.AssignableTo<ITransient>(), false)
@@ -38,11 +38,11 @@ namespace Expensely.WebApp.Extensions
                     .WithTransientLifetime());
 
         /// <summary>
-        /// Registers the transient services from the specified assembly with DI container.
+        /// Registers the transient services from the specified assembly as matching interface.
         /// </summary>
         /// <param name="services">The services.</param>
         /// <param name="assembly">The assembly to scan for transient services.</param>
-        public static void AddScopedServices(this IServiceCollection services, Assembly assembly) =>
+        public static void AddScopedAsMatchingInterface(this IServiceCollection services, Assembly assembly) =>
             services.Scan(scan =>
                 scan.FromAssemblies(assembly)
                     .AddClasses(filter => filter.AssignableTo<IScoped>(), false)

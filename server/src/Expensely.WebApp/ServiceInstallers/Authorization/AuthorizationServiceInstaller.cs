@@ -17,7 +17,7 @@ namespace Expensely.WebApp.ServiceInstallers.Authorization
         {
             services.AddAuthorization();
 
-            services.AddScopedServices(AuthorizationAssembly.Assembly);
+            services.AddTransientAsMatchingInterface(AuthorizationAssembly.Assembly);
 
             AddAuthorizationPolicyProvider(services);
 

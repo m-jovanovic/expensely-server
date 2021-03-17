@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
-using Expensely.BackgroundTasks.MessageProcessing.Factories;
+using Expensely.BackgroundTasks.MessageProcessing.Abstractions;
 using Expensely.BackgroundTasks.MessageProcessing.Settings;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Primitives.Maybe;
@@ -11,7 +11,7 @@ using Expensely.Domain.Abstractions;
 using Expensely.Domain.Modules.Messages;
 using Microsoft.Extensions.Options;
 
-namespace Expensely.BackgroundTasks.MessageProcessing.Services
+namespace Expensely.BackgroundTasks.MessageProcessing.Implementations
 {
     /// <summary>
     /// Represents the message dispatcher.

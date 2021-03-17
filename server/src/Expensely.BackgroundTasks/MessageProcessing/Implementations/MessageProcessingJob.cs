@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.BackgroundTasks.MessageProcessing.Services;
+using Expensely.BackgroundTasks.MessageProcessing.Abstractions;
 using Expensely.BackgroundTasks.MessageProcessing.Settings;
 using Expensely.Common.Primitives.Maybe;
+using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Domain.Modules.Messages;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Quartz;
 
-namespace Expensely.BackgroundTasks.MessageProcessing
+namespace Expensely.BackgroundTasks.MessageProcessing.Implementations
 {
     /// <summary>
     /// Represents the message processing background service.
     /// </summary>
     [DisallowConcurrentExecution]
-    public sealed class MessageProcessingJob : IJob
+    internal sealed class MessageProcessingJob : IMessageProcessingJob, ITransient
     {
         private readonly MessageProcessingJobSettings _settings;
         private readonly IMessageRepository _messageRepository;
@@ -45,7 +46,8 @@ namespace Expensely.BackgroundTasks.MessageProcessing
         /// <inheritdoc />
         public async Task Execute(IJobExecutionContext context) => await ProcessMessagesAsync(context.CancellationToken);
 
-        private async Task ProcessMessagesAsync(CancellationToken cancellationToken)
+        /// <inheritdoc />
+        public async Task ProcessMessagesAsync(CancellationToken cancellationToken)
         {
             try
             {
