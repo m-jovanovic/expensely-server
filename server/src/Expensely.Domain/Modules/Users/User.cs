@@ -4,7 +4,6 @@ using System.Linq;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Authentication;
-using Expensely.Domain.Modules.Authorization;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users.Events;
 using Expensely.Domain.Primitives;
@@ -18,7 +17,7 @@ namespace Expensely.Domain.Modules.Users
     public sealed class User : AggregateRoot, IAuditableEntity
     {
         private readonly HashSet<Currency> _currencies = new();
-        private readonly HashSet<Permission> _permissions = new();
+        private readonly HashSet<string> _roles = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
@@ -74,9 +73,9 @@ namespace Expensely.Domain.Modules.Users
         public string PasswordHash { get; private set; }
 
         /// <summary>
-        /// Gets the permissions.
+        /// Gets the roles.
         /// </summary>
-        public IReadOnlyCollection<Permission> Permissions => _permissions.ToList();
+        public IReadOnlyCollection<string> Roles => _roles.ToList();
 
         /// <summary>
         /// Gets the refresh token.
@@ -270,10 +269,10 @@ namespace Expensely.Domain.Modules.Users
         }
 
         /// <summary>
-        /// Adds the specified permission to the user.
+        /// Adds the specified role to the user's roles.
         /// </summary>
-        /// <param name="permission">The permission.</param>
-        public void AddPermission(Permission permission) => _permissions.Add(permission);
+        /// <param name="role">The role to be added.</param>
+        public void AddRole(string role) => _roles.Add(role);
 
         /// <summary>
         /// Changes the user's refresh token with the specified refresh token.

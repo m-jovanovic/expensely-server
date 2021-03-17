@@ -28,10 +28,27 @@ namespace Expensely.Authorization.Providers
                 CustomJwtClaimTypes.PrimaryCurrency,
                 user.PrimaryCurrency is null ? string.Empty : user.PrimaryCurrency.Value.ToString(CultureInfo.InvariantCulture));
 
-            foreach (Permission permission in user.Permissions)
+            foreach (Permission permission in GetPermissionsForUser(user))
             {
                 yield return new Claim(CustomJwtClaimTypes.Permissions, permission.ToString());
             }
+        }
+
+        private static IEnumerable<Permission> GetPermissionsForUser(User user)
+        {
+            var permissions = new HashSet<Permission>();
+
+            foreach (string roleName in user.Roles)
+            {
+                Role role = Role.FromName(roleName).Value;
+
+                foreach (Permission permission in role.GetPermissions())
+                {
+                    permissions.Add(permission);
+                }
+            }
+
+            return permissions;
         }
     }
 }

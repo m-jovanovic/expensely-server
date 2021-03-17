@@ -74,9 +74,17 @@ namespace Expensely.Domain.Primitives
         /// Creates an enumeration of the specified type based on the specified value.
         /// </summary>
         /// <param name="value">The enumeration value.</param>
-        /// <returns>The enumeration instance that matches the specified value.</returns>
+        /// <returns>The enumeration instance that matches the specified value if it exists.</returns>
         public static Maybe<TEnum> FromValue(int value) =>
             EnumerationsDictionary.Value.TryGetValue(value, out TEnum enumeration) ? enumeration : Maybe<TEnum>.None;
+
+        /// <summary>
+        /// Creates an enumeration of the specified type based on the specified name.
+        /// </summary>
+        /// <param name="name">The enumeration name.</param>
+        /// <returns>The enumeration instance that matches the specified name if it exists.</returns>
+        public static Maybe<TEnum> FromName(string name) =>
+            EnumerationsDictionary.Value.Values.SingleOrDefault(x => x.Name == name) ?? Maybe<TEnum>.None;
 
         /// <summary>
         /// Checks if the enumeration with the specified value exists.

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Modules.Authorization;
 
 namespace Expensely.Domain.Modules.Users
 {
@@ -13,18 +12,18 @@ namespace Expensely.Domain.Modules.Users
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordService _passwordService;
-        private readonly IPermissionProvider _permissionProvider;
+        private readonly IRoleProvider _roleProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserFactory"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="passwordService">The password service.</param>
-        /// <param name="permissionProvider">The permission provider.</param>
-        public UserFactory(IUserRepository userRepository, IPasswordService passwordService, IPermissionProvider permissionProvider)
+        /// <param name="roleProvider">The role provider.</param>
+        public UserFactory(IUserRepository userRepository, IPasswordService passwordService, IRoleProvider roleProvider)
         {
             _passwordService = passwordService;
-            _permissionProvider = permissionProvider;
+            _roleProvider = roleProvider;
             _userRepository = userRepository;
         }
 
@@ -62,9 +61,9 @@ namespace Expensely.Domain.Modules.Users
                 passwordResult.Value,
                 _passwordService);
 
-            foreach (Permission permission in _permissionProvider.GetStandardPermissions())
+            foreach (string role in _roleProvider.GetStandardRoles())
             {
-                user.AddPermission(permission);
+                user.AddRole(role);
             }
 
             return user;
