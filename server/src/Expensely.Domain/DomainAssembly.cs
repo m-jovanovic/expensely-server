@@ -10,6 +10,6 @@ namespace Expensely.Domain
         /// <summary>
         /// Gets the domain assembly.
         /// </summary>
-        public static readonly Assembly Assembly = Assembly.GetExecutingAssembly();;
+        public static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
     }
 }
