@@ -1,7 +1,7 @@
-﻿using Expensely.Common.Primitives.ServiceLifetimes;
+﻿using Expensely.Domain;
 using Expensely.WebApp.Abstractions;
+using Expensely.WebApp.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Scrutor;
 
 namespace Expensely.WebApp.ServiceInstallers.Domain
 {
@@ -13,19 +13,9 @@ namespace Expensely.WebApp.ServiceInstallers.Domain
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services)
         {
-            services.Scan(scan =>
-                scan.FromAssemblies()
-                    .AddClasses(filter => filter.AssignableTo<ITransient>())
-                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
-                    .AsMatchingInterface()
-                    .WithTransientLifetime());
+            services.AddTransientServices(DomainAssembly.Assembly);
 
-            services.Scan(scan =>
-                scan.FromAssemblies()
-                    .AddClasses(filter => filter.AssignableTo<IScoped>())
-                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
-                    .AsMatchingInterface()
-                    .WithTransientLifetime());
+            services.AddScopedServices(DomainAssembly.Assembly);
         }
     }
 }

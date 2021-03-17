@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Reflection;
+using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.WebApp.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
+using Scrutor;
 
 namespace Expensely.WebApp.Extensions
 {
@@ -21,5 +23,31 @@ namespace Expensely.WebApp.Extensions
 
             serviceInstallers.ForEach(x => x.InstallServices(services));
         }
+
+        /// <summary>
+        /// Registers the transient services from the specified assembly with DI container.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        /// <param name="assembly">The assembly to scan for transient services.</param>
+        public static void AddTransientServices(this IServiceCollection services, Assembly assembly) =>
+            services.Scan(scan =>
+                scan.FromAssemblies(assembly)
+                    .AddClasses(filter => filter.AssignableTo<ITransient>(), false)
+                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                    .AsMatchingInterface()
+                    .WithTransientLifetime());
+
+        /// <summary>
+        /// Registers the transient services from the specified assembly with DI container.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        /// <param name="assembly">The assembly to scan for transient services.</param>
+        public static void AddScopedServices(this IServiceCollection services, Assembly assembly) =>
+            services.Scan(scan =>
+                scan.FromAssemblies(assembly)
+                    .AddClasses(filter => filter.AssignableTo<IScoped>(), false)
+                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                    .AsMatchingInterface()
+                    .WithTransientLifetime());
     }
 }
