@@ -1,5 +1,6 @@
 ﻿using System;
 using Expensely.Common.Primitives.Result;
+using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Domain.Modules.Transactions
@@ -7,7 +8,7 @@ namespace Expensely.Domain.Modules.Transactions
     /// <summary>
     /// Represents the transaction factory.
     /// </summary>
-    public sealed class TransactionFactory : ITransactionFactory
+    public sealed class TransactionFactory : ITransactionFactory, ITransient
     {
         private readonly ITransactionDetailsValidator _transactionDetailsValidator;
 

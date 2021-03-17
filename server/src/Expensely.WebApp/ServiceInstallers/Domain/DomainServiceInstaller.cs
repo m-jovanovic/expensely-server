@@ -1,7 +1,7 @@
-﻿using Expensely.Domain.Modules.Transactions;
-using Expensely.Domain.Modules.Users;
+﻿using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.WebApp.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
+using Scrutor;
 
 namespace Expensely.WebApp.ServiceInstallers.Domain
 {
@@ -13,12 +13,19 @@ namespace Expensely.WebApp.ServiceInstallers.Domain
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services)
         {
-            // TODO: Use Scrutor.
-            services.AddTransient<ITransactionDetailsValidator, TransactionDetailsValidator>();
+            services.Scan(scan =>
+                scan.FromAssemblies()
+                    .AddClasses(filter => filter.AssignableTo<ITransient>())
+                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                    .AsMatchingInterface()
+                    .WithTransientLifetime());
 
-            services.AddTransient<ITransactionFactory, TransactionFactory>();
-
-            services.AddScoped<IUserFactory, UserFactory>();
+            services.Scan(scan =>
+                scan.FromAssemblies()
+                    .AddClasses(filter => filter.AssignableTo<IScoped>())
+                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                    .AsMatchingInterface()
+                    .WithTransientLifetime());
         }
     }
 }

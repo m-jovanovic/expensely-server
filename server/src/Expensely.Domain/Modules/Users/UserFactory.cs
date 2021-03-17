@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Common.Primitives.Result;
+using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Domain.Errors;
 
 namespace Expensely.Domain.Modules.Users
@@ -8,7 +9,7 @@ namespace Expensely.Domain.Modules.Users
     /// <summary>
     /// Represents the user factory.
     /// </summary>
-    public sealed class UserFactory : IUserFactory
+    public sealed class UserFactory : IUserFactory, IScoped
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordService _passwordService;

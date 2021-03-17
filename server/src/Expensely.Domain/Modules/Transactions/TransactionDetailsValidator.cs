@@ -1,5 +1,6 @@
 ﻿using System;
 using Expensely.Common.Primitives.Result;
+using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users;
@@ -9,7 +10,7 @@ namespace Expensely.Domain.Modules.Transactions
     /// <summary>
     /// Represents the transaction details validator.
     /// </summary>
-    public sealed class TransactionDetailsValidator : ITransactionDetailsValidator
+    public sealed class TransactionDetailsValidator : ITransactionDetailsValidator, ITransient
     {
         /// <inheritdoc />
         public Result<TransactionDetails> Validate(
