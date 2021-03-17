@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Domain.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +10,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Factories
     /// <summary>
     /// Represents the event handler factory.
     /// </summary>
-    public sealed class EventHandlerFactory : IEventHandlerFactory
+    internal sealed class EventHandlerFactory : IEventHandlerFactory, IScoped
     {
         private static readonly Type EventHandlerGenericType = typeof(IEventHandler<>);
         private static readonly Dictionary<Type, Type> EventHandlersDictionary = new();

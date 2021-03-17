@@ -9,7 +9,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
     /// <summary>
     /// Represents the message dispatcher interface.
     /// </summary>
-    public interface IMessageDispatcher
+    internal interface IMessageDispatcher
     {
         /// <summary>
         /// Dispatches the specified message for processing.

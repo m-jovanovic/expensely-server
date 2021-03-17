@@ -6,6 +6,7 @@ using Expensely.BackgroundTasks.MessageProcessing.Factories;
 using Expensely.BackgroundTasks.MessageProcessing.Settings;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Primitives.Maybe;
+using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Domain.Abstractions;
 using Expensely.Domain.Modules.Messages;
 using Microsoft.Extensions.Options;
@@ -15,7 +16,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Services
     /// <summary>
     /// Represents the message dispatcher.
     /// </summary>
-    public sealed class MessageDispatcher : IMessageDispatcher
+    internal sealed class MessageDispatcher : IMessageDispatcher, IScoped
     {
         private readonly MessageProcessingJobSettings _settings;
         private readonly IEventHandlerFactory _eventHandlerFactory;

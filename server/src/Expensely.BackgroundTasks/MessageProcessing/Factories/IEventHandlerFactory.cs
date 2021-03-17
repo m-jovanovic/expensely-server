@@ -6,7 +6,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Factories
     /// <summary>
     /// Represents the event handler factory interface.
     /// </summary>
-    public interface IEventHandlerFactory
+    internal interface IEventHandlerFactory
     {
         /// <summary>
         /// Gets the event handler instances for the specified event.

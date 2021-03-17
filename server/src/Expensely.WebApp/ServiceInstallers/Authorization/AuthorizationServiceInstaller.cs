@@ -1,6 +1,6 @@
 ﻿using Expensely.Authorization;
-using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.WebApp.Abstractions;
+using Expensely.WebApp.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
@@ -17,20 +17,12 @@ namespace Expensely.WebApp.ServiceInstallers.Authorization
         {
             services.AddAuthorization();
 
+            services.AddScopedServices(AuthorizationAssembly.Assembly);
+
             AddAuthorizationPolicyProvider(services);
 
             AddAuthorizationHandler(services);
-
-            AddAuthorizationServices(services);
         }
-
-        private static void AddAuthorizationServices(IServiceCollection services) =>
-            services.Scan(scan =>
-                scan.FromAssemblies(AuthorizationAssembly.Assembly)
-                    .AddClasses(filter => filter.AssignableTo<ITransient>(), false)
-                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
-                    .AsMatchingInterface()
-                    .WithTransientLifetime());
 
         private static void AddAuthorizationPolicyProvider(IServiceCollection services) =>
             services.Scan(scan =>

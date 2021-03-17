@@ -1,7 +1,7 @@
-﻿using Expensely.BackgroundTasks.MessageProcessing;
-using Expensely.BackgroundTasks.MessageProcessing.Factories;
-using Expensely.BackgroundTasks.MessageProcessing.Services;
+﻿using Expensely.BackgroundTasks;
+using Expensely.BackgroundTasks.MessageProcessing;
 using Expensely.WebApp.Abstractions;
+using Expensely.WebApp.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
@@ -25,12 +25,9 @@ namespace Expensely.WebApp.ServiceInstallers.BackgroundTasks
 
             services.AddQuartzHostedService();
 
-            // TODO: Use Scrutor.
             services.AddTransient<MessageProcessingJob>();
 
-            services.AddScoped<IEventHandlerFactory, EventHandlerFactory>();
-
-            services.AddScoped<IMessageDispatcher, MessageDispatcher>();
+            services.AddScopedServices(BackgroundTasksAssembly.Assembly);
         }
     }
 }
