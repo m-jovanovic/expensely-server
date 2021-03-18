@@ -1,6 +1,6 @@
-import { ErrorCodes } from './error-codes.enum';
+import { ErrorCode } from './error-code.enum';
 
 export interface ErrorItem {
-  code: ErrorCodes;
+  code: ErrorCode;
   message: string;
 }

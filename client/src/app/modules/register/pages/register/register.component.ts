@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { finalize, concatMap } from 'rxjs/operators';
 
-import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, PasswordValidators, RouterService } from '@expensely/core';
+import { ApiErrorResponse, AuthenticationFacade, ErrorCode, PasswordValidators, RouterService } from '@expensely/core';
 
 @Component({
   selector: 'exp-register',
@@ -75,7 +75,7 @@ export class RegisterComponent implements OnInit {
   }
 
   handleRegisterError(errorResponse: ApiErrorResponse): void {
-    if (errorResponse.hasError(ErrorCodes.UserEmailAlreadyInUse)) {
+    if (errorResponse.hasError(ErrorCode.UserEmailAlreadyInUse)) {
       this.emailAlreadyInUse = true;
     } else {
       this.redirectToLogin();

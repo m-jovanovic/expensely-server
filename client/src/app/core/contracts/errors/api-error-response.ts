@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { ErrorItem as ApiError } from './api-error';
-import { ErrorCodes } from './error-codes.enum';
+import { ErrorCode } from './error-code.enum';
 
 export class ApiErrorResponse {
   private errors: ApiError[];
@@ -10,7 +10,7 @@ export class ApiErrorResponse {
     this.errors = httpError.error?.errors ?? [];
   }
 
-  hasError(errorCode: ErrorCodes): boolean {
+  hasError(errorCode: ErrorCode): boolean {
     return this.errors.some((e) => e.code === errorCode);
   }
 

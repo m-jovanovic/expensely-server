@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { ApiErrorResponse, AuthenticationFacade, ErrorCodes, RouterService } from '@expensely/core';
+import { ApiErrorResponse, AuthenticationFacade, ErrorCode, RouterService } from '@expensely/core';
 
 @Component({
   selector: 'exp-login',
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
   }
 
   handleLoginError(errorResponse: ApiErrorResponse): void {
-    if (errorResponse.hasError(ErrorCodes.UserEmailOrPasswordInvalid)) {
+    if (errorResponse.hasError(ErrorCode.UserEmailOrPasswordInvalid)) {
       this.invalidEmailOrPassword = true;
     }
   }
