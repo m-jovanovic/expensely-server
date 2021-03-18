@@ -1,6 +1,7 @@
 import { TokenInfo } from '@expensely/core/contracts';
 import { Selector } from '@ngxs/store';
 
+import { Permission } from '../../contracts/authentication/permission.enum';
 import { AuthenticationStateModel } from './authentication-state.model';
 import { AuthenticationState } from './authentication.state';
 
@@ -23,6 +24,11 @@ export class AuthenticationSelectors {
   @Selector([AuthenticationSelectors.getTokenInfo])
   static getIsLoggedIn(tokenInfo: TokenInfo): boolean {
     return tokenInfo?.exp > Date.now();
+  }
+
+  @Selector([AuthenticationSelectors.getTokenInfo])
+  static getPermissions(tokenInfo: TokenInfo): Permission[] {
+    return tokenInfo?.permissions;
   }
 
   @Selector([AuthenticationSelectors.getTokenInfo])

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Login, Logout, RefreshToken, Register } from './authentication.actions';
 import { AuthenticationSelectors } from './authentication.selectors';
+import { Permission } from '../../contracts/authentication/permission.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,10 @@ export class AuthenticationFacade {
 
   get userId(): string | null {
     return this.store.selectSnapshot(AuthenticationSelectors.getUserId);
+  }
+
+  get userPermissions(): Permission[] | null {
+    return this.store.selectSnapshot(AuthenticationSelectors.getPermissions);
   }
 
   get userInitials(): string | null {
