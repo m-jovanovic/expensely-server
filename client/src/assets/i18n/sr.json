@@ -100,7 +100,7 @@
   "transactions": {
     "list": {
       "text": {
-        "title": "Transkacije"
+        "title": "Transakcije"
       },
       "actions": {
         "createTransaction": "Kreiraj Transakciju"
