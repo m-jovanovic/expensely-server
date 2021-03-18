@@ -20,7 +20,7 @@
         "invalidFormat": "The email must be a valid email address."
       },
       "password": {
-        "required": "The password is required"
+        "required": "The password is required."
       },
       "invalidEmailOrPassword": "The provided email or password is incorrect."
     }
@@ -56,12 +56,12 @@
         "invalidFormat": "The email must be a valid email address."
       },
       "password": {
-        "required": "The password is required",
+        "required": "The password is required.",
         "minLength": "The minimum password length is 6 characters.",
         "passwordStrength": "The password must contain at least one lowercase letter, one uppercase letter, one number and one special character or symbol."
       },
       "confirmationPassword": {
-        "required": "The confirmation password is required",
+        "required": "The confirmation password is required.",
         "confirmationPasswordMustMatch": "The password and confirmation password must match."
       },
       "emailAlreadyInUse": "The email you provided is already in use."
@@ -72,7 +72,7 @@
       "message": "You're almost ready! Before proceeding, please choose your primary currency."
     },
     "actions": {
-      "selectPrimaryCurrency": "Select Primary Currency"
+      "selectPrimaryCurrency": "Select"
     },
     "fields": {
       "currency": "Currency"

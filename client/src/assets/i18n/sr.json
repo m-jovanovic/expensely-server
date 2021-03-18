@@ -1,0 +1,179 @@
+{
+  "login": {
+    "text": {
+      "title": "Expensely",
+      "subtitle": "Dopusti name da brinemo o tvojim troškovima"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Lozinka"
+    },
+    "actions": {
+      "login": "Prijavi se",
+      "forgotPassword": "Zaboravili ste lozinku?",
+      "register": "Registruj se",
+      "registerText": "Još uvek nemate korisnički nalog?"
+    },
+    "errors": {
+      "email": {
+        "required": "Email je neophodan.",
+        "invalidFormat": "Email mora biti validna email adresa."
+      },
+      "password": {
+        "required": "Lozinka je neophodna."
+      },
+      "invalidEmailOrPassword": "Email ili lozinka su pogrešni."
+    }
+  },
+  "register": {
+    "text": {
+      "title": "Expensely",
+      "subtitle": "Dopusti name da brinemo o tvojim troškovima"
+    },
+    "fields": {
+      "firstName": "Ime",
+      "lastName": "Prezime",
+      "email": "Email",
+      "password": "Lozinka",
+      "confirmationPassword": "Potvrdi lozinku"
+    },
+    "actions": {
+      "register": "Registruj se",
+      "login": "Prijavi se",
+      "loginText": "Već imate korisnički nalog?"
+    },
+    "errors": {
+      "firstName": {
+        "required": "Ime je neophodno.",
+        "maxLength": "Dužina imena je ograničena na 100 karaktera."
+      },
+      "lastName": {
+        "required": "Prezime je neophodno.",
+        "maxLength": "Dužina prezimena je ograničena na 100 karaktera."
+      },
+      "email": {
+        "required": "Email je neophodan.",
+        "invalidFormat": "Email mora biti validna email adresa."
+      },
+      "password": {
+        "required": "Lozinka je neophodna.",
+        "minLength": "Minimalna dužina lozinke je 6 karaktera.",
+        "passwordStrength": "Lozinka mora sadržati najmanje jedno malo slovo, jedno veliko slovo, jedan broj i jedan specijalni karakter ili simbol."
+      },
+      "confirmationPassword": {
+        "required": "Potvrda lozinke je neophodna.",
+        "confirmationPasswordMustMatch": "Potvrda lozinke se razlikuje od lozinke."
+      },
+      "emailAlreadyInUse": "Email koji ste naveli je već u upotrebi."
+    }
+  },
+  "setup": {
+    "text": {
+      "message": "Skoro ste spremni! Pre nego što nastavite, odaberite svoju primarnu valutu."
+    },
+    "actions": {
+      "selectPrimaryCurrency": "Izaberi"
+    },
+    "fields": {
+      "currency": "Valuta"
+    },
+    "errors": {
+      "currency": {
+        "required": "Valua je neophodna."
+      }
+    }
+  },
+  "dashboard": {
+    "recentTransactions": {
+      "title": "Nedavne Transakcije",
+      "notFound": "Izgleda da nemate nedavnih  transakcija.",
+      "error": "Nedavne transakcije su trenutno nedostupne."
+    },
+    "transactionSummary": {
+      "expenses": "Troškovi",
+      "incomes": "Prihodi",
+      "timePeriod": "Ovog meseca",
+      "expensesError": "Ukupni troškovi su trenutno nedostupni.",
+      "incomesError": "Ukupni prihodi su trenutno nedostupni."
+    }
+  },
+  "transactions": {
+    "list": {
+      "text": {
+        "title": "Transkacije"
+      },
+      "actions": {
+        "createTransaction": "Kreiraj Transakciju"
+      },
+      "errors": {
+        "notFound": "Izgleda da nemate transakcije.",
+        "error": "Transakcije su trenutno nedostupne."
+      }
+    },
+    "create": {
+      "text": {
+        "title": "Kreiraj novu Transakciju"
+      },
+      "fields": {
+        "transactionType": "Tip transakcije",
+        "expenseTransactionType": "Trošak",
+        "incomeTransactionType": "Prihod",
+        "description": "Opis",
+        "category": "Kategorija",
+        "amount": "Iznos",
+        "currency": "Valuta",
+        "occurredOn": "Datum"
+      },
+      "actions": {
+        "createTransaction": "Kreiraj Transakciju",
+        "cancel": "Otkaži"
+      },
+      "errors": {
+        "transactionType": {
+          "required": "Tip transakcije je neophodan."
+        },
+        "description": {
+          "required": "Opis je neophodan.",
+          "maxLength": "Dužina opisa je ograničena na 100 karaktera."
+        },
+        "category": {
+          "required": "Kategorija je neophodna."
+        },
+        "amount": {
+          "required": "Iznos je neophodan.",
+          "min": "Iznos mora biti veći od 0."
+        },
+        "currency": {
+          "required": "Valuta je neophodna."
+        },
+        "occurredOn": {
+          "required": "Datum transakcije je neophodan."
+        }
+      }
+    },
+    "delete": {
+      "actions": {
+        "delete": "Obriši Transakciju"
+      },
+      "dialog": {
+        "message": "Da li ste sigurni da želite da obrišete ovu transakciju?",
+        "cancelButtonText": "Otkaži",
+        "confirmButtonText": "Obriši"
+      }
+    }
+  },
+  "navigation": {
+    "title": "Expensely",
+    "accountDropdown": {
+      "signOut": "Odjavi se"
+    },
+    "sidebar": {
+      "dashboard": "Pregled",
+      "transactions": "Transkacije",
+      "budgets": "Budžeti",
+      "subscription": "Subskripcija",
+      "settings": "Podešavanja",
+      "account": "Korisnički nalog"
+    }
+  }
+}
