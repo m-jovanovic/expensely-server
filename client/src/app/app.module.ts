@@ -6,7 +6,7 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 
-import { CoreModule, AuthenticationState } from '@expensely/core';
+import { CoreModule, AuthenticationState, LanguageState } from '@expensely/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
@@ -22,7 +22,7 @@ import { environment } from '../environments/environment';
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
     }),
-    NgxsModule.forRoot([AuthenticationState], {
+    NgxsModule.forRoot([AuthenticationState, LanguageState], {
       developmentMode: !environment.production,
       selectorOptions: {
         suppressErrors: false,
@@ -30,7 +30,7 @@ import { environment } from '../environments/environment';
       }
     }),
     NgxsStoragePluginModule.forRoot({
-      key: [AuthenticationState]
+      key: [AuthenticationState, LanguageState]
     })
   ],
   providers: [],
