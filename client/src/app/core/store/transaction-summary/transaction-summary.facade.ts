@@ -10,16 +10,16 @@ import { TransactionSummarySelectors } from './transaction-summary.selectors';
   providedIn: 'root'
 })
 export class TransactionSummaryFacade {
-  @Select(TransactionSummarySelectors.income)
+  @Select(TransactionSummarySelectors.getIncome)
   income$: Observable<string>;
 
-  @Select(TransactionSummarySelectors.expense)
+  @Select(TransactionSummarySelectors.getExpense)
   expense$: Observable<string>;
 
-  @Select(TransactionSummarySelectors.isLoading)
+  @Select(TransactionSummarySelectors.getIsLoading)
   isLoading$: Observable<boolean>;
 
-  @Select(TransactionSummarySelectors.error)
+  @Select(TransactionSummarySelectors.getError)
   error$: Observable<boolean>;
 
   constructor(private store: Store, private authenticationFacade: AuthenticationFacade) {}

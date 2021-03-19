@@ -6,17 +6,17 @@ import { TransactionResponse } from '../../contracts/transactions/transaction-re
 
 export class TransactionListSelectors {
   @Selector([TransactionListState])
-  static transactions(state: TransactionListStateModel): TransactionResponse[] {
+  static getTransactions(state: TransactionListStateModel): TransactionResponse[] {
     return state.transactions;
   }
 
   @Selector([TransactionListState])
-  static isLoading(state: TransactionListStateModel): boolean {
+  static getIsLoading(state: TransactionListStateModel): boolean {
     return state.isLoading;
   }
 
   @Selector([TransactionListState])
-  static error(state: TransactionListStateModel): boolean {
+  static getError(state: TransactionListStateModel): boolean {
     return state.error;
   }
 }

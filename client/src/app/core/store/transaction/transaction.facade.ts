@@ -11,13 +11,13 @@ import { TransactionResponse } from '../../contracts/transactions/transaction-re
   providedIn: 'root'
 })
 export class TransactionFacade {
-  @Select(TransactionSelectors.transaction)
+  @Select(TransactionSelectors.getTransaction)
   transaction$: Observable<TransactionResponse>;
 
-  @Select(TransactionSelectors.isLoading)
+  @Select(TransactionSelectors.getIsLoading)
   isLoading$: Observable<boolean>;
 
-  @Select(TransactionSelectors.error)
+  @Select(TransactionSelectors.getError)
   error$: Observable<boolean>;
 
   constructor(private store: Store, private authenticationFacade: AuthenticationFacade) {}
