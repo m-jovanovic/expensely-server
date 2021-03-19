@@ -2,7 +2,7 @@
   "login": {
     "text": {
       "title": "Expensely",
-      "subtitle": "Dopusti name da brinemo o tvojim troškovima"
+      "subtitle": "Dopusti nama da brinemo o tvojim troškovima"
     },
     "fields": {
       "email": "Email",
@@ -28,7 +28,7 @@
   "register": {
     "text": {
       "title": "Expensely",
-      "subtitle": "Dopusti name da brinemo o tvojim troškovima"
+      "subtitle": "Dopusti nama da brinemo o tvojim troškovima"
     },
     "fields": {
       "firstName": "Ime",
