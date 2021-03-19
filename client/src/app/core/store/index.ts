@@ -1,5 +1,6 @@
 export * from './authentication';
 export * from './authorization';
+export * from './language';
 export * from './category';
 export * from './currency';
 export * from './transaction';
