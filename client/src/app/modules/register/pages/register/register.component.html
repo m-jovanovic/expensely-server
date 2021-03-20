@@ -14,8 +14,8 @@
     <div class="mb-10">
       <form class="w-64 md:w-88 bg-white shadow-md rounded" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="flex flex-col divide-y-2 divide-gray-200">
-          <div class="px-4 md:px-6 py-4 md:py-6">
-            <div class="space-y-2 md:space-y-4 mb-4 md:mb-6">
+          <div class="p-4 md:p-6">
+            <div class="space-y-2 md:space-y-4">
               <!-- First Name input and error messages -->
               <div>
                 <label for="firstName" class="sr-only">{{ t('register.fields.firstName') }}</label>
@@ -150,11 +150,11 @@
             </div>
 
             <!-- Sign Up section -->
-            <div class="flex justify-center">
+            <div class="flex flex-col items-center mt-4 md:mt-6">
               <button
                 type="submit"
                 [disabled]="isLoading$ | async"
-                class="w-28 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600 disabled"
+                class="w-36 py-2 px-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600 disabled"
               >
                 {{ t('register.actions.register') }}
               </button>
@@ -162,11 +162,11 @@
           </div>
 
           <!-- Log In section -->
-          <div class="flex flex-col items-center px-4 md:px-6 py-4 rounded-b bg-gray-50">
+          <div class="flex flex-col items-center px-4 pt-4 pb-4 md:pb-6 rounded-b bg-gray-50">
             <p class="text-sm text-gray-500">{{ t('register.actions.loginText') }}</p>
             <button
               [disabled]="isLoading$ | async"
-              class="w-28 px-4 py-2 mt-6 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600 disabled"
+              class="w-36 px-4 py-2 mt-4 rounded font-bold bg-teal-500 hover:bg-teal-600 text-white focus:outline-none focus:bg-teal-600 disabled"
               (click)="redirectToLogin()"
             >
               {{ t('register.actions.login') }}
