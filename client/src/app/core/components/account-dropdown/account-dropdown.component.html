@@ -6,7 +6,7 @@
   >
     <span class="text-lg font-semibold tracking-wide">{{ userInitials }}</span>
   </button>
-  <div *ngIf="isDropdownMenuOpen" class="absolute z-10 right-0 w-32 rounded-lg mt-2 py-2 bg-white border shadow-lg">
+  <div *ngIf="isDropdownMenuOpen" class="absolute z-10 right-0 w-32 rounded-lg mt-2 py-2 bg-white shadow-lg">
     <div class="block font-medium px-4 py-2 hover:bg-indigo-500 hover:text-white cursor-pointer" (click)="logout()">
       {{ t('navigation.accountDropdown.signOut') }}
     </div>
