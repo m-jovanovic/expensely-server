@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -13,9 +13,16 @@ import { LanguageModel, availableLanguages } from './language.model';
 export class LanguagePickerComponent implements OnInit {
   selectedLanguage$: Observable<LanguageModel>;
   languages: LanguageModel[] = availableLanguages;
-  isOpen: boolean = false;
+  isDropdownMenuOpen: boolean = false;
 
-  constructor(private languageFacade: LanguageFacade) {}
+  @HostListener('document:click', ['$event'])
+  click(event: MouseEvent): void {
+    if (!this.elementRef.nativeElement.contains(event.target) && this.isDropdownMenuOpen) {
+      this.isDropdownMenuOpen = false;
+    }
+  }
+
+  constructor(private elementRef: ElementRef, private languageFacade: LanguageFacade) {}
 
   ngOnInit(): void {
     this.selectedLanguage$ = this.languageFacade.currentLanguage$.pipe(
@@ -26,11 +33,11 @@ export class LanguagePickerComponent implements OnInit {
   }
 
   toggleLanguagePicker(): void {
-    this.isOpen = !this.isOpen;
+    this.isDropdownMenuOpen = !this.isDropdownMenuOpen;
   }
 
   changeLanguage(code: string): void {
-    this.isOpen = false;
+    this.isDropdownMenuOpen = false;
 
     if (this.languageFacade.currentLanguage == code) {
       return;
