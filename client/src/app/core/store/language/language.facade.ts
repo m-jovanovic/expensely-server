@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 
 import { ChangeLanguage, SetDefaultLanguage } from './language.actions';
 import { LanguageSelectors } from './language.selectors';
@@ -8,6 +9,9 @@ import { LanguageSelectors } from './language.selectors';
   providedIn: 'root'
 })
 export class LanguageFacade {
+  @Select(LanguageSelectors.getLanguage)
+  currentLanguage$: Observable<string>;
+
   constructor(private store: Store) {}
 
   setDefaultLanguage(): void {

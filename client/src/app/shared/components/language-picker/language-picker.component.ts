@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { LanguageFacade } from '../../../core/store';
 import { LanguageModel, availableLanguages } from './language.model';
@@ -9,15 +11,18 @@ import { LanguageModel, availableLanguages } from './language.model';
   styleUrls: ['./language-picker.component.scss']
 })
 export class LanguagePickerComponent implements OnInit {
-  // TODO: Make this an observable.
-  selectedLanguage: LanguageModel;
+  selectedLanguage$: Observable<LanguageModel>;
   languages: LanguageModel[] = availableLanguages;
   isOpen: boolean = false;
 
   constructor(private languageFacade: LanguageFacade) {}
 
   ngOnInit(): void {
-    this.selectedLanguage = this.findLanguage(this.languageFacade.currentLanguage);
+    this.selectedLanguage$ = this.languageFacade.currentLanguage$.pipe(
+      map((currentLanguage: string) => {
+        return this.findLanguage(currentLanguage);
+      })
+    );
   }
 
   toggleLanguagePicker(): void {
@@ -27,11 +32,9 @@ export class LanguagePickerComponent implements OnInit {
   changeLanguage(code: string): void {
     this.isOpen = false;
 
-    if (this.selectedLanguage.code == code) {
+    if (this.languageFacade.currentLanguage == code) {
       return;
     }
-
-    this.selectedLanguage = this.findLanguage(code);
 
     this.languageFacade.changeLanguage(code);
   }

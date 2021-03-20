@@ -1,8 +1,13 @@
-<div class="relative">
+<div
+  class="relative"
+  *ngIf="{
+    selectedLanguage: selectedLanguage$ | async
+  } as data"
+>
   <div class="bg-white rounded-md py-2 w-32">
     <div class="flex items-center justify-center space-x-4 px-4 py-1 cursor-pointer hover:bg-gray-100" (click)="toggleLanguagePicker()">
-      <img class="h-6 w-6" src="{{ selectedLanguage.flag }}" alt="selectedLanguage.name" />
-      <span class="uppercase font-medium">{{ selectedLanguage.code }}</span>
+      <img class="h-6 w-6" src="{{ data.selectedLanguage.flag }}" alt="{{ data.selectedLanguage.name }}" />
+      <span class="uppercase font-medium">{{ data.selectedLanguage.code }}</span>
       <div class="h-4 w-4">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -11,10 +16,10 @@
     </div>
   </div>
 
-  <div *ngIf="isOpen" class="absolute right-0 mt-1 w-32">
+  <div *ngIf="isOpen" class="absolute right-0 mt-2 w-32">
     <ul class="bg-white rounded-md py-2">
       <li
-        [ngClass]="{ 'bg-gray-100': language.code == selectedLanguage.code }"
+        [ngClass]="{ 'bg-gray-100': language.code == data.selectedLanguage.code }"
         class="cursor-pointer"
         *ngFor="let language of languages"
         (click)="changeLanguage(language.code)"
