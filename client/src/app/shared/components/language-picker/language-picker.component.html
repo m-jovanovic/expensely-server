@@ -1,0 +1,8 @@
+<ul class="bg-white rounded-md py-1">
+  <li class="cursor-pointer hover:bg-gray-100" *ngFor="let language of languages" (click)="changeLanguage(language.code)">
+    <div class="flex items-center justify-center space-x-4 px-4 py-1">
+      <img class="h-6 w-6" src="{{ language.flag }}" alt="language.name" />
+      <span class="uppercase font-medium">{{ language.code }}</span>
+    </div>
+  </li>
+</ul>
