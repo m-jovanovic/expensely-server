@@ -1,7 +1,8 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
+import { ClickDetectionService } from '../../services/click-detection.service';
 import { LanguageFacade } from '../../../core/store';
 import { LanguageModel, availableLanguages } from './language.model';
 
@@ -10,19 +11,17 @@ import { LanguageModel, availableLanguages } from './language.model';
   templateUrl: './language-picker.component.html',
   styleUrls: ['./language-picker.component.scss']
 })
-export class LanguagePickerComponent implements OnInit {
+export class LanguagePickerComponent implements OnInit, OnDestroy {
+  private subscription: Subscription;
   selectedLanguage$: Observable<LanguageModel>;
   languages: LanguageModel[] = availableLanguages;
   isDropdownMenuOpen: boolean = false;
 
-  @HostListener('document:click', ['$event'])
-  click(event: MouseEvent): void {
-    if (!this.elementRef.nativeElement.contains(event.target) && this.isDropdownMenuOpen) {
-      this.isDropdownMenuOpen = false;
-    }
-  }
-
-  constructor(private elementRef: ElementRef, private languageFacade: LanguageFacade) {}
+  constructor(
+    private elementRef: ElementRef,
+    private languageFacade: LanguageFacade,
+    private clickDetectionService: ClickDetectionService
+  ) {}
 
   ngOnInit(): void {
     this.selectedLanguage$ = this.languageFacade.currentLanguage$.pipe(
@@ -30,6 +29,21 @@ export class LanguagePickerComponent implements OnInit {
         return this.findLanguage(currentLanguage);
       })
     );
+
+    this.subscription = this.clickDetectionService
+      .getClicks()
+      .pipe(
+        tap((mouseEvent: MouseEvent) => {
+          if (!this.elementRef.nativeElement.contains(mouseEvent.target) && this.isDropdownMenuOpen) {
+            this.isDropdownMenuOpen = false;
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   toggleLanguagePicker(): void {
