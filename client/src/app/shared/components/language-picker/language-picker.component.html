@@ -4,8 +4,8 @@
     selectedLanguage: selectedLanguage$ | async
   } as data"
 >
-  <div class="bg-white rounded-md py-2 w-32">
-    <div class="flex items-center justify-center space-x-4 px-4 py-1 cursor-pointer hover:bg-gray-100" (click)="toggleLanguagePicker()">
+  <div class="bg-white rounded-md py-2 w-32 hover:bg-gray-100 cursor-pointer" (click)="toggleLanguagePicker()">
+    <div class="flex items-center justify-center space-x-4 px-4 py-1">
       <img class="h-6 w-6" src="{{ data.selectedLanguage.flag }}" alt="{{ data.selectedLanguage.name }}" />
       <span class="uppercase font-medium">{{ data.selectedLanguage.code }}</span>
       <div class="h-4 w-4">
@@ -17,14 +17,9 @@
   </div>
 
   <div *ngIf="isDropdownMenuOpen" class="absolute right-0 mt-2 w-32">
-    <ul class="bg-white rounded-md py-2 shadow-lg">
-      <li
-        [ngClass]="{ 'bg-gray-100': language.code == data.selectedLanguage.code }"
-        class="cursor-pointer"
-        *ngFor="let language of languages"
-        (click)="changeLanguage(language.code)"
-      >
-        <div class="flex items-center justify-center space-x-4 px-4 py-1">
+    <ul class="bg-white rounded-md py-2 space-y-1 shadow-lg">
+      <li class="cursor-pointer hover:bg-gray-100" *ngFor="let language of languages" (click)="changeLanguage(language.code)">
+        <div class="flex items-center justify-center space-x-4 px-4 py-2">
           <img class="h-6 w-6" src="{{ language.flag }}" alt="language.name" />
           <span class="uppercase font-medium">{{ language.code }}</span>
         </div>
