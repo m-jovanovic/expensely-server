@@ -1,14 +1,14 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClickDetectionService implements OnInit {
+export class ClickDetectionService {
   private clicks$: Observable<MouseEvent>;
 
-  ngOnInit(): void {
+  constructor() {
     this.clicks$ = fromEvent(document, 'click').pipe(map((event: Event) => event as MouseEvent));
   }
 
