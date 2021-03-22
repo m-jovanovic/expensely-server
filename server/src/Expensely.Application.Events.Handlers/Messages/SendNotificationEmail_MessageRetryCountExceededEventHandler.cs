@@ -32,6 +32,7 @@ namespace Expensely.Application.Events.Handlers.Messages
         /// <inheritdoc />
         public override async Task Handle(MessageRetryCountExceededEvent @event, CancellationToken cancellationToken = default)
         {
+            // TODO: Encapsulate error emails in Notification layer.
             var mailRequest = new MailRequest
             {
                 RecipientEmail = _settings.EmailRecipient,

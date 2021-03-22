@@ -1,6 +1,6 @@
-﻿using Expensely.Application.Abstractions.Notification;
-using Expensely.Infrastructure.Email;
+﻿using Expensely.Notification;
 using Expensely.WebApp.Abstractions;
+using Expensely.WebApp.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.WebApp.ServiceInstallers.Email
@@ -17,7 +17,7 @@ namespace Expensely.WebApp.ServiceInstallers.Email
 
             services.ConfigureOptions<NotificationSettingsSetup>();
 
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransientAsMatchingInterface(NotificationAssembly.Assembly);
         }
     }
 }

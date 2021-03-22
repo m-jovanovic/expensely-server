@@ -1,14 +1,14 @@
 ﻿using System.Reflection;
 
-namespace Expensely.Infrastructure
+namespace Expensely.Notification
 {
     /// <summary>
-    /// Represents the infrastructure assembly.
+    /// Represents the notification assembly.
     /// </summary>
-    public static class InfrastructureAssembly
+    public static class NotificationAssembly
     {
         /// <summary>
-        /// Gets the infrastructure assembly.
+        /// Gets the notification assembly.
         /// </summary>
         public static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
     }

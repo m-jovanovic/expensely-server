@@ -1,4 +1,4 @@
-﻿using Expensely.Infrastructure.Email;
+﻿using Expensely.Notification.Email;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 

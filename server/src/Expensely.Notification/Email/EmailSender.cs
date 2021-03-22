@@ -4,14 +4,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Notification;
 using Expensely.Application.Contracts.Email;
+using Expensely.Common.Primitives.ServiceLifetimes;
 using Microsoft.Extensions.Options;
 
-namespace Expensely.Infrastructure.Email
+namespace Expensely.Notification.Email
 {
     /// <summary>
     /// Represents the email sender.
     /// </summary>
-    public sealed class EmailSender : IEmailSender
+    public sealed class EmailSender : IEmailSender, ITransient
     {
         private readonly EmailSettings _settings;
 

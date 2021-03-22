@@ -1,4 +1,4 @@
-﻿namespace Expensely.Infrastructure.Email
+﻿namespace Expensely.Notification.Email
 {
     /// <summary>
     /// Represents the email settings.
