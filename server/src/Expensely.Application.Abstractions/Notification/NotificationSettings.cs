@@ -1,4 +1,4 @@
-﻿namespace Expensely.Application.Abstractions.Email
+﻿namespace Expensely.Application.Abstractions.Notification
 {
     /// <summary>
     /// Represents the notification settings.

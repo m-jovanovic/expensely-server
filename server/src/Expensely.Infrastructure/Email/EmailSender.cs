@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Email;
+using Expensely.Application.Abstractions.Notification;
 using Expensely.Application.Contracts.Email;
 using Microsoft.Extensions.Options;
 

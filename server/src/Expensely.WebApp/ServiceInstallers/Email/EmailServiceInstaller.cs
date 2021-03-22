@@ -1,4 +1,4 @@
-﻿using Expensely.Application.Abstractions.Email;
+﻿using Expensely.Application.Abstractions.Notification;
 using Expensely.Infrastructure.Email;
 using Expensely.WebApp.Abstractions;
 using Microsoft.Extensions.DependencyInjection;

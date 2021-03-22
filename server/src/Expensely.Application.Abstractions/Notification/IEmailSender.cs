@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Email;
 
-namespace Expensely.Application.Abstractions.Email
+namespace Expensely.Application.Abstractions.Notification
 {
     /// <summary>
     /// Represents the email sender interface.

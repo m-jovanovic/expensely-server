@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Email;
+using Expensely.Application.Abstractions.Notification;
 using Expensely.Application.Contracts.Email;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Abstractions;
