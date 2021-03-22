@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using Expensely.Domain.Modules.Users;
 
-namespace Expensely.Application.Abstractions.Authorization
+namespace Expensely.Application.Abstractions.Authentication
 {
     /// <summary>
     /// Represents the claims provider interface.

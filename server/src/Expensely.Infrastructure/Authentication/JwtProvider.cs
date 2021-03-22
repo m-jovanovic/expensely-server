@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Authorization;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Primitives.ServiceLifetimes;
