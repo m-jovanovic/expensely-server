@@ -1,4 +1,4 @@
-﻿namespace Expensely.Application.Contracts.Email
+﻿namespace Expensely.Application.Contracts.Notification
 {
     /// <summary>
     /// Represents a mail request.

@@ -15,7 +15,7 @@ namespace Expensely.WebApp.ServiceInstallers.Email
         {
             services.ConfigureOptions<EmailSettingsSetup>();
 
-            services.ConfigureOptions<NotificationSettingsSetup>();
+            services.ConfigureOptions<AlertSettingsSetup>();
 
             services.AddTransientAsMatchingInterface(NotificationAssembly.Assembly);
         }

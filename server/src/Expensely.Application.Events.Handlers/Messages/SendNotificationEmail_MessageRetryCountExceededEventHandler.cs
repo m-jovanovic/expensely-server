@@ -1,10 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Notification;
-using Expensely.Application.Contracts.Email;
+using Expensely.Application.Contracts.Notification;
 using Expensely.Domain.Abstractions;
 using Expensely.Domain.Modules.Messages.Events;
-using Microsoft.Extensions.Options;
 
 namespace Expensely.Application.Events.Handlers.Messages
 {
@@ -13,34 +12,24 @@ namespace Expensely.Application.Events.Handlers.Messages
     /// </summary>
     public sealed class SendNotificationEmail_MessageRetryCountExceededEventHandler : EventHandler<MessageRetryCountExceededEvent>
     {
-        private readonly NotificationSettings _settings;
-        private readonly IEmailSender _emailSender;
+        private readonly IAlertSender _alertSender;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SendNotificationEmail_MessageRetryCountExceededEventHandler"/> class.
         /// </summary>
-        /// <param name="notificationSettingsOptions">The notification settings options.</param>
-        /// <param name="emailSender">The email sender.</param>
-        public SendNotificationEmail_MessageRetryCountExceededEventHandler(
-            IOptions<NotificationSettings> notificationSettingsOptions,
-            IEmailSender emailSender)
-        {
-            _settings = notificationSettingsOptions.Value;
-            _emailSender = emailSender;
-        }
+        /// <param name="alertSender">The alert sender.</param>
+        public SendNotificationEmail_MessageRetryCountExceededEventHandler(IAlertSender alertSender) => _alertSender = alertSender;
 
         /// <inheritdoc />
         public override async Task Handle(MessageRetryCountExceededEvent @event, CancellationToken cancellationToken = default)
         {
-            // TODO: Encapsulate error emails in Notification layer.
-            var mailRequest = new MailRequest
+            var mailRequest = new AlertRequest
             {
-                RecipientEmail = _settings.EmailRecipient,
                 Subject = "Expensely - Message Retry Count Exceeded",
                 Body = $"Message with identifier {@event.MessageId} has exceeded the allowed retry count."
             };
 
-            await _emailSender.SendAsync(mailRequest, cancellationToken);
+            await _alertSender.SendAsync(mailRequest, cancellationToken);
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace Expensely.Application.Abstractions.Notification
+﻿namespace Expensely.Notification.Alert
 {
     /// <summary>
-    /// Represents the notification settings.
+    /// Represents the alert settings.
     /// </summary>
-    public sealed class NotificationSettings
+    public sealed class AlertSettings
     {
         /// <summary>
         /// Gets the email recipient.

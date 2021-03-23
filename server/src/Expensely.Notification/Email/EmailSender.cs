@@ -3,7 +3,7 @@ using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Notification;
-using Expensely.Application.Contracts.Email;
+using Expensely.Application.Contracts.Notification;
 using Expensely.Common.Primitives.ServiceLifetimes;
 using Microsoft.Extensions.Options;
 
