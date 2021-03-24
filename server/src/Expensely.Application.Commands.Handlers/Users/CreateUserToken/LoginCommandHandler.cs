@@ -52,7 +52,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
 
             if (result.IsFailure)
             {
-                return Result.Failure<TokenResponse>(result.Error);
+                return Result.Failure<TokenResponse>(DomainErrors.User.InvalidEmailOrPassword);
             }
 
             Maybe<User> maybeUser = await _userRepository.GetByEmailAsync(emailResult.Value, cancellationToken);
