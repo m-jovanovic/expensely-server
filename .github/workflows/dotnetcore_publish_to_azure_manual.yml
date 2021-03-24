@@ -20,16 +20,16 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install dependencies
-        run: dotnet restore ./server/src/Expensely.WebApp
+        run: dotnet restore ./server/src/Expensely.App
 
       - name: Build
-        run: dotnet build ./server/src/Expensely.WebApp --configuration Release --no-restore
+        run: dotnet build ./server/src/Expensely.App --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test ./server/src/Expensely.WebApp --configuration Release --no-restore --verbosity normal
+        run: dotnet test ./server/src/Expensely.App --configuration Release --no-restore --verbosity normal
 
       - name: Publish
-        run: dotnet publish ./server/src/Expensely.WebApp --configuration Release --no-restore --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/publish'
+        run: dotnet publish ./server/src/Expensely.App --configuration Release --no-restore --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/publish'
 
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
