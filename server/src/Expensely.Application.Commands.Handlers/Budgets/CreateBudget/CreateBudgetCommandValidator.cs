@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Commands.Budgets;
 using Expensely.Application.Commands.Handlers.Extensions;
@@ -31,6 +32,11 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
             RuleFor(x => x.Amount).GreaterThan(0).WithError(ValidationErrors.Budget.AmountLessThanOrEqualToZero);
 
             RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(ValidationErrors.Currency.NotFound);
+
+            RuleForEach(x => x.Categories)
+                .Must(Category.ContainsValue)
+                .When(x => x.Categories.Any())
+                .WithError(ValidationErrors.Category.NotFound);
 
             RuleFor(x => x.StartDate).NotEmpty().WithError(ValidationErrors.Budget.StartDateIsRequired);
 

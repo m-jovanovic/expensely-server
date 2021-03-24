@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Expensely.Domain.Modules.Budgets.Exceptions;
 using Expensely.Domain.Modules.Shared;
 using Expensely.Domain.Modules.Users;
@@ -12,21 +14,25 @@ namespace Expensely.Domain.Modules.Budgets
     /// </summary>
     public sealed class Budget : Entity, IAuditableEntity
     {
+        private readonly HashSet<Category> _categories = new();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Budget"/> class.
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="name">The name of the budget.</param>
         /// <param name="money">The monetary amount of the budget.</param>
+        /// <param name="categories">The categories for the budget.</param>
         /// <param name="startDate">The start date of the budget.</param>
         /// <param name="endDate">The end date of the budget.</param>
-        public Budget(User user, Name name, Money money, DateTime startDate, DateTime endDate)
+        public Budget(User user, Name name, Money money, IReadOnlyCollection<Category> categories, DateTime startDate, DateTime endDate)
             : base(Ulid.NewUlid())
         {
             Ensure.NotNull(user, "The user is required.", nameof(user));
             Ensure.NotEmpty(name, "The name is required.", nameof(name));
             Ensure.NotEmpty(money, "The monetary amount is required.", nameof(money));
-            Ensure.NotLessThanOrEqualToZero(money.Amount, "The monetary amount must be greater than zero", nameof(money));
+            EnsureMoneyIsGreaterThanZero(money);
+            Ensure.NotNull(categories, "The categories are required", nameof(categories));
             Ensure.NotEmpty(startDate, "The start date is required.", nameof(startDate));
             Ensure.NotEmpty(endDate, "The end date is required.", nameof(endDate));
             EnsureStartDatePrecedesEndDate(startDate, endDate);
@@ -36,6 +42,11 @@ namespace Expensely.Domain.Modules.Budgets
             Money = money;
             StartDate = startDate.Date;
             EndDate = endDate.Date;
+
+            foreach (Category category in categories)
+            {
+                AddCategory(category);
+            }
         }
 
         /// <summary>
@@ -62,6 +73,11 @@ namespace Expensely.Domain.Modules.Budgets
         /// Gets the money.
         /// </summary>
         public Money Money { get; private set; }
+
+        /// <summary>
+        /// Gets the categories.
+        /// </summary>
+        public IReadOnlyCollection<Category> Categories => _categories.ToList();
 
         /// <summary>
         /// Gets the start date.
@@ -145,6 +161,18 @@ namespace Expensely.Domain.Modules.Budgets
 
             Expired = true;
         }
+
+        /// <summary>
+        /// Adds the specified category to the budget.
+        /// </summary>
+        /// <param name="category">The category to be added.</param>
+        public void AddCategory(Category category) => _categories.Add(category);
+
+        /// <summary>
+        /// Removes the specified category from the budget.
+        /// </summary>
+        /// <param name="category">The category to be removed.</param>
+        public void RemoveCategory(Category category) => _categories.Remove(category);
 
         /// <summary>
         /// Ensures that the specified start date precedes the specified end date, otherwise throws an exception.

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Budgets;
@@ -51,10 +52,13 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
                 return Result.Failure(DomainErrors.User.NotFound);
             }
 
+            Category[] categories = request.Categories.Select(category => Category.FromValue(category).Value).ToArray();
+
             var budget = new Budget(
                 maybeUser.Value,
                 nameResult.Value,
                 new Money(request.Amount, Currency.FromValue(request.Currency).Value),
+                categories,
                 request.StartDate,
                 request.EndDate);
 
