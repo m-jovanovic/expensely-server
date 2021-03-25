@@ -22,7 +22,8 @@ namespace Expensely.Persistence.QueryProcessors.Categories
                 .Select(x => new CategoryResponse
                 {
                     Id = x.Value,
-                    Name = x.Name
+                    Name = x.Name,
+                    IsExpense = x.IsExpense
                 }).ToList();
 
             return Task.FromResult(categories);
