@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { finalize, map, tap } from 'rxjs/operators';
 
 import {
   CategoryFacade,
@@ -45,7 +45,13 @@ export class CreateTransactionComponent implements OnInit {
       occurredOn: [this.getCurrentDateString(), Validators.required]
     });
 
-    this.categories$ = this.categoryFacade.categories$;
+    this.categories$ = combineLatest([this.categoryFacade.categories$, this.createTransactionForm.valueChanges]).pipe(
+      map(([categories, formValue]) => {
+        const isExpenseSelected = formValue.transactionType == TransactionType.Expense;
+
+        return categories.filter((x) => x.isExpense == isExpenseSelected || x.id == 1);
+      })
+    );
 
     this.currencies$ = this.userFacade.currencies$.pipe(
       tap((userCurrencies: UserCurrencyResponse[]) => {
