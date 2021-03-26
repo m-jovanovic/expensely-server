@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Expensely.App.ServiceInstallers.Email
+namespace Expensely.App.ServiceInstallers.Notification
 {
     /// <summary>
     /// Represents the <see cref="EmailSettings"/> setup.
