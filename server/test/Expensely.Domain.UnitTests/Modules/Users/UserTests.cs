@@ -461,6 +461,20 @@ namespace Expensely.Domain.UnitTests.Modules.Users
             user.GetEvents().Should().ContainSingle().And.AllBeOfType<UserPasswordChangedEvent>();
         }
 
+        [Theory]
+        [InlineData("User")]
+        public void AddRole_ShouldAddRole(string role)
+        {
+            // Arrange
+            User user = UserTestData.ValidUser;
+
+            // Act
+            user.AddRole(role);
+
+            // Assert
+            user.Roles.Should().Contain(role);
+        }
+
         [Fact]
         public void ChangeRefreshToken_ShouldChangeRefreshToken()
         {
