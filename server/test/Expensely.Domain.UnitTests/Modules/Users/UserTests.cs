@@ -147,6 +147,19 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
+        public void Currencies_ShouldContainCurrency_WhenCurrencyIsAdded()
+        {
+            // Arrange
+            User user = UserTestData.ValidUser;
+
+            // Act
+            user.AddCurrency(CurrencyTestData.DefaultCurrency);
+
+            // Assert
+            user.Currencies.Should().Contain(CurrencyTestData.DefaultCurrency);
+        }
+
+        [Fact]
         public void RemoveCurrency_ShouldNotRemoveCurrency_WhenCurrencyIsNotUserCurrency()
         {
             // Arrange
