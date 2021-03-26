@@ -10,21 +10,22 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
 {
     public class ExpenseTransactionTypeTests
     {
-        [Fact]
-        public void Should_have_proper_values()
+        [Theory]
+        [InlineData(1, "Expense")]
+        public void ShouldHaveSpecifiedValueAndName(int value, string name)
         {
             // Arrange
             // Act
             TransactionType transactionType = TransactionType.Expense;
 
             // Assert
-            transactionType.Value.Should().Be(1);
-            transactionType.Name.Should().Be("Expense");
+            transactionType.Value.Should().Be(value);
+            transactionType.Name.Should().Be(name);
         }
 
         [Theory]
         [InlineData(-1)]
-        public void ValidateAmount_should_return_true_for_amount_less_than_zero(decimal amount)
+        public void ValidateAmount_ShouldReturnSuccessResult_WhenAmountIsLessThanZero(decimal amount)
         {
             // Arrange
             TransactionType transactionType = TransactionType.Expense;
@@ -39,7 +40,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         [Theory]
         [InlineData(0)]
         [InlineData(1.0)]
-        public void ValidateAmount_should_return_false_for_amount_greater_than_or_equal_to_zero(decimal amount)
+        public void ValidateAmount_ShouldReturnFailureResult_WhenAmountIsGreaterThanOrEqualToZero(decimal amount)
         {
             // Arrange
             TransactionType transactionType = TransactionType.Expense;
