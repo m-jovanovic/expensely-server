@@ -9,7 +9,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace Expensely.Domain.UnitTests.Core
+namespace Expensely.Domain.UnitTests.Modules.Users
 {
     public class UserTests
     {

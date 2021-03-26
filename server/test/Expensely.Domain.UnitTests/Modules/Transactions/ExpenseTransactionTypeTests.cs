@@ -6,28 +6,28 @@ using Expensely.Domain.UnitTests.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace Expensely.Domain.UnitTests.Core
+namespace Expensely.Domain.UnitTests.Modules.Transactions
 {
-    public class IncomeTransactionTypeTests
+    public class ExpenseTransactionTypeTests
     {
         [Fact]
         public void Should_have_proper_values()
         {
             // Arrange
             // Act
-            TransactionType transactionType = TransactionType.Income;
+            TransactionType transactionType = TransactionType.Expense;
 
             // Assert
-            transactionType.Value.Should().Be(2);
-            transactionType.Name.Should().Be("Income");
+            transactionType.Value.Should().Be(1);
+            transactionType.Name.Should().Be("Expense");
         }
 
         [Theory]
-        [InlineData(1)]
-        public void ValidateAmount_should_return_true_for_amount_greater_than_zero(decimal amount)
+        [InlineData(-1)]
+        public void ValidateAmount_should_return_true_for_amount_less_than_zero(decimal amount)
         {
             // Arrange
-            TransactionType transactionType = TransactionType.Income;
+            TransactionType transactionType = TransactionType.Expense;
 
             // Act
             Result result = transactionType.ValidateAmount(new Money(amount, CurrencyTestData.DefaultCurrency));
@@ -38,17 +38,17 @@ namespace Expensely.Domain.UnitTests.Core
 
         [Theory]
         [InlineData(0)]
-        [InlineData(-1.0)]
-        public void ValidateAmount_should_return_false_for_amount_less_than_or_equal_to_zero(decimal amount)
+        [InlineData(1.0)]
+        public void ValidateAmount_should_return_false_for_amount_greater_than_or_equal_to_zero(decimal amount)
         {
             // Arrange
-            TransactionType transactionType = TransactionType.Income;
+            TransactionType transactionType = TransactionType.Expense;
 
             // Act
             Result result = transactionType.ValidateAmount(new Money(amount, CurrencyTestData.DefaultCurrency));
 
             // Assert
-            result.Error.Should().Be(DomainErrors.Transaction.IncomeAmountLessThanOrEqualToZero);
+            result.Error.Should().Be(DomainErrors.Transaction.ExpenseAmountGreaterThanOrEqualToZero);
         }
     }
 }
