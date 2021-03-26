@@ -177,7 +177,7 @@ namespace Expensely.Domain.Modules.Users
 
             if (_currencies.Count == 1 && (PrimaryCurrency?.IsEmpty() ?? true))
             {
-                ChangePrimaryCurrency(currency);
+                PrimaryCurrency = currency;
             }
 
             Raise(new UserCurrencyAddedEvent
