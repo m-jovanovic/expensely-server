@@ -14,7 +14,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
     public class UserTests
     {
         [Fact]
-        public void Create_should_create_user_and_properly_set_values()
+        public void Create_ShouldCreateUser_WithProperValues()
         {
             // Arrange
             // Act
@@ -36,7 +36,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void Create_should_create_user_and_raise_user_created_event()
+        public void Create_ShouldCreateUser_WithUserCreatedEvent()
         {
             // Arrange
             // Act
@@ -48,11 +48,11 @@ namespace Expensely.Domain.UnitTests.Modules.Users
                 new Mock<IPasswordService>().Object);
 
             // Assert
-            user.GetEvents().Should().ContainSingle().And.AllBeOfType<UserCreatedEvent>();
+            user.GetEvents().Should().AllBeOfType<UserCreatedEvent>();
         }
 
         [Fact]
-        public void GetFullName_should_return_concatenated_first_and_last_name()
+        public void GetFullName_ShouldReturnConcatenatedFirstAndLastName()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -65,7 +65,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void HasCurrency_should_return_false_when_currency_does_not_exist()
+        public void HasCurrency_ShouldReturnFalse_WhenCurrencyIsNotUserCurrency()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -78,7 +78,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void GetPrimaryCurrency_should_return_nothing_when_primary_currency_does_not_exist()
+        public void PrimaryCurrency_ShouldReturnNull_WhenPrimaryCurrencyIsNotSet()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -91,7 +91,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void AddCurrency_should_add_currency_if_it_does_not_exist()
+        public void AddCurrency_ShouldAddCurrency_WhenCurrencyIsNotUserCurrency()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -104,7 +104,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void AddCurrency_should_not_add_currency_if_it_exists()
+        public void AddCurrency_ShouldNotAddCurrency_WhenCurrencyIsAlreadyUserCurrency()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -119,22 +119,20 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void AddCurrency_should_change_primary_currency_if_it_is_the_only_currency()
+        public void AddCurrency_ShouldChangePrimaryCurrency_WhenPrimaryCurrencyIsNull()
         {
             // Arrange
             User user = UserTestData.ValidUser;
 
+            // Act
             user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
-            // Act
-            Currency primaryCurrency = user.PrimaryCurrency;
-
             // Assert
-            primaryCurrency.Should().Be(CurrencyTestData.DefaultCurrency);
+            user.PrimaryCurrency.Should().Be(CurrencyTestData.DefaultCurrency);
         }
 
         [Fact]
-        public void AddCurrency_should_raise_user_currency_added_event_when_currency_is_added()
+        public void AddCurrency_ShouldRaiseUserCurrencyAddedEvent_WhenCurrencyIsAdded()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -145,11 +143,11 @@ namespace Expensely.Domain.UnitTests.Modules.Users
             user.AddCurrency(CurrencyTestData.DefaultCurrency);
 
             // Assert
-            user.GetEvents().Should().Contain(@event => @event is UserCurrencyAddedEvent);
+            user.GetEvents().Should().AllBeOfType<UserCurrencyAddedEvent>();
         }
 
         [Fact]
-        public void RemoveCurrency_should_not_remove_currency_if_it_does_not_exist()
+        public void RemoveCurrency_ShouldNotRemoveCurrency_WhenCurrencyIsNotUserCurrency()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -162,7 +160,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void RemoveCurrency_should_not_remove_currency_if_it_is_the_primary_currency()
+        public void RemoveCurrency_ShouldNotRemoveCurrency_WhenCurrencyIsPrimaryCurrency()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -177,7 +175,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void RemoveCurrency_should_remove_currency_if_it_exists_and_it_is_not_the_primary_currency()
+        public void RemoveCurrency_ShouldRemoveCurrency_WhenCurrencyIsUserCurrencyAndIsNotPrimaryCurrency()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -194,7 +192,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void RemoveCurrency_should_raise_use_currency_removed_event_when_currency_is_removed()
+        public void RemoveCurrency_ShouldRaiseUserCurrencyRemovedEvent_WhenCurrencyIsRemoved()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -209,11 +207,11 @@ namespace Expensely.Domain.UnitTests.Modules.Users
             user.RemoveCurrency(CurrencyTestData.AuxiliaryCurrency);
 
             // Assert
-            user.GetEvents().Should().ContainSingle().And.AllBeOfType<UserCurrencyRemovedEvent>();
+            user.GetEvents().Should().AllBeOfType<UserCurrencyRemovedEvent>();
         }
 
         [Fact]
-        public void ChangePrimaryCurrency_should_not_change_primary_currency_if_the_currency_was_not_added()
+        public void ChangePrimaryCurrency_ShouldNotChangePrimaryCurrency_WhenCurrencyIsNotUserCurrency()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -226,7 +224,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void ChangePrimaryCurrency_should_not_change_primary_currency_if_it_is_identical()
+        public void ChangePrimaryCurrency_ShouldNotChangePrimaryCurrency_WhenCurrencyAndPrimaryCurrencyAreIdentical()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -241,7 +239,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void ChangePrimaryCurrency_should_change_primary_currency_if_it_was_previously_added_and_is_different()
+        public void ChangePrimaryCurrency_ShouldChangePrimaryCurrency_WhenCurrencyIsUserCurrencyAndDifferentThanPrimaryCurrency()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -258,20 +256,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void GetPrimaryCurrency_should_return_the_new_primary_currency_after_it_has_been_changed()
-        {
-            // Arrange
-            User user = UserTestData.ValidUser;
-
-            // Act
-            user.AddCurrency(CurrencyTestData.DefaultCurrency);
-
-            // Assert
-            user.PrimaryCurrency.Should().Be(CurrencyTestData.DefaultCurrency);
-        }
-
-        [Fact]
-        public void ChangePrimaryCurrency_should_raise_user_primary_currency_changed_event_when_primary_currency_is_changed()
+        public void ChangePrimaryCurrency_ShouldRaiseUserPrimaryCurrencyChangedEvent_WhenPrimaryCurrencyIsChanged()
         {
             // Arrange
             User user = UserTestData.ValidUser;
@@ -286,11 +271,11 @@ namespace Expensely.Domain.UnitTests.Modules.Users
             user.ChangePrimaryCurrency(CurrencyTestData.AuxiliaryCurrency);
 
             // Assert
-            user.GetEvents().Should().ContainSingle().And.AllBeOfType<UserPrimaryCurrencyChangedEvent>();
+            user.GetEvents().Should().AllBeOfType<UserPrimaryCurrencyChangedEvent>();
         }
 
         [Fact]
-        public void VerifyPassword_should_call_hashes_match_on_password_service()
+        public void VerifyPassword_ShouldCallHashesMatchOnPasswordService_WithProvidedPassword()
         {
             // Arrange
             var passwordServiceMock = new Mock<IPasswordService>();
@@ -309,7 +294,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void VerifyPassword_return_true_if_password_hashes_match()
+        public void VerifyPassword_ShouldReturnTrue_WhenPasswordHashesMatch()
         {
             // Arrange
             var passwordServiceMock = new Mock<IPasswordService>();
@@ -326,7 +311,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void VerifyPassword_should_return_false_if_password_hashes_do_not_match()
+        public void VerifyPassword_ShouldReturnFalse_WhenPasswordHashesDoNotMatch()
         {
             // Arrange
             var passwordServiceMock = new Mock<IPasswordService>();
@@ -343,7 +328,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void VerifyPassword_should_raise_user_password_verification_failed_event_when_password_hashes_do_not_match()
+        public void VerifyPassword_ShouldRaiseUserPasswordVerificationFailedEvent_WhenPasswordHashesDoNotMatch()
         {
             // Arrange
             var passwordServiceMock = new Mock<IPasswordService>();
@@ -358,11 +343,11 @@ namespace Expensely.Domain.UnitTests.Modules.Users
             user.VerifyPassword(UserTestData.Password, passwordServiceMock.Object);
 
             // Assert
-            user.GetEvents().Should().ContainSingle().And.AllBeOfType<UserPasswordVerificationFailedEvent>();
+            user.GetEvents().Should().AllBeOfType<UserPasswordVerificationFailedEvent>();
         }
 
         [Fact]
-        public void ChangePassword_should_not_change_password_when_current_password_verification_fails()
+        public void ChangePassword_ShouldNotChangePassword_WhenPasswordHashesDoNotMatch()
         {
             // Arrange
             var passwordServiceMock = new Mock<IPasswordService>();
@@ -383,7 +368,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void ChangePassword_should_not_change_password_if_new_password_is_identical()
+        public void ChangePassword_ShouldNotChangePassword_WhenPasswordIsIdentical()
         {
             // Arrange
             var passwordServiceMock = new Mock<IPasswordService>();
@@ -406,7 +391,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void ChangePassword_should_change_password_if_current_password_is_verified_and_new_password_is_different()
+        public void ChangePassword_ShouldChangePassword_WhenPasswordHashesMatchAndPasswordIsDifferent()
         {
             // Arrange
             var passwordServiceMock = new Mock<IPasswordService>();
@@ -429,7 +414,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void ChangePassword_should_call_hash_password_on_password_service_when_password_is_changed()
+        public void ChangePassword_ShouldCallHashPasswordOnPasswordService_WhenPasswordIsChanged()
         {
             // Arrange
             var passwordServiceMock = new Mock<IPasswordService>();
@@ -452,7 +437,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void ChangePassword_should_raise_user_password_changed_event_when_password_is_changed()
+        public void ChangePassword_ShouldRaiseUserPasswordChangedEvent_WhenPasswordIsChanged()
         {
             // Arrange
             var passwordServiceMock = new Mock<IPasswordService>();
@@ -477,7 +462,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void ChangeRefreshToken_should_change_refresh_token()
+        public void ChangeRefreshToken_ShouldChangeRefreshToken()
         {
             // Arrange
             User user = UserTestData.ValidUser;
