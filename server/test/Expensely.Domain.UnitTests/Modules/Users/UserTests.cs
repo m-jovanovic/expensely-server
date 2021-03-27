@@ -75,9 +75,6 @@ namespace Expensely.Domain.UnitTests.Modules.Users
             user.FirstName.Should().Be(UserTestData.FirstName);
             user.LastName.Should().Be(UserTestData.LastName);
             user.Email.Should().Be(UserTestData.Email);
-            user.RefreshToken.Should().BeNull();
-            user.CreatedOnUtc.Should().Be(default);
-            user.ModifiedOnUtc.Should().BeNull();
         }
 
         [Fact]
@@ -346,9 +343,9 @@ namespace Expensely.Domain.UnitTests.Modules.Users
             user.VerifyPassword(UserTestData.Password, passwordHasherMock.Object);
 
             // Assert
-            passwordHasherMock.Verify(x => x.HashesMatch(It.Is<Password>(p => p == UserTestData.Password), It.IsAny<string>()));
-
-            passwordHasherMock.VerifyNoOtherCalls();
+            passwordHasherMock.Verify(
+                x => x.HashesMatch(It.Is<Password>(p => p == UserTestData.Password), It.IsAny<string>()),
+                Times.Once());
         }
 
         [Fact]
