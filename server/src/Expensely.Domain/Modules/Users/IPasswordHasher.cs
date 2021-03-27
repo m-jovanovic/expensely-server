@@ -1,9 +1,9 @@
 ﻿namespace Expensely.Domain.Modules.Users
 {
     /// <summary>
-    /// Represents the password service interface.
+    /// Represents the password hasher interface.
     /// </summary>
-    public interface IPasswordService
+    public interface IPasswordHasher
     {
         /// <summary>
         /// Hashes the specified password and returns the hash.

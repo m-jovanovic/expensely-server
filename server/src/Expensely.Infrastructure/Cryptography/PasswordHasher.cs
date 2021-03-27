@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 namespace Expensely.Infrastructure.Cryptography
 {
     /// <summary>
-    /// Represents the password service.
+    /// Represents the password hasher.
     /// </summary>
-    public sealed class PasswordService : IPasswordService, IDisposable, ITransient
+    public sealed class PasswordHasher : IPasswordHasher, IDisposable, ITransient
     {
         private const KeyDerivationPrf Prf = KeyDerivationPrf.HMACSHA256;
         private const int IterationCount = 10000;
@@ -18,9 +18,9 @@ namespace Expensely.Infrastructure.Cryptography
         private readonly RandomNumberGenerator _rng;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PasswordService"/> class.
+        /// Initializes a new instance of the <see cref="PasswordHasher"/> class.
         /// </summary>
-        public PasswordService() => _rng = new RNGCryptoServiceProvider();
+        public PasswordHasher() => _rng = new RNGCryptoServiceProvider();
 
         /// <inheritdoc />
         public string Hash(Password password)
@@ -61,13 +61,13 @@ namespace Expensely.Infrastructure.Cryptography
         }
 
         /// <inheritdoc />
-        public void Dispose() => _rng.Dispose();
+        public void Dispose() => _rng?.Dispose();
 
         private static bool VerifyPasswordHashInternal(byte[] hashedPassword, string password)
         {
             try
             {
-                var salt = new byte[SaltSize];
+                byte[] salt = new byte[SaltSize];
 
                 Buffer.BlockCopy(hashedPassword, 0, salt, 0, salt.Length);
 
@@ -78,7 +78,7 @@ namespace Expensely.Infrastructure.Cryptography
                     return false;
                 }
 
-                var expectedSubKey = new byte[subKeyLength];
+                byte[] expectedSubKey = new byte[subKeyLength];
 
                 Buffer.BlockCopy(hashedPassword, salt.Length, expectedSubKey, 0, expectedSubKey.Length);
 
@@ -120,7 +120,7 @@ namespace Expensely.Infrastructure.Cryptography
 
             byte[] subKey = KeyDerivation.Pbkdf2(password, salt, Prf, IterationCount, NumberOfBytesRequested);
 
-            var outputBytes = new byte[salt.Length + subKey.Length];
+            byte[] outputBytes = new byte[salt.Length + subKey.Length];
 
             Buffer.BlockCopy(salt, 0, outputBytes, 0, salt.Length);
 
@@ -131,7 +131,7 @@ namespace Expensely.Infrastructure.Cryptography
 
         private byte[] GetRandomSalt()
         {
-            var salt = new byte[SaltSize];
+            byte[] salt = new byte[SaltSize];
 
             _rng.GetBytes(salt);
 

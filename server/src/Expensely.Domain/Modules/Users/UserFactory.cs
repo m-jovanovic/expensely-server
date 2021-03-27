@@ -12,18 +12,18 @@ namespace Expensely.Domain.Modules.Users
     public sealed class UserFactory : IUserFactory, IScoped
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPasswordService _passwordService;
+        private readonly IPasswordHasher _passwordHasher;
         private readonly IRoleProvider _roleProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserFactory"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
-        /// <param name="passwordService">The password service.</param>
+        /// <param name="passwordHasher">The password hasher.</param>
         /// <param name="roleProvider">The role provider.</param>
-        public UserFactory(IUserRepository userRepository, IPasswordService passwordService, IRoleProvider roleProvider)
+        public UserFactory(IUserRepository userRepository, IPasswordHasher passwordHasher, IRoleProvider roleProvider)
         {
-            _passwordService = passwordService;
+            _passwordHasher = passwordHasher;
             _roleProvider = roleProvider;
             _userRepository = userRepository;
         }
@@ -60,7 +60,7 @@ namespace Expensely.Domain.Modules.Users
                 lastNameResult.Value,
                 emailResult.Value,
                 passwordResult.Value,
-                _passwordService);
+                _passwordHasher);
 
             foreach (string role in _roleProvider.GetStandardRoles())
             {

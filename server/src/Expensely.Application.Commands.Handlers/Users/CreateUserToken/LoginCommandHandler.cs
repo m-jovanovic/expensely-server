@@ -19,7 +19,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IPasswordService _passwordService;
+        private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtProvider _jwtProvider;
 
         /// <summary>
@@ -27,17 +27,17 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="unitOfWork">The unit of work.</param>
-        /// <param name="passwordService">The password service.</param>
+        /// <param name="passwordHasher">The password hasher.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
         public LoginCommandHandler(
             IUserRepository userRepository,
             IUnitOfWork unitOfWork,
-            IPasswordService passwordService,
+            IPasswordHasher passwordHasher,
             IJwtProvider jwtProvider)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
-            _passwordService = passwordService;
+            _passwordHasher = passwordHasher;
             _jwtProvider = jwtProvider;
         }
 
@@ -64,7 +64,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
 
             User user = maybeUser.Value;
 
-            if (!user.VerifyPassword(passwordResult.Value, _passwordService))
+            if (!user.VerifyPassword(passwordResult.Value, _passwordHasher))
             {
                 return Result.Failure<TokenResponse>(DomainErrors.User.InvalidEmailOrPassword);
             }

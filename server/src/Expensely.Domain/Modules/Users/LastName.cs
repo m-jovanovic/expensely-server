@@ -33,7 +33,7 @@ namespace Expensely.Domain.Modules.Users
         /// </summary>
         public string Value { get; private set; }
 
-        public static implicit operator string(LastName lastName) => lastName?.Value ?? string.Empty;
+        public static implicit operator string(LastName lastName) => lastName?.Value;
 
         /// <summary>
         /// Creates a new <see cref="FirstName"/> instance based on the specified value.

@@ -13,6 +13,6 @@ namespace Expensely.Domain.UnitTests.Infrastructure
 
         public static readonly Password Password = Password.Create("123aA!").Value;
 
-        public static User ValidUser => User.Create(FirstName, LastName, Email, Password, new Mock<IPasswordService>().Object);
+        public static User ValidUser => User.Create(FirstName, LastName, Email, Password, new Mock<IPasswordHasher>().Object);
     }
 }

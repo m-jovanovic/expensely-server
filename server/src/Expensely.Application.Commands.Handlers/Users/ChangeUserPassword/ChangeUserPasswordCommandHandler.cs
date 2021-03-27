@@ -17,19 +17,19 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPassword
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IPasswordService _passwordService;
+        private readonly IPasswordHasher _passwordHasher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeUserPasswordCommandHandler"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="unitOfWork">The unit of work.</param>
-        /// <param name="passwordService">The password service.</param>
-        public ChangeUserPasswordCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordService passwordService)
+        /// <param name="passwordHasher">The password hasher.</param>
+        public ChangeUserPasswordCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
-            _passwordService = passwordService;
+            _passwordHasher = passwordHasher;
         }
 
         /// <inheritdoc />
@@ -55,7 +55,7 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPassword
             Result changePasswordResult = maybeUser.Value.ChangePassword(
                 currentPasswordResult.Value,
                 newPasswordResult.Value,
-                _passwordService);
+                _passwordHasher);
 
             if (changePasswordResult.IsFailure)
             {

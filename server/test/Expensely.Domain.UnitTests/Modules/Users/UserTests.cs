@@ -14,6 +14,51 @@ namespace Expensely.Domain.UnitTests.Modules.Users
     public class UserTests
     {
         [Fact]
+        public void Create_ShouldThrowArgumentException_WhenFirstNameIsNull() =>
+            FluentActions.Invoking(
+                    () => User.Create(null, UserTestData.LastName, UserTestData.Email, UserTestData.Password, default))
+                .Should()
+                .Throw<ArgumentException>()
+                .And
+                .ParamName.Should().Be("firstName");
+
+        [Fact]
+        public void Create_ShouldThrowArgumentException_WhenLastNameIsNull() =>
+            FluentActions.Invoking(
+                    () => User.Create(UserTestData.FirstName, null, UserTestData.Email, UserTestData.Password, default))
+                .Should()
+                .Throw<ArgumentException>()
+                .And
+                .ParamName.Should().Be("lastName");
+
+        [Fact]
+        public void Create_ShouldThrowArgumentException_WhenEmailIsNull() =>
+            FluentActions.Invoking(
+                    () => User.Create(UserTestData.FirstName, UserTestData.LastName, null, UserTestData.Password, default))
+                .Should()
+                .Throw<ArgumentException>()
+                .And
+                .ParamName.Should().Be("email");
+
+        [Fact]
+        public void Create_ShouldThrowArgumentException_WhenPasswordIsNull() =>
+            FluentActions.Invoking(
+                    () => User.Create(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, null, default))
+                .Should()
+                .Throw<ArgumentException>()
+                .And
+                .ParamName.Should().Be("password");
+
+        [Fact]
+        public void Create_ShouldThrowArgumentNullException_WhenPasswordIsNull() =>
+            FluentActions.Invoking(
+                    () => User.Create(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, UserTestData.Password, null))
+                .Should()
+                .Throw<ArgumentNullException>()
+                .And
+                .ParamName.Should().Be("passwordHasher");
+
+        [Fact]
         public void Create_ShouldCreateUser_WithProperValues()
         {
             // Arrange
@@ -23,7 +68,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
                 UserTestData.LastName,
                 UserTestData.Email,
                 UserTestData.Password,
-                new Mock<IPasswordService>().Object);
+                new Mock<IPasswordHasher>().Object);
 
             // Assert
             user.Should().NotBeNull();
@@ -45,7 +90,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
                 UserTestData.LastName,
                 UserTestData.Email,
                 UserTestData.Password,
-                new Mock<IPasswordService>().Object);
+                new Mock<IPasswordHasher>().Object);
 
             // Assert
             user.GetEvents().Should().AllBeOfType<UserCreatedEvent>();
@@ -288,36 +333,36 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void VerifyPassword_ShouldCallHashesMatchOnPasswordService_WithProvidedPassword()
+        public void VerifyPassword_ShouldCallHashesMatchOnPasswordHasher_WithProvidedPassword()
         {
             // Arrange
-            var passwordServiceMock = new Mock<IPasswordService>();
+            var passwordHasherMock = new Mock<IPasswordHasher>();
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.IsAny<Password>(), It.IsAny<string>())).Returns(true);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.IsAny<Password>(), It.IsAny<string>())).Returns(true);
 
             User user = UserTestData.ValidUser;
 
             // Act
-            user.VerifyPassword(UserTestData.Password, passwordServiceMock.Object);
+            user.VerifyPassword(UserTestData.Password, passwordHasherMock.Object);
 
             // Assert
-            passwordServiceMock.Verify(x => x.HashesMatch(It.Is<Password>(p => p == UserTestData.Password), It.IsAny<string>()));
+            passwordHasherMock.Verify(x => x.HashesMatch(It.Is<Password>(p => p == UserTestData.Password), It.IsAny<string>()));
 
-            passwordServiceMock.VerifyNoOtherCalls();
+            passwordHasherMock.VerifyNoOtherCalls();
         }
 
         [Fact]
         public void VerifyPassword_ShouldReturnTrue_WhenPasswordHashesMatch()
         {
             // Arrange
-            var passwordServiceMock = new Mock<IPasswordService>();
+            var passwordHasherMock = new Mock<IPasswordHasher>();
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.IsAny<Password>(), It.IsAny<string>())).Returns(true);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.IsAny<Password>(), It.IsAny<string>())).Returns(true);
 
             User user = UserTestData.ValidUser;
 
             // Act
-            bool result = user.VerifyPassword(UserTestData.Password, passwordServiceMock.Object);
+            bool result = user.VerifyPassword(UserTestData.Password, passwordHasherMock.Object);
 
             // Assert
             result.Should().BeTrue();
@@ -327,14 +372,14 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         public void VerifyPassword_ShouldReturnFalse_WhenPasswordHashesDoNotMatch()
         {
             // Arrange
-            var passwordServiceMock = new Mock<IPasswordService>();
+            var passwordHasherMock = new Mock<IPasswordHasher>();
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.IsAny<Password>(), It.IsAny<string>())).Returns(false);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.IsAny<Password>(), It.IsAny<string>())).Returns(false);
 
             User user = UserTestData.ValidUser;
 
             // Act
-            bool result = user.VerifyPassword(UserTestData.Password, passwordServiceMock.Object);
+            bool result = user.VerifyPassword(UserTestData.Password, passwordHasherMock.Object);
 
             // Assert
             result.Should().BeFalse();
@@ -344,16 +389,16 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         public void VerifyPassword_ShouldRaiseUserPasswordVerificationFailedEvent_WhenPasswordHashesDoNotMatch()
         {
             // Arrange
-            var passwordServiceMock = new Mock<IPasswordService>();
+            var passwordHasherMock = new Mock<IPasswordHasher>();
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.IsAny<Password>(), It.IsAny<string>())).Returns(false);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.IsAny<Password>(), It.IsAny<string>())).Returns(false);
 
             User user = UserTestData.ValidUser;
 
             user.ClearEvents();
 
             // Act
-            user.VerifyPassword(UserTestData.Password, passwordServiceMock.Object);
+            user.VerifyPassword(UserTestData.Password, passwordHasherMock.Object);
 
             // Assert
             user.GetEvents().Should().AllBeOfType<UserPasswordVerificationFailedEvent>();
@@ -363,18 +408,18 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         public void ChangePassword_ShouldNotChangePassword_WhenPasswordHashesDoNotMatch()
         {
             // Arrange
-            var passwordServiceMock = new Mock<IPasswordService>();
+            var passwordHasherMock = new Mock<IPasswordHasher>();
 
             Password currentPassword = UserTestData.Password;
 
             Password newPassword = Password.Create("123aA!!").Value;
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == currentPassword), It.IsAny<string>())).Returns(false);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == currentPassword), It.IsAny<string>())).Returns(false);
 
             User user = UserTestData.ValidUser;
 
             // Act
-            Result result = user.ChangePassword(currentPassword, newPassword, passwordServiceMock.Object);
+            Result result = user.ChangePassword(currentPassword, newPassword, passwordHasherMock.Object);
 
             // Assert
             result.Error.Should().Be(DomainErrors.User.InvalidEmailOrPassword);
@@ -384,20 +429,20 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         public void ChangePassword_ShouldNotChangePassword_WhenPasswordIsIdentical()
         {
             // Arrange
-            var passwordServiceMock = new Mock<IPasswordService>();
+            var passwordHasherMock = new Mock<IPasswordHasher>();
 
             Password currentPassword = UserTestData.Password;
 
             Password newPassword = Password.Create("123aA!!").Value;
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == currentPassword), It.IsAny<string>())).Returns(true);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == currentPassword), It.IsAny<string>())).Returns(true);
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == newPassword), It.IsAny<string>())).Returns(true);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == newPassword), It.IsAny<string>())).Returns(true);
 
             User user = UserTestData.ValidUser;
 
             // Act
-            Result result = user.ChangePassword(currentPassword, newPassword, passwordServiceMock.Object);
+            Result result = user.ChangePassword(currentPassword, newPassword, passwordHasherMock.Object);
 
             // Assert
             result.Error.Should().Be(DomainErrors.User.PasswordIsIdentical);
@@ -407,68 +452,68 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         public void ChangePassword_ShouldChangePassword_WhenPasswordHashesMatchAndPasswordIsDifferent()
         {
             // Arrange
-            var passwordServiceMock = new Mock<IPasswordService>();
+            var passwordHasherMock = new Mock<IPasswordHasher>();
 
             Password currentPassword = UserTestData.Password;
 
             Password newPassword = Password.Create("123aA!!").Value;
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == currentPassword), It.IsAny<string>())).Returns(true);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == currentPassword), It.IsAny<string>())).Returns(true);
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == newPassword), It.IsAny<string>())).Returns(false);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == newPassword), It.IsAny<string>())).Returns(false);
 
             User user = UserTestData.ValidUser;
 
             // Act
-            Result result = user.ChangePassword(currentPassword, newPassword, passwordServiceMock.Object);
+            Result result = user.ChangePassword(currentPassword, newPassword, passwordHasherMock.Object);
 
             // Assert
             result.IsSuccess.Should().BeTrue();
         }
 
         [Fact]
-        public void ChangePassword_ShouldCallHashPasswordOnPasswordService_WhenPasswordIsChanged()
+        public void ChangePassword_ShouldCallHashPasswordOnPasswordHasher_WhenPasswordIsChanged()
         {
             // Arrange
-            var passwordServiceMock = new Mock<IPasswordService>();
+            var passwordHasherMock = new Mock<IPasswordHasher>();
 
             Password currentPassword = UserTestData.Password;
 
             Password newPassword = Password.Create("123aA!!").Value;
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == currentPassword), It.IsAny<string>())).Returns(true);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == currentPassword), It.IsAny<string>())).Returns(true);
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == newPassword), It.IsAny<string>())).Returns(false);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == newPassword), It.IsAny<string>())).Returns(false);
 
             User user = UserTestData.ValidUser;
 
             // Act
-            user.ChangePassword(currentPassword, newPassword, passwordServiceMock.Object);
+            user.ChangePassword(currentPassword, newPassword, passwordHasherMock.Object);
 
             // Assert
-            passwordServiceMock.Verify(x => x.Hash(It.Is<Password>(p => p == newPassword)));
+            passwordHasherMock.Verify(x => x.Hash(It.Is<Password>(p => p == newPassword)));
         }
 
         [Fact]
         public void ChangePassword_ShouldRaiseUserPasswordChangedEvent_WhenPasswordIsChanged()
         {
             // Arrange
-            var passwordServiceMock = new Mock<IPasswordService>();
+            var passwordHasherMock = new Mock<IPasswordHasher>();
 
             Password currentPassword = UserTestData.Password;
 
             Password newPassword = Password.Create("123aA!!").Value;
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == currentPassword), It.IsAny<string>())).Returns(true);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == currentPassword), It.IsAny<string>())).Returns(true);
 
-            passwordServiceMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == newPassword), It.IsAny<string>())).Returns(false);
+            passwordHasherMock.Setup(x => x.HashesMatch(It.Is<Password>(p => p == newPassword), It.IsAny<string>())).Returns(false);
 
             User user = UserTestData.ValidUser;
 
             user.ClearEvents();
 
             // Act
-            user.ChangePassword(currentPassword, newPassword, passwordServiceMock.Object);
+            user.ChangePassword(currentPassword, newPassword, passwordHasherMock.Object);
 
             // Assert
             user.GetEvents().Should().ContainSingle().And.AllBeOfType<UserPasswordChangedEvent>();

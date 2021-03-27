@@ -29,7 +29,7 @@ namespace Expensely.Domain.Modules.Users
         /// </summary>
         public string Value { get; }
 
-        public static implicit operator string(Password password) => password?.Value ?? string.Empty;
+        public static implicit operator string(Password password) => password?.Value;
 
         /// <summary>
         /// Creates a new <see cref="Password"/> instance based on the specified value.

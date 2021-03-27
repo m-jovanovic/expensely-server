@@ -38,7 +38,7 @@ namespace Expensely.Domain.Modules.Users
         /// </summary>
         public string Value { get; private set; }
 
-        public static implicit operator string(Email email) => email.Value;
+        public static implicit operator string(Email email) => email?.Value;
 
         /// <summary>
         /// Creates a new <see cref="Email"/> instance based on the specified value.

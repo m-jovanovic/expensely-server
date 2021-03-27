@@ -139,7 +139,7 @@ namespace Expensely.Domain.Utility
         {
             if (value is null)
             {
-                throw new ArgumentNullException(message, argumentName);
+                throw new ArgumentNullException(argumentName, message);
             }
         }
     }

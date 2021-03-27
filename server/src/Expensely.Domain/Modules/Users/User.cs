@@ -25,20 +25,20 @@ namespace Expensely.Domain.Modules.Users
         /// <param name="lastName">The last name.</param>
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>
-        /// <param name="passwordService">The password service.</param>
-        private User(FirstName firstName, LastName lastName, Email email, Password password, IPasswordService passwordService)
+        /// <param name="passwordHasher">The password service.</param>
+        private User(FirstName firstName, LastName lastName, Email email, Password password, IPasswordHasher passwordHasher)
             : base(Ulid.NewUlid())
         {
             Ensure.NotEmpty(firstName, "The first name is required.", nameof(firstName));
             Ensure.NotEmpty(lastName, "The last name is required.", nameof(lastName));
-            Ensure.NotEmpty(email, "The user email is required.", nameof(email));
+            Ensure.NotEmpty(email, "The email is required.", nameof(email));
             Ensure.NotEmpty(password, "The password is required.", nameof(password));
-            Ensure.NotNull(passwordService, "The password service is required.", nameof(passwordService));
+            Ensure.NotNull(passwordHasher, "The password service is required.", nameof(passwordHasher));
 
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-            PasswordHash = passwordService.Hash(password);
+            PasswordHash = passwordHasher.Hash(password);
         }
 
         /// <summary>
@@ -104,16 +104,16 @@ namespace Expensely.Domain.Modules.Users
         /// <param name="lastName">The last name.</param>
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>
-        /// <param name="passwordService">The password service.</param>
+        /// <param name="passwordHasher">The password service.</param>
         /// <returns>The newly created user.</returns>
         internal static User Create(
             FirstName firstName,
             LastName lastName,
             Email email,
             Password password,
-            IPasswordService passwordService)
+            IPasswordHasher passwordHasher)
         {
-            var user = new User(firstName, lastName, email, password, passwordService);
+            var user = new User(firstName, lastName, email, password, passwordHasher);
 
             user.Raise(new UserCreatedEvent
             {
@@ -221,11 +221,11 @@ namespace Expensely.Domain.Modules.Users
         /// Verifies that the provided password hash matches the password hash.
         /// </summary>
         /// <param name="password">The password to be checked against the user password hash.</param>
-        /// <param name="passwordService">The password service.</param>
+        /// <param name="passwordHasher">The password hasher.</param>
         /// <returns>True if the password hashes match, otherwise false.</returns>
-        public bool VerifyPassword(Password password, IPasswordService passwordService)
+        public bool VerifyPassword(Password password, IPasswordHasher passwordHasher)
         {
-            if (passwordService.HashesMatch(password, PasswordHash))
+            if (passwordHasher.HashesMatch(password, PasswordHash))
             {
                 return true;
             }
@@ -243,21 +243,21 @@ namespace Expensely.Domain.Modules.Users
         /// </summary>
         /// <param name="currentPassword">The current password.</param>
         /// <param name="newPassword">The new password.</param>
-        /// <param name="passwordService">The password service.</param>
+        /// <param name="passwordHasher">The password hasher.</param>
         /// <returns>The success result if the password was changed, otherwise an error result.</returns>
-        public Result ChangePassword(Password currentPassword, Password newPassword, IPasswordService passwordService)
+        public Result ChangePassword(Password currentPassword, Password newPassword, IPasswordHasher passwordHasher)
         {
-            if (!VerifyPassword(currentPassword, passwordService))
+            if (!VerifyPassword(currentPassword, passwordHasher))
             {
                 return Result.Failure(DomainErrors.User.InvalidEmailOrPassword);
             }
 
-            if (passwordService.HashesMatch(newPassword, PasswordHash))
+            if (passwordHasher.HashesMatch(newPassword, PasswordHash))
             {
                 return Result.Failure(DomainErrors.User.PasswordIsIdentical);
             }
 
-            PasswordHash = passwordService.Hash(newPassword);
+            PasswordHash = passwordHasher.Hash(newPassword);
 
             Raise(new UserPasswordChangedEvent
             {
