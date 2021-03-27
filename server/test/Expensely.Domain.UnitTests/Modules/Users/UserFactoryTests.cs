@@ -23,163 +23,153 @@ namespace Expensely.Domain.UnitTests.Modules.Users
             _roleProviderMock = new Mock<IRoleProvider>();
         }
 
-        public static TheoryData<string[]> RolesData => new()
+        public static TheoryData<string, string, string, string> CreateUserInvalidArguments => new()
         {
-            new[] { "Role1", "Role2", "Role3" }
+            { null, UserTestData.LastName, UserTestData.Email, UserTestData.Password },
+            { string.Empty, UserTestData.LastName, UserTestData.Email, UserTestData.Password },
+            { UserTestData.FirstName, null, UserTestData.Email, UserTestData.Password },
+            { UserTestData.FirstName, string.Empty, UserTestData.Email, UserTestData.Password },
+            { UserTestData.FirstName, UserTestData.LastName, null, UserTestData.Password },
+            { UserTestData.FirstName, UserTestData.LastName, string.Empty, UserTestData.Password },
+            { UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, null },
+            { UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, string.Empty }
+        };
+
+        public static TheoryData<FirstName, LastName, Email, Password> CreateUserValidArguments => new()
+        {
+            { UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, UserTestData.Password }
+        };
+
+        public static TheoryData<FirstName, LastName, Email, Password, string[]> CreateUserValidArgumentsWithRoles => new()
+        {
+            { UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, UserTestData.Password, new[] { "Role1", "Role2" } }
         };
 
         [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public async Task Create_ShouldReturnFailureResult_WhenFirstNameIsNullOrEmpty(string password)
+        [MemberData(nameof(CreateUserInvalidArguments))]
+        public async Task Create_ShouldReturnFailureResult_WhenArgumentsAreInvalid(
+            string firstName,
+            string lastName,
+            string email,
+            string password)
         {
             // Arrange
             UserFactory userFactory = CreateFactory();
 
             // Act
-            Result result = await userFactory.Create(password, UserTestData.LastName, UserTestData.Email, UserTestData.Password, default);
+            Result result = await userFactory.Create(firstName, lastName, email, password, default);
 
             // Assert
             result.IsFailure.Should().BeTrue();
         }
 
         [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public async Task Create_ShouldReturnFailureResult_WhenLastNameIsNullOrEmpty(string lastName)
+        [MemberData(nameof(CreateUserValidArguments))]
+        public async Task Create_ShouldCallAnyWithEmailAsyncOnUserRepository_WithProvidedEmail(
+            FirstName firstName,
+            LastName lastName,
+            Email email,
+            Password password)
         {
             // Arrange
-            UserFactory userFactory = CreateFactory();
-
-            // Act
-            Result result = await userFactory.Create(UserTestData.FirstName, lastName, UserTestData.Email, UserTestData.Password, default);
-
-            // Assert
-            result.IsFailure.Should().BeTrue();
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public async Task Create_ShouldReturnFailureResult_WhenEmailIsNullOrEmpty(string email)
-        {
-            // Arrange
-            UserFactory userFactory = CreateFactory();
-
-            // Act
-            Result result = await userFactory.Create(UserTestData.FirstName, UserTestData.LastName, email, UserTestData.Password, default);
-
-            // Assert
-            result.IsFailure.Should().BeTrue();
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public async Task Create_ShouldReturnFailureResult_WhenPasswordIsNullOrEmpty(string password)
-        {
-            // Arrange
-            UserFactory userFactory = CreateFactory();
-
-            // Act
-            Result result = await userFactory.Create(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, password, default);
-
-            // Assert
-            result.IsFailure.Should().BeTrue();
-        }
-
-        [Fact]
-        public async Task Create_ShouldCallAnyWithEmailAsyncOnUserRepository_WithProvidedEmail()
-        {
-            // Arrange
-            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.IsAny<Email>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.Is<Email>(e => e == email), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(true);
 
             UserFactory userFactory = CreateFactory();
 
             // Act
-            await userFactory.Create(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, UserTestData.Password, default);
+            await userFactory.Create(firstName, lastName, email, password, default);
 
             // Assert
             _userRepositoryMock.Verify(
                 x => x.AnyWithEmailAsync(
-                    It.Is<Email>(email => email == UserTestData.Email),
+                    It.Is<Email>(e => e == email),
                     It.IsAny<CancellationToken>()),
                 Times.Once);
         }
 
-        [Fact]
-        public async Task Create_ShouldReturnFailureResult_WhenEmailIsAlreadyInUse()
+        [Theory]
+        [MemberData(nameof(CreateUserValidArguments))]
+        public async Task Create_ShouldReturnFailureResult_WhenEmailIsAlreadyInUse(
+            FirstName firstName,
+            LastName lastName,
+            Email email,
+            Password password)
         {
             // Arrange
-            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.IsAny<Email>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.Is<Email>(e => e == email), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(true);
 
             UserFactory userFactory = CreateFactory();
 
             // Act
-            Result result = await userFactory.Create(
-                UserTestData.FirstName,
-                UserTestData.LastName,
-                UserTestData.Email,
-                UserTestData.Password,
-                default);
+            Result result = await userFactory.Create(firstName, lastName, email, password, default);
 
             // Assert
             result.Error.Should().Be(DomainErrors.User.EmailAlreadyInUse);
         }
 
-        [Fact]
-        public async Task Create_ShouldCallGetStandardRolesOnRoleProver_WhenEmailIsNotAlreadyInUse()
+        [Theory]
+        [MemberData(nameof(CreateUserValidArguments))]
+        public async Task Create_ShouldCallGetStandardRolesOnRoleProver_WhenEmailIsNotAlreadyInUse(
+            FirstName firstName,
+            LastName lastName,
+            Email email,
+            Password password)
         {
             // Arrange
-            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.IsAny<Email>(), It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.Is<Email>(e => e == email), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
 
             UserFactory userFactory = CreateFactory();
 
             // Act
-            await userFactory.Create(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, UserTestData.Password, default);
+            await userFactory.Create(firstName, lastName, email, password, default);
 
             // Assert
             _roleProviderMock.Verify(x => x.GetStandardRoles(), Times.Once);
         }
 
-        [Fact]
-        public async Task Create_ShouldCreateUser_WhenEmailIsNotAlreadyInUse()
+        [Theory]
+        [MemberData(nameof(CreateUserValidArguments))]
+        public async Task Create_ShouldCreateUser_WhenEmailIsNotAlreadyInUse(
+            FirstName firstName,
+            LastName lastName,
+            Email email,
+            Password password)
         {
             // Arrange
-            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.IsAny<Email>(), It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.Is<Email>(e => e == email), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
 
             UserFactory userFactory = CreateFactory();
 
             // Act
-            Result<User> result = await userFactory.Create(
-                UserTestData.FirstName,
-                UserTestData.LastName,
-                UserTestData.Email,
-                UserTestData.Password,
-                default);
+            Result<User> result = await userFactory.Create(firstName, lastName, email, password, default);
 
             // Assert
             result.Value.Should().NotBeNull();
         }
 
         [Theory]
-        [MemberData(nameof(RolesData))]
-        public async Task Create_ShouldCreateUserWithRolesReturnedByRoleProvider_WhenEmailIsNotAlreadyInUse(string[] roles)
+        [MemberData(nameof(CreateUserValidArgumentsWithRoles))]
+        public async Task Create_ShouldCreateUserWithRolesReturnedByRoleProvider_WhenEmailIsNotAlreadyInUse(
+            FirstName firstName,
+            LastName lastName,
+            Email email,
+            Password password,
+            string[] roles)
         {
             // Arrange
-            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.IsAny<Email>(), It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.Is<Email>(e => e == email), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
 
             _roleProviderMock.Setup(x => x.GetStandardRoles()).Returns(roles);
 
             UserFactory userFactory = CreateFactory();
 
             // Act
-            Result<User> result = await userFactory.Create(
-                UserTestData.FirstName,
-                UserTestData.LastName,
-                UserTestData.Email,
-                UserTestData.Password,
-                default);
+            Result<User> result = await userFactory.Create(firstName, lastName, email, password, default);
 
             // Assert
             result.Value.Roles.Should().Contain(roles);

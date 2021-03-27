@@ -7,23 +7,25 @@ namespace Expensely.Domain.UnitTests.Modules.Users
 {
     public class RefreshTokenTests
     {
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public void Constructor_ShouldThrowArgumentException_WhenTokenIsNullOrEmpty(string token) =>
-            FluentActions.Invoking(
-                    () => new RefreshToken(token, default))
-                .Should()
-                .Throw<ArgumentException>()
-                .And.ParamName.Should().Be("token");
+        public static TheoryData<string, DateTime, string> RefreshTokenInvalidArguments => new()
+        {
+            { null, default, "token" },
+            { string.Empty, default, "token" },
+            { "token", default, "expiresOnUtc" }
+        };
 
-        [Fact]
-        public void Constructor_ShouldThrowArgumentException_WhenExpiresOnUtcIsEmpty() =>
+        [Theory]
+        [MemberData(nameof(RefreshTokenInvalidArguments))]
+        public void Constructor_ShouldThrowArgumentException_WhenParametersAreInvalid(
+            string token,
+            DateTime expiresOnUtc,
+            string paramName) =>
             FluentActions.Invoking(
-                    () => new RefreshToken("token", default))
+                    () => new RefreshToken(token, expiresOnUtc))
                 .Should()
                 .Throw<ArgumentException>()
-                .And.ParamName.Should().Be("expiresOnUtc");
+                .And
+                .ParamName.Should().Be(paramName);
 
         [Fact]
         public void Equals_ShouldReturnTrue_WhenRefreshTokenValuesAreTheSame()
@@ -71,7 +73,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Fact]
-        public void IsExpired_ShouldReturnTrue_WhenProvidedDateTimeIsGreaterThanExpirationTime()
+        public void IsExpired_ShouldReturnTrue_WhenProvidedDateTimeIsGreaterThanExpirationDateTime()
         {
             // Arrange
             DateTime utcNow = DateTime.UtcNow;

@@ -22,6 +22,7 @@ namespace Expensely.Domain.Primitives
         /// <param name="value">The enumeration value.</param>
         /// <param name="name">The enumeration name.</param>
         protected Enumeration(int value, string name)
+            : this()
         {
             Value = value;
             Name = name;

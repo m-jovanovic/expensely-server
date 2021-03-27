@@ -12,6 +12,7 @@ namespace Expensely.Domain.Primitives
         /// </summary>
         /// <param name="id">The entity identifier.</param>
         protected Entity(Ulid id)
+            : this()
         {
             if (id == Ulid.Empty)
             {
