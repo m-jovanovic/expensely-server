@@ -16,6 +16,7 @@ namespace Expensely.Domain.Modules.Users
         /// <param name="token">The token value.</param>
         /// <param name="expiresOnUtc">The expires on date and time in UTC format.</param>
         public RefreshToken(string token, DateTime expiresOnUtc)
+            : this()
         {
             Ensure.NotEmpty(token, "The refresh token is required.", nameof(token));
             Ensure.NotEmpty(expiresOnUtc, "The expires on date and time is required.", nameof(expiresOnUtc));

@@ -16,7 +16,9 @@ namespace Expensely.Domain.Modules.Users
         /// Initializes a new instance of the <see cref="FirstName"/> class.
         /// </summary>
         /// <param name="value">The first name value.</param>
-        private FirstName(string value) => Value = value;
+        private FirstName(string value)
+            : this() =>
+            Value = value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FirstName"/> class.

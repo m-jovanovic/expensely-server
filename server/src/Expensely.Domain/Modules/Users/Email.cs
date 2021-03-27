@@ -21,7 +21,9 @@ namespace Expensely.Domain.Modules.Users
         /// Initializes a new instance of the <see cref="Email"/> class.
         /// </summary>
         /// <param name="value">The email value.</param>
-        private Email(string value) => Value = value;
+        private Email(string value)
+            : this() =>
+            Value = value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Email"/> class.

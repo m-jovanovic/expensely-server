@@ -75,6 +75,9 @@ namespace Expensely.Domain.UnitTests.Modules.Users
             user.FirstName.Should().Be(UserTestData.FirstName);
             user.LastName.Should().Be(UserTestData.LastName);
             user.Email.Should().Be(UserTestData.Email);
+            user.RefreshToken.Should().BeNull();
+            user.CreatedOnUtc.Should().Be(default);
+            user.ModifiedOnUtc.Should().BeNull();
         }
 
         [Fact]
