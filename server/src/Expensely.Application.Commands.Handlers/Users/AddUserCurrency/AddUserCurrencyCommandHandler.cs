@@ -6,7 +6,7 @@ using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Application.Commands.Handlers.Users.AddUserCurrency

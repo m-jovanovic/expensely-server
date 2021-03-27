@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
@@ -96,20 +96,20 @@ namespace Expensely.Domain.Modules.Transactions
         /// <param name="transactionDetails">The transaction details.</param>
         public void Update(TransactionDetails transactionDetails)
         {
-            ChangeDescriptionInternal(transactionDetails.Description);
+            ChangeDescription(transactionDetails.Description);
 
-            ChangeCategoryInternal(transactionDetails.Category);
+            ChangeCategory(transactionDetails.Category);
 
-            ChangeMoneyInternal(transactionDetails.Money);
+            ChangeMoney(transactionDetails.Money);
 
-            ChangeOccurredOnInternal(transactionDetails.OccurredOn);
+            ChangeOccurredOn(transactionDetails.OccurredOn);
         }
 
         /// <summary>
         /// Changes the description of the transaction.
         /// </summary>
         /// <param name="description">The new description.</param>
-        private void ChangeDescriptionInternal(Description description)
+        private void ChangeDescription(Description description)
         {
             Ensure.NotNull(description, "The description is required.", nameof(description));
 
@@ -125,7 +125,7 @@ namespace Expensely.Domain.Modules.Transactions
         /// Changes the category of the transaction.
         /// </summary>
         /// <param name="category">The new category.</param>
-        private void ChangeCategoryInternal(Category category)
+        private void ChangeCategory(Category category)
         {
             Ensure.NotNull(category, "The category is required", nameof(category));
 
@@ -141,7 +141,7 @@ namespace Expensely.Domain.Modules.Transactions
         /// Changes the monetary amount of the transaction.
         /// </summary>
         /// <param name="money">The new money amount.</param>
-        private void ChangeMoneyInternal(Money money)
+        private void ChangeMoney(Money money)
         {
             Ensure.NotEmpty(money, "The monetary amount is required.", nameof(money));
 
@@ -157,7 +157,7 @@ namespace Expensely.Domain.Modules.Transactions
         /// Changes the occurred on date of the transaction.
         /// </summary>
         /// <param name="occurredOn">The new occurred on date.</param>
-        private void ChangeOccurredOnInternal(DateTime occurredOn)
+        private void ChangeOccurredOn(DateTime occurredOn)
         {
             Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
 

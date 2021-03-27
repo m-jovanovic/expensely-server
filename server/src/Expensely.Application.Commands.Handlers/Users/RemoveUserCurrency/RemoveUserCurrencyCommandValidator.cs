@@ -3,7 +3,7 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Commands.Users;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 using FluentValidation;
 
 namespace Expensely.Application.Commands.Handlers.Users.RemoveUserCurrency

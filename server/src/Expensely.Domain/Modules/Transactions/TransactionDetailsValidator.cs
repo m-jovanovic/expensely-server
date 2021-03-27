@@ -2,7 +2,7 @@
 using Expensely.Common.Primitives.Result;
 using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Domain.Modules.Transactions

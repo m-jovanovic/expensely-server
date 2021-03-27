@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Expensely.Domain.Modules.Budgets.Exceptions;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;

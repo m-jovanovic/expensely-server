@@ -1,6 +1,6 @@
 ﻿using Expensely.Domain.Primitives;
 
-namespace Expensely.Domain.Modules.Shared
+namespace Expensely.Domain.Modules.Common
 {
     /// <summary>
     /// Represents the category enumeration.

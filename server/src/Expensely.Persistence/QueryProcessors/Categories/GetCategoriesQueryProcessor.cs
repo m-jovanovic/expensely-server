@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Contracts.Categories;
 using Expensely.Application.Queries.Categories;
 using Expensely.Application.Queries.Processors.Categories;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 
 namespace Expensely.Persistence.QueryProcessors.Categories
 {

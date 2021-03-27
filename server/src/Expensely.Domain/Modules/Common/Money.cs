@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Expensely.Domain.Modules.Shared.Exceptions;
+using Expensely.Domain.Modules.Common.Exceptions;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
 
-namespace Expensely.Domain.Modules.Shared
+namespace Expensely.Domain.Modules.Common
 {
     /// <summary>
     /// Represents a monetary amount for a specific currency.

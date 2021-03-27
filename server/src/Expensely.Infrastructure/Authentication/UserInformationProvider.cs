@@ -2,7 +2,7 @@
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.ServiceLifetimes;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 using Expensely.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http;
 

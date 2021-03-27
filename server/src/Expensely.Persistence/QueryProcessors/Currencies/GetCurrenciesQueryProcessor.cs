@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Contracts.Currencies;
 using Expensely.Application.Queries.Currencies;
 using Expensely.Application.Queries.Processors.Currencies;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 
 namespace Expensely.Persistence.QueryProcessors.Currencies
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 
 namespace Expensely.Domain.Modules.Transactions
 {

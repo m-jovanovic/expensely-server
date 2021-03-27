@@ -1,7 +1,7 @@
 ﻿using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Commands.Transactions;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 using FluentValidation;
 
 namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction

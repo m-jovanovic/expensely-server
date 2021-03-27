@@ -1,7 +1,7 @@
 ﻿using Expensely.Common.Primitives.Errors;
 using Expensely.Domain.Exceptions;
 
-namespace Expensely.Domain.Modules.Shared.Exceptions
+namespace Expensely.Domain.Modules.Common.Exceptions
 {
     /// <summary>
     /// Represents the exception that is thrown when there is an attempt to perform an operation with different currencies.

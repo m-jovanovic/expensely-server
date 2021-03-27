@@ -9,7 +9,7 @@ using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Budgets;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 
 namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
 {

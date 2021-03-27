@@ -1,7 +1,7 @@
 ﻿using System;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Modules.Shared;
+using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Modules.Users.Events;
 using Expensely.Domain.UnitTests.Infrastructure;
