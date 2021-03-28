@@ -20,7 +20,7 @@ namespace Expensely.Domain.Modules.Transactions
         /// <param name="money">The monetary amount.</param>
         /// <param name="occurredOn">The occurred on date.</param>
         /// <param name="transactionType">The transaction type.</param>
-        internal Transaction(
+        private Transaction(
             User user,
             Description description,
             Category category,
@@ -91,10 +91,29 @@ namespace Expensely.Domain.Modules.Transactions
         public DateTime? ModifiedOnUtc { get; private set; }
 
         /// <summary>
+        /// Creates a new transaction for the specified user and transaction details.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="transactionDetails">The transaction details.</param>
+        /// <returns>The newly created transaction.</returns>
+        public static Transaction Create(User user, ITransactionDetails transactionDetails)
+        {
+            var transaction = new Transaction(
+                user,
+                transactionDetails.Description,
+                transactionDetails.Category,
+                transactionDetails.Money,
+                transactionDetails.OccurredOn,
+                transactionDetails.TransactionType);
+
+            return transaction;
+        }
+
+        /// <summary>
         /// Updates the transaction with the specified transaction details.
         /// </summary>
         /// <param name="transactionDetails">The transaction details.</param>
-        public void Update(ITransactionDetails transactionDetails)
+        public void ChangeDetails(ITransactionDetails transactionDetails)
         {
             Ensure.NotNull(transactionDetails.Description, "The description is required.", nameof(transactionDetails.Description));
             Ensure.NotNull(transactionDetails.Category, "The category is required", nameof(transactionDetails.Category));

@@ -39,13 +39,7 @@ namespace Expensely.Domain.Modules.Transactions
 
             ITransactionDetails transactionDetails = transactionDetailsResult.Value;
 
-            var transaction = new Transaction(
-                user,
-                transactionDetails.Description,
-                transactionDetails.Category,
-                transactionDetails.Money,
-                transactionDetails.OccurredOn,
-                transactionDetails.TransactionType);
+            var transaction = Transaction.Create(user, transactionDetails);
 
             return transaction;
         }

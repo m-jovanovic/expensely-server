@@ -85,7 +85,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
                 return Result.Failure(transactionDetailsResult.Error);
             }
 
-            transaction.Update(transactionDetailsResult.Value);
+            transaction.ChangeDetails(transactionDetailsResult.Value);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
