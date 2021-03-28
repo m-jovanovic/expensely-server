@@ -47,9 +47,6 @@ namespace Expensely.Application.Events.Handlers.Messages
 
             await _failedMessageRepository.AddAsync(failedMessage, cancellationToken);
 
-            // TODO: Check again if the original message needs to be removed.
-            _messageRepository.Remove(maybeMessage.Value);
-
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }

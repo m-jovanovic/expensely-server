@@ -14,7 +14,8 @@ namespace Expensely.Domain.Modules.Messages
         /// </summary>
         /// <param name="consumerName">The consumer name.</param>
         /// <param name="createdOnUtc">The created on date and time in UTC format.</param>
-        public MessageConsumer(string consumerName, DateTime createdOnUtc)
+        internal MessageConsumer(string consumerName, DateTime createdOnUtc)
+            : this()
         {
             ConsumerName = consumerName;
             CreatedOnUtc = createdOnUtc;
