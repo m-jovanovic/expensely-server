@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.UnitTests.Infrastructure;
+using Expensely.Domain.UnitTests.TestData;
 using FluentAssertions;
 using Moq;
 using Xunit;

@@ -1,11 +1,11 @@
-﻿using System;
-using Expensely.Common.Primitives.Errors;
+﻿using Expensely.Common.Primitives.Errors;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.UnitTests.Infrastructure;
+using Expensely.Domain.UnitTests.TestData;
+using Expensely.Domain.UnitTests.TestData.Transactions;
 using FluentAssertions;
 using Xunit;
 
@@ -13,31 +13,10 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
 {
     public class TransactionDetailsValidatorTests
     {
-        public static TheoryData<User, Currency> UserThatHasNoCurrencyArguments => new()
+        public static TheoryData<User, Currency> UserWithNoCurrencyArguments => new()
         {
             { UserTestData.ValidUser, CurrencyTestData.DefaultCurrency }
         };
-
-        public static TheoryData<User, Currency, TransactionType, decimal, Error> TransactionTypeWithInvalidAmountArguments
-        {
-            get
-            {
-                var theoryData = new TheoryData<User, Currency, TransactionType, decimal, Error>();
-
-                User user = UserTestData.ValidUser;
-
-                Currency currency = CurrencyTestData.DefaultCurrency;
-
-                user.AddCurrency(currency);
-
-                theoryData.Add(user, currency, TransactionType.Expense, 0, DomainErrors.Transaction.ExpenseAmountGreaterThanOrEqualToZero);
-                theoryData.Add(user, currency, TransactionType.Expense, 1, DomainErrors.Transaction.ExpenseAmountGreaterThanOrEqualToZero);
-                theoryData.Add(user, currency, TransactionType.Income, 0, DomainErrors.Transaction.IncomeAmountLessThanOrEqualToZero);
-                theoryData.Add(user, currency, TransactionType.Income, -1, DomainErrors.Transaction.IncomeAmountLessThanOrEqualToZero);
-
-                return theoryData;
-            }
-        }
 
         [Fact]
         public void Validate_ShouldReturnFailureResult_WhenDescriptionIsLongerThanAllowed()
@@ -60,7 +39,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [MemberData(nameof(UserThatHasNoCurrencyArguments))]
+        [MemberData(nameof(UserWithNoCurrencyArguments))]
         public void Validate_ShouldReturnFailureResult_WhenUserDoesNotHaveCurrency(User user, Currency currency)
         {
             // Arrange
@@ -81,7 +60,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [MemberData(nameof(TransactionTypeWithInvalidAmountArguments))]
+        [ClassData(typeof(TransactionTypeWithInvalidAmountArguments))]
         public void Validate_ShouldReturnFailureResult_WhenAmountIsInvalidForTransactionType(
             User user,
             Currency currency,
@@ -107,49 +86,51 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [ClassData(typeof(ValidTransactionArguments))]
-        public void Validate_ShouldReturnSuccessResult_WhenArgumentsAreValid(
-            User user,
-            Description description,
-            Category category,
-            Money money,
-            DateTime occurredOn,
-            TransactionType transactionType)
+        [ClassData(typeof(CreateTransactionValidArguments))]
+        public void Validate_ShouldReturnSuccessResult_WhenArgumentsAreValid(User user, ITransactionDetails transactionDetails)
         {
             // Arrange
             var transactionDetailsValidator = new TransactionDetailsValidator();
 
             // Act
-            Result result = transactionDetailsValidator
-                .Validate(user, description, category.Value, money.Amount, money.Currency.Value, occurredOn, transactionType.Value);
+            Result result = transactionDetailsValidator.Validate(
+                user,
+                transactionDetails.Description,
+                transactionDetails.Category.Value,
+                transactionDetails.Money.Amount,
+                transactionDetails.Money.Currency.Value,
+                transactionDetails.OccurredOn,
+                transactionDetails.TransactionType.Value);
 
             // Assert
             result.IsSuccess.Should().BeTrue();
         }
 
         [Theory]
-        [ClassData(typeof(ValidTransactionArguments))]
+        [ClassData(typeof(CreateTransactionValidArguments))]
         public void Validate_ShouldReturnTransactionDetailsWithProperValues_WhenArgumentsAreValid(
             User user,
-            Description description,
-            Category category,
-            Money money,
-            DateTime occurredOn,
-            TransactionType transactionType)
+            ITransactionDetails transactionDetails)
         {
             // Arrange
             var transactionDetailsValidator = new TransactionDetailsValidator();
 
             // Act
-            Result<ITransactionDetails> result = transactionDetailsValidator
-                .Validate(user, description, category.Value, money.Amount, money.Currency.Value, occurredOn, transactionType.Value);
+            Result<ITransactionDetails> result = transactionDetailsValidator.Validate(
+                user,
+                transactionDetails.Description,
+                transactionDetails.Category.Value,
+                transactionDetails.Money.Amount,
+                transactionDetails.Money.Currency.Value,
+                transactionDetails.OccurredOn,
+                transactionDetails.TransactionType.Value);
 
             // Assert
-            result.Value.Description.Should().Be(description);
-            result.Value.Category.Should().Be(category);
-            result.Value.Money.Should().Be(money);
-            result.Value.OccurredOn.Should().Be(occurredOn);
-            result.Value.TransactionType.Should().Be(transactionType);
+            result.Value.Description.Should().Be(transactionDetails.Description);
+            result.Value.Category.Should().Be(transactionDetails.Category);
+            result.Value.Money.Should().Be(transactionDetails.Money);
+            result.Value.OccurredOn.Should().Be(transactionDetails.OccurredOn);
+            result.Value.TransactionType.Should().Be(transactionDetails.TransactionType);
         }
     }
 }

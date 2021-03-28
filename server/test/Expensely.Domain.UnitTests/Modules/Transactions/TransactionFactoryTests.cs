@@ -1,10 +1,9 @@
 ﻿using System;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.UnitTests.Infrastructure;
+using Expensely.Domain.UnitTests.TestData.Transactions;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -42,82 +41,68 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [ClassData(typeof(ValidTransactionArguments))]
+        [ClassData(typeof(CreateTransactionValidArguments))]
         public void Create_ShouldReturnSuccessResult_WhenTransactionDetailsValidatorReturnsSuccessResult(
             User user,
-            Description description,
-            Category category,
-            Money money,
-            DateTime occurredOn,
-            TransactionType transactionType)
+            ITransactionDetails transactionDetails)
         {
             // Arrange
-            var transactionDetails = new TransactionDetails
-            {
-                Description = description,
-                Category = category,
-                Money = money,
-                OccurredOn = occurredOn,
-                TransactionType = transactionType
-            };
-
             _transactionDetailsValidatorMock.Setup(x =>
                     x.Validate(
                         It.Is<User>(u => u == user),
-                        It.Is<string>(d => d == description),
-                        It.Is<int>(c => c == category.Value),
-                        It.Is<decimal>(a => a == money.Amount),
-                        It.Is<int>(c => c == money.Currency.Value),
-                        It.Is<DateTime>(o => o == occurredOn),
-                        It.Is<int>(t => t == transactionType.Value)))
-                .Returns(Result.Success<ITransactionDetails>(transactionDetails));
+                        It.Is<string>(d => d == transactionDetails.Description),
+                        It.Is<int>(c => c == transactionDetails.Category.Value),
+                        It.Is<decimal>(a => a == transactionDetails.Money.Amount),
+                        It.Is<int>(c => c == transactionDetails.Money.Currency.Value),
+                        It.Is<DateTime>(o => o == transactionDetails.OccurredOn),
+                        It.Is<int>(t => t == transactionDetails.TransactionType.Value)))
+                .Returns(Result.Success(transactionDetails));
 
             var transactionFactory = new TransactionFactory(_transactionDetailsValidatorMock.Object);
 
             // Act
-            Result<Transaction> result = transactionFactory
-                .Create(user, description, category.Value, money.Amount, money.Currency.Value, occurredOn, transactionType.Value);
+            Result<Transaction> result = transactionFactory.Create(
+                user,
+                transactionDetails.Description,
+                transactionDetails.Category.Value,
+                transactionDetails.Money.Amount,
+                transactionDetails.Money.Currency.Value,
+                transactionDetails.OccurredOn,
+                transactionDetails.TransactionType.Value);
 
             // Assert
             result.IsSuccess.Should().BeTrue();
         }
 
         [Theory]
-        [ClassData(typeof(ValidTransactionArguments))]
+        [ClassData(typeof(CreateTransactionValidArguments))]
         public void Create_ShouldCreateTransaction_WhenTransactionDetailsValidatorReturnsSuccessResult(
             User user,
-            Description description,
-            Category category,
-            Money money,
-            DateTime occurredOn,
-            TransactionType transactionType)
+            ITransactionDetails transactionDetails)
         {
             // Arrange
-            var transactionDetails = new TransactionDetails
-            {
-                Description = description,
-                Category = category,
-                Money = money,
-                OccurredOn = occurredOn,
-                TransactionType = transactionType
-            };
-
             _transactionDetailsValidatorMock.Setup(x =>
                     x.Validate(
                         It.Is<User>(u => u == user),
-                        It.Is<string>(d => d == description),
-                        It.Is<int>(c => c == category.Value),
-                        It.Is<decimal>(a => a == money.Amount),
-                        It.Is<int>(c => c == money.Currency.Value),
-                        It.Is<DateTime>(o => o == occurredOn),
-                        It.Is<int>(t => t == transactionType.Value)))
-                .Returns(Result.Success<ITransactionDetails>(transactionDetails));
+                        It.Is<string>(d => d == transactionDetails.Description),
+                        It.Is<int>(c => c == transactionDetails.Category.Value),
+                        It.Is<decimal>(a => a == transactionDetails.Money.Amount),
+                        It.Is<int>(c => c == transactionDetails.Money.Currency.Value),
+                        It.Is<DateTime>(o => o == transactionDetails.OccurredOn),
+                        It.Is<int>(t => t == transactionDetails.TransactionType.Value)))
+                .Returns(Result.Success(transactionDetails));
 
             var transactionFactory = new TransactionFactory(_transactionDetailsValidatorMock.Object);
 
             // Act
-            Result<Transaction> result = transactionFactory
-                .Create(user, description, category.Value, money.Amount, money.Currency.Value, occurredOn, transactionType.Value);
+            Result<Transaction> result = transactionFactory.Create(
+                user,
+                transactionDetails.Description,
+                transactionDetails.Category.Value,
+                transactionDetails.Money.Amount,
+                transactionDetails.Money.Currency.Value,
+                transactionDetails.OccurredOn,
+                transactionDetails.TransactionType.Value);
 
             // Assert
             result.Value.UserId.Should().Be(Ulid.Parse(user.Id));

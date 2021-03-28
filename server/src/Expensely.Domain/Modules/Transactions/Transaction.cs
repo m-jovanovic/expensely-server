@@ -31,9 +31,9 @@ namespace Expensely.Domain.Modules.Transactions
         {
             Ensure.NotNull(user, "The user is required.", nameof(user));
             Ensure.NotNull(description, "The description is required.", nameof(description));
-            Ensure.NotNull(category, "The description is required.", nameof(category));
-            Ensure.NotEmpty(money, "The description is required.", nameof(money));
-            Ensure.NotEmpty(occurredOn, "The description is required.", nameof(occurredOn));
+            Ensure.NotNull(category, "The category is required.", nameof(category));
+            Ensure.NotNull(money, "The monetary amount is required.", nameof(money));
+            Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
             Ensure.NotNull(transactionType, "The transaction type is required.", nameof(transactionType));
 
             UserId = Ulid.Parse(user.Id);
@@ -117,7 +117,7 @@ namespace Expensely.Domain.Modules.Transactions
         {
             Ensure.NotNull(transactionDetails.Description, "The description is required.", nameof(transactionDetails.Description));
             Ensure.NotNull(transactionDetails.Category, "The category is required", nameof(transactionDetails.Category));
-            Ensure.NotEmpty(transactionDetails.Money, "The monetary amount is required.", nameof(transactionDetails.Money));
+            Ensure.NotNull(transactionDetails.Money, "The monetary amount is required.", nameof(transactionDetails.Money));
             Ensure.NotEmpty(transactionDetails.OccurredOn, "The occurred on date is required.", nameof(transactionDetails.OccurredOn));
 
             Description = transactionDetails.Description;

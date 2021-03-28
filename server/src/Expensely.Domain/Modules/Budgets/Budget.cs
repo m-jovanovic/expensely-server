@@ -30,7 +30,7 @@ namespace Expensely.Domain.Modules.Budgets
         {
             Ensure.NotNull(user, "The user is required.", nameof(user));
             Ensure.NotEmpty(name, "The name is required.", nameof(name));
-            Ensure.NotEmpty(money, "The monetary amount is required.", nameof(money));
+            Ensure.NotNull(money, "The monetary amount is required.", nameof(money));
             EnsureMoneyIsGreaterThanZero(money);
             Ensure.NotNull(categories, "The categories are required", nameof(categories));
             Ensure.NotEmpty(startDate, "The start date is required.", nameof(startDate));
