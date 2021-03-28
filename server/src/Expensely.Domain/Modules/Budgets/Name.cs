@@ -16,7 +16,9 @@ namespace Expensely.Domain.Modules.Budgets
         /// Initializes a new instance of the <see cref="Name"/> class.
         /// </summary>
         /// <param name="value">The name value.</param>
-        private Name(string value) => Value = value;
+        private Name(string value)
+            : this() =>
+            Value = value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Name"/> class.

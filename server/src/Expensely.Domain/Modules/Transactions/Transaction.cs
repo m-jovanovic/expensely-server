@@ -94,79 +94,17 @@ namespace Expensely.Domain.Modules.Transactions
         /// Updates the transaction with the specified transaction details.
         /// </summary>
         /// <param name="transactionDetails">The transaction details.</param>
-        public void Update(TransactionDetails transactionDetails)
+        public void Update(ITransactionDetails transactionDetails)
         {
-            ChangeDescription(transactionDetails.Description);
+            Ensure.NotNull(transactionDetails.Description, "The description is required.", nameof(transactionDetails.Description));
+            Ensure.NotNull(transactionDetails.Category, "The category is required", nameof(transactionDetails.Category));
+            Ensure.NotEmpty(transactionDetails.Money, "The monetary amount is required.", nameof(transactionDetails.Money));
+            Ensure.NotEmpty(transactionDetails.OccurredOn, "The occurred on date is required.", nameof(transactionDetails.OccurredOn));
 
-            ChangeCategory(transactionDetails.Category);
-
-            ChangeMoney(transactionDetails.Money);
-
-            ChangeOccurredOn(transactionDetails.OccurredOn);
-        }
-
-        /// <summary>
-        /// Changes the description of the transaction.
-        /// </summary>
-        /// <param name="description">The new description.</param>
-        private void ChangeDescription(Description description)
-        {
-            Ensure.NotNull(description, "The description is required.", nameof(description));
-
-            if (description == Description)
-            {
-                return;
-            }
-
-            Description = description;
-        }
-
-        /// <summary>
-        /// Changes the category of the transaction.
-        /// </summary>
-        /// <param name="category">The new category.</param>
-        private void ChangeCategory(Category category)
-        {
-            Ensure.NotNull(category, "The category is required", nameof(category));
-
-            if (Category == category)
-            {
-                return;
-            }
-
-            Category = category;
-        }
-
-        /// <summary>
-        /// Changes the monetary amount of the transaction.
-        /// </summary>
-        /// <param name="money">The new money amount.</param>
-        private void ChangeMoney(Money money)
-        {
-            Ensure.NotEmpty(money, "The monetary amount is required.", nameof(money));
-
-            if (Money == money)
-            {
-                return;
-            }
-
-            Money = money;
-        }
-
-        /// <summary>
-        /// Changes the occurred on date of the transaction.
-        /// </summary>
-        /// <param name="occurredOn">The new occurred on date.</param>
-        private void ChangeOccurredOn(DateTime occurredOn)
-        {
-            Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
-
-            if (OccurredOn == occurredOn)
-            {
-                return;
-            }
-
-            OccurredOn = occurredOn.Date;
+            Description = transactionDetails.Description;
+            Category = transactionDetails.Category;
+            Money = transactionDetails.Money;
+            OccurredOn = transactionDetails.OccurredOn;
         }
     }
 }

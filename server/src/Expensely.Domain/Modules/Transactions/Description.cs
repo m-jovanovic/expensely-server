@@ -19,7 +19,9 @@ namespace Expensely.Domain.Modules.Transactions
         /// Initializes a new instance of the <see cref="Description"/> class.
         /// </summary>
         /// <param name="value">The description value.</param>
-        private Description(string value) => Value = value;
+        private Description(string value)
+            : this() =>
+            Value = value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Description"/> class.

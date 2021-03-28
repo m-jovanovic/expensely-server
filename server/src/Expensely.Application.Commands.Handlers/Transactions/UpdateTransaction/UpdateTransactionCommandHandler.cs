@@ -71,7 +71,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
                 return Result.Failure(DomainErrors.User.NotFound);
             }
 
-            Result<TransactionDetails> transactionDetailsResult = _transactionDetailsValidator.Validate(
+            Result<ITransactionDetails> transactionDetailsResult = _transactionDetailsValidator.Validate(
                 maybeUser.Value,
                 request.Description,
                 request.Category,

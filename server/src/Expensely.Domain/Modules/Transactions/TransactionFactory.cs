@@ -29,7 +29,7 @@ namespace Expensely.Domain.Modules.Transactions
             DateTime occurredOn,
             int transactionTypeId)
         {
-            Result<TransactionDetails> transactionDetailsResult = _transactionDetailsValidator.Validate(
+            Result<ITransactionDetails> transactionDetailsResult = _transactionDetailsValidator.Validate(
                 user,
                 description,
                 categoryId,

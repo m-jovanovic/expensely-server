@@ -162,7 +162,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
             var transactionDetailsValidator = new TransactionDetailsValidator();
 
             // Act
-            Result<TransactionDetails> result = transactionDetailsValidator
+            Result<ITransactionDetails> result = transactionDetailsValidator
                 .Validate(user, description, category.Value, money.Amount, money.Currency.Value, occurredOn, transactionType.Value);
 
             // Assert

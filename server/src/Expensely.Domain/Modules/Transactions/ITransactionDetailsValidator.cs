@@ -20,7 +20,7 @@ namespace Expensely.Domain.Modules.Transactions
         /// <param name="occurredOn">The occurred on date.</param>
         /// <param name="transactionTypeId">The transaction type identifier.</param>
         /// <returns>The result of the transaction validation process containing the transaction information or an error.</returns>
-        Result<TransactionDetails> Validate(
+        Result<ITransactionDetails> Validate(
             User user,
             string description,
             int categoryId,

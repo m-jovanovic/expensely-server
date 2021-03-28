@@ -13,7 +13,7 @@ namespace Expensely.Domain.Modules.Transactions
     public sealed class TransactionDetailsValidator : ITransactionDetailsValidator, ITransient
     {
         /// <inheritdoc />
-        public Result<TransactionDetails> Validate(
+        public Result<ITransactionDetails> Validate(
             User user,
             string description,
             int categoryId,
@@ -26,14 +26,14 @@ namespace Expensely.Domain.Modules.Transactions
 
             if (descriptionResult.IsFailure)
             {
-                return Result.Failure<TransactionDetails>(descriptionResult.Error);
+                return Result.Failure<ITransactionDetails>(descriptionResult.Error);
             }
 
             Currency currency = Currency.FromValue(currencyId).Value;
 
             if (!user.HasCurrency(currency))
             {
-                return Result.Failure<TransactionDetails>(DomainErrors.User.CurrencyDoesNotExist);
+                return Result.Failure<ITransactionDetails>(DomainErrors.User.CurrencyDoesNotExist);
             }
 
             var money = new Money(amount, currency);
@@ -44,7 +44,7 @@ namespace Expensely.Domain.Modules.Transactions
 
             if (transactionTypeResult.IsFailure)
             {
-                return Result.Failure<TransactionDetails>(transactionTypeResult.Error);
+                return Result.Failure<ITransactionDetails>(transactionTypeResult.Error);
             }
 
             return new TransactionDetails

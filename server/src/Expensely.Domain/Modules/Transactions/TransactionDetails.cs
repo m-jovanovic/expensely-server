@@ -6,31 +6,21 @@ namespace Expensely.Domain.Modules.Transactions
     /// <summary>
     /// Represents the transaction details.
     /// </summary>
-    public class TransactionDetails
+    internal sealed class TransactionDetails : ITransactionDetails
     {
-        /// <summary>
-        /// Gets the description.
-        /// </summary>
+        /// <inheritdoc />
         public Description Description { get; init; }
 
-        /// <summary>
-        /// Gets the category.
-        /// </summary>
+        /// <inheritdoc />
         public Category Category { get; init; }
 
-        /// <summary>
-        /// Gets the money.
-        /// </summary>
+        /// <inheritdoc />
         public Money Money { get; init; }
 
-        /// <summary>
-        /// Gets the occurred on date.
-        /// </summary>
+        /// <inheritdoc />
         public DateTime OccurredOn { get; init; }
 
-        /// <summary>
-        /// Gets the transaction type.
-        /// </summary>
+        /// <inheritdoc />
         public TransactionType TransactionType { get; init; }
     }
 }
