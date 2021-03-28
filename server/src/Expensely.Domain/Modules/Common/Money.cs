@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Expensely.Domain.Modules.Common.Exceptions;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
 
@@ -43,20 +42,6 @@ namespace Expensely.Domain.Modules.Common
         /// </summary>
         public Currency Currency { get; private set; }
 
-        public static Money operator +(Money left, Money right)
-        {
-            EnsureCurrenciesAreEqual(left, right);
-
-            return new Money(left.Amount + right.Amount, left.Currency);
-        }
-
-        public static Money operator -(Money left, Money right)
-        {
-            EnsureCurrenciesAreEqual(left, right);
-
-            return new Money(left.Amount - right.Amount, left.Currency);
-        }
-
         /// <summary>
         /// Formats the amount with the currency.
         /// </summary>
@@ -68,20 +53,6 @@ namespace Expensely.Domain.Modules.Common
         {
             yield return Amount;
             yield return Currency;
-        }
-
-        /// <summary>
-        /// Ensures that the specified currencies are the same currency, otherwise throws an exception.
-        /// </summary>
-        /// <param name="left">The first currency.</param>
-        /// <param name="right">The second currency.</param>
-        /// <exception cref="CurrenciesNotEqualDomainException"> when the specified currencies are not the same.</exception>
-        private static void EnsureCurrenciesAreEqual(Money left, Money right)
-        {
-            if (left.Currency != right.Currency)
-            {
-                throw new CurrenciesNotEqualDomainException(left.Currency, right.Currency);
-            }
         }
     }
 }
