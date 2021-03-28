@@ -39,27 +39,6 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
             }
         }
 
-        public static TheoryData<User, Description, Category, Money, DateTime, TransactionType> ValidArguments
-        {
-            get
-            {
-                var theoryData = new TheoryData<User, Description, Category, Money, DateTime, TransactionType>();
-
-                User user = UserTestData.ValidUser;
-
-                Currency currency = CurrencyTestData.DefaultCurrency;
-
-                user.AddCurrency(currency);
-
-                Description description = DescriptionTestData.EmptyDescription;
-
-                theoryData.Add(user, description, Category.None, new Money(-1, currency), DateTime.UtcNow, TransactionType.Expense);
-                theoryData.Add(user, description, Category.None, new Money(1, currency), DateTime.UtcNow, TransactionType.Income);
-
-                return theoryData;
-            }
-        }
-
         [Fact]
         public void Validate_ShouldReturnFailureResult_WhenDescriptionIsLongerThanAllowed()
         {
@@ -128,7 +107,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [MemberData(nameof(ValidArguments))]
+        [ClassData(typeof(ValidTransactionArguments))]
         public void Validate_ShouldReturnSuccessResult_WhenArgumentsAreValid(
             User user,
             Description description,
@@ -149,7 +128,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [MemberData(nameof(ValidArguments))]
+        [ClassData(typeof(ValidTransactionArguments))]
         public void Validate_ShouldReturnTransactionDetailsWithProperValues_WhenArgumentsAreValid(
             User user,
             Description description,

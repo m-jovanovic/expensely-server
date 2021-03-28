@@ -29,27 +29,23 @@ namespace Expensely.Domain.Modules.Transactions
             DateTime occurredOn,
             int transactionTypeId)
         {
-            Result<ITransactionDetails> transactionDetailsResult = _transactionDetailsValidator.Validate(
-                user,
-                description,
-                categoryId,
-                amount,
-                currencyId,
-                occurredOn,
-                transactionTypeId);
+            Result<ITransactionDetails> transactionDetailsResult = _transactionDetailsValidator
+                .Validate(user, description, categoryId, amount, currencyId, occurredOn, transactionTypeId);
 
             if (transactionDetailsResult.IsFailure)
             {
                 return Result.Failure<Transaction>(transactionDetailsResult.Error);
             }
 
+            ITransactionDetails transactionDetails = transactionDetailsResult.Value;
+
             var transaction = new Transaction(
                 user,
-                transactionDetailsResult.Value.Description,
-                transactionDetailsResult.Value.Category,
-                transactionDetailsResult.Value.Money,
-                transactionDetailsResult.Value.OccurredOn,
-                transactionDetailsResult.Value.TransactionType);
+                transactionDetails.Description,
+                transactionDetails.Category,
+                transactionDetails.Money,
+                transactionDetails.OccurredOn,
+                transactionDetails.TransactionType);
 
             return transaction;
         }
