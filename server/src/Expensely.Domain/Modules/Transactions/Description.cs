@@ -43,10 +43,10 @@ namespace Expensely.Domain.Modules.Transactions
         /// <summary>
         /// Creates a new <see cref="Description"/> instance based on the specified value.
         /// </summary>
-        /// <param name="firstName">The description value.</param>
+        /// <param name="description">The description value.</param>
         /// <returns>The result of the description creation process containing the description or an error.</returns>
-        public static Result<Description> Create(string firstName) =>
-            Result.Success(firstName ?? string.Empty)
+        public static Result<Description> Create(string description) =>
+            Result.Success(description ?? string.Empty)
                 .Ensure(x => x.Length <= MaxLength, DomainErrors.Description.LongerThanAllowed)
                 .Map(x => new Description(x));
 
