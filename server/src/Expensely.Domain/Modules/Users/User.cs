@@ -175,7 +175,7 @@ namespace Expensely.Domain.Modules.Users
                 return Result.Failure(DomainErrors.User.CurrencyAlreadyExists);
             }
 
-            if (_currencies.Count == 1 && (PrimaryCurrency?.IsEmpty() ?? true))
+            if (_currencies.Count == 1 && PrimaryCurrency is null)
             {
                 PrimaryCurrency = currency;
             }

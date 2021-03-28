@@ -1,5 +1,4 @@
 ﻿using System;
-using Expensely.Domain.Modules.Common;
 
 namespace Expensely.Domain.Utility
 {
@@ -48,21 +47,6 @@ namespace Expensely.Domain.Utility
         public static void NotEmpty(DateTime value, string message, string argumentName)
         {
             if (value == default)
-            {
-                throw new ArgumentException(message, argumentName);
-            }
-        }
-
-        /// <summary>
-        /// Ensures that the specified <see cref="Currency"/> value is not empty.
-        /// </summary>
-        /// <param name="value">The value to check.</param>
-        /// <param name="message">The message to show if the check fails.</param>
-        /// <param name="argumentName">The name of the argument being checked.</param>
-        /// <exception cref="ArgumentException"> if the specified value is null.</exception>
-        public static void NotEmpty(Currency value, string message, string argumentName)
-        {
-            if (value.IsEmpty())
             {
                 throw new ArgumentException(message, argumentName);
             }

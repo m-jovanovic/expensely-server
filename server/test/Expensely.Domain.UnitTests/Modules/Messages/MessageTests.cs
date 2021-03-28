@@ -50,7 +50,7 @@ namespace Expensely.Domain.UnitTests.Modules.Messages
             int startingRetryCount = message.RetryCount;
 
             // Act
-            message.Retry(default);
+            message.Retry(2);
 
             // Assert
             message.RetryCount.Should().Be(startingRetryCount + 1);

@@ -52,12 +52,6 @@ namespace Expensely.Domain.Modules.Common
         public string Code { get; private set; }
 
         /// <summary>
-        /// Checks if the specified currency instance is empty.
-        /// </summary>
-        /// <returns>True if the currency instance is empty, otherwise false.</returns>
-        public bool IsEmpty() => !ContainsValue(Value);
-
-        /// <summary>
         /// Formats the specified amount.
         /// </summary>
         /// <param name="amount">The amount to be formatted.</param>

@@ -15,8 +15,9 @@ namespace Expensely.Domain.Modules.Common
         /// <param name="amount">The monetary amount.</param>
         /// <param name="currency">The currency.</param>
         public Money(decimal amount, Currency currency)
+            : this()
         {
-            Ensure.NotEmpty(currency, "The currency is required.", nameof(currency));
+            Ensure.NotNull(currency, "The currency is required.", nameof(currency));
 
             Amount = amount;
             Currency = currency;
