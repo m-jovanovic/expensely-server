@@ -9,7 +9,6 @@ using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
-using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
@@ -57,7 +56,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
 
             if (user.RefreshToken.IsExpired(_systemTime.UtcNow))
             {
-                return Result.Failure<TokenResponse>(DomainErrors.RefreshToken.Expired);
+                return Result.Failure<TokenResponse>(ValidationErrors.RefreshToken.Expired);
             }
 
             AccessTokens accessTokens = _jwtProvider.GetAccessTokens(user);
