@@ -5,16 +5,16 @@ using Expensely.Common.Primitives.Result;
 namespace Expensely.Application.Commands.Budgets
 {
     /// <summary>
-    /// Represents the command for adding a category to a budget.
+    /// Represents the command for removing a category from a budget.
     /// </summary>
-    public sealed class AddBudgetCategoryCommand : ICommand<Result>
+    public sealed class RemoveBudgetCategoryCommand : ICommand<Result>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddBudgetCategoryCommand"/> class.
+        /// Initializes a new instance of the <see cref="RemoveBudgetCategoryCommand"/> class.
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
         /// <param name="category">The category value.</param>
-        public AddBudgetCategoryCommand(Ulid budgetId, int category)
+        public RemoveBudgetCategoryCommand(Ulid budgetId, int category)
         {
             BudgetId = budgetId;
             Category = category;

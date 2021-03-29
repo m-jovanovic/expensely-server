@@ -47,6 +47,11 @@
             public const string AddBudgetCategory = "budgets/{budgetId}/categories/{category:int}";
 
             /// <summary>
+            /// The remove budget category route.
+            /// </summary>
+            public const string RemoveBudgetCategory = "budgets/{budgetId}/categories/{category:int}";
+
+            /// <summary>
             /// The delete budget route.
             /// </summary>
             public const string DeleteBudget = "budgets/{budgetId}";

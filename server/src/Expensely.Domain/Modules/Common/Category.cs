@@ -67,6 +67,13 @@ namespace Expensely.Domain.Modules.Common
             IsDefault = true;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Category"/> class.
+        /// </summary>
+        protected Category()
+        {
+        }
+
+        /// <summary>
         /// Gets a value indicating whether or not the category is the default category.
         /// </summary>
         public bool IsDefault { get; private init; }
