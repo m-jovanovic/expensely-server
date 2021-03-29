@@ -16,6 +16,11 @@
         public string Name { get; init; }
 
         /// <summary>
+        /// Gets a value indicating whether or not the category is the default category.
+        /// </summary>
+        public bool IsDefault { get; init; }
+
+        /// <summary>
         /// Gets a value indicating whether or not the category is an expense.
         /// </summary>
         public bool IsExpense { get; init; }

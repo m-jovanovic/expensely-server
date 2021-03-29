@@ -23,6 +23,7 @@ namespace Expensely.Persistence.QueryProcessors.Categories
                 {
                     Id = x.Value,
                     Name = x.Name,
+                    IsDefault = x.IsDefault,
                     IsExpense = x.IsExpense
                 }).ToList();
 

@@ -63,9 +63,13 @@ namespace Expensely.Domain.Modules.Common
         /// <param name="value">The currency value.</param>
         /// <param name="name">The currency name.</param>
         protected Category(int value, string name)
-            : base(value, name)
-        {
-        }
+            : base(value, name) =>
+            IsDefault = true;
+
+        /// <summary>
+        /// Gets a value indicating whether or not the category is the default category.
+        /// </summary>
+        public bool IsDefault { get; private init; }
 
         /// <summary>
         /// Gets a value indicating whether or not the category is an expense.
@@ -75,15 +79,23 @@ namespace Expensely.Domain.Modules.Common
         private sealed class ExpenseCategory : Category
         {
             public ExpenseCategory(int value, string name)
-                : base(value, name) =>
+                : base(value, name)
+            {
+                IsDefault = false;
+
                 IsExpense = true;
+            }
         }
 
         private sealed class IncomeCategory : Category
         {
             public IncomeCategory(int value, string name)
-                : base(value, name) =>
+                : base(value, name)
+            {
+                IsDefault = false;
+
                 IsExpense = false;
+            }
         }
     }
 }
