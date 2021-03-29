@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Expensely.Common.Primitives.Result;
+using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Budgets.Exceptions;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Users;
@@ -166,13 +168,17 @@ namespace Expensely.Domain.Modules.Budgets
         /// Adds the specified category to the budget.
         /// </summary>
         /// <param name="category">The category to be added.</param>
-        public void AddCategory(Category category) => _categories.Add(category);
+        /// <returns>The success result if the category was added, otherwise an error result.</returns>
+        public Result AddCategory(Category category) =>
+            _categories.Add(category) ? Result.Success() : Result.Failure(DomainErrors.Budget.CategoryAlreadyExists);
 
         /// <summary>
         /// Removes the specified category from the budget.
         /// </summary>
         /// <param name="category">The category to be removed.</param>
-        public void RemoveCategory(Category category) => _categories.Remove(category);
+        /// <returns>The success result if the category was removed, otherwise an error result.</returns>
+        public Result RemoveCategory(Category category) =>
+            _categories.Remove(category) ? Result.Success() : Result.Failure(DomainErrors.Budget.CategoryDoesNotExist);
 
         /// <summary>
         /// Ensures that the specified start date precedes the specified end date, otherwise throws an exception.
