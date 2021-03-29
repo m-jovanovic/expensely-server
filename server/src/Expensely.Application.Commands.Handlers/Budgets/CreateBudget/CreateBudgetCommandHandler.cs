@@ -3,10 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Budgets;
+using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
-using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Budgets;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Users;
@@ -49,7 +49,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure(DomainErrors.User.NotFound);
+                return Result.Failure(ValidationErrors.User.NotFound);
             }
 
             Category[] categories = request.Categories.Select(category => Category.FromValue(category).Value).ToArray();

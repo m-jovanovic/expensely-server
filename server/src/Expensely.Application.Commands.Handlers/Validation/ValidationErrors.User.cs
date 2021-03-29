@@ -13,6 +13,11 @@ namespace Expensely.Application.Commands.Handlers.Validation
         public static class User
         {
             /// <summary>
+            /// Gets the user not found error.
+            /// </summary>
+            public static Error NotFound => new("User.NotFound", "The user with the specified identifier was not found.");
+
+            /// <summary>
             /// Gets the user identifier is required error.
             /// </summary>
             public static Error IdentifierIsRequired => new("User.IdentifierIsRequired", "The user identifier is required.");

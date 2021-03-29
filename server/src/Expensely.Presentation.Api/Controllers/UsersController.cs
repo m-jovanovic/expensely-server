@@ -54,7 +54,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the currency was added to the users currencies successfully, otherwise 400 - Bad Request.</returns>
+        /// <returns>200 - OK if the currency was added to the user's currencies successfully, otherwise 400 - Bad Request.</returns>
         [HasPermission(Permission.UserModify)]
         [HttpPost(ApiRoutes.Users.AddUserCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -71,7 +71,9 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>204 - No Content if the currency was removed from the users currencies successfully, otherwise 400 - Bad Request.</returns>
+        /// <returns>
+        /// 204 - No Content if the currency was removed from the user's currencies successfully, otherwise 400 - Bad Request.
+        /// </returns>
         [HasPermission(Permission.UserModify)]
         [HttpDelete(ApiRoutes.Users.RemoveUserCurrency)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

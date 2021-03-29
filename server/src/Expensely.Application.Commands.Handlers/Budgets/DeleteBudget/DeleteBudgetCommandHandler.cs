@@ -7,7 +7,6 @@ using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
-using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Budgets;
 
 namespace Expensely.Application.Commands.Handlers.Budgets.DeleteBudget
@@ -44,7 +43,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.DeleteBudget
 
             if (maybeBudget.HasNoValue)
             {
-                return Result.Failure(DomainErrors.Budget.NotFound);
+                return Result.Failure(ValidationErrors.Budget.NotFound);
             }
 
             Budget budget = maybeBudget.Value;

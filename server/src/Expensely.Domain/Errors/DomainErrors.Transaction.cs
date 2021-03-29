@@ -13,11 +13,6 @@ namespace Expensely.Domain.Errors
         public static class Transaction
         {
             /// <summary>
-            /// Gets the transaction not found error.
-            /// </summary>
-            public static Error NotFound => new("Transaction.NotFound", "The transaction with the specified identifier was not found.");
-
-            /// <summary>
             /// Gets the expense transaction amount greater than or equal to zero error.
             /// </summary>
             public static Error ExpenseAmountGreaterThanOrEqualToZero => new(

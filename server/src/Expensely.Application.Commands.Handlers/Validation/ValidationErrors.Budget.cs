@@ -13,6 +13,11 @@ namespace Expensely.Application.Commands.Handlers.Validation
         public static class Budget
         {
             /// <summary>
+            /// Gets the budget not found error.
+            /// </summary>
+            public static Error NotFound => new("Budget.NotFound", "The budget with the specified identifier was not found.");
+
+            /// <summary>
             /// Gets the budget identifier is required error.
             /// </summary>
             public static Error IdentifierIsRequired => new("Budget.IdentifierIsRequired", "The budget identifier is required.");

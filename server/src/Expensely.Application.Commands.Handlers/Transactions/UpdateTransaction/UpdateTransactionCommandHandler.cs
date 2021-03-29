@@ -7,7 +7,6 @@ using Expensely.Application.Commands.Transactions;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
-using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
 
@@ -54,7 +53,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
 
             if (maybeTransaction.HasNoValue)
             {
-                return Result.Failure(DomainErrors.Transaction.NotFound);
+                return Result.Failure(ValidationErrors.Transaction.NotFound);
             }
 
             Transaction transaction = maybeTransaction.Value;
@@ -68,7 +67,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure(DomainErrors.User.NotFound);
+                return Result.Failure(ValidationErrors.User.NotFound);
             }
 
             Result<ITransactionDetails> transactionDetailsResult = _transactionDetailsValidator.Validate(

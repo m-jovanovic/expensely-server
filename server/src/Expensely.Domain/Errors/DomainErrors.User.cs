@@ -13,11 +13,6 @@ namespace Expensely.Domain.Errors
         public static class User
         {
             /// <summary>
-            /// Gets the user not found error.
-            /// </summary>
-            public static Error NotFound => new("User.NotFound", "The user with the specified identifier was not found.");
-
-            /// <summary>
             /// Gets the user password is identical error.
             /// </summary>
             public static Error PasswordIsIdentical => new(

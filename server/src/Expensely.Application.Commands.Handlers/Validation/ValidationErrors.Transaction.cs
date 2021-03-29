@@ -13,6 +13,11 @@ namespace Expensely.Application.Commands.Handlers.Validation
         public static class Transaction
         {
             /// <summary>
+            /// Gets the transaction not found error.
+            /// </summary>
+            public static Error NotFound => new("Transaction.NotFound", "The transaction with the specified identifier was not found.");
+
+            /// <summary>
             /// Gets the transaction identifier is required error.
             /// </summary>
             public static Error IdentifierIsRequired => new("Transaction.IdentifierIsRequired", "The transaction identifier is required.");

@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Commands.Users;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
-using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Users;
 
@@ -37,7 +37,7 @@ namespace Expensely.Application.Commands.Handlers.Users.AddUserCurrency
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure(DomainErrors.User.NotFound);
+                return Result.Failure(ValidationErrors.User.NotFound);
             }
 
             Currency currency = Currency.FromValue(request.Currency).Value;

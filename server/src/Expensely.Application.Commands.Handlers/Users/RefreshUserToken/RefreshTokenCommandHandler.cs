@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Authentication;
+using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.Messaging;
@@ -49,7 +50,7 @@ namespace Expensely.Application.Commands.Handlers.Users.RefreshUserToken
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure<TokenResponse>(DomainErrors.User.NotFound);
+                return Result.Failure<TokenResponse>(ValidationErrors.User.NotFound);
             }
 
             User user = maybeUser.Value;
