@@ -86,7 +86,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// Adds the specified category to the budget's categories.
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
-        /// <param name="currency">The currency value.</param>
+        /// <param name="category">The category value.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the category was added to the budget's categories successfully, otherwise 400 - Bad Request.</returns>
         [HasPermission(Permission.BudgetModify)]
@@ -94,8 +94,8 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> AddBudgetCategory(Ulid budgetId, int currency, CancellationToken cancellationToken) =>
-            await Result.Success(new AddBudgetCategoryCommand(budgetId, currency))
+        public async Task<IActionResult> AddBudgetCategory(Ulid budgetId, int category, CancellationToken cancellationToken) =>
+            await Result.Success(new AddBudgetCategoryCommand(budgetId, category))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
 
