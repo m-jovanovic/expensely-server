@@ -1,5 +1,6 @@
 ﻿using System;
 using Expensely.Domain.Modules.Common;
+using Expensely.Domain.Modules.Transactions.Events;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
@@ -96,7 +97,7 @@ namespace Expensely.Domain.Modules.Transactions
         /// <param name="user">The user.</param>
         /// <param name="transactionDetails">The transaction details.</param>
         /// <returns>The newly created transaction.</returns>
-        public static Transaction Create(User user, ITransactionDetails transactionDetails)
+        internal static Transaction Create(User user, ITransactionDetails transactionDetails)
         {
             var transaction = new Transaction(
                 user,
@@ -105,6 +106,11 @@ namespace Expensely.Domain.Modules.Transactions
                 transactionDetails.Money,
                 transactionDetails.OccurredOn,
                 transactionDetails.TransactionType);
+
+            transaction.Raise(new TransactionCreatedEvent
+            {
+                TransactionId = Ulid.Parse(transaction.Id)
+            });
 
             return transaction;
         }
