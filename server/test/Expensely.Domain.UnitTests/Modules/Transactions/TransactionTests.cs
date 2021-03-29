@@ -1,6 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
+using Expensely.Domain.Modules.Transactions.Events;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.UnitTests.TestData;
 using Expensely.Domain.UnitTests.TestData.Transactions;
@@ -54,6 +55,18 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
             transaction.TransactionType.Should().Be(transactionDetails.TransactionType);
             transaction.CreatedOnUtc.Should().Be(default);
             transaction.ModifiedOnUtc.Should().BeNull();
+        }
+
+        [Theory]
+        [ClassData(typeof(CreateTransactionValidArguments))]
+        public void Create_ShouldRaiseTransactionCreatedEvent_WhenCreatingUser(User user, ITransactionDetails transactionDetails)
+        {
+            // Arrange
+            // Act
+            var transaction = Transaction.Create(user, transactionDetails);
+
+            // Assert
+            transaction.GetEvents().Should().AllBeOfType<TransactionCreatedEvent>();
         }
 
         [Theory]
