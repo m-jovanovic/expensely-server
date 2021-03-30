@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Common.Primitives.Result;
+using Expensely.Domain.Modules.Users.Contracts;
 
 namespace Expensely.Domain.Modules.Users
 {
@@ -12,17 +13,9 @@ namespace Expensely.Domain.Modules.Users
         /// <summary>
         /// Creates a new user based on the specified parameters.
         /// </summary>
-        /// <param name="firstName">The first name.</param>
-        /// <param name="lastName">The last name.</param>
-        /// <param name="email">The email.</param>
-        /// <param name="password">The password.</param>
+        /// <param name="createUserRequest">The create user request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The result of the user creation process containing the user or an error.</returns>
-        Task<Result<User>> CreateAsync(
-            string firstName,
-            string lastName,
-            string email,
-            string password,
-            CancellationToken cancellationToken = default);
+        Task<Result<User>> CreateAsync(CreateUserRequest createUserRequest, CancellationToken cancellationToken = default);
     }
 }

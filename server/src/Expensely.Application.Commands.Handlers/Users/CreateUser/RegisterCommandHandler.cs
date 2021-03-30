@@ -5,6 +5,7 @@ using Expensely.Application.Commands.Authentication;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Modules.Users;
+using Expensely.Domain.Modules.Users.Contracts;
 
 namespace Expensely.Application.Commands.Handlers.Users.CreateUser
 {
@@ -36,12 +37,9 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
         /// <inheritdoc />
         public async Task<Result> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            Result<User> userResult = await _userFactory.CreateAsync(
-                request.FirstName,
-                request.LastName,
-                request.Email,
-                request.Password,
-                cancellationToken);
+            var createUserRequest = new CreateUserRequest(request.FirstName, request.LastName, request.Email, request.Password);
+
+            Result<User> userResult = await _userFactory.CreateAsync(createUserRequest, cancellationToken);
 
             if (userResult.IsFailure)
             {

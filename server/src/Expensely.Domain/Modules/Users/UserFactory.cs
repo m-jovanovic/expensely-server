@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Common.Primitives.Result;
 using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Domain.Errors;
+using Expensely.Domain.Modules.Users.Contracts;
 
 namespace Expensely.Domain.Modules.Users
 {
@@ -29,17 +30,12 @@ namespace Expensely.Domain.Modules.Users
         }
 
         /// <inheritdoc />
-        public async Task<Result<User>> CreateAsync(
-            string firstName,
-            string lastName,
-            string email,
-            string password,
-            CancellationToken cancellationToken)
+        public async Task<Result<User>> CreateAsync(CreateUserRequest createUserRequest, CancellationToken cancellationToken)
         {
-            Result<FirstName> firstNameResult = FirstName.Create(firstName);
-            Result<LastName> lastNameResult = LastName.Create(lastName);
-            Result<Email> emailResult = Email.Create(email);
-            Result<Password> passwordResult = Password.Create(password);
+            Result<FirstName> firstNameResult = FirstName.Create(createUserRequest.FirstName);
+            Result<LastName> lastNameResult = LastName.Create(createUserRequest.LastName);
+            Result<Email> emailResult = Email.Create(createUserRequest.Email);
+            Result<Password> passwordResult = Password.Create(createUserRequest.Password);
 
             var result = Result.FirstFailureOrSuccess(firstNameResult, lastNameResult, emailResult, passwordResult);
 
