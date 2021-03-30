@@ -7,6 +7,7 @@ using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Modules.Transactions;
+using Expensely.Domain.Modules.Transactions.Contracts;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Application.Commands.Handlers.Transactions.CreateTransaction
@@ -50,7 +51,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.CreateTransaction
                 return Result.Failure(ValidationErrors.User.NotFound);
             }
 
-            Result<Transaction> transactionResult = _transactionFactory.Create(
+            var createTransactionRequest = new CreateTransactionRequest(
                 maybeUser.Value,
                 request.Description,
                 request.Category,
@@ -58,6 +59,8 @@ namespace Expensely.Application.Commands.Handlers.Transactions.CreateTransaction
                 request.Currency,
                 request.OccurredOn,
                 request.TransactionType);
+
+            Result<Transaction> transactionResult = _transactionFactory.Create(createTransactionRequest);
 
             if (transactionResult.IsFailure)
             {

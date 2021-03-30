@@ -1,6 +1,5 @@
-﻿using System;
-using Expensely.Common.Primitives.Result;
-using Expensely.Domain.Modules.Users;
+﻿using Expensely.Common.Primitives.Result;
+using Expensely.Domain.Modules.Transactions.Contracts;
 
 namespace Expensely.Domain.Modules.Transactions
 {
@@ -12,21 +11,8 @@ namespace Expensely.Domain.Modules.Transactions
         /// <summary>
         /// Validates the provided transaction information and returns the result of the validation.
         /// </summary>
-        /// <param name="user">The user.</param>
-        /// <param name="description">The description.</param>
-        /// <param name="categoryId">The category identifier.</param>
-        /// <param name="amount">The amount.</param>
-        /// <param name="currencyId">The currency identifier.</param>
-        /// <param name="occurredOn">The occurred on date.</param>
-        /// <param name="transactionTypeId">The transaction type identifier.</param>
+        /// <param name="validateTransactionDetailsRequest">The validate transaction details request.</param>
         /// <returns>The result of the transaction validation process containing the transaction information or an error.</returns>
-        Result<ITransactionDetails> Validate(
-            User user,
-            string description,
-            int categoryId,
-            decimal amount,
-            int currencyId,
-            DateTime occurredOn,
-            int transactionTypeId);
+        Result<ITransactionDetails> Validate(ValidateTransactionDetailsRequest validateTransactionDetailsRequest);
     }
 }

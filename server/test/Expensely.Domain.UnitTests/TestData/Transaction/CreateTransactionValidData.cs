@@ -1,6 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
+using Expensely.Domain.Modules.Transactions.Contracts;
 using Expensely.Domain.UnitTests.TestData.Currency;
 using Expensely.Domain.UnitTests.TestData.Description;
 using Expensely.Domain.UnitTests.TestData.User;

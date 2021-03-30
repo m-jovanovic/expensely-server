@@ -2,6 +2,7 @@
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Transactions;
+using Expensely.Domain.Modules.Transactions.Contracts;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.UnitTests.TestData.Transaction;
 using FluentAssertions;

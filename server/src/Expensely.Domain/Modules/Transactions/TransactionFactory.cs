@@ -1,7 +1,6 @@
-﻿using System;
-using Expensely.Common.Primitives.Result;
+﻿using Expensely.Common.Primitives.Result;
 using Expensely.Common.Primitives.ServiceLifetimes;
-using Expensely.Domain.Modules.Users;
+using Expensely.Domain.Modules.Transactions.Contracts;
 
 namespace Expensely.Domain.Modules.Transactions
 {
@@ -20,17 +19,11 @@ namespace Expensely.Domain.Modules.Transactions
             _transactionDetailsValidator = transactionDetailsValidator;
 
         /// <inheritdoc />
-        public Result<Transaction> Create(
-            User user,
-            string description,
-            int categoryId,
-            decimal amount,
-            int currencyId,
-            DateTime occurredOn,
-            int transactionTypeId)
+        public Result<Transaction> Create(CreateTransactionRequest createTransactionRequest)
         {
-            Result<ITransactionDetails> transactionDetailsResult = _transactionDetailsValidator
-                .Validate(user, description, categoryId, amount, currencyId, occurredOn, transactionTypeId);
+            var validateTransactionDetailsRequest = createTransactionRequest.ToValidateTransactionDetailsRequest();
+
+            Result<ITransactionDetails> transactionDetailsResult = _transactionDetailsValidator.Validate(validateTransactionDetailsRequest);
 
             if (transactionDetailsResult.IsFailure)
             {
@@ -39,7 +32,7 @@ namespace Expensely.Domain.Modules.Transactions
 
             ITransactionDetails transactionDetails = transactionDetailsResult.Value;
 
-            var transaction = Transaction.Create(user, transactionDetails);
+            var transaction = Transaction.Create(createTransactionRequest.User, transactionDetails);
 
             return transaction;
         }

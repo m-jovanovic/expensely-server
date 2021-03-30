@@ -8,6 +8,7 @@ using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Modules.Transactions;
+using Expensely.Domain.Modules.Transactions.Contracts;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
@@ -70,7 +71,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
                 return Result.Failure(ValidationErrors.User.NotFound);
             }
 
-            Result<ITransactionDetails> transactionDetailsResult = _transactionDetailsValidator.Validate(
+            var validateTransactionDetailsRequest = new ValidateTransactionDetailsRequest(
                 maybeUser.Value,
                 request.Description,
                 request.Category,
@@ -78,6 +79,8 @@ namespace Expensely.Application.Commands.Handlers.Transactions.UpdateTransaction
                 request.Currency,
                 request.OccurredOn,
                 transaction.TransactionType.Value);
+
+            Result<ITransactionDetails> transactionDetailsResult = _transactionDetailsValidator.Validate(validateTransactionDetailsRequest);
 
             if (transactionDetailsResult.IsFailure)
             {

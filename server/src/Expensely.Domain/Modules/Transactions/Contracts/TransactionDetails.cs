@@ -1,7 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Modules.Common;
 
-namespace Expensely.Domain.Modules.Transactions
+namespace Expensely.Domain.Modules.Transactions.Contracts
 {
     /// <summary>
     /// Represents the transaction details.
