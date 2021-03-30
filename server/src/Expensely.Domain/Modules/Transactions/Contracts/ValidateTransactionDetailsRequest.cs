@@ -13,5 +13,5 @@ namespace Expensely.Domain.Modules.Transactions.Contracts
         decimal Amount,
         int Currency,
         DateTime OccurredOn,
-        int TransactionTypeId);
+        int TransactionType);
 }

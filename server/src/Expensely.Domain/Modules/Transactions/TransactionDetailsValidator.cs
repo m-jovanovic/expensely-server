@@ -30,7 +30,7 @@ namespace Expensely.Domain.Modules.Transactions
 
             var money = new Money(validateTransactionDetailsRequest.Amount, currency);
 
-            TransactionType transactionType = TransactionType.FromValue(validateTransactionDetailsRequest.TransactionTypeId).Value;
+            TransactionType transactionType = TransactionType.FromValue(validateTransactionDetailsRequest.TransactionType).Value;
 
             Result transactionTypeResult = transactionType.ValidateAmount(money);
 

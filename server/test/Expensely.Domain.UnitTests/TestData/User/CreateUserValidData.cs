@@ -1,10 +1,11 @@
-﻿using Expensely.Domain.Modules.Users;
+﻿using Expensely.Domain.Modules.Users.Contracts;
 using Xunit;
 
 namespace Expensely.Domain.UnitTests.TestData.User
 {
-    public class CreateUserValidData : TheoryData<FirstName, LastName, Email, Domain.Modules.Users.Password>
+    public class CreateUserValidData : TheoryData<CreateUserRequest>
     {
-        public CreateUserValidData() => Add(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, UserTestData.Password);
+        public CreateUserValidData() =>
+            Add(new CreateUserRequest(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, UserTestData.Password));
     }
 }

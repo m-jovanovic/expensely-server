@@ -13,13 +13,13 @@ namespace Expensely.Domain.Modules.Transactions.Contracts
         decimal Amount,
         int Currency,
         DateTime OccurredOn,
-        int TransactionTypeId)
+        int TransactionType)
     {
         /// <summary>
         /// Creates a new <see cref="ValidateTransactionDetailsRequest"/> from the current request instance.
         /// </summary>
         /// <returns>The new <see cref="ValidateTransactionDetailsRequest"/> instance.</returns>
         internal ValidateTransactionDetailsRequest ToValidateTransactionDetailsRequest() =>
-            new(User, Description, Category, Amount, Currency, OccurredOn, TransactionTypeId);
+            new(User, Description, Category, Amount, Currency, OccurredOn, TransactionType);
     }
 }

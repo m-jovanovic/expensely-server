@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Expensely.Domain.UnitTests.TestData.Transaction
 {
-    public class CreateTransactionValidData : TheoryData<Domain.Modules.Users.User, ITransactionDetails>
+    public class CreateTransactionValidData : TheoryData<CreateTransactionRequest>
     {
         public CreateTransactionValidData()
         {
@@ -19,27 +19,27 @@ namespace Expensely.Domain.UnitTests.TestData.Transaction
 
             user.AddCurrency(currency);
 
-            var expenseTransactionDetails = new TransactionDetails
-            {
-                Description = DescriptionTestData.EmptyDescription,
-                Category = Category.None,
-                Money = new Money(-1, currency),
-                OccurredOn = DateTime.UtcNow.Date,
-                TransactionType = TransactionType.Expense
-            };
+            var createExpenseRequest = new CreateTransactionRequest(
+                user,
+                DescriptionTestData.EmptyDescription,
+                Category.None.Value,
+                -1.0m,
+                currency.Value,
+                DateTime.UtcNow.Date,
+                TransactionType.Expense.Value);
 
-            Add(user, expenseTransactionDetails);
+            Add(createExpenseRequest);
 
-            var incomeTransactionDetails = new TransactionDetails
-            {
-                Description = DescriptionTestData.EmptyDescription,
-                Category = Category.None,
-                Money = new Money(-1, currency),
-                OccurredOn = DateTime.UtcNow.Date,
-                TransactionType = TransactionType.Expense
-            };
+            var createIncomeRequest = new CreateTransactionRequest(
+                user,
+                DescriptionTestData.EmptyDescription,
+                Category.None.Value,
+                1.0m,
+                currency.Value,
+                DateTime.UtcNow.Date,
+                TransactionType.Income.Value);
 
-            Add(user, incomeTransactionDetails);
+            Add(createIncomeRequest);
         }
     }
 }

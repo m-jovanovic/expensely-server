@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Users;
+using Expensely.Domain.Modules.Users.Contracts;
 using Expensely.Domain.UnitTests.TestData.User;
 using FluentAssertions;
 using Moq;
@@ -25,17 +26,13 @@ namespace Expensely.Domain.UnitTests.Modules.Users
 
         [Theory]
         [ClassData(typeof(CreateUserInvalidData))]
-        public async Task CreateAsync_ShouldReturnFailureResult_WhenArgumentsAreInvalid(
-            string firstName,
-            string lastName,
-            string email,
-            string password)
+        public async Task CreateAsync_ShouldReturnFailureResult_WhenArgumentsAreInvalid(CreateUserRequest createUserRequest)
         {
             // Arrange
             UserFactory userFactory = CreateFactory();
 
             // Act
-            Result result = await userFactory.CreateAsync(firstName, lastName, email, password, default);
+            Result result = await userFactory.CreateAsync(createUserRequest, default);
 
             // Assert
             result.IsFailure.Should().BeTrue();
@@ -43,45 +40,39 @@ namespace Expensely.Domain.UnitTests.Modules.Users
 
         [Theory]
         [ClassData(typeof(CreateUserValidData))]
-        public async Task CreateAsync_ShouldCallAnyWithEmailAsyncOnUserRepository_WithProvidedEmail(
-            FirstName firstName,
-            LastName lastName,
-            Email email,
-            Password password)
+        public async Task CreateAsync_ShouldCallAnyWithEmailAsyncOnUserRepository_WithProvidedEmail(CreateUserRequest createUserRequest)
         {
             // Arrange
-            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.Is<Email>(e => e == email), It.IsAny<CancellationToken>()))
+            _userRepositoryMock.Setup(
+                    x => x.AnyWithEmailAsync(It.Is<Email>(e => e == createUserRequest.Email), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);
 
             UserFactory userFactory = CreateFactory();
 
             // Act
-            await userFactory.CreateAsync(firstName, lastName, email, password, default);
+            await userFactory.CreateAsync(createUserRequest, default);
 
             // Assert
             _userRepositoryMock.Verify(
                 x => x.AnyWithEmailAsync(
-                    It.Is<Email>(e => e == email),
+                    It.Is<Email>(e => e == createUserRequest.Email),
                     It.IsAny<CancellationToken>()),
                 Times.Once);
         }
 
         [Theory]
         [ClassData(typeof(CreateUserValidData))]
-        public async Task CreateAsync_ShouldReturnFailureResult_WhenEmailIsAlreadyInUse(
-            FirstName firstName,
-            LastName lastName,
-            Email email,
-            Password password)
+        public async Task CreateAsync_ShouldReturnFailureResult_WhenEmailIsAlreadyInUse(CreateUserRequest createUserRequest)
         {
             // Arrange
-            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.Is<Email>(e => e == email), It.IsAny<CancellationToken>()))
+            _userRepositoryMock.Setup(
+                    x => x.AnyWithEmailAsync(It.Is<Email>(e => e == createUserRequest.Email), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);
 
             UserFactory userFactory = CreateFactory();
 
             // Act
-            Result result = await userFactory.CreateAsync(firstName, lastName, email, password, default);
+            Result result = await userFactory.CreateAsync(createUserRequest, default);
 
             // Assert
             result.Error.Should().Be(DomainErrors.User.EmailAlreadyInUse);
@@ -89,20 +80,17 @@ namespace Expensely.Domain.UnitTests.Modules.Users
 
         [Theory]
         [ClassData(typeof(CreateUserValidData))]
-        public async Task CreateAsync_ShouldCallGetStandardRolesOnRoleProver_WhenEmailIsNotAlreadyInUse(
-            FirstName firstName,
-            LastName lastName,
-            Email email,
-            Password password)
+        public async Task CreateAsync_ShouldCallGetStandardRolesOnRoleProver_WhenEmailIsNotAlreadyInUse(CreateUserRequest createUserRequest)
         {
             // Arrange
-            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.Is<Email>(e => e == email), It.IsAny<CancellationToken>()))
+            _userRepositoryMock.Setup(
+                    x => x.AnyWithEmailAsync(It.Is<Email>(e => e == createUserRequest.Email), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
             UserFactory userFactory = CreateFactory();
 
             // Act
-            await userFactory.CreateAsync(firstName, lastName, email, password, default);
+            await userFactory.CreateAsync(createUserRequest, default);
 
             // Assert
             _roleProviderMock.Verify(x => x.GetStandardRoles(), Times.Once);
@@ -110,20 +98,17 @@ namespace Expensely.Domain.UnitTests.Modules.Users
 
         [Theory]
         [ClassData(typeof(CreateUserValidData))]
-        public async Task CreateAsync_ShouldCreateUser_WhenEmailIsNotAlreadyInUse(
-            FirstName firstName,
-            LastName lastName,
-            Email email,
-            Password password)
+        public async Task CreateAsync_ShouldCreateUser_WhenEmailIsNotAlreadyInUse(CreateUserRequest createUserRequest)
         {
             // Arrange
-            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.Is<Email>(e => e == email), It.IsAny<CancellationToken>()))
+            _userRepositoryMock.Setup(
+                    x => x.AnyWithEmailAsync(It.Is<Email>(e => e == createUserRequest.Email), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
             UserFactory userFactory = CreateFactory();
 
             // Act
-            Result<User> result = await userFactory.CreateAsync(firstName, lastName, email, password, default);
+            Result<User> result = await userFactory.CreateAsync(createUserRequest, default);
 
             // Assert
             result.Value.Should().NotBeNull();
@@ -132,14 +117,12 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         [Theory]
         [ClassData(typeof(CreateUserWithRolesValidData))]
         public async Task CreateAsync_ShouldCreateUserWithRolesReturnedByRoleProvider_WhenEmailIsNotAlreadyInUse(
-            FirstName firstName,
-            LastName lastName,
-            Email email,
-            Password password,
+            CreateUserRequest createUserRequest,
             string[] roles)
         {
             // Arrange
-            _userRepositoryMock.Setup(x => x.AnyWithEmailAsync(It.Is<Email>(e => e == email), It.IsAny<CancellationToken>()))
+            _userRepositoryMock.Setup(
+                    x => x.AnyWithEmailAsync(It.Is<Email>(e => e == createUserRequest.Email), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
             _roleProviderMock.Setup(x => x.GetStandardRoles()).Returns(roles);
@@ -147,7 +130,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
             UserFactory userFactory = CreateFactory();
 
             // Act
-            Result<User> result = await userFactory.CreateAsync(firstName, lastName, email, password, default);
+            Result<User> result = await userFactory.CreateAsync(createUserRequest, default);
 
             // Assert
             result.Value.Roles.Should().Contain(roles);

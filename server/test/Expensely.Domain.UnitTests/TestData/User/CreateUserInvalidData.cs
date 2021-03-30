@@ -1,26 +1,27 @@
-﻿using Xunit;
+﻿using Expensely.Domain.Modules.Users.Contracts;
+using Xunit;
 
 namespace Expensely.Domain.UnitTests.TestData.User
 {
-    public sealed class CreateUserInvalidData : TheoryData<string, string, string, string>
+    public sealed class CreateUserInvalidData : TheoryData<CreateUserRequest>
     {
         public CreateUserInvalidData()
         {
-            Add(null, UserTestData.LastName, UserTestData.Email, UserTestData.Password);
+            Add(new CreateUserRequest(null, UserTestData.LastName, UserTestData.Email, UserTestData.Password));
 
-            Add(string.Empty, UserTestData.LastName, UserTestData.Email, UserTestData.Password);
+            Add(new CreateUserRequest(string.Empty, UserTestData.LastName, UserTestData.Email, UserTestData.Password));
 
-            Add(UserTestData.FirstName, null, UserTestData.Email, UserTestData.Password);
+            Add(new CreateUserRequest(UserTestData.FirstName, null, UserTestData.Email, UserTestData.Password));
 
-            Add(UserTestData.FirstName, string.Empty, UserTestData.Email, UserTestData.Password);
+            Add(new CreateUserRequest(UserTestData.FirstName, string.Empty, UserTestData.Email, UserTestData.Password));
 
-            Add(UserTestData.FirstName, UserTestData.LastName, null, UserTestData.Password);
+            Add(new CreateUserRequest(UserTestData.FirstName, UserTestData.LastName, null, UserTestData.Password));
 
-            Add(UserTestData.FirstName, UserTestData.LastName, string.Empty, UserTestData.Password);
+            Add(new CreateUserRequest(UserTestData.FirstName, UserTestData.LastName, string.Empty, UserTestData.Password));
 
-            Add(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, null);
+            Add(new CreateUserRequest(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, null));
 
-            Add(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, string.Empty);
+            Add(new CreateUserRequest(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, string.Empty));
         }
     }
 }

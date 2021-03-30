@@ -40,7 +40,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
                 .ParamName.Should().Be(paramName);
 
         [Theory]
-        [ClassData(typeof(CreateTransactionValidData))]
+        [ClassData(typeof(UserAndTransactionDetailsValidData))]
         public void Create_ShouldCreateTransaction_WithProperValues(User user, ITransactionDetails transactionDetails)
         {
             // Arrange
@@ -59,7 +59,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [ClassData(typeof(CreateTransactionValidData))]
+        [ClassData(typeof(UserAndTransactionDetailsValidData))]
         public void Create_ShouldRaiseTransactionCreatedEvent_WhenCreatingUser(User user, ITransactionDetails transactionDetails)
         {
             // Arrange
@@ -71,19 +71,17 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [ClassData(typeof(CreateTransactionValidData))]
+        [ClassData(typeof(UserAndTransactionDetailsValidData))]
         public void ChangeDetails_ShouldChangeTransactionDetails_WhenArgumentsAreValid(User user, ITransactionDetails transactionDetails)
         {
             // Arrange
             var transaction = Transaction.Create(user, transactionDetails);
 
-            decimal amount = transactionDetails.TransactionType == TransactionType.Expense ? -1 : 1;
-
             var newTransactionDetails = new TransactionDetails
             {
                 Description = Description.Create("New description").Value,
                 Category = Category.Bills,
-                Money = new Money(amount, CurrencyTestData.DefaultCurrency),
+                Money = new Money(transactionDetails.Money.Amount * 2, CurrencyTestData.DefaultCurrency),
                 OccurredOn = DateTime.UtcNow.AddDays(5).Date
             };
 
