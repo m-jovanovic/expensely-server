@@ -1,7 +1,7 @@
 ﻿using Expensely.Domain.Modules.Users;
 using Moq;
 
-namespace Expensely.Domain.UnitTests.TestData
+namespace Expensely.Domain.UnitTests.TestData.Users
 {
     public static class UserTestData
     {

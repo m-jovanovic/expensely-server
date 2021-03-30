@@ -3,7 +3,7 @@ using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Transactions.Events;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.UnitTests.TestData;
+using Expensely.Domain.UnitTests.TestData.Currencies;
 using Expensely.Domain.UnitTests.TestData.Transactions;
 using FluentAssertions;
 using Xunit;
@@ -13,7 +13,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
     public class TransactionTests
     {
         [Theory]
-        [ClassData(typeof(CreateTransactionArgumentNullExceptionArguments))]
+        [ClassData(typeof(CreateTransactionArgumentNullExceptionData))]
         public void Create_ShouldThrowArgumentNullException_WhenArgumentsAreInvalid(
             User user,
             ITransactionDetails transactionDetails,
@@ -26,7 +26,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
                 .ParamName.Should().Be(paramName);
 
         [Theory]
-        [ClassData(typeof(CreateTransactionArgumentExceptionArguments))]
+        [ClassData(typeof(CreateTransactionArgumentExceptionData))]
         public void Create_ShouldThrowArgumentException_WhenArgumentsAreInvalid(
             User user,
             ITransactionDetails transactionDetails,
@@ -39,7 +39,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
                 .ParamName.Should().Be(paramName);
 
         [Theory]
-        [ClassData(typeof(CreateTransactionValidArguments))]
+        [ClassData(typeof(CreateTransactionValidData))]
         public void Create_ShouldCreateTransaction_WithProperValues(User user, ITransactionDetails transactionDetails)
         {
             // Arrange
@@ -58,7 +58,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [ClassData(typeof(CreateTransactionValidArguments))]
+        [ClassData(typeof(CreateTransactionValidData))]
         public void Create_ShouldRaiseTransactionCreatedEvent_WhenCreatingUser(User user, ITransactionDetails transactionDetails)
         {
             // Arrange
@@ -70,7 +70,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [ClassData(typeof(CreateTransactionValidArguments))]
+        [ClassData(typeof(CreateTransactionValidData))]
         public void ChangeDetails_ShouldChangeTransactionDetails_WhenArgumentsAreValid(User user, ITransactionDetails transactionDetails)
         {
             // Arrange

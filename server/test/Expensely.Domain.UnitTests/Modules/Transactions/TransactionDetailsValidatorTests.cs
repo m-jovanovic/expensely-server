@@ -4,8 +4,10 @@ using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.UnitTests.TestData;
+using Expensely.Domain.UnitTests.TestData.Currencies;
+using Expensely.Domain.UnitTests.TestData.Descriptions;
 using Expensely.Domain.UnitTests.TestData.Transactions;
+using Expensely.Domain.UnitTests.TestData.Users;
 using FluentAssertions;
 using Xunit;
 
@@ -60,7 +62,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [ClassData(typeof(TransactionTypeWithInvalidAmountArguments))]
+        [ClassData(typeof(TransactionTypeWithInvalidAmountData))]
         public void Validate_ShouldReturnFailureResult_WhenAmountIsInvalidForTransactionType(
             User user,
             Currency currency,
@@ -86,7 +88,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [ClassData(typeof(CreateTransactionValidArguments))]
+        [ClassData(typeof(CreateTransactionValidData))]
         public void Validate_ShouldReturnSuccessResult_WhenArgumentsAreValid(User user, ITransactionDetails transactionDetails)
         {
             // Arrange
@@ -107,7 +109,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [ClassData(typeof(CreateTransactionValidArguments))]
+        [ClassData(typeof(CreateTransactionValidData))]
         public void Validate_ShouldReturnTransactionDetailsWithProperValues_WhenArgumentsAreValid(
             User user,
             ITransactionDetails transactionDetails)

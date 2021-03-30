@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Expensely.Domain.Modules.Common;
-using Expensely.Domain.UnitTests.TestData;
+using Expensely.Domain.UnitTests.TestData.Currencies;
 using FluentAssertions;
 using Xunit;
 

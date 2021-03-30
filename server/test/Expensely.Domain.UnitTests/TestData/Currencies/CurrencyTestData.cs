@@ -1,6 +1,6 @@
 ﻿using Expensely.Domain.Modules.Common;
 
-namespace Expensely.Domain.UnitTests.TestData
+namespace Expensely.Domain.UnitTests.TestData.Currencies
 {
     public static class CurrencyTestData
     {

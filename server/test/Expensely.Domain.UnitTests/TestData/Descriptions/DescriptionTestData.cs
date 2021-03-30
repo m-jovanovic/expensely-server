@@ -1,6 +1,6 @@
 ﻿using Expensely.Domain.Modules.Transactions;
 
-namespace Expensely.Domain.UnitTests.TestData
+namespace Expensely.Domain.UnitTests.TestData.Descriptions
 {
     public class DescriptionTestData
     {

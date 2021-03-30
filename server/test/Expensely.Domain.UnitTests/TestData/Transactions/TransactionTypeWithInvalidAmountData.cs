@@ -3,13 +3,15 @@ using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
+using Expensely.Domain.UnitTests.TestData.Currencies;
+using Expensely.Domain.UnitTests.TestData.Users;
 using Xunit;
 
 namespace Expensely.Domain.UnitTests.TestData.Transactions
 {
-    public class TransactionTypeWithInvalidAmountArguments : TheoryData<User, Currency, TransactionType, decimal, Error>
+    public class TransactionTypeWithInvalidAmountData : TheoryData<User, Currency, TransactionType, decimal, Error>
     {
-        public TransactionTypeWithInvalidAmountArguments()
+        public TransactionTypeWithInvalidAmountData()
         {
             User user = UserTestData.ValidUser;
 

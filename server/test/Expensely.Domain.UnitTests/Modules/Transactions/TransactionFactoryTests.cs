@@ -41,7 +41,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [ClassData(typeof(CreateTransactionValidArguments))]
+        [ClassData(typeof(CreateTransactionValidData))]
         public void Create_ShouldReturnSuccessResult_WhenTransactionDetailsValidatorReturnsSuccessResult(
             User user,
             ITransactionDetails transactionDetails)
@@ -75,7 +75,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [ClassData(typeof(CreateTransactionValidArguments))]
+        [ClassData(typeof(CreateTransactionValidData))]
         public void Create_ShouldCreateTransaction_WhenTransactionDetailsValidatorReturnsSuccessResult(
             User user,
             ITransactionDetails transactionDetails)
