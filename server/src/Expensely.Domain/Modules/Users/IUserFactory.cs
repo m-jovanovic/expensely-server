@@ -18,7 +18,7 @@ namespace Expensely.Domain.Modules.Users
         /// <param name="password">The password.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The result of the user creation process containing the user or an error.</returns>
-        Task<Result<User>> Create(
+        Task<Result<User>> CreateAsync(
             string firstName,
             string lastName,
             string email,

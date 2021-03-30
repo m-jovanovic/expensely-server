@@ -29,7 +29,7 @@ namespace Expensely.Domain.Modules.Users
         }
 
         /// <inheritdoc />
-        public async Task<Result<User>> Create(
+        public async Task<Result<User>> CreateAsync(
             string firstName,
             string lastName,
             string email,

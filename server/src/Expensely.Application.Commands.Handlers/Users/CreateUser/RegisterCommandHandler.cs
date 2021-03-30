@@ -36,7 +36,7 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUser
         /// <inheritdoc />
         public async Task<Result> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            Result<User> userResult = await _userFactory.Create(
+            Result<User> userResult = await _userFactory.CreateAsync(
                 request.FirstName,
                 request.LastName,
                 request.Email,
