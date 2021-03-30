@@ -1,21 +1,19 @@
 ﻿using Expensely.Common.Primitives.Errors;
 using Expensely.Domain.Errors;
-using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
-using Expensely.Domain.Modules.Users;
-using Expensely.Domain.UnitTests.TestData.Currencies;
-using Expensely.Domain.UnitTests.TestData.Users;
+using Expensely.Domain.UnitTests.TestData.Currency;
+using Expensely.Domain.UnitTests.TestData.User;
 using Xunit;
 
-namespace Expensely.Domain.UnitTests.TestData.Transactions
+namespace Expensely.Domain.UnitTests.TestData.Transaction
 {
-    public class TransactionTypeWithInvalidAmountData : TheoryData<User, Currency, TransactionType, decimal, Error>
+    public class TransactionTypeWithInvalidAmountData : TheoryData<Domain.Modules.Users.User, Domain.Modules.Common.Currency, TransactionType, decimal, Error>
     {
         public TransactionTypeWithInvalidAmountData()
         {
-            User user = UserTestData.ValidUser;
+            Domain.Modules.Users.User user = UserTestData.ValidUser;
 
-            Currency currency = CurrencyTestData.DefaultCurrency;
+            Domain.Modules.Common.Currency currency = CurrencyTestData.DefaultCurrency;
 
             user.AddCurrency(currency);
 

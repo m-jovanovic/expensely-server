@@ -4,8 +4,9 @@ using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Modules.Users.Events;
-using Expensely.Domain.UnitTests.TestData.Currencies;
-using Expensely.Domain.UnitTests.TestData.Users;
+using Expensely.Domain.UnitTests.TestData.Currency;
+using Expensely.Domain.UnitTests.TestData.Password;
+using Expensely.Domain.UnitTests.TestData.User;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -14,21 +15,8 @@ namespace Expensely.Domain.UnitTests.Modules.Users
 {
     public class UserTests
     {
-        public static TheoryData<FirstName, LastName, Email, Password, string> CreateUserInvalidArguments => new()
-        {
-            { null, UserTestData.LastName, UserTestData.Email, UserTestData.Password, "firstName" },
-            { UserTestData.FirstName, null, UserTestData.Email, UserTestData.Password, "lastName" },
-            { UserTestData.FirstName, UserTestData.LastName, null, UserTestData.Password, "email" },
-            { UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, null, "password" }
-        };
-
-        public static TheoryData<Password, Password> PasswordArguments => new()
-        {
-            { Password.Create("123aA!").Value, Password.Create("123aA!!").Value }
-        };
-
         [Theory]
-        [MemberData(nameof(CreateUserInvalidArguments))]
+        [ClassData(typeof(CreateUserArgumentExceptionData))]
         public void Create_ShouldThrowArgumentException_WhenArgumentsAreInvalid(
             FirstName firstName,
             LastName lastName,
@@ -398,7 +386,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Theory]
-        [MemberData(nameof(PasswordArguments))]
+        [ClassData(typeof(ChangePasswordData))]
         public void ChangePassword_ShouldNotChangePassword_WhenPasswordHashesDoNotMatch(Password currentPassword, Password newPassword)
         {
             // Arrange
@@ -416,7 +404,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Theory]
-        [MemberData(nameof(PasswordArguments))]
+        [ClassData(typeof(ChangePasswordData))]
         public void ChangePassword_ShouldNotChangePassword_WhenPasswordIsIdentical(Password currentPassword, Password newPassword)
         {
             // Arrange
@@ -436,7 +424,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Theory]
-        [MemberData(nameof(PasswordArguments))]
+        [ClassData(typeof(ChangePasswordData))]
         public void ChangePassword_ShouldChangePassword_WhenPasswordHashesMatchAndPasswordIsDifferent(
             Password currentPassword,
             Password newPassword)
@@ -458,7 +446,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Theory]
-        [MemberData(nameof(PasswordArguments))]
+        [ClassData(typeof(ChangePasswordData))]
         public void ChangePassword_ShouldCallHashPasswordOnPasswordHasher_WhenPasswordIsChanged(
             Password currentPassword,
             Password newPassword)
@@ -480,7 +468,7 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         }
 
         [Theory]
-        [MemberData(nameof(PasswordArguments))]
+        [ClassData(typeof(ChangePasswordData))]
         public void ChangePassword_ShouldRaiseUserPasswordChangedEvent_WhenPasswordIsChanged(
             Password currentPassword,
             Password newPassword)

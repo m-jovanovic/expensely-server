@@ -4,10 +4,9 @@ using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.UnitTests.TestData.Currencies;
-using Expensely.Domain.UnitTests.TestData.Descriptions;
-using Expensely.Domain.UnitTests.TestData.Transactions;
-using Expensely.Domain.UnitTests.TestData.Users;
+using Expensely.Domain.UnitTests.TestData.Description;
+using Expensely.Domain.UnitTests.TestData.Transaction;
+using Expensely.Domain.UnitTests.TestData.User;
 using FluentAssertions;
 using Xunit;
 
@@ -15,11 +14,6 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
 {
     public class TransactionDetailsValidatorTests
     {
-        public static TheoryData<User, Currency> UserWithNoCurrencyArguments => new()
-        {
-            { UserTestData.ValidUser, CurrencyTestData.DefaultCurrency }
-        };
-
         [Fact]
         public void Validate_ShouldReturnFailureResult_WhenDescriptionIsLongerThanAllowed()
         {
@@ -41,7 +35,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         }
 
         [Theory]
-        [MemberData(nameof(UserWithNoCurrencyArguments))]
+        [ClassData(typeof(UserWithNoCurrencyData))]
         public void Validate_ShouldReturnFailureResult_WhenUserDoesNotHaveCurrency(User user, Currency currency)
         {
             // Arrange

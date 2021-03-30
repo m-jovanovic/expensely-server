@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Expensely.Domain.UnitTests.TestData.Users
+namespace Expensely.Domain.UnitTests.TestData.User
 {
     public sealed class CreateUserInvalidData : TheoryData<string, string, string, string>
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Expensely.Domain.Modules.Users;
+using Expensely.Domain.UnitTests.TestData.RefreshToken;
 using FluentAssertions;
 using Xunit;
 
@@ -7,15 +8,8 @@ namespace Expensely.Domain.UnitTests.Modules.Users
 {
     public class RefreshTokenTests
     {
-        public static TheoryData<string, DateTime, string> RefreshTokenInvalidArguments => new()
-        {
-            { null, default, "token" },
-            { string.Empty, default, "token" },
-            { "token", default, "expiresOnUtc" }
-        };
-
         [Theory]
-        [MemberData(nameof(RefreshTokenInvalidArguments))]
+        [ClassData(typeof(RefreshTokenArgumentExceptionData))]
         public void Constructor_ShouldThrowArgumentException_WhenParametersAreInvalid(
             string token,
             DateTime expiresOnUtc,

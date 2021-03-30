@@ -2,7 +2,7 @@ using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
-using Expensely.Domain.UnitTests.TestData.Currencies;
+using Expensely.Domain.UnitTests.TestData.Currency;
 using FluentAssertions;
 using Xunit;
 
