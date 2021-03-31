@@ -10,6 +10,11 @@ export class CategorySelectors {
     return state.categories;
   }
 
+  @Selector([CategorySelectors.getCategories])
+  static getExpenseCategories(categories: CategoryResponse[]): CategoryResponse[] {
+    return categories.filter((x) => x.isExpense);
+  }
+
   @Selector([CategoryState])
   static getIsLoading(state: CategoryStateModel): boolean {
     return state.isLoading;
