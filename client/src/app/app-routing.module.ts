@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthenticationGuard, Permission } from './core';
+import { AuthenticationGuard } from './core';
 import { EmptyLayoutComponent, MainLayoutComponent } from './core/components';
 
 const routes: Routes = [
@@ -30,7 +30,7 @@ const routes: Routes = [
         path: 'budgets',
         canLoad: [AuthenticationGuard],
         canActivate: [AuthenticationGuard],
-        loadChildren: () => import('./modules').then((m) => m.DashboardModule)
+        loadChildren: () => import('./modules').then((m) => m.BudgetsModule)
       },
       {
         path: 'subscription',
