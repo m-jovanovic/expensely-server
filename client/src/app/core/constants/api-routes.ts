@@ -11,6 +11,10 @@ export namespace ApiRoutes {
     public static readonly changeUserPrimaryCurrency = 'users/{userId}/currencies/{currency}/primary';
   }
 
+  export class Budgets {
+    public static readonly createBudget = 'budgets';
+  }
+
   export class Transactions {
     public static readonly createTransaction = 'transactions';
     public static readonly deleteTransaction = 'transactions/{transactionId}';
