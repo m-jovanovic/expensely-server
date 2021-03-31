@@ -45,6 +45,7 @@ export class TransactionState {
       })
     );
   }
+
   @Action(CreateTransaction)
   createTransaction(context: StateContext<TransactionStateModel>, action: CreateTransaction): Observable<any> {
     context.patchState({

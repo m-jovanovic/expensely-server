@@ -1,4 +1,6 @@
-export class CreateBudgetRequest {
+export class CreateBudget {
+  public static readonly type = '[Budget] Create';
+
   constructor(
     public userId: string,
     public name: string,
