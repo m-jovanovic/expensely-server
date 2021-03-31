@@ -13,6 +13,9 @@ export class CategoryFacade {
   @Select(CategorySelectors.getCategories)
   categories$: Observable<CategoryResponse[]>;
 
+  @Select(CategorySelectors.getExpenseCategories)
+  expenseCategories$: Observable<CategoryResponse[]>;
+
   @Select(CategorySelectors.getIsLoading)
   isLoading$: Observable<boolean>;
 
