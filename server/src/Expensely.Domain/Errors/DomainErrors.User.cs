@@ -51,6 +51,11 @@ namespace Expensely.Domain.Errors
             /// Gets the use email is already in use error.
             /// </summary>
             public static Error EmailAlreadyInUse => new("User.EmailAlreadyInUse", "The specified email is already in use.");
+
+            /// <summary>
+            /// Gets the user email or password is invalid error.
+            /// </summary>
+            public static Error InvalidEmailOrPassword => new("User.InvalidEmailOrPassword", "The provided email or password is invalid.");
         }
     }
 }
