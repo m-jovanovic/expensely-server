@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+import { CreateBudgetComponent } from './pages';
+
+const routes: Routes = [
+  {
+    path: 'create',
+    component: CreateBudgetComponent
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
