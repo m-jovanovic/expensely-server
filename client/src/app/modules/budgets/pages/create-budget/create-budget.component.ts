@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
-import { BudgetFacade, CategoryFacade, CategoryResponse, CurrencyResponse, UserFacade } from '@expensely/core';
+import { BudgetFacade, CategoryFacade, CategoryResponse, CurrencyResponse, RouterService, UserFacade } from '@expensely/core';
 
 @Component({
   selector: 'exp-create-budget',
@@ -20,7 +20,8 @@ export class CreateBudgetComponent implements OnInit {
     private budgetFacade: BudgetFacade,
     private userFacade: UserFacade,
     private categoryFacade: CategoryFacade,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private routerService: RouterService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +43,10 @@ export class CreateBudgetComponent implements OnInit {
     this.userFacade.loadUserCurrencies();
 
     this.categoryFacade.loadCategories();
+  }
+
+  onCancel(): void {
+    this.routerService.navigateByUrl('');
   }
 
   private getCurrentDateString(): string {
