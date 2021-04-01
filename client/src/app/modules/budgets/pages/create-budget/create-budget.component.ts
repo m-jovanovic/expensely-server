@@ -29,7 +29,7 @@ export class CreateBudgetComponent implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(100)]],
       amount: ['0.00', [Validators.required, Validators.min(0.01)]],
       currency: ['', Validators.required],
-      currencies: ['', Validators.required],
+      categories: ['', Validators.required],
       startDate: [this.getCurrentDateString(), Validators.required],
       endDate: [this.getCurrentDateString(), Validators.required]
     });
