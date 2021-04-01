@@ -55,6 +55,11 @@ namespace Expensely.Application.Commands.Handlers.Validation
             public static Error PasswordAndConfirmationPasswordMustMatch => new(
                 "User.PasswordAndConfirmationPasswordMustMatch",
                 "The provided password and confirmation password must match.");
+
+            /// <summary>
+            /// Gets the user email or password is invalid error.
+            /// </summary>
+            public static Error InvalidEmailOrPassword => new("User.InvalidEmailOrPassword", "The provided email or password is invalid.");
         }
     }
 }

@@ -56,11 +56,11 @@ namespace Expensely.Application.Commands.Handlers.Budgets.RemoveBudgetCategory
 
             Category category = Category.FromValue(request.Category).Value;
 
-            Result result = budget.RemoveCategory(category);
+            Result removeCategoryResult = budget.RemoveCategory(category);
 
-            if (result.IsFailure)
+            if (removeCategoryResult.IsFailure)
             {
-                return Result.Failure(result.Error);
+                return Result.Failure(removeCategoryResult.Error);
             }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);

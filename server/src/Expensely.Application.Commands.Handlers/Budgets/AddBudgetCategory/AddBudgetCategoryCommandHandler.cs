@@ -56,11 +56,11 @@ namespace Expensely.Application.Commands.Handlers.Budgets.AddBudgetCategory
 
             Category category = Category.FromValue(request.Category).Value;
 
-            Result result = budget.AddCategory(category);
+            Result addCategoryResult = budget.AddCategory(category);
 
-            if (result.IsFailure)
+            if (addCategoryResult.IsFailure)
             {
-                return Result.Failure(result.Error);
+                return Result.Failure(addCategoryResult.Error);
             }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);

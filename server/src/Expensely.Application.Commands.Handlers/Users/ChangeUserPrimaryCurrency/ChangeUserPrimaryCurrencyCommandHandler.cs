@@ -42,11 +42,11 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserPrimaryCurrenc
 
             Currency currency = Currency.FromValue(request.Currency).Value;
 
-            Result result = maybeUser.Value.ChangePrimaryCurrency(currency);
+            Result changePrimaryCurrencyResult = maybeUser.Value.ChangePrimaryCurrency(currency);
 
-            if (result.IsFailure)
+            if (changePrimaryCurrencyResult.IsFailure)
             {
-                return result;
+                return Result.Failure(changePrimaryCurrencyResult.Error);
             }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);

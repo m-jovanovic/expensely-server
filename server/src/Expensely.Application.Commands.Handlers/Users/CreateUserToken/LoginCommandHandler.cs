@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Authentication;
+using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
-using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
@@ -52,21 +52,21 @@ namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
 
             if (result.IsFailure)
             {
-                return Result.Failure<TokenResponse>(DomainErrors.User.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(ValidationErrors.User.InvalidEmailOrPassword);
             }
 
             Maybe<User> maybeUser = await _userRepository.GetByEmailAsync(emailResult.Value, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure<TokenResponse>(DomainErrors.User.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(ValidationErrors.User.InvalidEmailOrPassword);
             }
 
             User user = maybeUser.Value;
 
             if (!user.VerifyPassword(passwordResult.Value, _passwordHasher))
             {
-                return Result.Failure<TokenResponse>(DomainErrors.User.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(ValidationErrors.User.InvalidEmailOrPassword);
             }
 
             AccessTokens accessTokens = _jwtProvider.GetAccessTokens(user);

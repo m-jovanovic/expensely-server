@@ -48,11 +48,6 @@ namespace Expensely.Domain.Errors
                 "The specified currency is the user's primary currency and can not be removed.");
 
             /// <summary>
-            /// Gets the user email or password is invalid error.
-            /// </summary>
-            public static Error InvalidEmailOrPassword => new("User.InvalidEmailOrPassword", "The provided email or password is invalid.");
-
-            /// <summary>
             /// Gets the use email is already in use error.
             /// </summary>
             public static Error EmailAlreadyInUse => new("User.EmailAlreadyInUse", "The specified email is already in use.");

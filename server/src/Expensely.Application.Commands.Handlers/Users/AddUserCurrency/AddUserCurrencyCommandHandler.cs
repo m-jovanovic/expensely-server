@@ -42,11 +42,11 @@ namespace Expensely.Application.Commands.Handlers.Users.AddUserCurrency
 
             Currency currency = Currency.FromValue(request.Currency).Value;
 
-            Result result = maybeUser.Value.AddCurrency(currency);
+            Result addCurrencyResult = maybeUser.Value.AddCurrency(currency);
 
-            if (result.IsFailure)
+            if (addCurrencyResult.IsFailure)
             {
-                return Result.Failure(result.Error);
+                return Result.Failure(addCurrencyResult.Error);
             }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
