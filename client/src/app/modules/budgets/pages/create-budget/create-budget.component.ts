@@ -7,6 +7,7 @@ import {
   BudgetFacade,
   CategoryFacade,
   CategoryResponse,
+  DateRangeValidators,
   RouterService,
   UserCurrencyResponse,
   UserFacade
@@ -40,6 +41,8 @@ export class CreateBudgetComponent implements OnInit {
       amount: ['0.00', [Validators.required, Validators.min(0.01)]],
       currency: ['', Validators.required],
       categories: [''],
+      startDate: [this.getCurrentDateString(), [Validators.required, DateRangeValidators.startDateBeforeEndDate]],
+      endDate: [this.getCurrentDateString(), [Validators.required, DateRangeValidators.endDateAfterStartDate]]
     });
 
     this.currencies$ = this.userFacade.currencies$.pipe(
