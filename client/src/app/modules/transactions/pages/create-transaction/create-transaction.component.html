@@ -102,7 +102,11 @@
               <label for="amount" class="block font-medium text-gray-500">{{ t('transactions.create.fields.amount') }}</label>
               <div class="mt-1 relative rounded-md shadow-sm">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span class="text-gray-500 text-sm"> $ </span>
+                  <span class="text-gray-500 text-sm">
+                    <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                  </span>
                 </div>
                 <input
                   id="amount"
