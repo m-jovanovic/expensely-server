@@ -3,7 +3,7 @@ using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
 using FluentValidation;
 
-namespace Expensely.Application.Commands.Handlers.Users.CreateUser
+namespace Expensely.Application.Commands.Handlers.Authentication.Register
 {
     /// <summary>
     /// Represents the <see cref="RegisterCommand"/> validator.

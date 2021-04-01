@@ -5,68 +5,58 @@ using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Authentication;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Contracts.Authentication;
+using Expensely.Common.Abstractions.Clock;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Modules.Users;
 
-namespace Expensely.Application.Commands.Handlers.Users.CreateUserToken
+namespace Expensely.Application.Commands.Handlers.Authentication.RefreshToken
 {
     /// <summary>
-    /// Represents the <see cref="LoginCommand"/> handler.
+    /// Represents the <see cref="RefreshTokenCommand"/> handler.
     /// </summary>
-    public sealed class LoginCommandHandler : ICommandHandler<LoginCommand, Result<TokenResponse>>
+    public sealed class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand, Result<TokenResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtProvider _jwtProvider;
+        private readonly ISystemTime _systemTime;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="RefreshTokenCommandHandler"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="unitOfWork">The unit of work.</param>
-        /// <param name="passwordHasher">The password hasher.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
-        public LoginCommandHandler(
+        /// <param name="systemTime">The system time.</param>
+        public RefreshTokenCommandHandler(
             IUserRepository userRepository,
             IUnitOfWork unitOfWork,
-            IPasswordHasher passwordHasher,
-            IJwtProvider jwtProvider)
+            IJwtProvider jwtProvider,
+            ISystemTime systemTime)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
-            _passwordHasher = passwordHasher;
             _jwtProvider = jwtProvider;
+            _systemTime = systemTime;
         }
 
         /// <inheritdoc />
-        public async Task<Result<TokenResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<Result<TokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            // TODO: Make sure that when the request gets here there is no need to check value objects.
-            Result<Email> emailResult = Email.Create(request.Email);
-            Result<Password> passwordResult = Password.Create(request.Password);
-
-            var result = Result.FirstFailureOrSuccess(emailResult, passwordResult);
-
-            if (result.IsFailure)
-            {
-                return Result.Failure<TokenResponse>(ValidationErrors.User.InvalidEmailOrPassword);
-            }
-
-            Maybe<User> maybeUser = await _userRepository.GetByEmailAsync(emailResult.Value, cancellationToken);
+            Maybe<User> maybeUser = await _userRepository.GetByRefreshTokenAsync(request.RefreshToken, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure<TokenResponse>(ValidationErrors.User.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(ValidationErrors.User.NotFound);
             }
 
             User user = maybeUser.Value;
 
-            if (!user.VerifyPassword(passwordResult.Value, _passwordHasher))
+            if (user.RefreshToken.IsExpired(_systemTime.UtcNow))
             {
-                return Result.Failure<TokenResponse>(ValidationErrors.User.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(ValidationErrors.RefreshToken.Expired);
             }
 
             AccessTokens accessTokens = _jwtProvider.GetAccessTokens(user);
