@@ -10,7 +10,7 @@ namespace Expensely.Domain.Modules.Users
     /// <summary>
     /// Represents the user factory.
     /// </summary>
-    public sealed class UserFactory : IUserFactory, IScoped
+    internal sealed class UserFactory : IUserFactory, IScoped
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
@@ -51,12 +51,7 @@ namespace Expensely.Domain.Modules.Users
                 return Result.Failure<User>(DomainErrors.User.EmailAlreadyInUse);
             }
 
-            var user = User.Create(
-                firstNameResult.Value,
-                lastNameResult.Value,
-                emailResult.Value,
-                passwordResult.Value,
-                _passwordHasher);
+            var user = User.Create(firstNameResult.Value, lastNameResult.Value, emailResult.Value, passwordResult.Value, _passwordHasher);
 
             foreach (string role in _roleProvider.GetStandardRoles())
             {

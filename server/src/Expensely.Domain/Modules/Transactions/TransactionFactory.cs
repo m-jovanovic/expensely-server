@@ -7,7 +7,7 @@ namespace Expensely.Domain.Modules.Transactions
     /// <summary>
     /// Represents the transaction factory.
     /// </summary>
-    public sealed class TransactionFactory : ITransactionFactory, ITransient
+    internal sealed class TransactionFactory : ITransactionFactory, ITransient
     {
         private readonly ITransactionDetailsValidator _transactionDetailsValidator;
 

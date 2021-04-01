@@ -9,7 +9,7 @@ namespace Expensely.Domain.Modules.Transactions
     /// <summary>
     /// Represents the transaction details validator.
     /// </summary>
-    public sealed class TransactionDetailsValidator : ITransactionDetailsValidator, ITransient
+    internal sealed class TransactionDetailsValidator : ITransactionDetailsValidator, ITransient
     {
         /// <inheritdoc />
         public Result<ITransactionDetails> Validate(ValidateTransactionDetailsRequest validateTransactionDetailsRequest)
