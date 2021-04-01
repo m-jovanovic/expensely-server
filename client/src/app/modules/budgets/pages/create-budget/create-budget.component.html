@@ -96,22 +96,16 @@
 
             <!-- Categories -->
             <div class="col-span-4">
-              <label for="category" class="block font-medium text-gray-500">{{ t('budgets.create.fields.category') }}</label>
+              <label for="categories" class="block font-medium text-gray-500">{{ t('budgets.create.fields.categories') }}</label>
               <select
-                name="category"
-                id="category"
-                formControlName="category"
-                required
+                name="categories"
+                id="categories"
+                formControlName="categories"
                 multiple="true"
                 class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-teal-400 focus:ring-teal-400"
               >
                 <option *ngFor="let category of data.categories" [value]="category.id">{{ category.name }}</option>
               </select>
-              <div *ngIf="submitted && createBudgetForm.controls.category.errors" class="mt-2 text-xs text-red-500">
-                <div *ngIf="createBudgetForm.controls.category.errors.required">
-                  {{ t('budgets.create.errors.category.required') }}
-                </div>
-              </div>
             </div>
 
             <!-- Start date -->

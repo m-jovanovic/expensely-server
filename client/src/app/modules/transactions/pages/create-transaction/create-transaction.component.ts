@@ -70,10 +70,6 @@ export class CreateTransactionComponent implements OnInit {
     this.userFacade.loadUserCurrencies();
   }
 
-  async onCancel(): Promise<boolean> {
-    return await this.routerService.navigateByUrl('/transactions');
-  }
-
   onSubmit(): void {
     if (this.requestSent) {
       return;
@@ -97,7 +93,7 @@ export class CreateTransactionComponent implements OnInit {
     this.transactionFacade
       .createTransaction(
         this.createTransactionForm.value.description,
-        Number.parseInt(this.createTransactionForm.value.category),
+        this.createTransactionForm.value.category,
         amount,
         this.createTransactionForm.value.currency,
         this.createTransactionForm.value.occurredOn,
@@ -114,6 +110,10 @@ export class CreateTransactionComponent implements OnInit {
         () => this.routerService.navigateByUrl('/transactions'),
         (error: ApiErrorResponse) => this.handleCreateTransactionError(error)
       );
+  }
+
+  async onCancel(): Promise<boolean> {
+    return await this.routerService.navigateByUrl('/transactions');
   }
 
   private handleCreateTransactionError(errorResponse: ApiErrorResponse): void {
