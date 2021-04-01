@@ -40,9 +40,9 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
 
             RuleFor(x => x.StartDate).NotEmpty().WithError(ValidationErrors.Budget.StartDateIsRequired);
 
-            RuleFor(x => x.EndDate).NotEmpty().WithError(ValidationErrors.Budget.EndDateIsRequired);
-
-            RuleFor(x => x.StartDate).LessThanOrEqualTo(x => x.EndDate).WithError(ValidationErrors.Budget.EndDatePrecedesStartDate);
+            RuleFor(x => x.EndDate)
+                .NotEmpty().WithError(ValidationErrors.Budget.EndDateIsRequired)
+                .GreaterThanOrEqualTo(x => x.StartDate).WithError(ValidationErrors.Budget.EndDatePrecedesStartDate);
         }
     }
 }

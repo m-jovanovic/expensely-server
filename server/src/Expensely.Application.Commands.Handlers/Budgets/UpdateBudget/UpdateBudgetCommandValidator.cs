@@ -26,12 +26,9 @@ namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
 
             RuleFor(x => x.StartDate).NotEmpty().WithError(ValidationErrors.Budget.StartDateIsRequired);
 
-            RuleFor(x => x.EndDate).NotEmpty().WithError(ValidationErrors.Budget.EndDateIsRequired);
-
-            RuleFor(x => x.StartDate)
-                .LessThanOrEqualTo(x => x.EndDate)
-                .When(x => x.StartDate != default && x.EndDate != default)
-                .WithError(ValidationErrors.Budget.EndDatePrecedesStartDate);
+            RuleFor(x => x.EndDate)
+                .NotEmpty().WithError(ValidationErrors.Budget.EndDateIsRequired)
+                .GreaterThanOrEqualTo(x => x.StartDate).WithError(ValidationErrors.Budget.EndDatePrecedesStartDate);
         }
     }
 }
