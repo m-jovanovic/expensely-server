@@ -14,11 +14,11 @@ namespace Expensely.Application.Queries.Budgets
         /// Initializes a new instance of the <see cref="GetBudgetByIdQuery"/> class.
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
-        public GetBudgetByIdQuery(Ulid budgetId) => BudgetId = budgetId;
+        public GetBudgetByIdQuery(Ulid budgetId) => BudgetId = budgetId.ToString();
 
         /// <summary>
         /// Gets the budget identifier.
         /// </summary>
-        public Ulid BudgetId { get; }
+        public string BudgetId { get; }
     }
 }

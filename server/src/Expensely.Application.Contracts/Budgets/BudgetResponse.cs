@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Expensely.Application.Contracts.Categories;
 
 namespace Expensely.Application.Contracts.Budgets
@@ -12,7 +11,7 @@ namespace Expensely.Application.Contracts.Budgets
         /// <summary>
         /// Gets the identifier.
         /// </summary>
-        public Ulid Id { get; init; }
+        public string Id { get; init; }
 
         /// <summary>
         /// Gets the name.
