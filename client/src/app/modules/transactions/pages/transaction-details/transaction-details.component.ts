@@ -10,7 +10,6 @@ import { RouterService, TransactionFacade, TransactionResponse } from '@expensel
   styleUrls: ['./transaction-details.component.scss']
 })
 export class TransactionDetailsComponent implements OnInit {
-  transactionId: string;
   transaction$: Observable<TransactionResponse>;
   isLoading$: Observable<boolean>;
 
@@ -21,9 +20,9 @@ export class TransactionDetailsComponent implements OnInit {
 
     this.isLoading$ = this.transactionFacade.isLoading$;
 
-    this.transactionId = this.route.snapshot.paramMap.get('id');
+    const transactionId = this.route.snapshot.paramMap.get('id');
 
-    this.transactionFacade.getTransaction(this.transactionId);
+    this.transactionFacade.getTransaction(transactionId);
   }
 
   deleteTransaction(transactionId: string): void {

@@ -15,7 +15,7 @@
         <div class="p-4">
           <!-- Delete transaction -->
           <exp-delete-transaction-button
-            [transactionId]="transactionId"
+            [transactionId]="data.transaction.id"
             [isLoading]="data.isLoading"
             (transactionDeletedEvent)="deleteTransaction($event)"
           ></exp-delete-transaction-button>
