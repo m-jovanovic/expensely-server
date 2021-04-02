@@ -83,6 +83,9 @@ namespace Expensely.Domain.Modules.Common
         /// </summary>
         public bool IsExpense { get; private init; }
 
+        /// <inheritdoc />
+        public override string ToString() => Name;
+
         private sealed class ExpenseCategory : Category
         {
             public ExpenseCategory(int value, string name)

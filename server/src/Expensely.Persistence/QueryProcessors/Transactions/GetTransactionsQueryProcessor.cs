@@ -8,6 +8,7 @@ using Expensely.Application.Queries.Processors.Transactions;
 using Expensely.Application.Queries.Transactions;
 using Expensely.Application.Queries.Utility;
 using Expensely.Common.Abstractions.Constants;
+using Expensely.Common.Abstractions.Extensions;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Persistence.Indexes.Transactions;
@@ -65,7 +66,14 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 .ToArrayAsync(cancellationToken);
 
             TransactionResponse[] transactionResponses = transactions
-                .Select(x => new TransactionResponse(x.Id, x.Description, x.Category, x.Money, x.OccurredOn))
+                .Select(transaction => new TransactionResponse
+                {
+                    Id = transaction.Id,
+                    Description = transaction.Description,
+                    Category = transaction.Category.ToString(),
+                    FormattedAmount = transaction.Money.Format(),
+                    OccurredOn = transaction.OccurredOn.ToDisplayDate()
+                })
                 .ToArray();
 
             if (transactionResponses.Length < query.Limit)
