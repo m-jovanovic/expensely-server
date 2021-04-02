@@ -4,13 +4,14 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { BudgetStateModel } from './budget-state.model';
-import { CreateBudget } from './budget.actions';
+import { CreateBudget, GetBudget } from './budget.actions';
 import { BudgetService } from '../../services/budgets/budget.service';
-import { ApiErrorResponse, CreateBudgetRequest } from '../../contracts';
+import { ApiErrorResponse, BudgetResponse, CreateBudgetRequest } from '../../contracts';
 
 @State<BudgetStateModel>({
   name: 'budget',
   defaults: {
+    budget: null,
     isLoading: false,
     error: false
   }
@@ -18,6 +19,31 @@ import { ApiErrorResponse, CreateBudgetRequest } from '../../contracts';
 @Injectable()
 export class BudgetState {
   constructor(private budgetService: BudgetService) {}
+
+  @Action(GetBudget)
+  getBudget(context: StateContext<BudgetStateModel>, action: GetBudget): Observable<any> {
+    context.patchState({
+      budget: null,
+      isLoading: true
+    });
+
+    return this.budgetService.getBudget(action.budgetId).pipe(
+      tap((response: BudgetResponse) => {
+        context.patchState({
+          budget: response,
+          isLoading: false
+        });
+      }),
+      catchError((error: ApiErrorResponse) => {
+        context.patchState({
+          isLoading: false,
+          error: true
+        });
+
+        return throwError(error);
+      })
+    );
+  }
 
   @Action(CreateBudget)
   createTransaction(context: StateContext<BudgetStateModel>, action: CreateBudget): Observable<any> {

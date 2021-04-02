@@ -1,3 +1,9 @@
+export class GetBudget {
+  public static readonly type = '[Budget] Get';
+
+  constructor(public budgetId: string) {}
+}
+
 export class CreateBudget {
   public static readonly type = '[Budget] Create';
 

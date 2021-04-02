@@ -14,11 +14,11 @@ export class BudgetService extends ApiService {
     super(client);
   }
 
-  createBudget(request: CreateBudgetRequest): Observable<any> {
-    return this.post(ApiRoutes.Budgets.createBudget, request);
-  }
-
   getBudget(budgetId: string): Observable<BudgetResponse> {
     return this.get(ApiRoutes.Budgets.getBudget.replace('{budgetId}', budgetId));
+  }
+
+  createBudget(request: CreateBudgetRequest): Observable<any> {
+    return this.post(ApiRoutes.Budgets.createBudget, request);
   }
 }

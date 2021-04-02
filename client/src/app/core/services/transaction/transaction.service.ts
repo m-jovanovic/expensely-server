@@ -19,14 +19,6 @@ export class TransactionService extends ApiService {
     super(client);
   }
 
-  createTransaction(request: CreateTransactionRequest): Observable<any> {
-    return this.post(ApiRoutes.Transactions.createTransaction, request);
-  }
-
-  deleteTransaction(transactionId: string): Observable<any> {
-    return this.delete(ApiRoutes.Transactions.deleteTransaction.replace('{transactionId}', transactionId));
-  }
-
   getTransactions(userId: string, limit: number, cursor: string): Observable<TransactionListResponse> {
     return this.get(`${ApiRoutes.Transactions.getTransactions}?userId=${userId}&limit=${limit}&cursor=${cursor}`);
   }
@@ -37,5 +29,13 @@ export class TransactionService extends ApiService {
 
   getCurrentMonthTransactionSummary(userId: string, currency: number): Observable<TransactionSummaryResponse> {
     return this.get(`${ApiRoutes.Transactions.getCurrentMonthTransactionSummary}?userId=${userId}&currency=${currency}`);
+  }
+
+  createTransaction(request: CreateTransactionRequest): Observable<any> {
+    return this.post(ApiRoutes.Transactions.createTransaction, request);
+  }
+
+  deleteTransaction(transactionId: string): Observable<any> {
+    return this.delete(ApiRoutes.Transactions.deleteTransaction.replace('{transactionId}', transactionId));
   }
 }

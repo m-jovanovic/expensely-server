@@ -12,16 +12,16 @@ export namespace ApiRoutes {
   }
 
   export class Budgets {
-    public static readonly createBudget = 'budgets';
     public static readonly getBudget = 'budgets/{budgetId}';
+    public static readonly createBudget = 'budgets';
   }
 
   export class Transactions {
+    public static readonly getTransaction = 'transactions/{transactionId}';
+    public static readonly getCurrentMonthTransactionSummary = 'transactions/summary/current-month';
     public static readonly createTransaction = 'transactions';
     public static readonly deleteTransaction = 'transactions/{transactionId}';
     public static readonly getTransactions = 'transactions';
-    public static readonly getTransaction = 'transactions/{transactionId}';
-    public static readonly getCurrentMonthTransactionSummary = 'transactions/summary/current-month';
   }
 
   export class Categories {
