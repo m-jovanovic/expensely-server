@@ -32,6 +32,11 @@
         public static class Budgets
         {
             /// <summary>
+            /// The get budget by identifier route.
+            /// </summary>
+            public const string GetBudgetById = "budgets/{budgetId}";
+
+            /// <summary>
             /// The create budget route.
             /// </summary>
             public const string CreateBudget = "budgets";

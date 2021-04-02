@@ -3,8 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Budgets;
 using Expensely.Application.Contracts.Budgets;
+using Expensely.Application.Queries.Budgets;
 using Expensely.Authorization.Abstractions;
 using Expensely.Authorization.Attributes;
+using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Errors;
@@ -28,6 +30,22 @@ namespace Expensely.Presentation.Api.Controllers
             : base(sender)
         {
         }
+
+        /// <summary>
+        /// Gets the transaction for the specified identifier.
+        /// </summary>
+        /// <param name="budgetId">The transaction identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>200 - OK if the transaction with the specified identifier is found, otherwise 404 - Not Found.</returns>
+        [HasPermission(Permission.BudgetRead)]
+        [HttpGet(ApiRoutes.Budgets.GetBudgetById)]
+        [ProducesResponseType(typeof(BudgetResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetBudgetById(Ulid budgetId, CancellationToken cancellationToken) =>
+            await Maybe<GetBudgetByIdQuery>
+                .From(new GetBudgetByIdQuery(budgetId))
+                .Bind(query => Sender.Send(query, cancellationToken))
+                .Match(Ok, NotFound);
 
         /// <summary>
         /// Creates the budget based on the specified request.
