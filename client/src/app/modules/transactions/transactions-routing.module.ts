@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { CreateTransactionComponent, TransactionDetailsComponent, TransactionListComponent } from './pages';
+import { CreateTransactionComponent, TransactionDetailsComponent, TransactionListComponent, UpdateTransactionComponent } from './pages';
 
 const routes: Routes = [
   {
@@ -15,6 +15,10 @@ const routes: Routes = [
   {
     path: ':id',
     component: TransactionDetailsComponent
+  },
+  {
+    path: ':id/update',
+    component: UpdateTransactionComponent
   }
 ];
 

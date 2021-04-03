@@ -5,7 +5,7 @@ import { NgxsModule } from '@ngxs/store';
 import { SharedModule } from '@expensely/shared';
 import { TransactionState, TransactionListState, CategoryState, UserState } from '@expensely/core/store';
 import { TransactionsRoutingModule } from './transactions-routing.module';
-import { CreateTransactionComponent, TransactionDetailsComponent, TransactionListComponent } from './pages';
+import { CreateTransactionComponent, TransactionDetailsComponent, TransactionListComponent, UpdateTransactionComponent } from './pages';
 import { DeleteTransactionButtonComponent, TransactionInformationComponent, TransactionListItemComponent } from './components';
 
 @NgModule({
@@ -15,7 +15,8 @@ import { DeleteTransactionButtonComponent, TransactionInformationComponent, Tran
     TransactionListItemComponent,
     TransactionDetailsComponent,
     TransactionInformationComponent,
-    DeleteTransactionButtonComponent
+    DeleteTransactionButtonComponent,
+    UpdateTransactionComponent
   ],
   imports: [
     SharedModule,
