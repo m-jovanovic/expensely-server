@@ -8,6 +8,7 @@ import {
   CategoryFacade,
   CategoryResponse,
   DateRangeValidators,
+  DateService,
   RouterService,
   UserCurrencyResponse,
   UserFacade
@@ -32,7 +33,8 @@ export class CreateBudgetComponent implements OnInit {
     private userFacade: UserFacade,
     private categoryFacade: CategoryFacade,
     private formBuilder: FormBuilder,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private dateService: DateService
   ) {}
 
   ngOnInit(): void {
@@ -41,8 +43,8 @@ export class CreateBudgetComponent implements OnInit {
       amount: ['0.00', [Validators.required, Validators.min(0.01)]],
       currency: ['', Validators.required],
       categories: [''],
-      startDate: [this.getCurrentDateString(), [Validators.required, DateRangeValidators.startDateBeforeEndDate]],
-      endDate: [this.getCurrentDateString(), [Validators.required, DateRangeValidators.endDateAfterStartDate]]
+      startDate: [this.dateService.getCurrentDateString(), [Validators.required, DateRangeValidators.startDateBeforeEndDate]],
+      endDate: [this.dateService.getCurrentDateString(), [Validators.required, DateRangeValidators.endDateAfterStartDate]]
     });
 
     this.currencies$ = this.userFacade.currencies$.pipe(
@@ -109,9 +111,5 @@ export class CreateBudgetComponent implements OnInit {
   private handleCreateBudgetError(errorResponse: ApiErrorResponse): void {
     // TODO: Handle errors.
     console.log('Failed to create budget.');
-  }
-
-  private getCurrentDateString(): string {
-    return new Date().toISOString().substring(0, 10);
   }
 }
