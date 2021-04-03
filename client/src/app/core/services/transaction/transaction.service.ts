@@ -6,6 +6,7 @@ import { ApiRoutes } from '../../constants/api-routes';
 import { ApiService } from '../api/api.service';
 import {
   CreateTransactionRequest,
+  UpdateTransactionRequest,
   TransactionListResponse,
   TransactionResponse,
   TransactionSummaryResponse
@@ -33,6 +34,10 @@ export class TransactionService extends ApiService {
 
   createTransaction(request: CreateTransactionRequest): Observable<any> {
     return this.post(ApiRoutes.Transactions.createTransaction, request);
+  }
+
+  updateTransaction(transactionId: string, request: UpdateTransactionRequest): Observable<any> {
+    return this.put(ApiRoutes.Transactions.updateTransaction.replace('{transactionId}', transactionId), request);
   }
 
   deleteTransaction(transactionId: string): Observable<any> {
