@@ -1,19 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Contracts.Budgets;
 using Expensely.Application.Contracts.Categories;
-using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Queries.Budgets;
 using Expensely.Application.Queries.Processors.Budgets;
 using Expensely.Application.Queries.Transactions;
 using Expensely.Common.Abstractions.Extensions;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Budgets;
-using Expensely.Domain.Modules.Transactions;
-using Expensely.Persistence.QueryProcessors.Transactions;
 using Raven.Client.Documents.Session;
 
 namespace Expensely.Persistence.QueryProcessors.Budgets
@@ -55,11 +51,12 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
                 Name = budget.Name,
                 Amount = budget.Money.Amount,
                 Currency = budget.Money.Currency.Value,
-                FormattedAmount = budget.Money.Format(),
                 Categories = budget.Categories.Select(category => new CategoryResponse
                 {
                     Id = category.Value,
-                    Name = category.ToString()
+                    Name = category.ToString(),
+                    IsDefault = category.IsDefault,
+                    IsExpense = category.IsExpense
                 }).ToArray(),
                 StartDate = budget.StartDate.ToDisplayDate(),
                 EndDate = budget.EndDate.ToDisplayDate()
