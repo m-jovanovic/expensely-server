@@ -4,7 +4,6 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Queries.Processors.Transactions;
 using Expensely.Application.Queries.Transactions;
-using Expensely.Common.Abstractions.Extensions;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Transactions;
 using Raven.Client.Documents.Session;
@@ -48,7 +47,9 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 Description = transaction.Description,
                 Category = transaction.Category.ToString(),
                 FormattedAmount = transaction.Money.Format(),
-                OccurredOn = transaction.OccurredOn.ToDisplayDate()
+                Amount = transaction.Money.Amount,
+                Currency = transaction.Money.Currency.Value,
+                OccurredOn = transaction.OccurredOn
             };
 
             return transactionResponse;

@@ -7,7 +7,6 @@ using Expensely.Application.Contracts.Categories;
 using Expensely.Application.Queries.Budgets;
 using Expensely.Application.Queries.Processors.Budgets;
 using Expensely.Application.Queries.Transactions;
-using Expensely.Common.Abstractions.Extensions;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Budgets;
 using Raven.Client.Documents.Session;

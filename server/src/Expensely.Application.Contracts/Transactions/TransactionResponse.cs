@@ -1,4 +1,6 @@
-﻿namespace Expensely.Application.Contracts.Transactions
+﻿using System;
+
+namespace Expensely.Application.Contracts.Transactions
 {
     /// <summary>
     /// Represents the transaction response.
@@ -26,8 +28,18 @@
         public string FormattedAmount { get; init; }
 
         /// <summary>
+        /// Gets the amount.
+        /// </summary>
+        public decimal Amount { get; init; }
+
+        /// <summary>
+        /// Gets the currency.
+        /// </summary>
+        public int Currency { get; init; }
+
+        /// <summary>
         /// Gets the occurred on date.
         /// </summary>
-        public string OccurredOn { get; init; }
+        public DateTime OccurredOn { get; init; }
     }
 }
