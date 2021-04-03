@@ -46,6 +46,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 Id = transaction.Id,
                 Description = transaction.Description,
                 Category = transaction.Category.ToString(),
+                CategoryValue = transaction.Category.Value,
                 FormattedAmount = transaction.Money.Format(),
                 Amount = transaction.Money.Amount,
                 Currency = transaction.Money.Currency.Value,

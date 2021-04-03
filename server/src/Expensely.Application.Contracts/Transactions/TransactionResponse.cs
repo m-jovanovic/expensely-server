@@ -23,6 +23,11 @@ namespace Expensely.Application.Contracts.Transactions
         public string Category { get; init; }
 
         /// <summary>
+        /// Gets the category.
+        /// </summary>
+        public int CategoryValue { get; init; }
+
+        /// <summary>
         /// Gets the formatted amount.
         /// </summary>
         public string FormattedAmount { get; init; }
