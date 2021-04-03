@@ -11,7 +11,8 @@ import {
   ApiErrorResponse,
   UserFacade,
   UserCurrencyResponse,
-  TransactionFacade
+  TransactionFacade,
+  DateService
 } from '@expensely/core';
 
 @Component({
@@ -32,7 +33,8 @@ export class CreateTransactionComponent implements OnInit {
     private categoryFacade: CategoryFacade,
     private userFacade: UserFacade,
     private formBuilder: FormBuilder,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private dateService: DateService
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +44,7 @@ export class CreateTransactionComponent implements OnInit {
       category: ['', Validators.required],
       amount: ['0.00', [Validators.required, Validators.min(0.01)]],
       currency: ['', Validators.required],
-      occurredOn: [this.getCurrentDateString(), Validators.required]
+      occurredOn: [this.dateService.getCurrentDateString(), Validators.required]
     });
 
     this.categories$ = combineLatest([this.categoryFacade.categories$, this.createTransactionForm.valueChanges]).pipe(
@@ -119,9 +121,5 @@ export class CreateTransactionComponent implements OnInit {
   private handleCreateTransactionError(errorResponse: ApiErrorResponse): void {
     // TODO: Handle errors.
     console.log('Failed to create transaction.');
-  }
-
-  private getCurrentDateString(): string {
-    return new Date().toISOString().substring(0, 10);
   }
 }
