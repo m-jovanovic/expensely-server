@@ -14,14 +14,15 @@ export namespace ApiRoutes {
   export class Budgets {
     public static readonly getBudget = 'budgets/{budgetId}';
     public static readonly createBudget = 'budgets';
+    public static readonly updateBudget = 'budgets/{budgetId}';
   }
 
   export class Transactions {
+    public static readonly getTransactions = 'transactions';
     public static readonly getTransaction = 'transactions/{transactionId}';
     public static readonly getCurrentMonthTransactionSummary = 'transactions/summary/current-month';
     public static readonly createTransaction = 'transactions';
     public static readonly deleteTransaction = 'transactions/{transactionId}';
-    public static readonly getTransactions = 'transactions';
   }
 
   export class Categories {
