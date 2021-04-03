@@ -1,3 +1,9 @@
 export class UpdateTransactionRequest {
-  constructor(public description: string, category: number, amount: number, currency: number, occurredOn: Date) {}
+  constructor(
+    public description: string,
+    public category: number,
+    public amount: number,
+    public currency: number,
+    public occurredOn: Date
+  ) {}
 }
