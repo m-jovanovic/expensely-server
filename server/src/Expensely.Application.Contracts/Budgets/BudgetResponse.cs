@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Expensely.Application.Contracts.Categories;
 
 namespace Expensely.Application.Contracts.Budgets
@@ -41,11 +42,11 @@ namespace Expensely.Application.Contracts.Budgets
         /// <summary>
         /// Gets the start date.
         /// </summary>
-        public string StartDate { get; init; }
+        public DateTime StartDate { get; init; }
 
         /// <summary>
         /// Gets the end date.
         /// </summary>
-        public string EndDate { get; init; }
+        public DateTime EndDate { get; init; }
     }
 }

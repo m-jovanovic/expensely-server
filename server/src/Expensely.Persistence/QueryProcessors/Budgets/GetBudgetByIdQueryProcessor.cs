@@ -58,8 +58,8 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
                     IsDefault = category.IsDefault,
                     IsExpense = category.IsExpense
                 }).ToArray(),
-                StartDate = budget.StartDate.ToDisplayDate(),
-                EndDate = budget.EndDate.ToDisplayDate()
+                StartDate = budget.StartDate,
+                EndDate = budget.EndDate
             };
 
             return budgetResponse;
