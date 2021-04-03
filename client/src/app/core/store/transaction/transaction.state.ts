@@ -4,9 +4,9 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { TransactionStateModel } from './transaction-state.model';
-import { GetTransaction, DeleteTransaction, CreateTransaction } from './transaction.actions';
+import { GetTransaction, DeleteTransaction, CreateTransaction, UpdateTransaction } from './transaction.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
-import { ApiErrorResponse, CreateTransactionRequest, TransactionResponse } from '../../contracts';
+import { ApiErrorResponse, CreateTransactionRequest, TransactionResponse, UpdateTransactionRequest } from '../../contracts';
 
 @State<TransactionStateModel>({
   name: 'transaction',
@@ -64,6 +64,34 @@ export class TransactionState {
           action.occurredOn,
           action.transactionType
         )
+      )
+      .pipe(
+        tap(() => {
+          context.patchState({
+            isLoading: false
+          });
+        }),
+        catchError((error: ApiErrorResponse) => {
+          context.patchState({
+            isLoading: false,
+            error: true
+          });
+
+          return throwError(error);
+        })
+      );
+  }
+
+  @Action(UpdateTransaction)
+  updateTransaction(context: StateContext<TransactionStateModel>, action: UpdateTransaction): Observable<any> {
+    context.patchState({
+      isLoading: true
+    });
+
+    return this.transactionService
+      .updateTransaction(
+        action.transactionId,
+        new UpdateTransactionRequest(action.description, action.category, action.amount, action.currency, action.occurredOn)
       )
       .pipe(
         tap(() => {

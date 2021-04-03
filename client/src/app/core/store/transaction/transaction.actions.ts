@@ -18,6 +18,19 @@ export class CreateTransaction {
   ) {}
 }
 
+export class UpdateTransaction {
+  public static readonly type = '[Transaction] Update';
+
+  constructor(
+    public transactionId: string,
+    public description: string,
+    public category: number,
+    public amount: number,
+    public currency: number,
+    public occurredOn: Date
+  ) {}
+}
+
 export class DeleteTransaction {
   public static readonly type = '[Transaction] Delete';
 
