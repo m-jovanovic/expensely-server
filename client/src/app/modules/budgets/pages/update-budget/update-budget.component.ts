@@ -41,6 +41,7 @@ export class UpdateBudgetComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateBudgetForm = this.formBuilder.group({
+      budgetId: '',
       name: ['', [Validators.required, Validators.maxLength(100)]],
       amount: ['0.00', [Validators.required, Validators.min(0.01)]],
       currency: ['', Validators.required],
@@ -56,6 +57,7 @@ export class UpdateBudgetComponent implements OnInit {
         }
 
         this.updateBudgetForm.setValue({
+          budgetId: budget.id,
           name: budget.name,
           amount: budget.amount,
           currency: budget.currency,
@@ -81,7 +83,50 @@ export class UpdateBudgetComponent implements OnInit {
     this.categoryFacade.loadCategories();
   }
 
+  onSubmit(): void {
+    if (this.requestSent) {
+      return;
+    }
+
+    this.submitted = true;
+
+    if (this.updateBudgetForm.invalid) {
+      this.requestSent = false;
+
+      return;
+    }
+
+    this.requestSent = true;
+    this.updateBudgetForm.disable();
+
+    this.budgetFacade
+      .updateBudget(
+        this.updateBudgetForm.value.budgetId,
+        this.updateBudgetForm.value.name,
+        this.updateBudgetForm.value.amount,
+        this.updateBudgetForm.value.currency,
+        this.updateBudgetForm.value.startDate,
+        this.updateBudgetForm.value.endDate
+      )
+      .pipe(
+        finalize(() => {
+          this.submitted = false;
+          this.requestSent = false;
+          this.updateBudgetForm.enable();
+        })
+      )
+      .subscribe(
+        () => this.routerService.navigateByUrl(''),
+        (error: ApiErrorResponse) => this.handleUpdateBudgetError(error)
+      );
+  }
+
   async onCancel(): Promise<boolean> {
     return await this.routerService.navigateByUrl('');
+  }
+
+  private handleUpdateBudgetError(errorResponse: ApiErrorResponse): void {
+    // TODO: Handle errors.
+    console.log('Failed to update budget.');
   }
 }
