@@ -17,3 +17,16 @@ export class CreateBudget {
     public endDate: Date
   ) {}
 }
+
+export class UpdateBudget {
+  public static readonly type = '[Budget] Update';
+
+  constructor(
+    public budgetId: string,
+    public name: string,
+    public amount: number,
+    public currency: number,
+    public startDate: Date,
+    public endDate: Date
+  ) {}
+}

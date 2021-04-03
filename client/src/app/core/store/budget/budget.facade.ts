@@ -3,7 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { AuthenticationFacade } from '../authentication/authentication.facade';
-import { CreateBudget, GetBudget } from './budget.actions';
+import { CreateBudget, GetBudget, UpdateBudget } from './budget.actions';
 import { BudgetSelectors } from './budget.selectors';
 import { BudgetResponse } from '../../contracts/budgets/budget-response';
 
@@ -28,5 +28,9 @@ export class BudgetFacade {
 
   createBudget(name: string, amount: number, currency: number, categories: number[], startDate: Date, endDate: Date): Observable<any> {
     return this.store.dispatch(new CreateBudget(this.authenticationFacade.userId, name, amount, currency, categories, startDate, endDate));
+  }
+
+  updateBudget(budgetId: string, name: string, amount: number, currency: number, startDate: Date, endDate: Date): Observable<any> {
+    return this.store.dispatch(new UpdateBudget(budgetId, name, amount, currency, startDate, endDate));
   }
 }
