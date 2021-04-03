@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
-import { finalize, map, tap } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
 
 import {
   ApiErrorResponse,
@@ -21,10 +21,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './update-budget.component.html',
   styleUrls: ['./update-budget.component.scss']
 })
-export class UpdateBudgetComponent implements OnInit {
+export class UpdateBudgetComponent implements OnInit, OnDestroy {
   private requestSent = false;
+  private budgetSubscription: Subscription;
   updateBudgetForm: FormGroup;
-  budget$: Observable<BudgetResponse>;
   currencies$: Observable<UserCurrencyResponse[]>;
   categories$: Observable<CategoryResponse[]>;
   isLoading$: Observable<boolean>;
@@ -50,23 +50,21 @@ export class UpdateBudgetComponent implements OnInit {
       endDate: ['', [Validators.required, DateRangeValidators.endDateAfterStartDate]]
     });
 
-    this.budget$ = this.budgetFacade.budget$.pipe(
-      tap((budget: BudgetResponse) => {
-        if (!budget) {
-          return;
-        }
+    this.budgetSubscription = this.budgetFacade.budget$.subscribe((budget: BudgetResponse) => {
+      if (!budget) {
+        return;
+      }
 
-        this.updateBudgetForm.setValue({
-          budgetId: budget.id,
-          name: budget.name,
-          amount: budget.amount,
-          currency: budget.currency,
-          categories: budget.categories.map((x) => x.id),
-          startDate: budget.startDate.substring(0, 10),
-          endDate: budget.endDate.substring(0, 10)
-        });
-      })
-    );
+      this.updateBudgetForm.setValue({
+        budgetId: budget.id,
+        name: budget.name,
+        amount: budget.amount,
+        currency: budget.currency,
+        categories: budget.categories.map((x) => x.id),
+        startDate: budget.startDate.substring(0, 10),
+        endDate: budget.endDate.substring(0, 10)
+      });
+    });
 
     this.categories$ = this.categoryFacade.expenseCategories$;
 
@@ -81,6 +79,10 @@ export class UpdateBudgetComponent implements OnInit {
     this.budgetFacade.getBudget(budgetId);
     this.userFacade.loadUserCurrencies();
     this.categoryFacade.loadCategories();
+  }
+
+  ngOnDestroy(): void {
+    this.budgetSubscription.unsubscribe();
   }
 
   onSubmit(): void {
