@@ -1,9 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { finalize, map, tap } from 'rxjs/operators';
 
-import { BudgetFacade, BudgetResponse, CategoryFacade, CategoryResponse, UserCurrencyResponse, UserFacade } from '@expensely/core';
+import {
+  ApiErrorResponse,
+  BudgetFacade,
+  BudgetResponse,
+  CategoryFacade,
+  CategoryResponse,
+  DateRangeValidators,
+  RouterService,
+  UserCurrencyResponse,
+  UserFacade
+} from '@expensely/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'exp-update-budget',
@@ -12,22 +23,53 @@ import { BudgetFacade, BudgetResponse, CategoryFacade, CategoryResponse, UserCur
 })
 export class UpdateBudgetComponent implements OnInit {
   private requestSent = false;
+  updateBudgetForm: FormGroup;
   budget$: Observable<BudgetResponse>;
   currencies$: Observable<UserCurrencyResponse[]>;
   categories$: Observable<CategoryResponse[]>;
   isLoading$: Observable<boolean>;
+  submitted = false;
 
   constructor(
     private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private budgetFacade: BudgetFacade,
     private userFacade: UserFacade,
-    private categoryFacade: CategoryFacade
+    private categoryFacade: CategoryFacade,
+    private routerService: RouterService
   ) {}
 
   ngOnInit(): void {
-    this.budget$ = this.budgetFacade.budget$;
+    this.updateBudgetForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.maxLength(100)]],
+      amount: ['0.00', [Validators.required, Validators.min(0.01)]],
+      currency: ['', Validators.required],
+      categories: [''],
+      startDate: ['', [Validators.required, DateRangeValidators.startDateBeforeEndDate]],
+      endDate: ['', [Validators.required, DateRangeValidators.endDateAfterStartDate]]
+    });
+
+    this.budget$ = this.budgetFacade.budget$.pipe(
+      tap((budget: BudgetResponse) => {
+        if (!budget) {
+          return;
+        }
+
+        this.updateBudgetForm.setValue({
+          name: budget.name,
+          amount: budget.amount,
+          currency: budget.currency,
+          categories: budget.categories.map((x) => x.id),
+          startDate: budget.startDate.substring(0, 10),
+          endDate: budget.endDate.substring(0, 10)
+        });
+      })
+    );
+
     this.categories$ = this.categoryFacade.expenseCategories$;
+
     this.currencies$ = this.userFacade.currencies$;
+
     this.isLoading$ = combineLatest([this.budgetFacade.isLoading$, this.userFacade.isLoading$, this.categoryFacade.isLoading$]).pipe(
       map(([budgetIsLoading, userIsLoading, categoryIsLoading]) => budgetIsLoading || userIsLoading || categoryIsLoading)
     );
@@ -37,5 +79,9 @@ export class UpdateBudgetComponent implements OnInit {
     this.budgetFacade.getBudget(budgetId);
     this.userFacade.loadUserCurrencies();
     this.categoryFacade.loadCategories();
+  }
+
+  async onCancel(): Promise<boolean> {
+    return await this.routerService.navigateByUrl('');
   }
 }
