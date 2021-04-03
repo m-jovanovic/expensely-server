@@ -41,5 +41,10 @@ namespace Expensely.Application.Contracts.Transactions
         /// Gets the occurred on date.
         /// </summary>
         public DateTime OccurredOn { get; init; }
+
+        /// <summary>
+        /// Gets the transaction type.
+        /// </summary>
+        public int TransactionType { get; init; }
     }
 }

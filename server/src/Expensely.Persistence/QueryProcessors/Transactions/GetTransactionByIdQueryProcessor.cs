@@ -49,7 +49,8 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 FormattedAmount = transaction.Money.Format(),
                 Amount = transaction.Money.Amount,
                 Currency = transaction.Money.Currency.Value,
-                OccurredOn = transaction.OccurredOn
+                OccurredOn = transaction.OccurredOn,
+                TransactionType = transaction.TransactionType.Value
             };
 
             return transactionResponse;
