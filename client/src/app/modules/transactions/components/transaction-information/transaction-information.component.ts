@@ -12,8 +12,5 @@ export class TransactionInformationComponent {
   @Input()
   transaction: TransactionResponse;
 
-  @Input()
-  isLoading: boolean;
-
   constructor() {}
 }

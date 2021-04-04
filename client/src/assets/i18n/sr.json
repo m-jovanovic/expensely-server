@@ -110,6 +110,21 @@
         "error": "Transakcije su trenutno nedostupne."
       }
     },
+    "details": {
+      "text": {
+        "title": "Detalji transakcije"
+      },
+      "actions": {
+        "back": "Nazad",
+        "update": "Ažuriraj Transakciju"
+      },
+      "fields": {
+        "description": "Opis",
+        "category": "Kategorija",
+        "amount": "Iznos",
+        "occurredOn": "Datum"
+      }
+    },
     "create": {
       "text": {
         "title": "Kreiraj novu Transakciju"

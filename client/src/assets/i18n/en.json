@@ -110,6 +110,21 @@
         "error": "Transactions are currently unavailable."
       }
     },
+    "details": {
+      "text": {
+        "title": "Transaction details"
+      },
+      "actions": {
+        "back": "Back",
+        "update": "Update Transaction"
+      },
+      "fields": {
+        "description": "Description",
+        "category": "Category",
+        "amount": "Amount",
+        "occurredOn": "Occurred on"
+      }
+    },
     "create": {
       "text": {
         "title": "Create a new Transaction"

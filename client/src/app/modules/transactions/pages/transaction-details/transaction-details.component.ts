@@ -28,4 +28,12 @@ export class TransactionDetailsComponent implements OnInit {
   deleteTransaction(transactionId: string): void {
     this.transactionFacade.deleteTransaction(transactionId).subscribe(() => this.routerService.navigate(['/transactions']));
   }
+
+  async return(): Promise<boolean> {
+    return await this.routerService.navigate(['/transactions']);
+  }
+
+  async update(transactionId: string): Promise<boolean> {
+    return await this.routerService.navigate(['transactions', transactionId, 'update']);
+  }
 }

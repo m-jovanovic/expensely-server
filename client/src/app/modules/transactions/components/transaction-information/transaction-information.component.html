@@ -1,11 +1,31 @@
-<div *ngIf="transaction">
-  {{ transaction.id }}
-  <br />
-  {{ transaction.description }}
-  <br />
-  {{ transaction.occurredOn }}
-  <br />
-  {{ transaction.category }}
-  <br />
-  {{ transaction.formattedAmount }}
-</div>
+<ng-container *transloco="let t">
+  <div *ngIf="transaction" class="px-6 py-6 space-y-4">
+    <div>
+      <label for="description" class="block font-medium text-gray-500">{{ t('transactions.details.fields.description') }}</label>
+      <div id="description" class="mt-1 block w-full rounded-md">
+        {{ transaction.description }}
+      </div>
+    </div>
+
+    <div>
+      <label for="category" class="block font-medium text-gray-500">{{ t('transactions.details.fields.category') }}</label>
+      <div id="category" class="mt-1 block w-full rounded-md">
+        {{ transaction.category }}
+      </div>
+    </div>
+
+    <div>
+      <label for="amount" class="block font-medium text-gray-500">{{ t('transactions.details.fields.amount') }}</label>
+      <div id="amount" class="mt-1 block w-full rounded-md">
+        {{ transaction.formattedAmount }}
+      </div>
+    </div>
+
+    <div>
+      <label for="occurredOn" class="block font-medium text-gray-500">{{ t('transactions.details.fields.occurredOn') }}</label>
+      <div id="occurredOn" class="mt-1 block w-full rounded-md">
+        {{ transaction.occurredOn }}
+      </div>
+    </div>
+  </div>
+</ng-container>
