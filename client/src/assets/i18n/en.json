@@ -163,7 +163,7 @@
         "occurredOn": "Occurred on"
       },
       "actions": {
-        "createTransaction": "Update Transaction",
+        "updateTransaction": "Update Transaction",
         "cancel": "Cancel"
       },
       "errors": {

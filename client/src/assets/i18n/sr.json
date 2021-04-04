@@ -163,7 +163,7 @@
         "occurredOn": "Datum"
       },
       "actions": {
-        "createTransaction": "Ažuriraj Transakciju",
+        "updateTransaction": "Ažuriraj Transakciju",
         "cancel": "Otkaži"
       },
       "errors": {
