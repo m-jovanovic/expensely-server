@@ -151,6 +151,41 @@
         }
       }
     },
+    "update": {
+      "text": {
+        "title": "Ažuriraj Transakciju"
+      },
+      "fields": {
+        "description": "Opis",
+        "category": "Kategorija",
+        "amount": "Iznos",
+        "currency": "Valuta",
+        "occurredOn": "Datum"
+      },
+      "actions": {
+        "createTransaction": "Ažuriraj Transakciju",
+        "cancel": "Otkaži"
+      },
+      "errors": {
+        "description": {
+          "required": "Opis je neophodan.",
+          "maxLength": "Dužina opisa je ograničena na 100 karaktera."
+        },
+        "category": {
+          "required": "Kategorija je neophodna."
+        },
+        "amount": {
+          "required": "Iznos je neophodan.",
+          "min": "Iznos mora biti veći od 0."
+        },
+        "currency": {
+          "required": "Valuta je neophodna."
+        },
+        "occurredOn": {
+          "required": "Datum transakcije je neophodan."
+        }
+      }
+    },
     "delete": {
       "actions": {
         "delete": "Obriši Transakciju"
