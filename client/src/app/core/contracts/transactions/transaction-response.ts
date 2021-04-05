@@ -1,8 +1,9 @@
+import { CategoryResponse } from './category-response';
+
 export interface TransactionResponse {
   id: string;
   description: string;
-  category: string;
-  categoryValue: number;
+  category: CategoryResponse;
   formattedAmount: string;
   amount: number;
   currency: number;

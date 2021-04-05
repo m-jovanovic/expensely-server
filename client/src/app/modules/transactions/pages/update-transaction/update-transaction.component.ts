@@ -59,7 +59,7 @@ export class UpdateTransactionComponent implements OnInit, OnDestroy {
         transactionId: transaction.id,
         transactionType: transaction.transactionType,
         description: transaction.description,
-        category: transaction.categoryValue,
+        category: transaction.category.id,
         amount: Math.abs(transaction.amount).toFixed(2),
         currency: transaction.currency,
         occurredOn: transaction.occurredOn.substring(0, 10)
