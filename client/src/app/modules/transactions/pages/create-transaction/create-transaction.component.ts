@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, tap } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
 
 import {
   CategoryFacade,
@@ -14,6 +15,8 @@ import {
   TransactionFacade,
   DateService
 } from '@expensely/core';
+import { NotificationService } from '@expensely/shared/services';
+import { NotificationSettings } from '@expensely/shared';
 
 @Component({
   selector: 'exp-create-transaction',
@@ -34,7 +37,9 @@ export class CreateTransactionComponent implements OnInit {
     private userFacade: UserFacade,
     private formBuilder: FormBuilder,
     private routerService: RouterService,
-    private dateService: DateService
+    private dateService: DateService,
+    private notificationService: NotificationService,
+    private translationService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -119,7 +124,11 @@ export class CreateTransactionComponent implements OnInit {
   }
 
   private handleCreateTransactionError(errorResponse: ApiErrorResponse): void {
-    // TODO: Handle errors.
-    console.log('Failed to create transaction.');
+    if (errorResponse.hasErrors()) {
+      this.notificationService.notify(
+        this.translationService.translate('transactions.create.errors.serverError'),
+        NotificationSettings.defaultTimeout
+      );
+    }
   }
 }

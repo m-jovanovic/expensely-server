@@ -163,7 +163,8 @@
         },
         "occurredOn": {
           "required": "Datum transakcije je neophodan."
-        }
+        },
+        "serverError": "Nešto je krenulo naopako prilikom kreiranja transakcije, molimo pokušajte ponovo."
       }
     },
     "update": {
