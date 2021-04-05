@@ -44,7 +44,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 return Maybe<TransactionListResponse>.None;
             }
 
-            var transactions = await _session
+            Transaction[] transactions = await _session
                 .Query<Transaction, Transactions_ByUserIdAndOccurredOnAndCreatedOn>()
                 .Where(x =>
                     x.UserId == query.UserId &&
@@ -53,34 +53,16 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 .OrderByDescending(x => x.OccurredOn)
                 .ThenByDescending(x => x.CreatedOnUtc)
                 .Take(query.Limit)
-                .Select(x => new
-                {
-                    x.Id,
-                    x.Description,
-                    x.Category,
-                    x.Money,
-                    x.OccurredOn,
-                    x.CreatedOnUtc
-                })
                 .ToArrayAsync(cancellationToken);
 
-            TransactionResponse[] transactionResponses = transactions
-                .Select(transaction => new TransactionResponse
-                {
-                    Id = transaction.Id,
-                    Description = transaction.Description,
-                    Category = transaction.Category.ToString(),
-                    FormattedAmount = transaction.Money.Format(),
-                    OccurredOn = transaction.OccurredOn
-                })
-                .ToArray();
+            TransactionResponse[] transactionResponses = transactions.Select(TransactionResponse.FromTransaction).ToArray();
 
             if (transactionResponses.Length < query.Limit)
             {
                 return new TransactionListResponse(transactionResponses);
             }
 
-            var lastTransaction = transactions[^1];
+            Transaction lastTransaction = transactions[^1];
 
             string cursor = Cursor.Create(
                 lastTransaction.OccurredOn.ToString(DateTimeFormats.Date, CultureInfo.InvariantCulture),
