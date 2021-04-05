@@ -1,12 +1,14 @@
 <ng-container
   *ngIf="{
+    transaction: transaction$ | async,
     categories: categories$ | async,
     currencies: currencies$ | async,
     isLoading: isLoading$ | async
   } as data"
 >
-  <div *transloco="let t" class="flex justify-center w-full">
-    <div class="rounded-lg divide-y divide-gray-200 bg-white w-full md:max-w-2xl">
+  <!-- Update transaction -->
+  <div *ngIf="data.transaction" class="flex justify-center w-full">
+    <div *transloco="let t" class="rounded-lg divide-y divide-gray-200 bg-white w-full md:max-w-2xl">
       <!-- Title -->
       <div class="px-6 py-6">
         <h3 class="text-lg font-medium text-gray-700">{{ t('transactions.update.text.title') }}</h3>
@@ -158,5 +160,10 @@
         </div>
       </form>
     </div>
+  </div>
+
+  <!-- Spinner -->
+  <div *ngIf="data.isLoading && !data.transaction">
+    <exp-spinner class="absolute inset-center w-20 h-20"></exp-spinner>
   </div>
 </ng-container>

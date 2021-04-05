@@ -16,7 +16,7 @@ import {
   DateService
 } from '@expensely/core';
 import { NotificationService } from '@expensely/shared/services';
-import { NotificationSettings } from '@expensely/shared';
+import { NotificationSettings } from '@expensely/shared/constants';
 
 @Component({
   selector: 'exp-create-transaction',

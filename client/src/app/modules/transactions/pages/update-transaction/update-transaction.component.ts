@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { debounce, debounceTime, finalize, map } from 'rxjs/operators';
+import { finalize, map, tap } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
 
 import {
   ApiErrorResponse,
@@ -15,16 +16,18 @@ import {
   UserCurrencyResponse,
   UserFacade
 } from '@expensely/core';
+import { NotificationService } from '@expensely/shared/services';
+import { NotificationSettings } from '@expensely/shared/constants';
 
 @Component({
   selector: 'exp-update-transaction',
   templateUrl: './update-transaction.component.html',
   styleUrls: ['./update-transaction.component.scss']
 })
-export class UpdateTransactionComponent implements OnInit, OnDestroy {
+export class UpdateTransactionComponent implements OnInit {
   private requestSent = false;
-  private transactionSubscription: Subscription;
   updateTransactionForm: FormGroup;
+  transaction$: Observable<TransactionResponse>;
   categories$: Observable<CategoryResponse[]>;
   currencies$: Observable<UserCurrencyResponse[]>;
   isLoading$: Observable<boolean>;
@@ -36,7 +39,9 @@ export class UpdateTransactionComponent implements OnInit, OnDestroy {
     private transactionFacade: TransactionFacade,
     private userFacade: UserFacade,
     private categoryFacade: CategoryFacade,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private notificationService: NotificationService,
+    private translationService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -50,21 +55,23 @@ export class UpdateTransactionComponent implements OnInit, OnDestroy {
       occurredOn: ['', Validators.required]
     });
 
-    this.transactionSubscription = this.transactionFacade.transaction$.subscribe((transaction: TransactionResponse) => {
-      if (!transaction) {
-        return;
-      }
+    this.transaction$ = this.transactionFacade.transaction$.pipe(
+      tap((transaction: TransactionResponse) => {
+        if (!transaction) {
+          return;
+        }
 
-      this.updateTransactionForm.setValue({
-        transactionId: transaction.id,
-        transactionType: transaction.transactionType,
-        description: transaction.description,
-        category: transaction.category.id,
-        amount: Math.abs(transaction.amount).toFixed(2),
-        currency: transaction.currency,
-        occurredOn: transaction.occurredOn.substring(0, 10)
-      });
-    });
+        this.updateTransactionForm.setValue({
+          transactionId: transaction.id,
+          transactionType: transaction.transactionType,
+          description: transaction.description,
+          category: transaction.category.id,
+          amount: Math.abs(transaction.amount).toFixed(2),
+          currency: transaction.currency,
+          occurredOn: transaction.occurredOn.substring(0, 10)
+        });
+      })
+    );
 
     this.categories$ = combineLatest([this.categoryFacade.categories$, this.transactionFacade.transaction$]).pipe(
       map(([categories, transaction]) => {
@@ -89,10 +96,6 @@ export class UpdateTransactionComponent implements OnInit, OnDestroy {
     this.transactionFacade.getTransaction(transactionId);
     this.userFacade.loadUserCurrencies();
     this.categoryFacade.loadCategories();
-  }
-
-  ngOnDestroy(): void {
-    this.transactionSubscription.unsubscribe();
   }
 
   onSubmit(): void {
@@ -142,7 +145,11 @@ export class UpdateTransactionComponent implements OnInit, OnDestroy {
   }
 
   private handleUpdateTransactionError(errorResponse: ApiErrorResponse): void {
-    // TODO: Handle errors.
-    console.log('Failed to update transaction.');
+    if (errorResponse.hasErrors()) {
+      this.notificationService.notify(
+        this.translationService.translate('transactions.update.errors.serverError'),
+        NotificationSettings.defaultTimeout
+      );
+    }
   }
 }

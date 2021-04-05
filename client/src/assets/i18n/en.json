@@ -199,7 +199,8 @@
         },
         "occurredOn": {
           "required": "The date the transaction occurred on is required."
-        }
+        },
+        "serverError": "Something went wrong while updating the transaction, please try again."
       }
     },
     "delete": {

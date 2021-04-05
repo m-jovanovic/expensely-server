@@ -25,13 +25,11 @@ export class TrapFocusDirective implements AfterViewInit, OnDestroy {
 
     const allFocusElements = this.htmlElement.querySelectorAll(this.querySelector);
 
-    const enabledFocusElements = Array.from(allFocusElements)
-      .filter((el: any) => !el.disabled)
-      .map((x) => x as HTMLElement);
+    const htmlElements = Array.from(allFocusElements).map((x) => x as HTMLElement);
 
-    this.firstFocusElement = enabledFocusElements[0];
+    this.firstFocusElement = htmlElements[0];
 
-    this.lastFocusElement = enabledFocusElements[enabledFocusElements.length - 1];
+    this.lastFocusElement = htmlElements[htmlElements.length - 1];
   }
 
   ngOnDestroy(): void {
