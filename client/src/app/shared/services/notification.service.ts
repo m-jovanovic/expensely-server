@@ -51,7 +51,7 @@ export class NotificationService {
 
     const domElement = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
 
-    document.body.appendChild(domElement);
+    document.getElementsByTagName('main').item(0).appendChild(domElement);
   }
 
   private removeNotificationDialogFromViewOnClose(componentRef: ComponentRef<NotificationDialogComponent>, timeout?: number): void {
