@@ -249,7 +249,8 @@
         "endDate": {
           "required": "Krajnji datum je neophodan.",
           "endDateAfterStartDate": "Krajnji datum mora biti datum nakon početnog datuma."
-        }
+        },
+        "serverError": "Nešto je krenulo naopako prilikom kreiranja budžeta, molimo pokušajte ponovo."
       }
     },
     "update": {

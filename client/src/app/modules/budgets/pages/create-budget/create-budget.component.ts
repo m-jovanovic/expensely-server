@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
 
 import {
   ApiErrorResponse,
@@ -13,7 +15,8 @@ import {
   UserCurrencyResponse,
   UserFacade
 } from '@expensely/core';
-import { finalize, tap } from 'rxjs/operators';
+import { NotificationService } from '@expensely/shared/services';
+import { NotificationSettings } from '@expensely/shared/constants';
 
 @Component({
   selector: 'exp-create-budget',
@@ -34,7 +37,9 @@ export class CreateBudgetComponent implements OnInit {
     private categoryFacade: CategoryFacade,
     private formBuilder: FormBuilder,
     private routerService: RouterService,
-    private dateService: DateService
+    private dateService: DateService,
+    private notificationService: NotificationService,
+    private translationService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -109,7 +114,12 @@ export class CreateBudgetComponent implements OnInit {
   }
 
   private handleCreateBudgetError(errorResponse: ApiErrorResponse): void {
-    // TODO: Handle errors.
-    console.log('Failed to create budget.');
+    // TODO: Handle more specific errors when server-side functionality is implemented.
+    if (errorResponse.hasErrors()) {
+      this.notificationService.notify(
+        this.translationService.translate('budgets.create.error.serverError'),
+        NotificationSettings.defaultTimeout
+      );
+    }
   }
 }
