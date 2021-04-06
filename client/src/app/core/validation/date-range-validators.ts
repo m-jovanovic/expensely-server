@@ -8,7 +8,14 @@ export class DateRangeValidators {
       return null;
     }
 
-    if (new Date(control.value) > new Date(endDateControl.value)) {
+    const startDate = new Date(control.value);
+    const endDate = new Date(endDateControl.value);
+
+    if (!DateRangeValidators.isValidDate(startDate) || !DateRangeValidators.isValidDate(endDate)) {
+      return null;
+    }
+
+    if (startDate > endDate) {
       return {
         startDateBeforeEndDate: true
       };
@@ -26,7 +33,14 @@ export class DateRangeValidators {
       return null;
     }
 
-    if (new Date(control.value) < new Date(startDateControl.value)) {
+    const startDate = new Date(startDateControl.value);
+    const endDate = new Date(control.value);
+
+    if (!DateRangeValidators.isValidDate(startDate) || !DateRangeValidators.isValidDate(endDate)) {
+      return null;
+    }
+
+    if (endDate < startDate) {
       return {
         endDateAfterStartDate: true
       };
@@ -35,5 +49,9 @@ export class DateRangeValidators {
     startDateControl.setErrors(null);
 
     return null;
+  }
+
+  private static isValidDate(date: Date): boolean {
+    return !isNaN(date.getTime());
   }
 }
