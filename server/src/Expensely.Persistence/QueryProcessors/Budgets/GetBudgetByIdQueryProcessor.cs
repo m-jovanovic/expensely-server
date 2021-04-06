@@ -48,6 +48,7 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
             {
                 Id = budget.Id,
                 Name = budget.Name,
+                FormattedAmount = budget.Money.Format(),
                 Amount = budget.Money.Amount,
                 Currency = budget.Money.Currency.Value,
                 Categories = budget.Categories.Select(category => new CategoryResponse
