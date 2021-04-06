@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { finalize, map, take, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import {
@@ -25,9 +25,11 @@ import { NotificationSettings } from '@expensely/shared/constants';
 })
 export class CreateBudgetComponent implements OnInit {
   private requestSent = false;
+  private selectedCategoriesSubject = new BehaviorSubject<CategoryResponse[]>([]);
   createBudgetForm: FormGroup;
   currencies$: Observable<UserCurrencyResponse[]>;
   categories$: Observable<CategoryResponse[]>;
+  selectedCategories$: Observable<CategoryResponse[]>;
   isLoading$: Observable<boolean>;
   submitted = false;
 
@@ -47,7 +49,7 @@ export class CreateBudgetComponent implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(100)]],
       amount: ['0.00', [Validators.required, Validators.min(0.01)]],
       currency: ['', Validators.required],
-      categories: [''],
+      category: [''],
       startDate: [this.dateService.getCurrentDateString(), [Validators.required, DateRangeValidators.startDateBeforeEndDate]],
       endDate: [this.dateService.getCurrentDateString(), [Validators.required, DateRangeValidators.endDateAfterStartDate]]
     });
@@ -62,7 +64,13 @@ export class CreateBudgetComponent implements OnInit {
       })
     );
 
-    this.categories$ = this.categoryFacade.expenseCategories$;
+    this.selectedCategories$ = this.selectedCategoriesSubject.asObservable();
+
+    this.categories$ = combineLatest([this.categoryFacade.expenseCategories$, this.selectedCategories$]).pipe(
+      map(([categories, selectedCategories]) => {
+        return categories.filter((category) => !selectedCategories.includes(category));
+      })
+    );
 
     this.isLoading$ = this.budgetFacade.isLoading$;
 
@@ -71,7 +79,7 @@ export class CreateBudgetComponent implements OnInit {
     this.categoryFacade.loadCategories();
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.requestSent) {
       return;
     }
@@ -92,7 +100,7 @@ export class CreateBudgetComponent implements OnInit {
         this.createBudgetForm.value.name,
         this.createBudgetForm.value.amount,
         this.createBudgetForm.value.currency,
-        this.createBudgetForm.value.categories || [],
+        await this.getSelectedCategoryIds(),
         this.createBudgetForm.value.startDate,
         this.createBudgetForm.value.endDate
       )
@@ -113,6 +121,24 @@ export class CreateBudgetComponent implements OnInit {
     return await this.routerService.navigateByUrl('');
   }
 
+  addCategory(categoryId: number): void {
+    this.categories$.pipe(take(1)).subscribe((categories: CategoryResponse[]) => {
+      const category = categories.find((c) => c.id === categoryId);
+
+      this.selectedCategories$.pipe(take(1)).subscribe((selectedCategories) => {
+        this.selectedCategoriesSubject.next([...selectedCategories, category]);
+      });
+    });
+
+    this.createBudgetForm.get('category').setValue('');
+  }
+
+  removeCategory(category: CategoryResponse): void {
+    this.selectedCategories$.pipe(take(1)).subscribe((selectedCategories) => {
+      this.selectedCategoriesSubject.next([...selectedCategories.filter((c) => c != category)]);
+    });
+  }
+
   private handleCreateBudgetError(errorResponse: ApiErrorResponse): void {
     // TODO: Handle more specific errors when server-side functionality is implemented.
     if (errorResponse.hasErrors()) {
@@ -121,5 +147,14 @@ export class CreateBudgetComponent implements OnInit {
         NotificationSettings.defaultTimeout
       );
     }
+  }
+
+  private async getSelectedCategoryIds(): Promise<number[]> {
+    return await this.selectedCategories$
+      .pipe(
+        take(1),
+        map((selectedCategories: CategoryResponse[]) => selectedCategories.map((c) => c.id))
+      )
+      .toPromise();
   }
 }

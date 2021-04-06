@@ -81,7 +81,7 @@ export class UpdateTransactionComponent implements OnInit {
 
         const isExpenseSelected = transaction.transactionType == TransactionType.Expense;
 
-        return categories.filter((x) => x.isExpense == isExpenseSelected || x.isDefault);
+        return categories.filter((category) => category.isExpense == isExpenseSelected || category.isDefault);
       })
     );
 

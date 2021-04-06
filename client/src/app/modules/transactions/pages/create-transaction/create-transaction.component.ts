@@ -56,7 +56,7 @@ export class CreateTransactionComponent implements OnInit {
       map(([categories, formValue]) => {
         const isExpenseSelected = formValue.transactionType == TransactionType.Expense;
 
-        return categories.filter((x) => x.isExpense == isExpenseSelected || x.isDefault);
+        return categories.filter((category) => category.isExpense == isExpenseSelected || category.isDefault);
       })
     );
 
