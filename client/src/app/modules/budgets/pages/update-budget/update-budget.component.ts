@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, tap } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
 
 import {
   ApiErrorResponse,
@@ -14,16 +16,17 @@ import {
   UserCurrencyResponse,
   UserFacade
 } from '@expensely/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationService } from '@expensely/shared/services';
+import { NotificationSettings } from '@expensely/shared/constants';
 
 @Component({
   selector: 'exp-update-budget',
   templateUrl: './update-budget.component.html',
   styleUrls: ['./update-budget.component.scss']
 })
-export class UpdateBudgetComponent implements OnInit, OnDestroy {
+export class UpdateBudgetComponent implements OnInit {
   private requestSent = false;
-  private budgetSubscription: Subscription;
+  budget$: Observable<BudgetResponse>;
   updateBudgetForm: FormGroup;
   currencies$: Observable<UserCurrencyResponse[]>;
   categories$: Observable<CategoryResponse[]>;
@@ -36,7 +39,9 @@ export class UpdateBudgetComponent implements OnInit, OnDestroy {
     private budgetFacade: BudgetFacade,
     private userFacade: UserFacade,
     private categoryFacade: CategoryFacade,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private notificationService: NotificationService,
+    private translationService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -50,21 +55,23 @@ export class UpdateBudgetComponent implements OnInit, OnDestroy {
       endDate: ['', [Validators.required, DateRangeValidators.endDateAfterStartDate]]
     });
 
-    this.budgetSubscription = this.budgetFacade.budget$.subscribe((budget: BudgetResponse) => {
-      if (!budget) {
-        return;
-      }
+    this.budget$ = this.budgetFacade.budget$.pipe(
+      tap((budget: BudgetResponse) => {
+        if (!budget) {
+          return;
+        }
 
-      this.updateBudgetForm.setValue({
-        budgetId: budget.id,
-        name: budget.name,
-        amount: budget.amount,
-        currency: budget.currency,
-        categories: budget.categories.map((x) => x.id),
-        startDate: budget.startDate.substring(0, 10),
-        endDate: budget.endDate.substring(0, 10)
-      });
-    });
+        this.updateBudgetForm.setValue({
+          budgetId: budget.id,
+          name: budget.name,
+          amount: budget.amount,
+          currency: budget.currency,
+          categories: budget.categories.map((x) => x.id),
+          startDate: budget.startDate.substring(0, 10),
+          endDate: budget.endDate.substring(0, 10)
+        });
+      })
+    );
 
     this.categories$ = this.categoryFacade.expenseCategories$;
 
@@ -79,10 +86,6 @@ export class UpdateBudgetComponent implements OnInit, OnDestroy {
     this.budgetFacade.getBudget(budgetId);
     this.userFacade.loadUserCurrencies();
     this.categoryFacade.loadCategories();
-  }
-
-  ngOnDestroy(): void {
-    this.budgetSubscription.unsubscribe();
   }
 
   onSubmit(): void {
@@ -128,7 +131,12 @@ export class UpdateBudgetComponent implements OnInit, OnDestroy {
   }
 
   private handleUpdateBudgetError(errorResponse: ApiErrorResponse): void {
-    // TODO: Handle errors.
-    console.log('Failed to update budget.');
+    // TODO: Handle more specific errors when server-side functionality is implemented.
+    if (errorResponse.hasErrors()) {
+      this.notificationService.notify(
+        this.translationService.translate('budgets.update.error.serverError'),
+        NotificationSettings.defaultTimeout
+      );
+    }
   }
 }

@@ -287,7 +287,8 @@
         "endDate": {
           "required": "The end date is required.",
           "endDateAfterStartDate": "The end date must be a date after the start date."
-        }
+        },
+        "serverError": "Something went wrong while updating the budget, please try again."
       }
     }
   },
