@@ -6,6 +6,11 @@ import { TransactionResponse } from '../../contracts/transactions/transaction-re
 
 export class TransactionSelectors {
   @Selector([TransactionState])
+  static getTransactionId(state: TransactionStateModel): string {
+    return state.transactionId;
+  }
+
+  @Selector([TransactionState])
   static getTransaction(state: TransactionStateModel): TransactionResponse {
     return state.transaction;
   }

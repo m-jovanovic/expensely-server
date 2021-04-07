@@ -53,4 +53,8 @@ export class TransactionFacade {
   deleteTransaction(transactionId: string): Observable<any> {
     return this.store.dispatch(new DeleteTransaction(transactionId));
   }
+
+  get transactionId(): string {
+    return this.store.selectSnapshot(TransactionSelectors.getTransactionId);
+  }
 }

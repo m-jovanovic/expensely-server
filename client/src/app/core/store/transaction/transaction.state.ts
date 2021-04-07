@@ -6,11 +6,18 @@ import { catchError, tap } from 'rxjs/operators';
 import { TransactionStateModel } from './transaction-state.model';
 import { GetTransaction, DeleteTransaction, CreateTransaction, UpdateTransaction } from './transaction.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
-import { ApiErrorResponse, CreateTransactionRequest, TransactionResponse, UpdateTransactionRequest } from '../../contracts';
+import {
+  ApiErrorResponse,
+  CreateTransactionRequest,
+  EntityCreatedResponse,
+  TransactionResponse,
+  UpdateTransactionRequest
+} from '../../contracts';
 
 @State<TransactionStateModel>({
   name: 'transaction',
   defaults: {
+    transactionId: '',
     transaction: null,
     isLoading: false,
     error: false
@@ -30,6 +37,7 @@ export class TransactionState {
     return this.transactionService.getTransaction(action.transactionId).pipe(
       tap((response: TransactionResponse) => {
         context.patchState({
+          transactionId: response.id,
           transaction: response,
           isLoading: false,
           error: false
@@ -47,7 +55,7 @@ export class TransactionState {
   }
 
   @Action(CreateTransaction)
-  createTransaction(context: StateContext<TransactionStateModel>, action: CreateTransaction): Observable<any> {
+  createTransaction(context: StateContext<TransactionStateModel>, action: CreateTransaction): Observable<EntityCreatedResponse> {
     context.patchState({
       isLoading: true
     });
@@ -66,9 +74,11 @@ export class TransactionState {
         )
       )
       .pipe(
-        tap(() => {
+        tap((response: EntityCreatedResponse) => {
           context.patchState({
-            isLoading: false
+            transactionId: response.entityId,
+            isLoading: false,
+            error: false
           });
         }),
         catchError((error: ApiErrorResponse) => {
@@ -96,7 +106,8 @@ export class TransactionState {
       .pipe(
         tap(() => {
           context.patchState({
-            isLoading: false
+            isLoading: false,
+            error: false
           });
         }),
         catchError((error: ApiErrorResponse) => {
@@ -119,7 +130,8 @@ export class TransactionState {
     return this.transactionService.deleteTransaction(action.transactionId).pipe(
       tap(() => {
         context.patchState({
-          isLoading: false
+          isLoading: false,
+          error: false
         });
       }),
       catchError((error: ApiErrorResponse) => {
