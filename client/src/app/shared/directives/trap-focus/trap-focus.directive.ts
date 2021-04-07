@@ -25,7 +25,7 @@ export class TrapFocusDirective implements AfterViewInit, OnDestroy {
 
     const allFocusElements = this.htmlElement.querySelectorAll(this.querySelector);
 
-    const htmlElements = Array.from(allFocusElements).map((x) => x as HTMLElement);
+    const htmlElements = Array.from(allFocusElements).map((element) => element as HTMLElement);
 
     this.firstFocusElement = htmlElements[0];
 

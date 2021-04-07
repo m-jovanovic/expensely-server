@@ -61,6 +61,6 @@ export class LanguagePickerComponent implements OnInit, OnDestroy {
   }
 
   private findLanguage(code: string): LanguageModel {
-    return this.languages.find((x) => x.code == code);
+    return this.languages.find((language) => language.code == code);
   }
 }

@@ -66,7 +66,9 @@ export class CreateTransactionComponent implements OnInit {
           return;
         }
 
-        this.createTransactionForm.controls.currency.setValue(userCurrencies.find((x) => x.isPrimary).id);
+        const primaryCurrency = userCurrencies.find((userCurrency) => userCurrency.isPrimary);
+
+        this.createTransactionForm.controls.currency.setValue(primaryCurrency.id);
       })
     );
 

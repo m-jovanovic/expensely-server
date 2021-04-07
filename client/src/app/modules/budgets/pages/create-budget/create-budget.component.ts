@@ -60,7 +60,9 @@ export class CreateBudgetComponent implements OnInit {
           return;
         }
 
-        this.createBudgetForm.controls.currency.setValue(userCurrencies.find((x) => x.isPrimary).id);
+        const primaryCurrency = userCurrencies.find((userCurrency) => userCurrency.isPrimary);
+
+        this.createBudgetForm.controls.currency.setValue(primaryCurrency.id);
       })
     );
 
@@ -123,7 +125,7 @@ export class CreateBudgetComponent implements OnInit {
 
   addCategory(categoryId: number): void {
     this.categories$.pipe(take(1)).subscribe((categories: CategoryResponse[]) => {
-      const category = categories.find((c) => c.id === categoryId);
+      const category = categories.find((category) => category.id === categoryId);
 
       this.selectedCategories$.pipe(take(1)).subscribe((selectedCategories) => {
         this.selectedCategoriesSubject.next([...selectedCategories, category]);
@@ -133,9 +135,9 @@ export class CreateBudgetComponent implements OnInit {
     this.createBudgetForm.get('category').setValue('');
   }
 
-  removeCategory(category: CategoryResponse): void {
+  removeCategory(categoryToRemove: CategoryResponse): void {
     this.selectedCategories$.pipe(take(1)).subscribe((selectedCategories) => {
-      this.selectedCategoriesSubject.next([...selectedCategories.filter((c) => c != category)]);
+      this.selectedCategoriesSubject.next([...selectedCategories.filter((category) => category != categoryToRemove)]);
     });
   }
 
