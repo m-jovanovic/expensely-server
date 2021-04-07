@@ -114,7 +114,7 @@ export class CreateBudgetComponent implements OnInit {
         })
       )
       .subscribe(
-        () => this.routerService.navigateByUrl(''),
+        () => this.routerService.navigate(['budgets', this.budgetFacade.budgetId]),
         (error: ApiErrorResponse) => this.handleCreateBudgetError(error)
       );
   }
