@@ -6,6 +6,11 @@ import { BudgetResponse } from '../../contracts/budgets/budget-response';
 
 export class BudgetSelectors {
   @Selector([BudgetState])
+  static getBudgetId(state: BudgetStateModel): string {
+    return state.budgetId;
+  }
+
+  @Selector([BudgetState])
   static getBudget(state: BudgetStateModel): BudgetResponse {
     return state.budget;
   }

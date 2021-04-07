@@ -6,11 +6,12 @@ import { catchError, tap } from 'rxjs/operators';
 import { BudgetStateModel } from './budget-state.model';
 import { CreateBudget, GetBudget, UpdateBudget } from './budget.actions';
 import { BudgetService } from '../../services/budgets/budget.service';
-import { ApiErrorResponse, BudgetResponse, CreateBudgetRequest, UpdateBudgetRequest } from '../../contracts';
+import { ApiErrorResponse, BudgetResponse, CreateBudgetRequest, EntityCreatedResponse, UpdateBudgetRequest } from '../../contracts';
 
 @State<BudgetStateModel>({
   name: 'budget',
   defaults: {
+    budgetId: '',
     budget: null,
     isLoading: false,
     error: false
@@ -30,8 +31,10 @@ export class BudgetState {
     return this.budgetService.getBudget(action.budgetId).pipe(
       tap((response: BudgetResponse) => {
         context.patchState({
+          budgetId: response.id,
           budget: response,
-          isLoading: false
+          isLoading: false,
+          error: false
         });
       }),
       catchError((error: ApiErrorResponse) => {
@@ -46,7 +49,7 @@ export class BudgetState {
   }
 
   @Action(CreateBudget)
-  createBudget(context: StateContext<BudgetStateModel>, action: CreateBudget): Observable<any> {
+  createBudget(context: StateContext<BudgetStateModel>, action: CreateBudget): Observable<EntityCreatedResponse> {
     context.patchState({
       isLoading: true
     });
@@ -64,9 +67,11 @@ export class BudgetState {
         )
       )
       .pipe(
-        tap(() => {
+        tap((response: EntityCreatedResponse) => {
           context.patchState({
-            isLoading: false
+            budgetId: response.entityId,
+            isLoading: false,
+            error: false
           });
         }),
         catchError((error: ApiErrorResponse) => {
@@ -91,7 +96,8 @@ export class BudgetState {
       .pipe(
         tap(() => {
           context.patchState({
-            isLoading: false
+            isLoading: false,
+            error: false
           });
         }),
         catchError((error: ApiErrorResponse) => {

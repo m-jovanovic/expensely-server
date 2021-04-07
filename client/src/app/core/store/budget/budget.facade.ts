@@ -33,4 +33,8 @@ export class BudgetFacade {
   updateBudget(budgetId: string, name: string, amount: number, currency: number, startDate: Date, endDate: Date): Observable<any> {
     return this.store.dispatch(new UpdateBudget(budgetId, name, amount, currency, startDate, endDate));
   }
+
+  get budgetId(): string {
+    return this.store.selectSnapshot(BudgetSelectors.getBudgetId);
+  }
 }
