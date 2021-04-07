@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { first, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { ApiRoutes } from '../../constants/api-routes';
 import { ApiService } from '../api/api.service';
@@ -19,7 +19,6 @@ export class AuthenticationService extends ApiService {
 
   login(request: LoginRequest): Observable<TokenResponse> {
     return this.post<TokenResponse>(ApiRoutes.Authentication.login, request).pipe(
-      first(),
       tap(async () => {
         const returnUrl: string = this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
 
@@ -33,10 +32,10 @@ export class AuthenticationService extends ApiService {
   }
 
   register(request: RegisterRequest): Observable<any> {
-    return this.post<TokenResponse>(ApiRoutes.Authentication.register, request).pipe(first());
+    return this.post<TokenResponse>(ApiRoutes.Authentication.register, request);
   }
 
   refreshToken(request: RefreshTokenRequest): Observable<TokenResponse> {
-    return this.post<TokenResponse>(ApiRoutes.Authentication.refreshToken, request).pipe(first());
+    return this.post<TokenResponse>(ApiRoutes.Authentication.refreshToken, request);
   }
 }

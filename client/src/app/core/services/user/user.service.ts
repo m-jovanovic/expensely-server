@@ -15,20 +15,14 @@ export class UserService extends ApiService {
   }
 
   getUserCurrencies(userId: string): Observable<UserCurrencyResponse[]> {
-    const url = ApiRoutes.Users.getUserCurrencies.replace('{userId}', userId);
-
-    return this.get(url);
+    return this.get(ApiRoutes.Users.getUserCurrencies.replace('{userId}', userId));
   }
 
   addUserCurrency(userId: string, currency: number): Observable<any> {
-    const url = ApiRoutes.Users.addUserCurrency.replace('{userId}', userId).replace('{currency}', currency.toString());
-
-    return this.post(url);
+    return this.post(ApiRoutes.Users.addUserCurrency.replace('{userId}', userId).replace('{currency}', currency.toString()));
   }
 
   changeUserPrimaryCurrency(userId: string, currency: number): Observable<any> {
-    const url = ApiRoutes.Users.changeUserPrimaryCurrency.replace('{userId}', userId).replace('{currency}', currency.toString());
-
-    return this.put(url);
+    return this.put(ApiRoutes.Users.changeUserPrimaryCurrency.replace('{userId}', userId).replace('{currency}', currency.toString()));
   }
 }
