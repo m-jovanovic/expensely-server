@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Budgets;
 using Expensely.Application.Commands.Handlers.Validation;
+using Expensely.Application.Contracts.Common;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
@@ -16,7 +17,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
     /// <summary>
     /// Represents the <see cref="CreateBudgetCommand"/> handler.
     /// </summary>
-    public sealed class CreateBudgetCommandHandler : ICommandHandler<CreateBudgetCommand, Result>
+    public sealed class CreateBudgetCommandHandler : ICommandHandler<CreateBudgetCommand, Result<EntityCreatedResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IBudgetRepository _budgetRepository;
@@ -36,20 +37,20 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
         }
 
         /// <inheritdoc />
-        public async Task<Result> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
+        public async Task<Result<EntityCreatedResponse>> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
         {
             Result<Name> nameResult = Name.Create(request.Name);
 
             if (nameResult.IsFailure)
             {
-                return Result.Failure(nameResult.Error);
+                return Result.Failure<EntityCreatedResponse>(nameResult.Error);
             }
 
             Maybe<User> maybeUser = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure(ValidationErrors.User.NotFound);
+                return Result.Failure<EntityCreatedResponse>(ValidationErrors.User.NotFound);
             }
 
             Category[] categories = request.Categories.Select(category => Category.FromValue(category).Value).ToArray();
@@ -67,7 +68,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result.Success();
+            return new EntityCreatedResponse(budget.Id);
         }
     }
 }
