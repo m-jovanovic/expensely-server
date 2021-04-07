@@ -102,18 +102,20 @@
               <div class="-mt-1 mb-2">
                 <div
                   *ngFor="let category of data.selectedCategories"
-                  class="inline-block space-x-4 items-center pl-4 pr-3 py-2 mt-2 mr-2 rounded-md cursor-pointer bg-gray-100"
+                  class="inline-block mt-2 mr-2 rounded-md bg-gray-100 cursor-pointer"
                   (click)="removeCategory(category)"
                 >
-                  <span class="inline-block">
-                    {{ category.name }}
-                  </span>
+                  <div class="flex items-center space-x-2 pl-4 pr-3 py-2">
+                    <span class="inline-block">
+                      {{ category.name }}
+                    </span>
 
-                  <span class="inline-block">
-                    <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </span>
+                    <span class="inline-block">
+                      <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </span>
+                  </div>
                 </div>
               </div>
 
