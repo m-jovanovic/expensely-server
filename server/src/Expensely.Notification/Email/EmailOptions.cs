@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the email settings.
     /// </summary>
-    public sealed class EmailSettings
+    public sealed class EmailOptions
     {
         /// <summary>
         /// Gets the host.

@@ -1,5 +1,5 @@
 ﻿using Expensely.BackgroundTasks.MessageProcessing.Abstractions;
-using Expensely.BackgroundTasks.MessageProcessing.Settings;
+using Expensely.BackgroundTasks.MessageProcessing.Options;
 using Microsoft.Extensions.Options;
 using Quartz;
 
@@ -10,14 +10,14 @@ namespace Expensely.App.ServiceInstallers.BackgroundTasks
     /// </summary>
     public sealed class MessageProcessingJobSetup : IPostConfigureOptions<QuartzOptions>
     {
-        private readonly MessageProcessingJobSettings _messageProcessingJobSettings;
+        private readonly MessageProcessingJobOptions _options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageProcessingJobSetup"/> class.
         /// </summary>
-        /// <param name="messageProcessingJobSettingsOptions">The message processing job settings.</param>
-        public MessageProcessingJobSetup(IOptions<MessageProcessingJobSettings> messageProcessingJobSettingsOptions) =>
-            _messageProcessingJobSettings = messageProcessingJobSettingsOptions.Value;
+        /// <param name="options">The message processing job options.</param>
+        public MessageProcessingJobSetup(IOptions<MessageProcessingJobOptions> options) =>
+            _options = options.Value;
 
         /// <inheritdoc />
         public void PostConfigure(string name, QuartzOptions options)
@@ -29,7 +29,7 @@ namespace Expensely.App.ServiceInstallers.BackgroundTasks
             options.AddTrigger(triggerBuilder => triggerBuilder
                 .ForJob(jobKey)
                 .WithSimpleSchedule(scheduleBuilder =>
-                    scheduleBuilder.WithIntervalInSeconds(_messageProcessingJobSettings.IntervalInSeconds).RepeatForever()));
+                    scheduleBuilder.WithIntervalInSeconds(_options.IntervalInSeconds).RepeatForever()));
         }
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the alert settings.
     /// </summary>
-    public sealed class AlertSettings
+    public sealed class AlertOptions
     {
         /// <summary>
         /// Gets the email recipient.

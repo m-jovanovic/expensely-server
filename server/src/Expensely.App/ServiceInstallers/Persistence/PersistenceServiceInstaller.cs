@@ -21,7 +21,7 @@ namespace Expensely.App.ServiceInstallers.Persistence
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services)
         {
-            services.ConfigureOptions<RavenDbSettingsSetup>();
+            services.ConfigureOptions<RavenDbOptionsSetup>();
 
             services.AddSingleton<DocumentStoreProvider>();
 

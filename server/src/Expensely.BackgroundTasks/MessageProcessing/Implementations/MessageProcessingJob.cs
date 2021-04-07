@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.BackgroundTasks.MessageProcessing.Abstractions;
-using Expensely.BackgroundTasks.MessageProcessing.Settings;
+using Expensely.BackgroundTasks.MessageProcessing.Options;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.ServiceLifetimes;
 using Expensely.Domain.Modules.Messages;
@@ -19,7 +19,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Implementations
     [DisallowConcurrentExecution]
     internal sealed class MessageProcessingJob : IMessageProcessingJob, ITransient
     {
-        private readonly MessageProcessingJobSettings _settings;
+        private readonly MessageProcessingJobOptions _options;
         private readonly IMessageRepository _messageRepository;
         private readonly IMessageDispatcher _messageDispatcher;
         private readonly ILogger<MessageProcessingJob> _logger;
@@ -27,17 +27,17 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Implementations
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageProcessingJob"/> class.
         /// </summary>
-        /// <param name="messageProcessingJobSettingsOptions">The message processing job settings options.</param>
+        /// <param name="options">The message processing job options.</param>
         /// <param name="messageRepository">The message repository.</param>
         /// <param name="messageDispatcher">The message dispatcher.</param>
         /// <param name="logger">The logger.</param>
         public MessageProcessingJob(
-            IOptions<MessageProcessingJobSettings> messageProcessingJobSettingsOptions,
+            IOptions<MessageProcessingJobOptions> options,
             IMessageRepository messageRepository,
             IMessageDispatcher messageDispatcher,
             ILogger<MessageProcessingJob> logger)
         {
-            _settings = messageProcessingJobSettingsOptions.Value;
+            _options = options.Value;
             _messageRepository = messageRepository;
             _messageDispatcher = messageDispatcher;
             _logger = logger;
@@ -52,7 +52,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Implementations
             try
             {
                 IReadOnlyCollection<Message> unprocessedMessages =
-                    await _messageRepository.GetUnprocessedAsync(_settings.BatchSize, cancellationToken);
+                    await _messageRepository.GetUnprocessedAsync(_options.BatchSize, cancellationToken);
 
                 foreach (Message message in unprocessedMessages)
                 {

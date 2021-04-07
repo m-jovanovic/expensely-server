@@ -1,9 +1,9 @@
-﻿namespace Expensely.Persistence.Settings
+﻿namespace Expensely.Persistence.Options
 {
     /// <summary>
     /// Represents the RavenDB settings.
     /// </summary>
-    public sealed class RavenDbSettings
+    public sealed class RavenDbOptions
     {
         /// <summary>
         /// Gets the certificate.

@@ -15,7 +15,7 @@ namespace Expensely.App.ServiceInstallers.Authentication
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap[JwtRegisteredClaimNames.Sub] = ClaimTypes.Name;
 
-            services.ConfigureOptions<JwtSettingsSetup>();
+            services.ConfigureOptions<JwtOptionsSetup>();
 
             services.ConfigureOptions<JwtBearerOptionsSetup>();
 

@@ -5,7 +5,7 @@ namespace Expensely.Infrastructure.Logging
     /// <summary>
     /// Represents the logging settings.
     /// </summary>
-    public sealed class LoggingSettings
+    public sealed class LoggingOptions
     {
         /// <summary>
         /// Gets or sets the expiration in days.

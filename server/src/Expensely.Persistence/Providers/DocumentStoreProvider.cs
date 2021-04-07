@@ -4,8 +4,8 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using Expensely.Common.Abstractions.Clock;
 using Expensely.Domain.Primitives;
+using Expensely.Persistence.Options;
 using Expensely.Persistence.Serialization;
-using Expensely.Persistence.Settings;
 using Microsoft.Extensions.Options;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Indexes;
@@ -29,19 +29,17 @@ namespace Expensely.Persistence.Providers
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentStoreProvider"/> class.
         /// </summary>
-        /// <param name="ravenDbSettingsOptions">The RavenDb settings options.</param>
+        /// <param name="options">The RavenDb options.</param>
         /// <param name="systemTime">The system time.</param>
-        public DocumentStoreProvider(IOptions<RavenDbSettings> ravenDbSettingsOptions, ISystemTime systemTime)
+        public DocumentStoreProvider(IOptions<RavenDbOptions> options, ISystemTime systemTime)
         {
             _systemTime = systemTime;
 
-            RavenDbSettings settings = ravenDbSettingsOptions.Value;
-
             DocumentStore = new DocumentStore
             {
-                Certificate = new X509Certificate2(Convert.FromBase64String(settings.Certificate)),
-                Database = settings.Database,
-                Urls = settings.Urls
+                Certificate = new X509Certificate2(Convert.FromBase64String(options.Value.Certificate)),
+                Database = options.Value.Database,
+                Urls = options.Value.Urls
             };
 
             DocumentStore.Conventions.Serialization = new NewtonsoftJsonSerializationConventions

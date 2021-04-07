@@ -14,26 +14,26 @@ namespace Expensely.Notification.Email
     /// </summary>
     public sealed class EmailSender : IEmailSender, ITransient
     {
-        private readonly EmailSettings _settings;
+        private readonly EmailOptions _options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailSender"/> class.
         /// </summary>
-        /// <param name="emailSettingsOptions">The email settings options.</param>
-        public EmailSender(IOptions<EmailSettings> emailSettingsOptions) => _settings = emailSettingsOptions.Value;
+        /// <param name="options">The email options.</param>
+        public EmailSender(IOptions<EmailOptions> options) => _options = options.Value;
 
         /// <inheritdoc />
         public async Task SendAsync(MailRequest mailRequest, CancellationToken cancellationToken = default)
         {
-            using var smtpClient = new SmtpClient(_settings.Host, _settings.Port)
+            using var smtpClient = new SmtpClient(_options.Host, _options.Port)
             {
-                EnableSsl = _settings.EnableSsl,
-                Credentials = new NetworkCredential(_settings.SenderEmail, _settings.Password)
+                EnableSsl = _options.EnableSsl,
+                Credentials = new NetworkCredential(_options.SenderEmail, _options.Password)
             };
 
             using var message = new MailMessage
             {
-                From = new MailAddress(_settings.SenderEmail, _settings.DisplayName),
+                From = new MailAddress(_options.SenderEmail, _options.DisplayName),
                 Subject = mailRequest.Subject,
                 Body = mailRequest.Body,
                 IsBodyHtml = mailRequest.IsBodyHtml

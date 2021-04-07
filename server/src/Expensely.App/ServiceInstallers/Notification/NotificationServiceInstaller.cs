@@ -13,9 +13,9 @@ namespace Expensely.App.ServiceInstallers.Notification
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services)
         {
-            services.ConfigureOptions<EmailSettingsSetup>();
+            services.ConfigureOptions<EmailOptionsSetup>();
 
-            services.ConfigureOptions<AlertSettingsSetup>();
+            services.ConfigureOptions<AlertOptionsSetup>();
 
             services.AddTransientAsMatchingInterface(NotificationAssembly.Assembly);
         }

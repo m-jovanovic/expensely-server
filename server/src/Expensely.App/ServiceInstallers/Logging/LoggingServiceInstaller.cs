@@ -12,7 +12,7 @@ namespace Expensely.App.ServiceInstallers.Logging
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services)
         {
-            services.ConfigureOptions<LoggingSettingsSetup>();
+            services.ConfigureOptions<LoggingOptionsSetup>();
 
             services.AddTransient<ILoggerConfigurator, LoggerConfigurator>();
         }

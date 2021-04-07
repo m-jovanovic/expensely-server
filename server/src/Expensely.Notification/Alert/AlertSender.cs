@@ -13,17 +13,17 @@ namespace Expensely.Notification.Alert
     internal sealed class AlertSender : IAlertSender, ITransient
     {
         private readonly IEmailSender _emailSender;
-        private readonly AlertSettings _alertSettings;
+        private readonly AlertOptions _options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AlertSender"/> class.
         /// </summary>
         /// <param name="emailSender">The email sender.</param>
-        /// <param name="alertSettingsOptions">The alert settings options.</param>
-        public AlertSender(IEmailSender emailSender, IOptions<AlertSettings> alertSettingsOptions)
+        /// <param name="options">The alert settings options.</param>
+        public AlertSender(IEmailSender emailSender, IOptions<AlertOptions> options)
         {
             _emailSender = emailSender;
-            _alertSettings = alertSettingsOptions.Value;
+            _options = options.Value;
         }
 
         /// <inheritdoc />
@@ -31,7 +31,7 @@ namespace Expensely.Notification.Alert
         {
             var mailRequest = new MailRequest
             {
-                RecipientEmail = _alertSettings.EmailRecipient,
+                RecipientEmail = _options.EmailRecipient,
                 Subject = alertRequest.Subject,
                 Body = alertRequest.Body
             };

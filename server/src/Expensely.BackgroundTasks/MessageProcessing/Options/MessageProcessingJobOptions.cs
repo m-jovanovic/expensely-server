@@ -1,9 +1,9 @@
-﻿namespace Expensely.BackgroundTasks.MessageProcessing.Settings
+﻿namespace Expensely.BackgroundTasks.MessageProcessing.Options
 {
     /// <summary>
     /// Represents the message processing job configuration settings.
     /// </summary>
-    public sealed class MessageProcessingJobSettings
+    public sealed class MessageProcessingJobOptions
     {
         /// <summary>
         /// Gets the interval in seconds.

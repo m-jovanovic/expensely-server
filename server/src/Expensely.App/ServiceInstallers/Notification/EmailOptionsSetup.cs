@@ -5,20 +5,20 @@ using Microsoft.Extensions.Options;
 namespace Expensely.App.ServiceInstallers.Notification
 {
     /// <summary>
-    /// Represents the <see cref="EmailSettings"/> setup.
+    /// Represents the <see cref="EmailOptions"/> setup.
     /// </summary>
-    public sealed class EmailSettingsSetup : IConfigureOptions<EmailSettings>
+    public sealed class EmailOptionsSetup : IConfigureOptions<EmailOptions>
     {
         private const string ConfigurationSectionName = "Email";
         private readonly IConfiguration _configuration;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EmailSettingsSetup"/> class.
+        /// Initializes a new instance of the <see cref="EmailOptionsSetup"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public EmailSettingsSetup(IConfiguration configuration) => _configuration = configuration;
+        public EmailOptionsSetup(IConfiguration configuration) => _configuration = configuration;
 
         /// <inheritdoc />
-        public void Configure(EmailSettings options) => _configuration.GetSection(ConfigurationSectionName).Bind(options);
+        public void Configure(EmailOptions options) => _configuration.GetSection(ConfigurationSectionName).Bind(options);
     }
 }

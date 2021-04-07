@@ -6,21 +6,21 @@ using Microsoft.Extensions.Options;
 namespace Expensely.App.ServiceInstallers.Logging
 {
     /// <summary>
-    /// Represents the <see cref="LoggingSettings"/> setup.
+    /// Represents the <see cref="LoggingOptions"/> setup.
     /// </summary>
-    public sealed class LoggingSettingsSetup : IConfigureOptions<LoggingSettings>
+    public sealed class LoggingOptionsSetup : IConfigureOptions<LoggingOptions>
     {
         private const string ConfigurationSectionName = "Serilog:RavenDB";
         private readonly IConfiguration _configuration;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoggingSettingsSetup"/> class.
+        /// Initializes a new instance of the <see cref="LoggingOptionsSetup"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public LoggingSettingsSetup(IConfiguration configuration) => _configuration = configuration;
+        public LoggingOptionsSetup(IConfiguration configuration) => _configuration = configuration;
 
         /// <inheritdoc />
-        public void Configure(LoggingSettings options)
+        public void Configure(LoggingOptions options)
         {
             var loggingExpiration = new LoggingExpiration();
 

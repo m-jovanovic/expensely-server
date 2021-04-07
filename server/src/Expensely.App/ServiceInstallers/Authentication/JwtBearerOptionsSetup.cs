@@ -14,17 +14,17 @@ namespace Expensely.App.ServiceInstallers.Authentication
     {
         private const string ConfigurationSectionName = "Authentication";
         private readonly IConfiguration _configuration;
-        private readonly JwtSettings _settings;
+        private readonly JwtOptions _options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JwtBearerOptionsSetup"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        /// <param name="jwtSettingsOptions">The JWT settings.</param>
-        public JwtBearerOptionsSetup(IConfiguration configuration, IOptions<JwtSettings> jwtSettingsOptions)
+        /// <param name="options">The JWT options.</param>
+        public JwtBearerOptionsSetup(IConfiguration configuration, IOptions<JwtOptions> options)
         {
             _configuration = configuration;
-            _settings = jwtSettingsOptions.Value;
+            _options = options.Value;
         }
 
         /// <inheritdoc />
@@ -32,11 +32,11 @@ namespace Expensely.App.ServiceInstallers.Authentication
         {
             _configuration.GetSection(ConfigurationSectionName).Bind(options);
 
-            options.TokenValidationParameters.ValidIssuer = _settings.Issuer;
+            options.TokenValidationParameters.ValidIssuer = _options.Issuer;
 
-            options.TokenValidationParameters.ValidAudience = _settings.Audience;
+            options.TokenValidationParameters.ValidAudience = _options.Audience;
 
-            options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.SecurityKey));
+            options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecurityKey));
         }
     }
 }

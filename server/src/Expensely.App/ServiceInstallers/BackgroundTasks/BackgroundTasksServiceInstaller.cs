@@ -1,6 +1,7 @@
 ﻿using Expensely.App.Abstractions;
 using Expensely.App.Extensions;
 using Expensely.BackgroundTasks;
+using Expensely.BackgroundTasks.MessageProcessing.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
@@ -16,7 +17,7 @@ namespace Expensely.App.ServiceInstallers.BackgroundTasks
         {
             services.ConfigureOptions<QuartzHostedServiceOptionsSetup>();
 
-            services.ConfigureOptions<MessageProcessingJobSettingsSetup>();
+            services.ConfigureOptions<MessageProcessingJobOptions>();
 
             services.ConfigureOptions<MessageProcessingJobSetup>();
 

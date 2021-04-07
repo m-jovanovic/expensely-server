@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the JWT configuration settings.
     /// </summary>
-    public class JwtSettings
+    public class JwtOptions
     {
         /// <summary>
         /// Gets the issuer.

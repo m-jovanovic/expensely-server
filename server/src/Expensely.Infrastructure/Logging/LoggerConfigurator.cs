@@ -17,22 +17,22 @@ namespace Expensely.Infrastructure.Logging
         private const string AppSourceContext = "Expensely";
         private readonly IConfiguration _configuration;
         private readonly IDocumentStore _documentStore;
-        private readonly LoggingSettings _settings;
+        private readonly LoggingOptions _options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoggerConfigurator"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <param name="documentStore">The document store.</param>
-        /// <param name="loggingSettingsOptions">The logging settings options.</param>
+        /// <param name="options">The logging options.</param>
         public LoggerConfigurator(
             IConfiguration configuration,
             IDocumentStore documentStore,
-            IOptions<LoggingSettings> loggingSettingsOptions)
+            IOptions<LoggingOptions> options)
         {
             _configuration = configuration;
             _documentStore = documentStore;
-            _settings = loggingSettingsOptions.Value;
+            _options = options.Value;
         }
 
         /// <inheritdoc />
@@ -46,9 +46,9 @@ namespace Expensely.Infrastructure.Logging
         {
             TimeSpan documentExpiration = logEvent.Level switch
             {
-                LogEventLevel.Error => _settings.ErrorExpirationInDays,
-                LogEventLevel.Fatal => _settings.ErrorExpirationInDays,
-                _ => _settings.ExpirationInDays
+                LogEventLevel.Error => _options.ErrorExpirationInDays,
+                LogEventLevel.Fatal => _options.ErrorExpirationInDays,
+                _ => _options.ExpirationInDays
             };
 
             if (!logEvent.Properties.TryGetValue(SourceContextKey, out LogEventPropertyValue propertyValue))

@@ -19,19 +19,19 @@ namespace Expensely.Infrastructure.Authentication
     /// </summary>
     public sealed class JwtProvider : IJwtProvider, ITransient
     {
-        private readonly JwtSettings _settings;
+        private readonly JwtOptions _options;
         private readonly IClaimsProvider _claimsProvider;
         private readonly ISystemTime _systemTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JwtProvider"/> class.
         /// </summary>
-        /// <param name="jwtOptions">The JWT settings options.</param>
+        /// <param name="options">The JWT options.</param>
         /// <param name="claimsProvider">The claims provider.</param>
         /// <param name="systemTime">The current date and time.</param>
-        public JwtProvider(IOptions<JwtSettings> jwtOptions, IClaimsProvider claimsProvider, ISystemTime systemTime)
+        public JwtProvider(IOptions<JwtOptions> options, IClaimsProvider claimsProvider, ISystemTime systemTime)
         {
-            _settings = jwtOptions.Value;
+            _options = options.Value;
             _systemTime = systemTime;
             _claimsProvider = claimsProvider;
         }
@@ -48,17 +48,17 @@ namespace Expensely.Infrastructure.Authentication
 
         private string CreateToken(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.SecurityKey));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecurityKey));
 
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            DateTime tokenExpirationTime = _systemTime.UtcNow.AddMinutes(_settings.AccessTokenExpirationInMinutes);
+            DateTime tokenExpirationTime = _systemTime.UtcNow.AddMinutes(_options.AccessTokenExpirationInMinutes);
 
             IEnumerable<Claim> claims = _claimsProvider.GetClaimsForUser(user);
 
             var token = new JwtSecurityToken(
-                _settings.Issuer,
-                _settings.Audience,
+                _options.Issuer,
+                _options.Audience,
                 claims,
                 null,
                 tokenExpirationTime,
@@ -79,7 +79,7 @@ namespace Expensely.Infrastructure.Authentication
 
             return new RefreshToken(
                 Convert.ToBase64String(refreshTokenBytes),
-                _systemTime.UtcNow.AddMinutes(_settings.RefreshTokenExpirationInMinutes));
+                _systemTime.UtcNow.AddMinutes(_options.RefreshTokenExpirationInMinutes));
         }
     }
 }
