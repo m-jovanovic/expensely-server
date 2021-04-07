@@ -9,8 +9,9 @@ import {
   UpdateTransactionRequest,
   TransactionListResponse,
   TransactionResponse,
-  TransactionSummaryResponse
-} from '../../../core/contracts/transactions';
+  TransactionSummaryResponse,
+  EntityCreatedResponse
+} from '../../contracts';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,7 @@ export class TransactionService extends ApiService {
     return this.get(`${ApiRoutes.Transactions.getCurrentMonthTransactionSummary}?userId=${userId}&currency=${currency}`);
   }
 
-  createTransaction(request: CreateTransactionRequest): Observable<any> {
+  createTransaction(request: CreateTransactionRequest): Observable<EntityCreatedResponse> {
     return this.post(ApiRoutes.Transactions.createTransaction, request);
   }
 

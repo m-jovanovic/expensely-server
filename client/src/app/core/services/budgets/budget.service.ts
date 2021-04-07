@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
-import { CreateBudgetRequest, BudgetResponse, UpdateBudgetRequest } from '../../contracts/budgets';
+import { CreateBudgetRequest, BudgetResponse, UpdateBudgetRequest, EntityCreatedResponse } from '../../contracts';
 import { ApiRoutes } from '../../constants/api-routes';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class BudgetService extends ApiService {
     return this.get(ApiRoutes.Budgets.getBudget.replace('{budgetId}', budgetId));
   }
 
-  createBudget(request: CreateBudgetRequest): Observable<any> {
+  createBudget(request: CreateBudgetRequest): Observable<EntityCreatedResponse> {
     return this.post(ApiRoutes.Budgets.createBudget, request);
   }
 
