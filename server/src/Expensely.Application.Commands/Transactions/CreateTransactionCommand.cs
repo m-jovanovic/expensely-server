@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Application.Contracts.Common;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Result;
 
@@ -7,7 +8,7 @@ namespace Expensely.Application.Commands.Transactions
     /// <summary>
     /// Represents the command for creating a transaction.
     /// </summary>
-    public sealed class CreateTransactionCommand : ICommand<Result>
+    public sealed class CreateTransactionCommand : ICommand<Result<EntityCreatedResponse>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateTransactionCommand"/> class.

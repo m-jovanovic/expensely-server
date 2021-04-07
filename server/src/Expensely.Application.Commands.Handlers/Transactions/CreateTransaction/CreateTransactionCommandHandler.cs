@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Commands.Transactions;
+using Expensely.Application.Contracts.Common;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
@@ -15,7 +16,7 @@ namespace Expensely.Application.Commands.Handlers.Transactions.CreateTransaction
     /// <summary>
     /// Represents the <see cref="CreateTransactionCommand"/> handler.
     /// </summary>
-    public sealed class CreateTransactionCommandHandler : ICommandHandler<CreateTransactionCommand, Result>
+    public sealed class CreateTransactionCommandHandler : ICommandHandler<CreateTransactionCommand, Result<EntityCreatedResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly ITransactionFactory _transactionFactory;
@@ -42,13 +43,13 @@ namespace Expensely.Application.Commands.Handlers.Transactions.CreateTransaction
         }
 
         /// <inheritdoc />
-        public async Task<Result> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
+        public async Task<Result<EntityCreatedResponse>> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
         {
             Maybe<User> maybeUser = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
             if (maybeUser.HasNoValue)
             {
-                return Result.Failure(ValidationErrors.User.NotFound);
+                return Result.Failure<EntityCreatedResponse>(ValidationErrors.User.NotFound);
             }
 
             var createTransactionRequest = new CreateTransactionRequest(
@@ -64,14 +65,14 @@ namespace Expensely.Application.Commands.Handlers.Transactions.CreateTransaction
 
             if (transactionResult.IsFailure)
             {
-                return Result.Failure(transactionResult.Error);
+                return Result.Failure<EntityCreatedResponse>(transactionResult.Error);
             }
 
             await _transactionRepository.AddAsync(transactionResult.Value, cancellationToken);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result.Success();
+            return new EntityCreatedResponse(transactionResult.Value.Id);
         }
     }
 }
