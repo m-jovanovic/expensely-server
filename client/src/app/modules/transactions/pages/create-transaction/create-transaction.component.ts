@@ -116,7 +116,7 @@ export class CreateTransactionComponent implements OnInit {
         })
       )
       .subscribe(
-        () => this.routerService.navigateByUrl('/transactions'),
+        () => this.routerService.navigate(['transactions', this.transactionFacade.transactionId]),
         (error: ApiErrorResponse) => this.handleCreateTransactionError(error)
       );
   }
