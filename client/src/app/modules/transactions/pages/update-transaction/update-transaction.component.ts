@@ -141,7 +141,7 @@ export class UpdateTransactionComponent implements OnInit {
   }
 
   async onCancel(): Promise<boolean> {
-    return await this.routerService.navigateByUrl('/transactions');
+    return await this.routerService.navigate(['transactions', this.transactionFacade.transactionId]);
   }
 
   private handleUpdateTransactionError(errorResponse: ApiErrorResponse): void {
