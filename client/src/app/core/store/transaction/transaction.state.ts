@@ -3,7 +3,7 @@ import { State, StateContext, Action } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { TransactionStateModel } from './transaction-state.model';
+import { initialState, TransactionStateModel } from './transaction-state.model';
 import { GetTransaction, DeleteTransaction, CreateTransaction, UpdateTransaction } from './transaction.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
 import {
@@ -16,12 +16,7 @@ import {
 
 @State<TransactionStateModel>({
   name: 'transaction',
-  defaults: {
-    transactionId: '',
-    transaction: null,
-    isLoading: false,
-    error: false
-  }
+  defaults: initialState
 })
 @Injectable()
 export class TransactionState {
@@ -129,10 +124,7 @@ export class TransactionState {
 
     return this.transactionService.deleteTransaction(action.transactionId).pipe(
       tap(() => {
-        context.patchState({
-          isLoading: false,
-          error: false
-        });
+        context.patchState(initialState);
       }),
       catchError((error: ApiErrorResponse) => {
         context.patchState({

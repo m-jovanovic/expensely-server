@@ -6,3 +6,10 @@ export interface TransactionStateModel {
   isLoading: boolean;
   error: boolean;
 }
+
+export const initialState: TransactionStateModel = {
+  transactionId: '',
+  transaction: null,
+  isLoading: false,
+  error: false
+};
