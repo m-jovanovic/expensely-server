@@ -33,9 +33,16 @@ namespace Expensely.Domain.Modules.Transactions
         /// <summary>
         /// Validates that the specified monetary amount is valid for the current transaction type.
         /// </summary>
-        /// <param name="money">The monetary amount.</param>
+        /// <param name="money">The monetary amount to validate.</param>
         /// <returns>The success result if the validation was successful, otherwise an error result.</returns>
         public abstract Result ValidateAmount(Money money);
+
+        /// <summary>
+        /// Validates that the specified category is valid for the current transaction type.
+        /// </summary>
+        /// <param name="category">The category to validate.</param>
+        /// <returns>The success result if the validation was successful, otherwise an error result.</returns>
+        public abstract Result ValidateCategory(Category category);
 
         private sealed class ExpenseTransactionType : TransactionType
         {
@@ -48,6 +55,11 @@ namespace Expensely.Domain.Modules.Transactions
                 money.Amount < decimal.Zero ?
                     Result.Success() :
                     Result.Failure(DomainErrors.Transaction.ExpenseAmountGreaterThanOrEqualToZero);
+
+            public override Result ValidateCategory(Category category) =>
+                category.IsDefault || category.IsExpense ?
+                    Result.Success() :
+                    Result.Failure(DomainErrors.Transaction.ExpenseCategoryInvalid);
         }
 
         private sealed class IncomeTransactionType : TransactionType
@@ -61,6 +73,11 @@ namespace Expensely.Domain.Modules.Transactions
                 money.Amount > decimal.Zero ?
                     Result.Success() :
                     Result.Failure(DomainErrors.Transaction.IncomeAmountLessThanOrEqualToZero);
+
+            public override Result ValidateCategory(Category category) =>
+                category.IsDefault || !category.IsExpense ?
+                    Result.Success() :
+                    Result.Failure(DomainErrors.Transaction.IncomeCategoryInvalid);
         }
     }
 }

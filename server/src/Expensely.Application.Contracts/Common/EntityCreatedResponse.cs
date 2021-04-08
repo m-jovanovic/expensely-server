@@ -3,5 +3,5 @@
     /// <summary>
     /// Represents the entity created response.
     /// </summary>
-    public record EntityCreatedResponse(string EntityId);
+    public sealed record EntityCreatedResponse(string EntityId);
 }

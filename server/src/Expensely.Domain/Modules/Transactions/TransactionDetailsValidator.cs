@@ -14,35 +14,35 @@ namespace Expensely.Domain.Modules.Transactions
         /// <inheritdoc />
         public Result<ITransactionDetails> Validate(ValidateTransactionDetailsRequest validateTransactionDetailsRequest)
         {
-            Result<Description> descriptionResult = Description.Create(validateTransactionDetailsRequest.Description);
+            TransactionType transactionType = TransactionType.FromValue(validateTransactionDetailsRequest.TransactionType).Value;
 
-            if (descriptionResult.IsFailure)
-            {
-                return Result.Failure<ITransactionDetails>(descriptionResult.Error);
-            }
+            Category category = Category.FromValue(validateTransactionDetailsRequest.Category).Value;
 
             Currency currency = Currency.FromValue(validateTransactionDetailsRequest.Currency).Value;
+
+            var money = new Money(validateTransactionDetailsRequest.Amount, currency);
+
+            Result<Description> descriptionResult = Description.Create(validateTransactionDetailsRequest.Description);
+
+            var result = Result.FirstFailureOrSuccess(
+                descriptionResult,
+                transactionType.ValidateAmount(money),
+                transactionType.ValidateCategory(category));
+
+            if (result.IsFailure)
+            {
+                return Result.Failure<ITransactionDetails>(result.Error);
+            }
 
             if (!validateTransactionDetailsRequest.User.HasCurrency(currency))
             {
                 return Result.Failure<ITransactionDetails>(DomainErrors.User.CurrencyDoesNotExist);
             }
 
-            var money = new Money(validateTransactionDetailsRequest.Amount, currency);
-
-            TransactionType transactionType = TransactionType.FromValue(validateTransactionDetailsRequest.TransactionType).Value;
-
-            Result transactionTypeResult = transactionType.ValidateAmount(money);
-
-            if (transactionTypeResult.IsFailure)
-            {
-                return Result.Failure<ITransactionDetails>(transactionTypeResult.Error);
-            }
-
             return new TransactionDetails
             {
                 Description = descriptionResult.Value,
-                Category = Category.FromValue(validateTransactionDetailsRequest.Category).Value,
+                Category = category,
                 Money = money,
                 OccurredOn = validateTransactionDetailsRequest.OccurredOn,
                 TransactionType = transactionType

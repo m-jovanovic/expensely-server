@@ -13,6 +13,20 @@ namespace Expensely.Domain.Errors
         public static class Transaction
         {
             /// <summary>
+            /// Gets the expense category invalid error.
+            /// </summary>
+            public static Error ExpenseCategoryInvalid => new(
+                "Transaction.ExpenseCategoryInvalid",
+                "The provided category is not valid for an expense transaction.");
+
+            /// <summary>
+            /// Gets the income category invalid error.
+            /// </summary>
+            public static Error IncomeCategoryInvalid => new(
+                "Transaction.IncomeCategoryInvalid ",
+                "The provided category is not valid for an income transaction.");
+
+            /// <summary>
             /// Gets the expense transaction amount greater than or equal to zero error.
             /// </summary>
             public static Error ExpenseAmountGreaterThanOrEqualToZero => new(

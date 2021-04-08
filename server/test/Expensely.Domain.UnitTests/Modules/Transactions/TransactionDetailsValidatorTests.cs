@@ -5,6 +5,7 @@ using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Transactions.Contracts;
 using Expensely.Domain.Modules.Users;
+using Expensely.Domain.UnitTests.TestData.Currency;
 using Expensely.Domain.UnitTests.TestData.Description;
 using Expensely.Domain.UnitTests.TestData.Transaction;
 using Expensely.Domain.UnitTests.TestData.User;
@@ -20,7 +21,13 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         {
             // Arrange
             var validateTransactionDetailsRequest = new ValidateTransactionDetailsRequest(
-                default, DescriptionTestData.LongerThanAllowedDescription, default, default, default, default, default);
+                default,
+                DescriptionTestData.LongerThanAllowedDescription,
+                Category.None.Value,
+                default,
+                CurrencyTestData.DefaultCurrency.Value,
+                default,
+                TransactionType.Expense.Value);
 
             var transactionDetailsValidator = new TransactionDetailsValidator();
 
@@ -37,7 +44,13 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         {
             // Arrange
             var validateTransactionDetailsRequest = new ValidateTransactionDetailsRequest(
-                user, DescriptionTestData.EmptyDescription, default, default, currency.Value, default, default);
+                user,
+                DescriptionTestData.EmptyDescription,
+                Category.None.Value,
+                -1.0m,
+                currency.Value,
+                default,
+                TransactionType.Expense.Value);
 
             var transactionDetailsValidator = new TransactionDetailsValidator();
 
