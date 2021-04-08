@@ -6,3 +6,10 @@ export interface BudgetStateModel {
   isLoading: boolean;
   error: boolean;
 }
+
+export const initialState: BudgetStateModel = {
+  budgetId: '',
+  budget: null,
+  isLoading: false,
+  error: false
+};

@@ -3,19 +3,14 @@ import { State, StateContext, Action } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { BudgetStateModel } from './budget-state.model';
-import { CreateBudget, GetBudget, UpdateBudget } from './budget.actions';
+import { BudgetStateModel, initialState } from './budget-state.model';
+import { CreateBudget, DeleteBudget, GetBudget, UpdateBudget } from './budget.actions';
 import { BudgetService } from '../../services/budgets/budget.service';
 import { ApiErrorResponse, BudgetResponse, CreateBudgetRequest, EntityCreatedResponse, UpdateBudgetRequest } from '../../contracts';
 
 @State<BudgetStateModel>({
   name: 'budget',
-  defaults: {
-    budgetId: '',
-    budget: null,
-    isLoading: false,
-    error: false
-  }
+  defaults: initialState
 })
 @Injectable()
 export class BudgetState {
@@ -109,5 +104,26 @@ export class BudgetState {
           return throwError(error);
         })
       );
+  }
+
+  @Action(DeleteBudget)
+  deleteBudget(context: StateContext<BudgetStateModel>, action: DeleteBudget): Observable<any> {
+    context.patchState({
+      isLoading: true
+    });
+
+    return this.budgetService.deleteBudget(action.budgetId).pipe(
+      tap(() => {
+        context.patchState(initialState);
+      }),
+      catchError((error: ApiErrorResponse) => {
+        context.patchState({
+          isLoading: false,
+          error: true
+        });
+
+        return throwError(error);
+      })
+    );
   }
 }

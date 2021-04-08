@@ -30,3 +30,9 @@ export class UpdateBudget {
     public endDate: Date
   ) {}
 }
+
+export class DeleteBudget {
+  public static readonly type = '[Budget] Delete';
+
+  constructor(public budgetId: string) {}
+}
