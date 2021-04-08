@@ -25,4 +25,8 @@ export class BudgetService extends ApiService {
   updateBudget(budgetId: string, request: UpdateBudgetRequest): Observable<any> {
     return this.put(ApiRoutes.Budgets.updateBudget.replace('{budgetId}', budgetId), request);
   }
+
+  deleteBudget(budgetId: string): Observable<any> {
+    return this.delete(ApiRoutes.Budgets.deleteBudget.replace('{budgetId}', budgetId));
+  }
 }

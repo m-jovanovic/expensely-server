@@ -15,6 +15,7 @@ export namespace ApiRoutes {
     public static readonly getBudget = 'budgets/{budgetId}';
     public static readonly createBudget = 'budgets';
     public static readonly updateBudget = 'budgets/{budgetId}';
+    public static readonly deleteBudget = 'budgets/{budgetId}';
   }
 
   export class Transactions {
