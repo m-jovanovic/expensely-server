@@ -215,6 +215,22 @@
     }
   },
   "budgets": {
+    "details": {
+      "text": {
+        "title": "Detalji budžeta"
+      },
+      "actions": {
+        "back": "Nazad",
+        "update": "Ažuriraj Budžet"
+      },
+      "fields": {
+        "name": "Naziv",
+        "categories": "Kategorije",
+        "amount": "Iznos",
+        "startDate": "Početni datum",
+        "endDate": "Krajnji datum"
+      }
+    },
     "create": {
       "text": {
         "title": "Kreiraj novi Budžet"
@@ -289,6 +305,16 @@
           "endDateAfterStartDate": "Krajnji datum mora biti datum nakon početnog datuma."
         },
         "serverError": "Nešto je krenulo naopako prilikom ažuriranja budžeta, molimo pokušajte ponovo."
+      }
+    },
+    "delete": {
+      "actions": {
+        "delete": "Obriši Budžet"
+      },
+      "dialog": {
+        "message": "Da li ste sigurni da želite obrišete ovaj budžet?",
+        "cancelButtonText": "Otkaži",
+        "confirmButtonText": "Obriši"
       }
     }
   },

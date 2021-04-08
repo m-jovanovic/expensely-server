@@ -215,6 +215,22 @@
     }
   },
   "budgets": {
+    "details": {
+      "text": {
+        "title": "Budget details"
+      },
+      "actions": {
+        "back": "Back",
+        "update": "Update Budget"
+      },
+      "fields": {
+        "name": "Name",
+        "categories": "Categories",
+        "amount": "Amount",
+        "startDate": "Start date",
+        "endDate": "End date"
+      }
+    },
     "create": {
       "text": {
         "title": "Create a new Budget"
@@ -289,6 +305,16 @@
           "endDateAfterStartDate": "The end date must be a date after the start date."
         },
         "serverError": "Something went wrong while updating the budget, please try again."
+      }
+    },
+    "delete": {
+      "actions": {
+        "delete": "Delete Budget"
+      },
+      "dialog": {
+        "message": "Are you sure you want to delete this budget?",
+        "cancelButtonText": "Cancel",
+        "confirmButtonText": "Delete"
       }
     }
   },
