@@ -11,13 +11,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Quartz;
 
-namespace Expensely.BackgroundTasks.MessageProcessing.Implementations
+namespace Expensely.BackgroundTasks.MessageProcessing
 {
     /// <summary>
     /// Represents the message processing background service.
     /// </summary>
     [DisallowConcurrentExecution]
-    internal sealed class MessageProcessingJob : IMessageProcessingJob, ITransient
+    public sealed class MessageProcessingJob : IJob, ITransient
     {
         private readonly MessageProcessingJobOptions _options;
         private readonly IMessageRepository _messageRepository;
@@ -46,8 +46,7 @@ namespace Expensely.BackgroundTasks.MessageProcessing.Implementations
         /// <inheritdoc />
         public async Task Execute(IJobExecutionContext context) => await ProcessMessagesAsync(context.CancellationToken);
 
-        /// <inheritdoc />
-        public async Task ProcessMessagesAsync(CancellationToken cancellationToken)
+        private async Task ProcessMessagesAsync(CancellationToken cancellationToken)
         {
             try
             {
