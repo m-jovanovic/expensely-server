@@ -7,7 +7,7 @@
   <Import Project="..\..\CodeAnalysis.targets" />
 
   <ItemGroup>
-    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.2.4" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.3.1" />
   </ItemGroup>
 
   <ItemGroup>
