@@ -135,7 +135,7 @@ export class UpdateTransactionComponent implements OnInit {
         })
       )
       .subscribe(
-        () => this.routerService.navigateByUrl(''),
+        () => this.routerService.navigate(['transactions', this.transactionFacade.transactionId]),
         (error: ApiErrorResponse) => this.handleUpdateTransactionError(error)
       );
   }
