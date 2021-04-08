@@ -127,7 +127,7 @@ export class UpdateBudgetComponent implements OnInit {
   }
 
   async onCancel(): Promise<boolean> {
-    return await this.routerService.navigateByUrl('');
+    return await this.routerService.navigate(['budgets', this.budgetFacade.budgetId]);
   }
 
   private handleUpdateBudgetError(errorResponse: ApiErrorResponse): void {

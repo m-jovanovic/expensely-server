@@ -120,7 +120,7 @@ export class CreateBudgetComponent implements OnInit {
   }
 
   async onCancel(): Promise<boolean> {
-    return await this.routerService.navigateByUrl('');
+    return await this.routerService.navigateByUrl('/budgets');
   }
 
   addCategory(categoryId: number): void {
