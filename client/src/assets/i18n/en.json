@@ -115,7 +115,6 @@
         "title": "Transaction details"
       },
       "actions": {
-        "back": "Back",
         "update": "Update Transaction"
       },
       "fields": {
@@ -343,5 +342,10 @@
     "bills": "Bills",
     "cash": "Cash",
     "salary": "Salary"
+  },
+  "common": {
+    "actions": {
+      "back": "Back"
+    }
   }
 }

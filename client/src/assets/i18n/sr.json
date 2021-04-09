@@ -79,7 +79,7 @@
     },
     "errors": {
       "currency": {
-        "required": "Valua je neophodna."
+        "required": "Valuta je neophodna."
       }
     }
   },
@@ -115,7 +115,6 @@
         "title": "Detalji transakcije"
       },
       "actions": {
-        "back": "Nazad",
         "update": "Ažuriraj Transakciju"
       },
       "fields": {
@@ -343,5 +342,10 @@
     "bills": "Računi",
     "cash": "Keš",
     "salary": "Plata"
+  },
+  "common": {
+    "actions": {
+      "back": "Nazad"
+    }
   }
 }

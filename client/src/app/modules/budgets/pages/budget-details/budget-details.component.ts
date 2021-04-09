@@ -49,10 +49,6 @@ export class BudgetDetailsComponent implements OnInit {
     });
   }
 
-  async return(): Promise<boolean> {
-    return await this.routerService.navigate(['/budgets']);
-  }
-
   async updateBudget(budgetId: string): Promise<boolean> {
     return await this.routerService.navigate(['budgets', budgetId, 'update']);
   }

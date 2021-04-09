@@ -32,8 +32,4 @@ export class TransactionDetailsComponent implements OnInit {
   async updateTransaction(transactionId: string): Promise<boolean> {
     return await this.routerService.navigate(['transactions', transactionId, 'update']);
   }
-
-  async return(): Promise<boolean> {
-    return await this.routerService.navigate(['/transactions']);
-  }
 }
