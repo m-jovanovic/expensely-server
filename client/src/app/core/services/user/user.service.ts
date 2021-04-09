@@ -19,7 +19,7 @@ export class UserService extends ApiService {
   }
 
   addUserCurrency(userId: string, currency: number): Observable<any> {
-    return this.post(ApiRoutes.Users.addUserCurrency.replace('{userId}', userId).replace('{currency}', currency.toString()));
+    return this.put(ApiRoutes.Users.addUserCurrency.replace('{userId}', userId).replace('{currency}', currency.toString()));
   }
 
   changeUserPrimaryCurrency(userId: string, currency: number): Observable<any> {
