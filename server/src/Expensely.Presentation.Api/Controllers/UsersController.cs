@@ -56,7 +56,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the currency was added to the user's currencies successfully, otherwise 400 - Bad Request.</returns>
         [HasPermission(Permission.UserModify)]
-        [HttpPost(ApiRoutes.Users.AddUserCurrency)]
+        [HttpPut(ApiRoutes.Users.AddUserCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
