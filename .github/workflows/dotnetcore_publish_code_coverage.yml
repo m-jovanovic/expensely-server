@@ -8,7 +8,7 @@ on:
       - "server/**"
 
 env:
-  DOTNET_VERSION: "5.0.201"
+  DOTNET_VERSION: "5.0.202"
 
 jobs:
   publish-code-coverage:
