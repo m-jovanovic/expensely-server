@@ -63,7 +63,7 @@ namespace Expensely.Domain.Modules.Common
         /// <param name="value">The currency value.</param>
         /// <param name="name">The currency name.</param>
         protected Category(int value, string name)
-            : base(value, name) =>
+            : base(value, name.ToLower()) =>
             IsDefault = true;
 
         /// <summary>
@@ -82,9 +82,6 @@ namespace Expensely.Domain.Modules.Common
         /// Gets a value indicating whether or not the category is an expense.
         /// </summary>
         public bool IsExpense { get; private init; }
-
-        /// <inheritdoc />
-        public override string ToString() => Name;
 
         private sealed class ExpenseCategory : Category
         {

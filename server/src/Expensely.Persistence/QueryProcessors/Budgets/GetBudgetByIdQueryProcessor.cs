@@ -54,7 +54,7 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
                 Categories = budget.Categories.Select(category => new CategoryResponse
                 {
                     Id = category.Value,
-                    Name = category.ToString(),
+                    Name = category.Name,
                     IsDefault = category.IsDefault,
                     IsExpense = category.IsExpense
                 }).ToArray(),
