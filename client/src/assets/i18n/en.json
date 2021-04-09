@@ -331,5 +331,17 @@
       "settings": "Settings",
       "account": "Account"
     }
+  },
+  "categories": {
+    "none": "None",
+    "shopping": "Shopping",
+    "groceries": "Groceries",
+    "food": "Food",
+    "drinks": "Drinks",
+    "clothing": "Clothing",
+    "travel": "Travel",
+    "bills": "Bills",
+    "cash": "Cash",
+    "salary": "Salary"
   }
 }

@@ -11,9 +11,9 @@
         <div class="text-lg tracking-wide">
           {{ transaction.description }}
         </div>
-        <div class="tracking-wide text-sm text-gray-500 mt-1">
+        <div *transloco="let t; read: 'categories'" class="tracking-wide text-sm text-gray-500 mt-1">
           <span class="bg-red-200 rounded-l-full rounded-r-full px-2 py-1">
-            {{ transaction.category.name }}
+            {{ t(transaction.category.name) }}
           </span>
         </div>
       </div>

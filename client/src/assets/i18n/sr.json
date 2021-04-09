@@ -331,5 +331,17 @@
       "settings": "Podešavanja",
       "account": "Korisnički nalog"
     }
+  },
+  "categories": {
+    "none": "Nijedna",
+    "shopping": "Kupovina",
+    "groceries": "Namirnice",
+    "food": "Hrana",
+    "drinks": "Piće",
+    "clothing": "Odeća",
+    "travel": "Putovanje",
+    "bills": "Računi",
+    "cash": "Keš",
+    "salary": "Plata"
   }
 }

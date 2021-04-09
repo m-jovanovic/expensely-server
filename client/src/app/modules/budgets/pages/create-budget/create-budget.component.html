@@ -99,36 +99,38 @@
             <div>
               <label for="categories" class="block font-medium text-gray-500">{{ t('budgets.create.fields.categories') }}</label>
 
-              <div class="-mt-1 mb-2">
-                <div
-                  *ngFor="let category of data.selectedCategories"
-                  class="inline-block mt-2 mr-2 rounded-md bg-gray-100 cursor-pointer"
-                  (click)="removeCategory(category)"
-                >
-                  <div class="flex items-center space-x-2 pl-4 pr-3 py-2">
-                    <span class="inline-block">
-                      {{ category.name }}
-                    </span>
+              <div *transloco="let t; read: 'categories'">
+                <div class="-mt-1 mb-2">
+                  <div
+                    *ngFor="let category of data.selectedCategories"
+                    class="inline-block mt-2 mr-2 rounded-md bg-gray-100 cursor-pointer"
+                    (click)="removeCategory(category)"
+                  >
+                    <div class="flex items-center space-x-2 pl-4 pr-3 py-2">
+                      <span class="inline-block">
+                        {{ t(category.name) }}
+                      </span>
 
-                    <span class="inline-block">
-                      <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </span>
+                      <span class="inline-block">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <select
-                *ngIf="data.categories.length"
-                name="category"
-                id="category"
-                formControlName="category"
-                class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-teal-400 focus:ring-teal-400"
-                (change)="addCategory(+$event.target.value)"
-              >
-                <option *ngFor="let category of data.categories" [value]="category.id">{{ category.name }}</option>
-              </select>
+                <select
+                  *ngIf="data.categories.length"
+                  name="category"
+                  id="category"
+                  formControlName="category"
+                  class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-teal-400 focus:ring-teal-400"
+                  (change)="addCategory(+$event.target.value)"
+                >
+                  <option *ngFor="let category of data.categories" [value]="category.id">{{ t(category.name) }}</option>
+                </select>
+              </div>
             </div>
 
             <!-- Start date -->
