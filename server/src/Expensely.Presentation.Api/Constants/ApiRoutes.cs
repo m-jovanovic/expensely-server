@@ -78,6 +78,11 @@
             public const string GetTransactionById = "transactions/{transactionId}";
 
             /// <summary>
+            /// The get transaction details by identifier route.
+            /// </summary>
+            public const string GetTransactionDetailsById = "transactions/{transactionId}/details";
+
+            /// <summary>
             /// The get current month transaction summary route.
             /// </summary>
             public const string GetCurrentMonthTransactionSummary = "transactions/summary/current-month";
