@@ -1,7 +1,7 @@
-import { TransactionResponse } from '../../contracts/transactions/transaction-response';
+import { TransactionListItem } from '../../contracts/transactions/transaction-list-item';
 
 export interface TransactionListStateModel {
-  transactions: TransactionResponse[];
+  transactions: TransactionListItem[];
   cursor: string;
   isLoading: boolean;
   error: boolean;

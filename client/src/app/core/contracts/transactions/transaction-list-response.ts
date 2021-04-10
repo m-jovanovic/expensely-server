@@ -1,6 +1,6 @@
-import { TransactionResponse } from './transaction-response';
+import { TransactionListItem } from './transaction-list-item';
 
 export interface TransactionListResponse {
-  items: TransactionResponse[];
+  items: TransactionListItem[];
   cursor: string;
 }
