@@ -13,6 +13,7 @@ export namespace ApiRoutes {
 
   export class Budgets {
     public static readonly getBudget = 'budgets/{budgetId}';
+    public static readonly getBudgetDetails = 'budgets/{budgetId}/details';
     public static readonly createBudget = 'budgets';
     public static readonly updateBudget = 'budgets/{budgetId}';
     public static readonly deleteBudget = 'budgets/{budgetId}';
