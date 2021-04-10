@@ -6,7 +6,7 @@ using Expensely.Common.Primitives.Maybe;
 namespace Expensely.Application.Queries.Transactions
 {
     /// <summary>
-    /// Represents the query for getting the transaction details by identifier.
+    /// Represents the query for getting transaction details by identifier.
     /// </summary>
     public sealed class GetTransactionDetailsByIdQuery : IQuery<Maybe<TransactionDetailsResponse>>
     {

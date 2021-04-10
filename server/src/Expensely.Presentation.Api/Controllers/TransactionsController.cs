@@ -69,7 +69,7 @@ namespace Expensely.Presentation.Api.Controllers
                 .Match(Ok, NotFound);
 
         /// <summary>
-        /// Gets the transaction for the specified identifier.
+        /// Gets the transaction details for the specified identifier.
         /// </summary>
         /// <param name="transactionId">The transaction identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>

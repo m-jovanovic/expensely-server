@@ -58,7 +58,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 return Maybe<TransactionDetailsResponse>.None;
             }
 
-            var transactionResponse = new TransactionDetailsResponse
+            var transactionDetailsResponse = new TransactionDetailsResponse
             {
                 Id = transaction.Id,
                 Description = transaction.Description.Value,
@@ -67,7 +67,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 OccurredOn = transaction.OccurredOn
             };
 
-            return transactionResponse;
+            return transactionDetailsResponse;
         }
     }
 }

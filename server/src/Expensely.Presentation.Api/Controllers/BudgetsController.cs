@@ -32,11 +32,11 @@ namespace Expensely.Presentation.Api.Controllers
         }
 
         /// <summary>
-        /// Gets the transaction for the specified identifier.
+        /// Gets the budget for the specified identifier.
         /// </summary>
-        /// <param name="budgetId">The transaction identifier.</param>
+        /// <param name="budgetId">The budget identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the transaction with the specified identifier is found, otherwise 404 - Not Found.</returns>
+        /// <returns>200 - OK if the budget with the specified identifier is found, otherwise 404 - Not Found.</returns>
         [HasPermission(Permission.BudgetRead)]
         [HttpGet(ApiRoutes.Budgets.GetBudgetById)]
         [ProducesResponseType(typeof(BudgetResponse), StatusCodes.Status200OK)]
@@ -44,6 +44,22 @@ namespace Expensely.Presentation.Api.Controllers
         public async Task<IActionResult> GetBudgetById(Ulid budgetId, CancellationToken cancellationToken) =>
             await Maybe<GetBudgetByIdQuery>
                 .From(new GetBudgetByIdQuery(budgetId))
+                .Bind(query => Sender.Send(query, cancellationToken))
+                .Match(Ok, NotFound);
+
+        /// <summary>
+        /// Gets the budget details for the specified identifier.
+        /// </summary>
+        /// <param name="budgetId">The budget identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>200 - OK if the budget with the specified identifier is found, otherwise 404 - Not Found.</returns>
+        [HasPermission(Permission.BudgetRead)]
+        [HttpGet(ApiRoutes.Budgets.GetBudgetDetailsById)]
+        [ProducesResponseType(typeof(BudgetDetailsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetBudgetDetailsById(Ulid budgetId, CancellationToken cancellationToken) =>
+            await Maybe<GetBudgetDetailsByIdQuery>
+                .From(new GetBudgetDetailsByIdQuery(budgetId))
                 .Bind(query => Sender.Send(query, cancellationToken))
                 .Match(Ok, NotFound);
 
@@ -118,7 +134,7 @@ namespace Expensely.Presentation.Api.Controllers
                 .Match(Ok, BadRequest);
 
         /// <summary>
-        /// Adds the specified category to the budget's categories.
+        /// Removes the specified category to the budget's categories.
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
         /// <param name="category">The category value.</param>

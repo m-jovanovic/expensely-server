@@ -37,6 +37,11 @@
             public const string GetBudgetById = "budgets/{budgetId}";
 
             /// <summary>
+            /// The get budget by identifier route.
+            /// </summary>
+            public const string GetBudgetDetailsById = "budgets/{budgetId}/details";
+
+            /// <summary>
             /// The create budget route.
             /// </summary>
             public const string CreateBudget = "budgets";
