@@ -27,8 +27,8 @@
 
           <div>
             <label for="categories" class="block font-medium text-gray-500">{{ t('budgets.details.fields.categories') }}</label>
-            <div *transloco="let t; read: 'categories'" id="categories" class="mt-1 block w-full rounded-md">
-              <span *ngFor="let category of data.budget.categories" class="block">
+            <div *transloco="let t; read: 'categories'" id="categories" class="block w-full rounded-md">
+              <span *ngFor="let category of data.budget.categories" class="inline-block rounded-md py-2 px-4 mt-2 mr-2 bg-gray-100">
                 {{ t(category) }}
               </span>
             </div>
