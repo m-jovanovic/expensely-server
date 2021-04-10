@@ -37,8 +37,16 @@ export class BudgetFacade {
     return this.store.dispatch(new CreateBudget(this.authenticationFacade.userId, name, amount, currency, categories, startDate, endDate));
   }
 
-  updateBudget(budgetId: string, name: string, amount: number, currency: number, startDate: Date, endDate: Date): Observable<any> {
-    return this.store.dispatch(new UpdateBudget(budgetId, name, amount, currency, startDate, endDate));
+  updateBudget(
+    budgetId: string,
+    name: string,
+    amount: number,
+    currency: number,
+    categories: number[],
+    startDate: Date,
+    endDate: Date
+  ): Observable<any> {
+    return this.store.dispatch(new UpdateBudget(budgetId, name, amount, currency, categories, startDate, endDate));
   }
 
   deleteBudget(budgetId: string): Observable<any> {

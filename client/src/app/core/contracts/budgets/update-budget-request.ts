@@ -1,3 +1,10 @@
 export class UpdateBudgetRequest {
-  constructor(public name: string, public amount: number, public currency: number, public startDate: Date, public endDate: Date) {}
+  constructor(
+    public readonly name: string,
+    public readonly amount: number,
+    public readonly currency: number,
+    public readonly categories: number[],
+    public readonly startDate: Date,
+    public readonly endDate: Date
+  ) {}
 }

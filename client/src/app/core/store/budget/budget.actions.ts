@@ -32,6 +32,7 @@ export class UpdateBudget {
     public name: string,
     public amount: number,
     public currency: number,
+    public categories: number[],
     public startDate: Date,
     public endDate: Date
   ) {}

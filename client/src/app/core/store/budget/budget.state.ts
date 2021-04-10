@@ -121,7 +121,10 @@ export class BudgetState {
     });
 
     return this.budgetService
-      .updateBudget(action.budgetId, new UpdateBudgetRequest(action.name, action.amount, action.currency, action.startDate, action.endDate))
+      .updateBudget(
+        action.budgetId,
+        new UpdateBudgetRequest(action.name, action.amount, action.currency, action.categories, action.startDate, action.endDate)
+      )
       .pipe(
         tap(() => {
           context.patchState({

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { finalize, map, take, tap } from 'rxjs/operators';
+import { filter, finalize, map, take, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import {
@@ -23,7 +23,7 @@ import { NotificationSettings } from '@expensely/shared/constants';
   templateUrl: './create-budget.component.html',
   styleUrls: ['./create-budget.component.scss']
 })
-export class CreateBudgetComponent implements OnInit {
+export class CreateBudgetComponent implements OnInit, OnDestroy {
   private requestSent = false;
   private selectedCategoriesSubject = new BehaviorSubject<CategoryResponse[]>([]);
   createBudgetForm: FormGroup;
@@ -55,11 +55,8 @@ export class CreateBudgetComponent implements OnInit {
     });
 
     this.currencies$ = this.userFacade.currencies$.pipe(
+      filter((userCurrencies: UserCurrencyResponse[]) => !!userCurrencies?.length),
       tap((userCurrencies: UserCurrencyResponse[]) => {
-        if (!userCurrencies?.length) {
-          return;
-        }
-
         const primaryCurrency = userCurrencies.find((userCurrency) => userCurrency.isPrimary);
 
         this.createBudgetForm.controls.currency.setValue(primaryCurrency.id);
@@ -79,6 +76,10 @@ export class CreateBudgetComponent implements OnInit {
     this.userFacade.loadUserCurrencies();
 
     this.categoryFacade.loadCategories();
+  }
+
+  ngOnDestroy(): void {
+    this.selectedCategoriesSubject.complete();
   }
 
   async onSubmit(): Promise<void> {
