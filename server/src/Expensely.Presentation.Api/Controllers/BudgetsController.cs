@@ -111,6 +111,7 @@ namespace Expensely.Presentation.Api.Controllers
                     request.Name,
                     request.Amount,
                     request.Currency,
+                    request.Categories,
                     request.StartDate,
                     request.EndDate))
                 .Bind(command => Sender.Send(command, cancellationToken))

@@ -151,6 +151,20 @@ namespace Expensely.Domain.Modules.Budgets
         }
 
         /// <summary>
+        /// Changes the categories.
+        /// </summary>
+        /// <param name="categories">The categories.</param>
+        public void ChangeCategories(Category[] categories)
+        {
+            _categories.Clear();
+
+            foreach (Category category in categories)
+            {
+                AddCategory(category);
+            }
+        }
+
+        /// <summary>
         /// Marks the budget as expired.
         /// </summary>
         /// <exception cref="BudgetAlreadyExpiredDomainException"> when the budget is already expired.</exception>

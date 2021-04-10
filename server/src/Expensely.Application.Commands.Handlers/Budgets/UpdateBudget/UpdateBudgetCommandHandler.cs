@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
@@ -66,6 +67,10 @@ namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
             budget.ChangeMoney(new Money(request.Amount, Currency.FromValue(request.Currency).Value));
 
             budget.ChangeDates(request.StartDate, request.EndDate);
+
+            Category[] categories = request.Categories.Select(category => Category.FromValue(category).Value).ToArray();
+
+            budget.ChangeCategories(categories);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

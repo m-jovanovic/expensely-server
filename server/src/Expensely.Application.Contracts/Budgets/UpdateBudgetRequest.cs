@@ -23,6 +23,11 @@ namespace Expensely.Application.Contracts.Budgets
         public int Currency { get; init; }
 
         /// <summary>
+        /// Gets the categories.
+        /// </summary>
+        public int[] Categories { get; init; }
+
+        /// <summary>
         /// Gets the start date.
         /// </summary>
         public DateTime StartDate { get; init; }

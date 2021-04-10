@@ -16,14 +16,23 @@ namespace Expensely.Application.Commands.Budgets
         /// <param name="name">The name.</param>
         /// <param name="amount">The monetary amount.</param>
         /// <param name="currency">The currency value.</param>
+        /// <param name="categories">The categories.</param>
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
-        public UpdateBudgetCommand(Ulid budgetId, string name, decimal amount, int currency, DateTime startDate, DateTime endDate)
+        public UpdateBudgetCommand(
+            Ulid budgetId,
+            string name,
+            decimal amount,
+            int currency,
+            int[] categories,
+            DateTime startDate,
+            DateTime endDate)
         {
             BudgetId = budgetId;
             Name = name;
             Amount = amount;
             Currency = currency;
+            Categories = categories;
             StartDate = startDate;
             EndDate = endDate;
         }
@@ -47,6 +56,11 @@ namespace Expensely.Application.Commands.Budgets
         /// Gets the currency value.
         /// </summary>
         public int Currency { get; }
+
+        /// <summary>
+        /// Gets the categories.
+        /// </summary>
+        public int[] Categories { get; init; }
 
         /// <summary>
         /// Gets the start date.
