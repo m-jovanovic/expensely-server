@@ -4,13 +4,14 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { initialState, TransactionStateModel } from './transaction-state.model';
-import { GetTransaction, DeleteTransaction, CreateTransaction, UpdateTransaction } from './transaction.actions';
+import { GetTransaction, DeleteTransaction, CreateTransaction, UpdateTransaction, GetTransactionDetails } from './transaction.actions';
 import { TransactionService } from '../../services/transaction/transaction.service';
 import {
   ApiErrorResponse,
   CreateTransactionRequest,
   EntityCreatedResponse,
   TransactionResponse,
+  TransactionDetailsResponse,
   UpdateTransactionRequest
 } from '../../contracts';
 
@@ -49,13 +50,39 @@ export class TransactionState {
     );
   }
 
+  @Action(GetTransactionDetails)
+  getTransactionDetails(context: StateContext<TransactionStateModel>, action: GetTransactionDetails): Observable<any> {
+    context.patchState({
+      transactionDetails: null,
+      isLoading: true
+    });
+
+    return this.transactionService.getTransactionDetails(action.transactionId).pipe(
+      tap((response: TransactionDetailsResponse) => {
+        context.patchState({
+          transactionId: response.id,
+          transactionDetails: response,
+          isLoading: false,
+          error: false
+        });
+      }),
+      catchError((error: ApiErrorResponse) => {
+        context.patchState({
+          isLoading: false,
+          error: true
+        });
+
+        return throwError(error);
+      })
+    );
+  }
+
   @Action(CreateTransaction)
   createTransaction(context: StateContext<TransactionStateModel>, action: CreateTransaction): Observable<EntityCreatedResponse> {
     context.patchState({
       isLoading: true
     });
 
-    // TODO: See if this should eagerly update transactions collection, or issue a new GET request?
     return this.transactionService
       .createTransaction(
         new CreateTransactionRequest(

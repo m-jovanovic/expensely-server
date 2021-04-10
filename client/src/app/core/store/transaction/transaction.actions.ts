@@ -4,6 +4,12 @@ export class GetTransaction {
   constructor(public transactionId: string) {}
 }
 
+export class GetTransactionDetails {
+  public static readonly type = '[Transaction] Get Details';
+
+  constructor(public transactionId: string) {}
+}
+
 export class CreateTransaction {
   public static readonly type = '[Transaction] Create';
 

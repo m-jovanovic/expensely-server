@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 
 import { AuthenticationFacade } from '../authentication';
-import { CreateTransaction, DeleteTransaction, GetTransaction, UpdateTransaction } from './transaction.actions';
+import { CreateTransaction, DeleteTransaction, GetTransaction, GetTransactionDetails, UpdateTransaction } from './transaction.actions';
 import { TransactionSelectors } from './transaction.selectors';
-import { TransactionResponse } from '../../contracts/transactions/transaction-response';
+import { TransactionResponse, TransactionDetailsResponse } from '../../contracts/transactions';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,9 @@ import { TransactionResponse } from '../../contracts/transactions/transaction-re
 export class TransactionFacade {
   @Select(TransactionSelectors.getTransaction)
   transaction$: Observable<TransactionResponse>;
+
+  @Select(TransactionSelectors.getTransactionDetails)
+  transactionDetails$: Observable<TransactionDetailsResponse>;
 
   @Select(TransactionSelectors.getIsLoading)
   isLoading$: Observable<boolean>;
@@ -24,6 +27,10 @@ export class TransactionFacade {
 
   getTransaction(transactionId: string): Observable<any> {
     return this.store.dispatch(new GetTransaction(transactionId));
+  }
+
+  getTransactionDetails(transactionId: string): Observable<any> {
+    return this.store.dispatch(new GetTransactionDetails(transactionId));
   }
 
   createTransaction(
