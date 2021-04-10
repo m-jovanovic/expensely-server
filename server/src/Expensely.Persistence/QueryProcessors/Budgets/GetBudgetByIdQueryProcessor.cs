@@ -3,12 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Contracts.Budgets;
-using Expensely.Application.Contracts.Categories;
 using Expensely.Application.Queries.Budgets;
 using Expensely.Application.Queries.Processors.Budgets;
 using Expensely.Application.Queries.Transactions;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Budgets;
+using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
 namespace Expensely.Persistence.QueryProcessors.Budgets
@@ -35,29 +35,37 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
         /// <inheritdoc />
         public async Task<Maybe<BudgetResponse>> Process(GetBudgetByIdQuery query, CancellationToken cancellationToken = default)
         {
-            Maybe<Budget> maybeBudget = await _session.LoadAsync<Budget>(query.BudgetId, cancellationToken);
+            var budget = await _session
+                .Query<Budget>()
+                .Where(x => x.Id == query.BudgetId)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.UserId,
+                    x.Name,
+                    Money = new
+                    {
+                        x.Money.Amount,
+                        Currency = x.Money.Currency.Value
+                    },
+                    Categories = x.Categories.Select(c => c.Value).ToArray(),
+                    x.StartDate,
+                    x.EndDate
+                })
+                .FirstOrDefaultAsync(cancellationToken);
 
-            if (maybeBudget.HasNoValue || maybeBudget.Value.UserId != _userInformationProvider.UserId)
+            if (budget is null || budget.UserId != _userInformationProvider.UserId)
             {
                 return Maybe<BudgetResponse>.None;
             }
-
-            Budget budget = maybeBudget.Value;
 
             var budgetResponse = new BudgetResponse
             {
                 Id = budget.Id,
                 Name = budget.Name,
-                FormattedAmount = budget.Money.Format(),
                 Amount = budget.Money.Amount,
-                Currency = budget.Money.Currency.Value,
-                Categories = budget.Categories.Select(category => new CategoryResponse
-                {
-                    Id = category.Value,
-                    Name = category.Name,
-                    IsDefault = category.IsDefault,
-                    IsExpense = category.IsExpense
-                }).ToArray(),
+                Currency = budget.Money.Currency,
+                Categories = budget.Categories,
                 StartDate = budget.StartDate,
                 EndDate = budget.EndDate
             };

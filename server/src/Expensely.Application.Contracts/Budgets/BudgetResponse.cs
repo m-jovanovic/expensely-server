@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Expensely.Application.Contracts.Categories;
 
 namespace Expensely.Application.Contracts.Budgets
 {
@@ -20,11 +18,6 @@ namespace Expensely.Application.Contracts.Budgets
         public string Name { get; init; }
 
         /// <summary>
-        /// Gets the formatted amount.
-        /// </summary>
-        public string FormattedAmount { get; init; }
-
-        /// <summary>
         /// Gets the amount.
         /// </summary>
         public decimal Amount { get; init; }
@@ -37,7 +30,7 @@ namespace Expensely.Application.Contracts.Budgets
         /// <summary>
         /// Gets the categories.
         /// </summary>
-        public IReadOnlyCollection<CategoryResponse> Categories { get; init; }
+        public int[] Categories { get; init; }
 
         /// <summary>
         /// Gets the start date.
