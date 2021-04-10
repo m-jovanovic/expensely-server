@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { TransactionResponse } from '@expensely/core';
+import { TransactionListItem } from '@expensely/core';
 
 @Component({
   selector: 'exp-transaction-list-item',
@@ -9,7 +9,7 @@ import { TransactionResponse } from '@expensely/core';
 })
 export class TransactionListItemComponent {
   @Input()
-  transaction: TransactionResponse;
+  transaction: TransactionListItem;
 
   @Output()
   transactionSelectedEvent = new EventEmitter<string>();

@@ -5,14 +5,14 @@ import { Select, Store } from '@ngxs/store';
 import { AuthenticationFacade } from '../authentication';
 import { LoadTransactions } from './transaction-list.actions';
 import { TransactionListSelectors } from './transaction-list.selectors';
-import { TransactionResponse } from '../../contracts/transactions/transaction-response';
+import { TransactionListItem } from '../../contracts/transactions/transaction-list-item';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionListFacade {
   @Select(TransactionListSelectors.getTransactions)
-  transactions$: Observable<TransactionResponse[]>;
+  transactions$: Observable<TransactionListItem[]>;
 
   @Select(TransactionListSelectors.getIsLoading)
   isLoading$: Observable<boolean>;

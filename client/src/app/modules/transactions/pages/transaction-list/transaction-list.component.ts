@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { RouterService, TransactionListFacade, TransactionResponse } from '@expensely/core';
+import { RouterService, TransactionListFacade, TransactionListItem } from '@expensely/core';
 
 @Component({
   selector: 'exp-transactions-list',
@@ -10,7 +10,7 @@ import { RouterService, TransactionListFacade, TransactionResponse } from '@expe
 })
 export class TransactionListComponent implements OnInit {
   private readonly limit = 25;
-  transactions$: Observable<TransactionResponse[]>;
+  transactions$: Observable<TransactionListItem[]>;
   isLoading$: Observable<boolean>;
   error$: Observable<boolean>;
 
