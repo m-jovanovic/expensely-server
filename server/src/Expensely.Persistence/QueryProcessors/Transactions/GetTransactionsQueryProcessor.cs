@@ -44,7 +44,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 return Maybe<TransactionListResponse>.None;
             }
 
-            Transaction[] transactions = await _session
+            var transactions = await _session
                 .Query<Transaction, Transactions_ByUserIdAndOccurredOnAndCreatedOn>()
                 .Where(x =>
                     x.UserId == query.UserId &&
@@ -52,23 +52,37 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                      x.OccurredOn == query.OccurredOn && x.CreatedOnUtc <= query.CreatedOnUtc))
                 .OrderByDescending(x => x.OccurredOn)
                 .ThenByDescending(x => x.CreatedOnUtc)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Description,
+                    Category = new
+                    {
+                        x.Category.Name
+                    },
+                    x.Money,
+                    x.OccurredOn,
+                    x.CreatedOnUtc
+                })
                 .Take(query.Limit)
                 .ToArrayAsync(cancellationToken);
 
-            TransactionResponse[] transactionResponses = transactions.Select(TransactionResponse.FromTransaction).ToArray();
+            TransactionListResponse.Item[] transactionListItems = transactions
+                .Select(x => new TransactionListResponse.Item(x.Id, x.Description.Value, x.Category.Name, x.Money, x.OccurredOn))
+                .ToArray();
 
-            if (transactionResponses.Length < query.Limit)
+            if (transactionListItems.Length < query.Limit)
             {
-                return new TransactionListResponse(transactionResponses);
+                return new TransactionListResponse(transactionListItems);
             }
 
-            Transaction lastTransaction = transactions[^1];
+            var lastTransaction = transactions[^1];
 
             string cursor = Cursor.Create(
                 lastTransaction.OccurredOn.ToString(DateTimeFormats.Date, CultureInfo.InvariantCulture),
                 lastTransaction.CreatedOnUtc.ToString(DateTimeFormats.DateTimeWithMilliseconds, CultureInfo.InvariantCulture));
 
-            return new TransactionListResponse(transactionResponses[..^1], cursor);
+            return new TransactionListResponse(transactionListItems[..^1], cursor);
         }
     }
 }

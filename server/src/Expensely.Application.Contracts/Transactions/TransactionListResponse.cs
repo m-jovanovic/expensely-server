@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Expensely.Domain.Modules.Common;
 
 namespace Expensely.Application.Contracts.Transactions
 {
@@ -12,7 +14,7 @@ namespace Expensely.Application.Contracts.Transactions
         /// </summary>
         /// <param name="items">The transactions.</param>
         /// <param name="cursor">The cursor.</param>
-        public TransactionListResponse(IReadOnlyCollection<TransactionResponse> items, string cursor = "")
+        public TransactionListResponse(IReadOnlyCollection<Item> items, string cursor = "")
         {
             Cursor = cursor;
             Items = items;
@@ -21,11 +23,59 @@ namespace Expensely.Application.Contracts.Transactions
         /// <summary>
         /// Gets the items.
         /// </summary>
-        public IReadOnlyCollection<TransactionResponse> Items { get; }
+        public IReadOnlyCollection<Item> Items { get; }
 
         /// <summary>
         /// Gets the cursor.
         /// </summary>
         public string Cursor { get; }
+
+        /// <summary>
+        /// Represents the <see cref="TransactionListResponse"/> item.
+        /// </summary>
+        public sealed record Item
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Item"/> class.
+            /// </summary>
+            /// <param name="id">The identifier.</param>
+            /// <param name="description">The description.</param>
+            /// <param name="category">The category.</param>
+            /// <param name="money">The money.</param>
+            /// <param name="occurredOn">The occurred on date.</param>
+            public Item(string id, string description, string category, Money money, DateTime occurredOn)
+            {
+                Id = id;
+                Description = description;
+                Category = category;
+                FormattedAmount = money.Format();
+                OccurredOn = occurredOn;
+            }
+
+            /// <summary>
+            /// Gets the identifier.
+            /// </summary>
+            public string Id { get; }
+
+            /// <summary>
+            /// Gets the description.
+            /// </summary>
+            public string Description { get; }
+
+            /// <summary>
+            /// Gets the category.
+            /// </summary>
+            public string Category { get; }
+
+            /// <summary>
+            /// Gets the formatted amount.
+            /// </summary>
+            public string FormattedAmount { get; }
+
+            /// <summary>
+            /// Gets the occurred on date.
+            /// </summary>
+            public DateTime OccurredOn { get; }
+        }
     }
 }
