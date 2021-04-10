@@ -20,37 +20,44 @@
         <div class="px-6 py-6 space-y-4">
           <div>
             <label for="name" class="block font-medium text-gray-500">{{ t('budgets.details.fields.name') }}</label>
-            <div id="name" class="mt-1 block w-full rounded-md">
+            <div id="name" class="mt-1 block">
               {{ data.budget.name }}
             </div>
           </div>
 
           <div>
             <label for="categories" class="block font-medium text-gray-500">{{ t('budgets.details.fields.categories') }}</label>
-            <div *transloco="let t; read: 'categories'" id="categories" class="block w-full rounded-md">
-              <span *ngFor="let category of data.budget.categories" class="inline-block rounded-md py-2 px-4 mt-2 mr-2 bg-gray-100">
-                {{ t(category) }}
-              </span>
-            </div>
+
+            <span id="categories" *ngIf="data.budget.categories.length === 0; else selectedCategories" class="mt-1 block">
+              {{ t('budgets.details.text.noCategories') }}
+            </span>
+
+            <ng-template #selectedCategories>
+              <div id="categories" *transloco="let t; read: 'categories'" class="block">
+                <span *ngFor="let category of data.budget.categories" class="inline-block rounded-md py-2 px-4 mt-2 mr-2 bg-gray-100">
+                  {{ t(category) }}
+                </span>
+              </div>
+            </ng-template>
           </div>
 
           <div>
             <label for="amount" class="block font-medium text-gray-500">{{ t('budgets.details.fields.amount') }}</label>
-            <div id="amount" class="mt-1 block w-full rounded-md">
+            <div id="amount" class="mt-1 block">
               {{ data.budget.amount }}
             </div>
           </div>
 
           <div>
             <label for="startDate" class="block font-medium text-gray-500">{{ t('budgets.details.fields.startDate') }}</label>
-            <div id="startDate" class="mt-1 block w-full rounded-md">
+            <div id="startDate" class="mt-1 block">
               {{ data.budget.startDate }}
             </div>
           </div>
 
           <div>
             <label for="endDate" class="block font-medium text-gray-500">{{ t('budgets.details.fields.endDate') }}</label>
-            <div id="endDate" class="mt-1 block w-full rounded-md">
+            <div id="endDate" class="mt-1 block">
               {{ data.budget.endDate }}
             </div>
           </div>

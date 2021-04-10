@@ -216,7 +216,8 @@
   "budgets": {
     "details": {
       "text": {
-        "title": "Detalji budžeta"
+        "title": "Detalji budžeta",
+        "noCategories": "Nema odabranih kategorija."
       },
       "actions": {
         "back": "Nazad",

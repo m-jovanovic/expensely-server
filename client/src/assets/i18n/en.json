@@ -216,7 +216,8 @@
   "budgets": {
     "details": {
       "text": {
-        "title": "Budget details"
+        "title": "Budget details",
+        "noCategories": "No categories selected."
       },
       "actions": {
         "back": "Back",
