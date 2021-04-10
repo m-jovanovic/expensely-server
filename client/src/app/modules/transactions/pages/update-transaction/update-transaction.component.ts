@@ -65,7 +65,7 @@ export class UpdateTransactionComponent implements OnInit {
           transactionId: transaction.id,
           transactionType: transaction.transactionType,
           description: transaction.description,
-          category: transaction.category.id,
+          category: transaction.category,
           amount: Math.abs(transaction.amount).toFixed(2),
           currency: transaction.currency,
           occurredOn: transaction.occurredOn.substring(0, 10)
@@ -79,9 +79,9 @@ export class UpdateTransactionComponent implements OnInit {
           return [];
         }
 
-        const isExpenseSelected = transaction.transactionType == TransactionType.Expense;
+        const isExpense = transaction.transactionType == TransactionType.Expense;
 
-        return categories.filter((category) => category.isExpense == isExpenseSelected || category.isDefault);
+        return categories.filter((category) => category.isExpense == isExpense || category.isDefault);
       })
     );
 

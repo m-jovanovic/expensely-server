@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { RouterService, TransactionFacade, TransactionResponse } from '@expensely/core';
+import { RouterService, TransactionDetailsResponse, TransactionFacade } from '@expensely/core';
 
 @Component({
   selector: 'exp-transaction-details',
@@ -10,19 +10,19 @@ import { RouterService, TransactionFacade, TransactionResponse } from '@expensel
   styleUrls: ['./transaction-details.component.scss']
 })
 export class TransactionDetailsComponent implements OnInit {
-  transaction$: Observable<TransactionResponse>;
+  transaction$: Observable<TransactionDetailsResponse>;
   isLoading$: Observable<boolean>;
 
   constructor(private route: ActivatedRoute, private transactionFacade: TransactionFacade, private routerService: RouterService) {}
 
   ngOnInit(): void {
-    this.transaction$ = this.transactionFacade.transaction$;
+    this.transaction$ = this.transactionFacade.transactionDetails$;
 
     this.isLoading$ = this.transactionFacade.isLoading$;
 
     const transactionId = this.route.snapshot.paramMap.get('id');
 
-    this.transactionFacade.getTransaction(transactionId);
+    this.transactionFacade.getTransactionDetails(transactionId);
   }
 
   deleteTransaction(transactionId: string): void {
