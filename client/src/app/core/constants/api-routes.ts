@@ -21,6 +21,7 @@ export namespace ApiRoutes {
   export class Transactions {
     public static readonly getTransactions = 'transactions';
     public static readonly getTransaction = 'transactions/{transactionId}';
+    public static readonly getTransactionDetails = 'transactions/{transactionId}/details';
     public static readonly getCurrentMonthTransactionSummary = 'transactions/summary/current-month';
     public static readonly createTransaction = 'transactions';
     public static readonly updateTransaction = 'transactions/{transactionId}';

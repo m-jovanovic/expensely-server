@@ -9,6 +9,7 @@ import {
   UpdateTransactionRequest,
   TransactionListResponse,
   TransactionResponse,
+  TransactionDetailsResponse,
   TransactionSummaryResponse,
   EntityCreatedResponse
 } from '../../contracts';
@@ -27,6 +28,10 @@ export class TransactionService extends ApiService {
 
   getTransaction(transactionId: string): Observable<TransactionResponse> {
     return this.get(ApiRoutes.Transactions.getTransaction.replace('{transactionId}', transactionId));
+  }
+
+  getTransactionDetails(transactionId: string): Observable<TransactionDetailsResponse> {
+    return this.get(ApiRoutes.Transactions.getTransactionDetails.replace('{transactionId}', transactionId));
   }
 
   getCurrentMonthTransactionSummary(userId: string, currency: number): Observable<TransactionSummaryResponse> {
