@@ -29,7 +29,7 @@
             <label for="categories" class="block font-medium text-gray-500">{{ t('budgets.details.fields.categories') }}</label>
             <div *transloco="let t; read: 'categories'" id="categories" class="mt-1 block w-full rounded-md">
               <span *ngFor="let category of data.budget.categories" class="block">
-                {{ t(category.name) }}
+                {{ t(category) }}
               </span>
             </div>
           </div>
@@ -37,7 +37,7 @@
           <div>
             <label for="amount" class="block font-medium text-gray-500">{{ t('budgets.details.fields.amount') }}</label>
             <div id="amount" class="mt-1 block w-full rounded-md">
-              {{ data.budget.formattedAmount }}
+              {{ data.budget.amount }}
             </div>
           </div>
 

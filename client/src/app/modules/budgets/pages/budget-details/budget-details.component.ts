@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { BudgetFacade, BudgetResponse, RouterService } from '@expensely/core';
+import { BudgetFacade, BudgetDetailsResponse, RouterService } from '@expensely/core';
 import { ConfirmationDialogService } from '@expensely/shared/services';
 
 @Component({
@@ -12,7 +12,7 @@ import { ConfirmationDialogService } from '@expensely/shared/services';
   styleUrls: ['./budget-details.component.scss']
 })
 export class BudgetDetailsComponent implements OnInit {
-  budget$: Observable<BudgetResponse>;
+  budget$: Observable<BudgetDetailsResponse>;
   isLoading$: Observable<boolean>;
 
   constructor(
@@ -24,13 +24,13 @@ export class BudgetDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.budget$ = this.budgetFacade.budget$;
+    this.budget$ = this.budgetFacade.budgetDetails$;
 
     this.isLoading$ = this.budgetFacade.isLoading$;
 
     const budgetId = this.route.snapshot.paramMap.get('id');
 
-    this.budgetFacade.getBudget(budgetId);
+    this.budgetFacade.getBudgetDetails(budgetId);
   }
 
   deleteBudget(budgetId: string): void {
