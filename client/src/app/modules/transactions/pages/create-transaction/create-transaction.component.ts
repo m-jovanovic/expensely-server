@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
-import { finalize, map, tap } from 'rxjs/operators';
+import { filter, finalize, map, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import {
@@ -61,11 +61,8 @@ export class CreateTransactionComponent implements OnInit {
     );
 
     this.currencies$ = this.userFacade.currencies$.pipe(
+      filter((userCurrencies: UserCurrencyResponse[]) => userCurrencies?.length > 0),
       tap((userCurrencies: UserCurrencyResponse[]) => {
-        if (!userCurrencies?.length) {
-          return;
-        }
-
         const primaryCurrency = userCurrencies.find((userCurrency) => userCurrency.isPrimary);
 
         this.createTransactionForm.controls.currency.setValue(primaryCurrency.id);

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { finalize, map, tap } from 'rxjs/operators';
+import { filter, finalize, map, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import {
@@ -74,11 +74,8 @@ export class UpdateTransactionComponent implements OnInit {
     );
 
     this.categories$ = combineLatest([this.categoryFacade.categories$, this.transactionFacade.transaction$]).pipe(
+      filter(([, transaction]) => !!transaction),
       map(([categories, transaction]) => {
-        if (!transaction) {
-          return [];
-        }
-
         const isExpense = transaction.transactionType == TransactionType.Expense;
 
         return categories.filter((category) => category.isExpense == isExpense || category.isDefault);

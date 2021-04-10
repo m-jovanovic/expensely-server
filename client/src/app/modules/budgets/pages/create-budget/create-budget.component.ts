@@ -55,7 +55,7 @@ export class CreateBudgetComponent implements OnInit, OnDestroy {
     });
 
     this.currencies$ = this.userFacade.currencies$.pipe(
-      filter((userCurrencies: UserCurrencyResponse[]) => !!userCurrencies?.length),
+      filter((userCurrencies: UserCurrencyResponse[]) => userCurrencies?.length > 0),
       tap((userCurrencies: UserCurrencyResponse[]) => {
         const primaryCurrency = userCurrencies.find((userCurrency) => userCurrency.isPrimary);
 
