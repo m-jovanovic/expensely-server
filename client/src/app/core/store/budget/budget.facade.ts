@@ -3,9 +3,9 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { AuthenticationFacade } from '../authentication/authentication.facade';
-import { CreateBudget, DeleteBudget, GetBudget, UpdateBudget } from './budget.actions';
+import { CreateBudget, DeleteBudget, GetBudget, GetBudgetDetails, UpdateBudget } from './budget.actions';
 import { BudgetSelectors } from './budget.selectors';
-import { BudgetResponse } from '../../contracts/budgets/budget-response';
+import { BudgetResponse, BudgetDetailsResponse } from '../../contracts/budgets';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,9 @@ import { BudgetResponse } from '../../contracts/budgets/budget-response';
 export class BudgetFacade {
   @Select(BudgetSelectors.getBudget)
   budget$: Observable<BudgetResponse>;
+
+  @Select(BudgetSelectors.getBudgetDetails)
+  budgetDetails$: Observable<BudgetDetailsResponse>;
 
   @Select(BudgetSelectors.getIsLoading)
   isLoading$: Observable<boolean>;
@@ -24,6 +27,10 @@ export class BudgetFacade {
 
   getBudget(budgetId: string): Observable<any> {
     return this.store.dispatch(new GetBudget(budgetId));
+  }
+
+  getBudgetDetails(budgetId: string): Observable<any> {
+    return this.store.dispatch(new GetBudgetDetails(budgetId));
   }
 
   createBudget(name: string, amount: number, currency: number, categories: number[], startDate: Date, endDate: Date): Observable<any> {

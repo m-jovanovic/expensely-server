@@ -4,9 +4,16 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { BudgetStateModel, initialState } from './budget-state.model';
-import { CreateBudget, DeleteBudget, GetBudget, UpdateBudget } from './budget.actions';
+import { CreateBudget, DeleteBudget, GetBudget, GetBudgetDetails, UpdateBudget } from './budget.actions';
 import { BudgetService } from '../../services/budgets/budget.service';
-import { ApiErrorResponse, BudgetResponse, CreateBudgetRequest, EntityCreatedResponse, UpdateBudgetRequest } from '../../contracts';
+import {
+  ApiErrorResponse,
+  BudgetDetailsResponse,
+  BudgetResponse,
+  CreateBudgetRequest,
+  EntityCreatedResponse,
+  UpdateBudgetRequest
+} from '../../contracts';
 
 @State<BudgetStateModel>({
   name: 'budget',
@@ -28,6 +35,33 @@ export class BudgetState {
         context.patchState({
           budgetId: response.id,
           budget: response,
+          isLoading: false,
+          error: false
+        });
+      }),
+      catchError((error: ApiErrorResponse) => {
+        context.patchState({
+          isLoading: false,
+          error: true
+        });
+
+        return throwError(error);
+      })
+    );
+  }
+
+  @Action(GetBudgetDetails)
+  getBudgetDetails(context: StateContext<BudgetStateModel>, action: GetBudgetDetails): Observable<any> {
+    context.patchState({
+      budgetDetails: null,
+      isLoading: true
+    });
+
+    return this.budgetService.getBudgetDetails(action.budgetId).pipe(
+      tap((response: BudgetDetailsResponse) => {
+        context.patchState({
+          budgetId: response.id,
+          budgetDetails: response,
           isLoading: false,
           error: false
         });

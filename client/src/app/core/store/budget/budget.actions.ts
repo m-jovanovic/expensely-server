@@ -4,6 +4,12 @@ export class GetBudget {
   constructor(public budgetId: string) {}
 }
 
+export class GetBudgetDetails {
+  public static readonly type = '[Budget] Get Details';
+
+  constructor(public budgetId: string) {}
+}
+
 export class CreateBudget {
   public static readonly type = '[Budget] Create';
 
