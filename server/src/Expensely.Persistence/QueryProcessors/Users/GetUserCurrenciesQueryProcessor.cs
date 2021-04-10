@@ -46,7 +46,10 @@ namespace Expensely.Persistence.QueryProcessors.Users
                 .Where(x => x.Id == query.UserId.ToString())
                 .Select(x => new
                 {
-                    x.PrimaryCurrency,
+                    PrimaryCurrency = new
+                    {
+                        x.PrimaryCurrency.Value
+                    },
                     x.Currencies
                 })
                 .FirstOrDefaultAsync(cancellationToken);
