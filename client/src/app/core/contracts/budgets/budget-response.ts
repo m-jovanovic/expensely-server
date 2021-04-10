@@ -1,12 +1,9 @@
-import { CategoryResponse } from '../transactions';
-
 export interface BudgetResponse {
   id: string;
   name: string;
   amount: number;
   currency: number;
-  formattedAmount: string;
-  categories: CategoryResponse[];
+  categories: number[];
   startDate: string;
   endDate: string;
 }

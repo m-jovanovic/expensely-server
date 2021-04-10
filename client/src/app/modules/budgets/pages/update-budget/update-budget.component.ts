@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -66,7 +66,7 @@ export class UpdateBudgetComponent implements OnInit {
           name: budget.name,
           amount: budget.amount,
           currency: budget.currency,
-          categories: budget.categories.map((x) => x.id),
+          categories: budget.categories,
           startDate: budget.startDate.substring(0, 10),
           endDate: budget.endDate.substring(0, 10)
         });
