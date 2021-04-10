@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Contracts.Transactions;
@@ -6,6 +7,7 @@ using Expensely.Application.Queries.Processors.Transactions;
 using Expensely.Application.Queries.Transactions;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Transactions;
+using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
 namespace Expensely.Persistence.QueryProcessors.Transactions
@@ -32,16 +34,46 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
         /// <inheritdoc />
         public async Task<Maybe<TransactionResponse>> Process(GetTransactionByIdQuery query, CancellationToken cancellationToken = default)
         {
-            Maybe<Transaction> maybeTransaction = await _session.LoadAsync<Transaction>(query.TransactionId, cancellationToken);
+            var transaction = await _session
+                .Query<Transaction>()
+                .Where(x => x.Id == query.TransactionId)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.UserId,
+                    x.Description,
+                    Category = new
+                    {
+                        x.Category.Value
+                    },
+                    Money = new
+                    {
+                        x.Money.Amount,
+                        Currency = x.Money.Currency.Value
+                    },
+                    x.OccurredOn,
+                    TransactionType = new
+                    {
+                        x.TransactionType.Value
+                    }
+                })
+                .FirstOrDefaultAsync(cancellationToken);
 
-            if (maybeTransaction.HasNoValue || maybeTransaction.Value.UserId != _userInformationProvider.UserId)
+            if (transaction is null || transaction.UserId != _userInformationProvider.UserId)
             {
                 return Maybe<TransactionResponse>.None;
             }
 
-            Transaction transaction = maybeTransaction.Value;
-
-            var transactionResponse = TransactionResponse.FromTransaction(transaction);
+            var transactionResponse = new TransactionResponse
+            {
+                Id = transaction.Id,
+                Description = transaction.Description.Value,
+                Category = transaction.Category.Value,
+                Amount = transaction.Money.Amount,
+                Currency = transaction.Money.Currency,
+                OccurredOn = transaction.OccurredOn,
+                TransactionType = transaction.TransactionType.Value
+            };
 
             return transactionResponse;
         }
