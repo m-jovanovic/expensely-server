@@ -51,14 +51,14 @@
           <div>
             <label for="startDate" class="block font-medium text-gray-500">{{ t('budgets.details.fields.startDate') }}</label>
             <div id="startDate" class="mt-1 block">
-              {{ data.budget.startDate }}
+              {{ data.budget.startDate | date }}
             </div>
           </div>
 
           <div>
             <label for="endDate" class="block font-medium text-gray-500">{{ t('budgets.details.fields.endDate') }}</label>
             <div id="endDate" class="mt-1 block">
-              {{ data.budget.endDate }}
+              {{ data.budget.endDate | date }}
             </div>
           </div>
         </div>

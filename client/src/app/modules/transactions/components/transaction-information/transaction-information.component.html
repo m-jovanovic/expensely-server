@@ -24,7 +24,7 @@
     <div>
       <label for="occurredOn" class="block font-medium text-gray-500">{{ t('transactions.details.fields.occurredOn') }}</label>
       <div id="occurredOn" class="mt-1 block">
-        {{ transaction.occurredOn }}
+        {{ transaction.occurredOn | date }}
       </div>
     </div>
   </div>
