@@ -1,0 +1,105 @@
+{
+  "details": {
+    "text": {
+      "title": "Detalji budžeta",
+      "noCategories": "Nema odabranih kategorija."
+    },
+    "actions": {
+      "back": "Nazad",
+      "update": "Ažuriraj Budžet"
+    },
+    "fields": {
+      "name": "Naziv",
+      "categories": "Kategorije",
+      "amount": "Iznos",
+      "startDate": "Početni datum",
+      "endDate": "Krajnji datum"
+    }
+  },
+  "create": {
+    "text": {
+      "title": "Kreiraj novi Budžet"
+    },
+    "fields": {
+      "name": "Naziv",
+      "amount": "Iznos",
+      "currency": "Valua",
+      "categories": "Kategorije",
+      "startDate": "Početni datum",
+      "endDate": "Krajnji datum"
+    },
+    "actions": {
+      "createBudget": "Kreiraj Budžet",
+      "cancel": "Otkaži"
+    },
+    "errors": {
+      "name": {
+        "required": "Naziv je neophodan.",
+        "maxLength": "Dužina naziva je ograničena na 100 karaktera."
+      },
+      "amount": {
+        "required": "Iznos je neophodan.",
+        "min": "Iznos mora biti veći od 0."
+      },
+      "currency": {
+        "required": "Valua je neophodna."
+      },
+      "startDate": {
+        "required": "Početni datum je neophodan."
+      },
+      "endDate": {
+        "required": "Krajnji datum je neophodan.",
+        "endDateAfterStartDate": "Krajnji datum mora biti datum nakon početnog datuma."
+      },
+      "serverError": "Nešto je krenulo naopako prilikom kreiranja budžeta, molimo pokušajte ponovo."
+    }
+  },
+  "update": {
+    "text": {
+      "title": "Ažuriraj Budžet"
+    },
+    "fields": {
+      "name": "Naziv",
+      "amount": "Iznos",
+      "currency": "Valua",
+      "categories": "Kategorije",
+      "startDate": "Početni datum",
+      "endDate": "Krajnji datum"
+    },
+    "actions": {
+      "updateBudget": "Ažuriraj Budžet",
+      "cancel": "Otkaži"
+    },
+    "errors": {
+      "name": {
+        "required": "Naziv je neophodan.",
+        "maxLength": "Dužina naziva je ograničena na 100 karaktera."
+      },
+      "amount": {
+        "required": "Iznos je neophodan.",
+        "min": "Iznos mora biti veći od 0."
+      },
+      "currency": {
+        "required": "Valua je neophodna."
+      },
+      "startDate": {
+        "required": "Početni datum je neophodan."
+      },
+      "endDate": {
+        "required": "Krajnji datum je neophodan.",
+        "endDateAfterStartDate": "Krajnji datum mora biti datum nakon početnog datuma."
+      },
+      "serverError": "Nešto je krenulo naopako prilikom ažuriranja budžeta, molimo pokušajte ponovo."
+    }
+  },
+  "delete": {
+    "actions": {
+      "delete": "Obriši Budžet"
+    },
+    "dialog": {
+      "message": "Da li ste sigurni da želite obrišete ovaj budžet?",
+      "cancelButtonText": "Otkaži",
+      "confirmButtonText": "Obriši"
+    }
+  }
+}

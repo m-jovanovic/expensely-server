@@ -1,0 +1,16 @@
+{
+  "text": {
+    "message": "You're almost ready! Before proceeding, please choose your primary currency."
+  },
+  "actions": {
+    "selectPrimaryCurrency": "Select"
+  },
+  "fields": {
+    "currency": "Currency"
+  },
+  "errors": {
+    "currency": {
+      "required": "The currency is required."
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "text": {
+    "title": "Expensely",
+    "subtitle": "Let us take care of your expenses"
+  },
+  "fields": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "password": "Password",
+    "confirmationPassword": "Confirm password"
+  },
+  "actions": {
+    "register": "Sign Up",
+    "login": "Log In",
+    "loginText": "Already have an account?"
+  },
+  "errors": {
+    "firstName": {
+      "required": "The first name is required.",
+      "maxLength": "The first name length is limited to 100 characters."
+    },
+    "lastName": {
+      "required": "The last name is required.",
+      "maxLength": "The last name length is limited to 100 characters."
+    },
+    "email": {
+      "required": "The email is required.",
+      "invalidFormat": "The email must be a valid email address."
+    },
+    "password": {
+      "required": "The password is required.",
+      "minLength": "The minimum password length is 6 characters.",
+      "passwordStrength": "The password must contain at least one lowercase letter, one uppercase letter, one number and one special character or symbol."
+    },
+    "confirmationPassword": {
+      "required": "The confirmation password is required.",
+      "confirmationPasswordMustMatch": "The password and confirmation password must match."
+    },
+    "emailAlreadyInUse": "The email you provided is already in use."
+  }
+}

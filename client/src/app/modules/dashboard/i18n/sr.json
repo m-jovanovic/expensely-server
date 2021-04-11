@@ -1,0 +1,14 @@
+{
+  "recentTransactions": {
+    "title": "Nedavne Transakcije",
+    "notFound": "Izgleda da nemate nedavnih  transakcija.",
+    "error": "Nedavne transakcije su trenutno nedostupne."
+  },
+  "transactionSummary": {
+    "expenses": "Troškovi",
+    "incomes": "Prihodi",
+    "timePeriod": "Ovog meseca",
+    "expensesError": "Ukupni troškovi su trenutno nedostupni.",
+    "incomesError": "Ukupni prihodi su trenutno nedostupni."
+  }
+}

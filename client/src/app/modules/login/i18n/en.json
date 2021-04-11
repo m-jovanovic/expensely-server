@@ -1,0 +1,26 @@
+{
+  "text": {
+    "title": "Expensely",
+    "subtitle": "Let us take care of your expenses"
+  },
+  "fields": {
+    "email": "Email",
+    "password": "Password"
+  },
+  "actions": {
+    "login": "Log In",
+    "forgotPassword": "Forgot Password?",
+    "register": "Sign Up",
+    "registerText": "Don't have an account yet?"
+  },
+  "errors": {
+    "email": {
+      "required": "The email is required.",
+      "invalidFormat": "The email must be a valid email address."
+    },
+    "password": {
+      "required": "The password is required."
+    },
+    "invalidEmailOrPassword": "The provided email or password is incorrect."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "text": {
+    "message": "Skoro ste spremni! Pre nego što nastavite, odaberite svoju primarnu valutu."
+  },
+  "actions": {
+    "selectPrimaryCurrency": "Izaberi"
+  },
+  "fields": {
+    "currency": "Valuta"
+  },
+  "errors": {
+    "currency": {
+      "required": "Valuta je neophodna."
+    }
+  }
+}

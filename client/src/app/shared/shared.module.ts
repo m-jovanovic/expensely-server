@@ -8,9 +8,9 @@ import {
   SpinnerComponent,
   ReturnComponent
 } from './components';
-import { TranslocoRootModule } from '@expensely/transloco/transloco-root.module';
 import { TrapFocusDirective } from './directives';
 import { RouterModule } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { RouterModule } from '@angular/router';
     LanguagePickerComponent,
     ReturnComponent
   ],
-  imports: [CommonModule, TranslocoRootModule, RouterModule],
-  exports: [CommonModule, TranslocoRootModule, TrapFocusDirective, SpinnerComponent, LanguagePickerComponent, ReturnComponent]
+  imports: [CommonModule, TranslocoModule, RouterModule],
+  exports: [CommonModule, TranslocoModule, TrapFocusDirective, SpinnerComponent, LanguagePickerComponent, ReturnComponent]
 })
 export class SharedModule {}

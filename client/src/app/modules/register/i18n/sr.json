@@ -1,0 +1,42 @@
+{
+  "text": {
+    "title": "Expensely",
+    "subtitle": "Dopusti nama da brinemo o tvojim troškovima"
+  },
+  "fields": {
+    "firstName": "Ime",
+    "lastName": "Prezime",
+    "email": "Email",
+    "password": "Lozinka",
+    "confirmationPassword": "Potvrdi lozinku"
+  },
+  "actions": {
+    "register": "Registruj se",
+    "login": "Prijavi se",
+    "loginText": "Već imate korisnički nalog?"
+  },
+  "errors": {
+    "firstName": {
+      "required": "Ime je neophodno.",
+      "maxLength": "Dužina imena je ograničena na 100 karaktera."
+    },
+    "lastName": {
+      "required": "Prezime je neophodno.",
+      "maxLength": "Dužina prezimena je ograničena na 100 karaktera."
+    },
+    "email": {
+      "required": "Email je neophodan.",
+      "invalidFormat": "Email mora biti validna email adresa."
+    },
+    "password": {
+      "required": "Lozinka je neophodna.",
+      "minLength": "Minimalna dužina lozinke je 6 karaktera.",
+      "passwordStrength": "Lozinka mora sadržati najmanje jedno malo slovo, jedno veliko slovo, jedan broj i jedan specijalni karakter ili simbol."
+    },
+    "confirmationPassword": {
+      "required": "Potvrda lozinke je neophodna.",
+      "confirmationPasswordMustMatch": "Potvrda lozinke se razlikuje od lozinke."
+    },
+    "emailAlreadyInUse": "Email koji ste naveli je već u upotrebi."
+  }
+}

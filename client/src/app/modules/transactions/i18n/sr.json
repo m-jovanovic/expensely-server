@@ -1,0 +1,116 @@
+{
+  "list": {
+    "text": {
+      "title": "Transakcije"
+    },
+    "actions": {
+      "createTransaction": "Kreiraj Transakciju"
+    },
+    "errors": {
+      "notFound": "Izgleda da nemate transakcije.",
+      "error": "Transakcije su trenutno nedostupne."
+    }
+  },
+  "details": {
+    "text": {
+      "title": "Detalji transakcije"
+    },
+    "actions": {
+      "update": "Ažuriraj Transakciju"
+    },
+    "fields": {
+      "description": "Opis",
+      "category": "Kategorija",
+      "amount": "Iznos",
+      "occurredOn": "Datum"
+    }
+  },
+  "create": {
+    "text": {
+      "title": "Kreiraj novu Transakciju"
+    },
+    "fields": {
+      "transactionType": "Tip transakcije",
+      "expenseTransactionType": "Trošak",
+      "incomeTransactionType": "Prihod",
+      "description": "Opis",
+      "category": "Kategorija",
+      "amount": "Iznos",
+      "currency": "Valuta",
+      "occurredOn": "Datum"
+    },
+    "actions": {
+      "createTransaction": "Kreiraj Transakciju",
+      "cancel": "Otkaži"
+    },
+    "errors": {
+      "transactionType": {
+        "required": "Tip transakcije je neophodan."
+      },
+      "description": {
+        "required": "Opis je neophodan.",
+        "maxLength": "Dužina opisa je ograničena na 100 karaktera."
+      },
+      "category": {
+        "required": "Kategorija je neophodna."
+      },
+      "amount": {
+        "required": "Iznos je neophodan.",
+        "min": "Iznos mora biti veći od 0."
+      },
+      "currency": {
+        "required": "Valuta je neophodna."
+      },
+      "occurredOn": {
+        "required": "Datum transakcije je neophodan."
+      },
+      "serverError": "Nešto je krenulo naopako prilikom kreiranja transakcije, molimo pokušajte ponovo."
+    }
+  },
+  "update": {
+    "text": {
+      "title": "Ažuriraj Transakciju"
+    },
+    "fields": {
+      "description": "Opis",
+      "category": "Kategorija",
+      "amount": "Iznos",
+      "currency": "Valuta",
+      "occurredOn": "Datum"
+    },
+    "actions": {
+      "updateTransaction": "Ažuriraj Transakciju",
+      "cancel": "Otkaži"
+    },
+    "errors": {
+      "description": {
+        "required": "Opis je neophodan.",
+        "maxLength": "Dužina opisa je ograničena na 100 karaktera."
+      },
+      "category": {
+        "required": "Kategorija je neophodna."
+      },
+      "amount": {
+        "required": "Iznos je neophodan.",
+        "min": "Iznos mora biti veći od 0."
+      },
+      "currency": {
+        "required": "Valuta je neophodna."
+      },
+      "occurredOn": {
+        "required": "Datum transakcije je neophodan."
+      },
+      "serverError": "Nešto je krenulo naopako prilikom ažuriranja transakcije, molimo pokušajte ponovo."
+    }
+  },
+  "delete": {
+    "actions": {
+      "delete": "Obriši Transakciju"
+    },
+    "dialog": {
+      "message": "Da li ste sigurni da želite da obrišete ovu transakciju?",
+      "cancelButtonText": "Otkaži",
+      "confirmButtonText": "Obriši"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "text": {
+    "title": "Expensely",
+    "subtitle": "Dopusti nama da brinemo o tvojim troškovima"
+  },
+  "fields": {
+    "email": "Email",
+    "password": "Lozinka"
+  },
+  "actions": {
+    "login": "Prijavi se",
+    "forgotPassword": "Zaboravili ste lozinku?",
+    "register": "Registruj se",
+    "registerText": "Još uvek nemate korisnički nalog?"
+  },
+  "errors": {
+    "email": {
+      "required": "Email je neophodan.",
+      "invalidFormat": "Email mora biti validna email adresa."
+    },
+    "password": {
+      "required": "Lozinka je neophodna."
+    },
+    "invalidEmailOrPassword": "Email ili lozinka su pogrešni."
+  }
+}
