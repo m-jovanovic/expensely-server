@@ -2,6 +2,7 @@ using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
+using Expensely.Domain.UnitTests.TestData.Categories;
 using Expensely.Domain.UnitTests.TestData.Currency;
 using FluentAssertions;
 using Xunit;
@@ -50,6 +51,47 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
 
             // Assert
             result.Error.Should().Be(DomainErrors.Transaction.IncomeAmountLessThanOrEqualToZero);
+        }
+
+        [Theory]
+        [ClassData(typeof(ExpenseCategoryData))]
+        public void ValidateCategory_ShouldReturnFailureResult_WhenCategoryIsExpenseCategory(Category category)
+        {
+            // Arrange
+            TransactionType transactionType = TransactionType.Income;
+
+            // Act
+            Result result = transactionType.ValidateCategory(category);
+
+            // Assert
+            result.Error.Should().Be(DomainErrors.Transaction.IncomeCategoryInvalid);
+        }
+
+        [Fact]
+        public void ValidateCategory_ShouldReturnSuccess_WhenCategoryIsDefaultCategory()
+        {
+            // Arrange
+            TransactionType transactionType = TransactionType.Income;
+
+            // Act
+            Result result = transactionType.ValidateCategory(Category.None);
+
+            // Assert
+            result.IsSuccess.Should().BeTrue();
+        }
+
+        [Theory]
+        [ClassData(typeof(IncomeCategoryData))]
+        public void ValidateCategory_ShouldReturnSuccess_WhenCategoryIsIncomeCategory(Category category)
+        {
+            // Arrange
+            TransactionType transactionType = TransactionType.Income;
+
+            // Act
+            Result result = transactionType.ValidateCategory(category);
+
+            // Assert
+            result.IsSuccess.Should().BeTrue();
         }
     }
 }
