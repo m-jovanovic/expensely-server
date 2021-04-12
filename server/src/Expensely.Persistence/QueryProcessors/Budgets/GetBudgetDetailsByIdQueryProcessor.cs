@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
@@ -8,7 +9,10 @@ using Expensely.Application.Queries.Processors.Budgets;
 using Expensely.Application.Queries.Transactions;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Budgets;
+using Expensely.Domain.Modules.Common;
+using Expensely.Domain.Modules.Transactions;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Session;
 
 namespace Expensely.Persistence.QueryProcessors.Budgets
@@ -46,7 +50,7 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
                     x.UserId,
                     x.Name,
                     x.Money,
-                    Categories = x.Categories.Select(c => c.Name).ToArray(),
+                    x.Categories,
                     x.StartDate,
                     x.EndDate
                 })
@@ -57,15 +61,30 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
                 return Maybe<BudgetDetailsResponse>.None;
             }
 
-            // TODO: Implement getting remaining fields.
+            int[] categoryValues = budget.Categories.Select(x => x.Value).ToArray();
+
+            // TODO: Define index for this query.
+            Money[] expenseAmounts = await _session.Query<Transaction>()
+                .Where(x =>
+                    x.UserId == budget.UserId &&
+                    x.TransactionType.Value == TransactionType.Expense.Value &&
+                    x.OccurredOn >= budget.StartDate &&
+                    x.OccurredOn <= budget.EndDate &&
+                    x.Money.Currency.Value == budget.Money.Currency.Value &&
+                    (!categoryValues.Any() || x.Category.Value.In(categoryValues)))
+                .Select(x => x.Money)
+                .ToArrayAsync(cancellationToken);
+
+            Money totalExpense = expenseAmounts.Any() ? Money.Sum(expenseAmounts) : new Money(0.0m, budget.Money.Currency);
+
             var budgetDetailsResponse = new BudgetDetailsResponse
             {
                 Id = budget.Id,
                 Name = budget.Name,
                 Amount = budget.Money.Format(),
-                RemainingAmount = string.Empty,
-                UsedPercentage = 0.0m,
-                Categories = budget.Categories,
+                RemainingAmount = (budget.Money + totalExpense).Format(),
+                UsedPercentage = Math.Abs(totalExpense.Amount / budget.Money.Amount),
+                Categories = budget.Categories.Select(category => category.Name).ToArray(),
                 StartDate = budget.StartDate,
                 EndDate = budget.EndDate
             };

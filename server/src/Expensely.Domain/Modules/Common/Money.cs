@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
 
@@ -42,6 +44,41 @@ namespace Expensely.Domain.Modules.Common
         /// Gets the currency.
         /// </summary>
         public Currency Currency { get; private set; }
+
+        public static Money operator +(Money first, Money second)
+        {
+            if (first.Currency != second.Currency)
+            {
+                // TODO: Create custom exception.
+                throw new ArgumentException("Currencies don't match!");
+            }
+
+            return new Money(first.Amount + second.Amount, first.Currency);
+        }
+
+        public static Money operator -(Money first, Money second)
+        {
+            if (first.Currency != second.Currency)
+            {
+                // TODO: Create custom exception.
+                throw new ArgumentException("Currencies don't match!");
+            }
+
+            return new Money(first.Amount - second.Amount, first.Currency);
+        }
+
+        /// <summary>
+        /// Sums the specified array of <see cref="Money"/> objects.
+        /// </summary>
+        /// <param name="moneyArray">The array of <see cref="Money"/> objects.</param>
+        /// <returns>The resulting <see cref="Money"/> instance representing the sum.</returns>
+        // TODO: Clean up this method later.
+        public static Money Sum(Money[] moneyArray)
+        {
+            Money sum = moneyArray[0];
+
+            return moneyArray.Skip(1).Aggregate(sum, (current, money) => current + money);
+        }
 
         /// <summary>
         /// Formats the amount with the currency.
