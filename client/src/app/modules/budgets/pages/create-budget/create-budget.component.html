@@ -98,12 +98,12 @@
             <div>
               <label for="categories" class="block font-medium text-gray-500">{{ t('budgets.create.fields.categories') }}</label>
 
-              <exp-select-budget-category
+              <exp-select-budget-categories
                 id="categories"
                 name="categories"
                 [categories]="data.categories"
                 (selectedCategoriesChangedEvent)="setSelectedCategories($event)"
-              ></exp-select-budget-category>
+              ></exp-select-budget-categories>
             </div>
 
             <!-- Start date -->

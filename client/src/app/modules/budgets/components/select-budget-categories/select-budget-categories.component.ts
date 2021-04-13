@@ -14,9 +14,9 @@ import {
 import { CategoryResponse } from '@expensely/core';
 
 @Component({
-  selector: 'exp-select-budget-category',
-  templateUrl: './select-budget-category.component.html',
-  styleUrls: ['./select-budget-category.component.scss'],
+  selector: 'exp-select-budget-categories',
+  templateUrl: './select-budget-categories.component.html',
+  styleUrls: ['./select-budget-categories.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectBudgetCategoryComponent implements OnInit, AfterViewChecked {

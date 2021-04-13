@@ -1,1 +1,1 @@
-export * from './select-budget-category/select-budget-category.component';
+export * from './select-budget-categories/select-budget-categories.component';
