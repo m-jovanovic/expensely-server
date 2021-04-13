@@ -6,6 +6,7 @@ import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { SharedModule } from '@expensely/shared';
 import { BudgetState, CategoryState, UserState } from '@expensely/core';
 import { BudgetsRoutingModule } from './budgets-routing.module';
+import { SelectBudgetCategoryComponent } from './components';
 import { CreateBudgetComponent, UpdateBudgetComponent, BudgetDetailsComponent } from './pages';
 
 export const budgetsTranslationsLoader = ['en', 'sr'].reduce((acc, language) => {
@@ -15,7 +16,7 @@ export const budgetsTranslationsLoader = ['en', 'sr'].reduce((acc, language) => 
 }, {});
 
 @NgModule({
-  declarations: [CreateBudgetComponent, UpdateBudgetComponent, BudgetDetailsComponent],
+  declarations: [CreateBudgetComponent, UpdateBudgetComponent, BudgetDetailsComponent, SelectBudgetCategoryComponent],
   imports: [SharedModule, ReactiveFormsModule, BudgetsRoutingModule, NgxsModule.forFeature([BudgetState, CategoryState, UserState])],
   providers: [
     {
