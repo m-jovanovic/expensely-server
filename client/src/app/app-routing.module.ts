@@ -42,7 +42,7 @@ const routes: Routes = [
         path: 'account',
         canLoad: [AuthenticationGuard],
         canActivate: [AuthenticationGuard],
-        loadChildren: () => import('./modules').then((m) => m.DashboardModule)
+        loadChildren: () => import('./modules').then((m) => m.AccountModule)
       },
       {
         path: 'settings',
