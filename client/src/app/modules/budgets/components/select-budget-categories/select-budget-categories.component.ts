@@ -20,6 +20,8 @@ import { CategoryResponse } from '@expensely/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectBudgetCategoryComponent implements OnInit, AfterViewChecked {
+  private firstCheckPassed = false;
+
   @ViewChild('categorySelect')
   categorySelect: ElementRef;
 
@@ -27,7 +29,7 @@ export class SelectBudgetCategoryComponent implements OnInit, AfterViewChecked {
   categories: CategoryResponse[];
 
   @Input()
-  selectedCategoryIds: number[];
+  selectedCategoryIds: number[] = [];
 
   @Output()
   selectedCategoriesChangedEvent = new EventEmitter<number[]>();
@@ -39,6 +41,8 @@ export class SelectBudgetCategoryComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {}
 
   ngAfterViewChecked(): void {
+    this.setSelectedCategoriesOnce();
+
     this.clearCategorySelect();
   }
 
@@ -74,5 +78,19 @@ export class SelectBudgetCategoryComponent implements OnInit, AfterViewChecked {
     if (selectElement) {
       selectElement.value = '';
     }
+  }
+
+  private setSelectedCategoriesOnce() {
+    if (this.selectedCategoryIds.length === 0 || this.firstCheckPassed) {
+      return;
+    }
+
+    this.selectedCategories = this.categories.filter((category) => this.selectedCategoryIds.includes(category.id));
+
+    this.categories = this.categories.filter((category) => !this.selectedCategories.includes(category));
+
+    this.changeDetectorRef.detectChanges();
+
+    this.firstCheckPassed = true;
   }
 }
