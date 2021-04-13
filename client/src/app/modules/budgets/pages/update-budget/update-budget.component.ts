@@ -26,7 +26,7 @@ import { NotificationSettings } from '@expensely/shared/constants';
 })
 export class UpdateBudgetComponent implements OnInit {
   private requestSent = false;
-  selectedCategoryIds: number[] = [];
+  private selectedCategoryIds: number[] = [];
   budget$: Observable<BudgetResponse>;
   updateBudgetForm: FormGroup;
   currencies$: Observable<UserCurrencyResponse[]>;
@@ -66,8 +66,6 @@ export class UpdateBudgetComponent implements OnInit {
           startDate: budget.startDate.substring(0, 10),
           endDate: budget.endDate.substring(0, 10)
         });
-
-        this.selectedCategoryIds = budget.categories;
       })
     );
 

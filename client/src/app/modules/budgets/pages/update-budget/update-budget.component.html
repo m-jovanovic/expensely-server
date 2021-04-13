@@ -103,7 +103,7 @@
                 id="categories"
                 name="categories"
                 [categories]="data.categories"
-                [selectedCategoryIds]="selectedCategoryIds"
+                [selectedCategoryIds]="data.budget.categories"
                 (selectedCategoriesChangedEvent)="setSelectedCategories($event)"
               >
               </exp-select-budget-categories>
