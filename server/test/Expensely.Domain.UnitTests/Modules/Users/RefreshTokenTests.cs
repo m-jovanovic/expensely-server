@@ -13,13 +13,15 @@ namespace Expensely.Domain.UnitTests.Modules.Users
         public void Constructor_ShouldThrowArgumentException_WhenParametersAreInvalid(
             string token,
             DateTime expiresOnUtc,
-            string paramName) =>
-            FluentActions.Invoking(
-                    () => new RefreshToken(token, expiresOnUtc))
-                .Should()
-                .Throw<ArgumentException>()
-                .And
-                .ParamName.Should().Be(paramName);
+            string paramName)
+        {
+            // Arrange
+            // Act
+            Action action = () => new RefreshToken(token, expiresOnUtc);
+
+            // Assert
+            FluentActions.Invoking(action).Should().Throw<ArgumentException>().And.ParamName.Should().Be(paramName);
+        }
 
         [Fact]
         public void Equals_ShouldReturnTrue_WhenRefreshTokenValuesAreTheSame()

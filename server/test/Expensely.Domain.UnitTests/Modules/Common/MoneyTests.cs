@@ -9,13 +9,17 @@ namespace Expensely.Domain.UnitTests.Modules.Common
     public class MoneyTests
     {
         [Fact]
-        public void Constructor_ShouldThrowArgumentNullException_WhenCurrencyIsNull() =>
-            FluentActions.Invoking(
-                    () => new Money(default, null))
-                .Should()
-                .Throw<ArgumentNullException>()
-                .And
-                .ParamName.Should().Be("currency");
+        public void Constructor_ShouldThrowArgumentNullException_WhenCurrencyIsNull()
+        {
+            // Arrange
+            Currency currency = null;
+
+            // Act
+            Action action = () => new Money(default, currency);
+
+            // Assert
+            FluentActions.Invoking(action).Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("currency");
+        }
 
         [Fact]
         public void Format_ShouldProperlyFormatMoney()

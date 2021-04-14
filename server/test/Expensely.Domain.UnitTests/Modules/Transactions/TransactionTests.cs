@@ -18,26 +18,30 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
         public void Create_ShouldThrowArgumentNullException_WhenArgumentsAreInvalid(
             User user,
             ITransactionDetails transactionDetails,
-            string paramName) =>
-            FluentActions.Invoking(
-                    () => Transaction.Create(user, transactionDetails))
-                .Should()
-                .Throw<ArgumentNullException>()
-                .And
-                .ParamName.Should().Be(paramName);
+            string paramName)
+        {
+            // Arrange
+            // Act
+            Action action = () => Transaction.Create(user, transactionDetails);
+
+            // Assert
+            FluentActions.Invoking(action).Should().Throw<ArgumentNullException>().And.ParamName.Should().Be(paramName);
+        }
 
         [Theory]
         [ClassData(typeof(CreateTransactionArgumentExceptionData))]
         public void Create_ShouldThrowArgumentException_WhenArgumentsAreInvalid(
             User user,
             ITransactionDetails transactionDetails,
-            string paramName) =>
-            FluentActions.Invoking(
-                    () => Transaction.Create(user, transactionDetails))
-                .Should()
-                .Throw<ArgumentException>()
-                .And
-                .ParamName.Should().Be(paramName);
+            string paramName)
+        {
+            // Arrange
+            // Act
+            Action action = () => Transaction.Create(user, transactionDetails);
+
+            // Assert
+            FluentActions.Invoking(action).Should().Throw<ArgumentException>().And.ParamName.Should().Be(paramName);
+        }
 
         [Theory]
         [ClassData(typeof(UserAndTransactionDetailsValidData))]

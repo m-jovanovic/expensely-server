@@ -22,22 +22,26 @@ namespace Expensely.Domain.UnitTests.Modules.Users
             LastName lastName,
             Email email,
             Password password,
-            string paramName) =>
-            FluentActions.Invoking(
-                    () => User.Create(firstName, lastName, email, password, default))
-                .Should()
-                .Throw<ArgumentException>()
-                .And
-                .ParamName.Should().Be(paramName);
+            string paramName)
+        {
+            // Arrange
+            // Act
+            Action action = () => User.Create(firstName, lastName, email, password, default);
+
+            // Assert
+            FluentActions.Invoking(action).Should().Throw<ArgumentException>().And.ParamName.Should().Be(paramName);
+        }
 
         [Fact]
-        public void Create_ShouldThrowArgumentNullException_WhenPasswordIsNull() =>
-            FluentActions.Invoking(
-                    () => User.Create(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, UserTestData.Password, null))
-                .Should()
-                .Throw<ArgumentNullException>()
-                .And
-                .ParamName.Should().Be("passwordHasher");
+        public void Create_ShouldThrowArgumentNullException_WhenPasswordIsNull()
+        {
+            // Arrange
+            // Act
+            Action action = () => User.Create(UserTestData.FirstName, UserTestData.LastName, UserTestData.Email, UserTestData.Password, null);
+
+            // Assert
+            FluentActions.Invoking(action).Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("passwordHasher");
+        }
 
         [Fact]
         public void Create_ShouldCreateUser_WithProperValues()
