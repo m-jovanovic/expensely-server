@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { filter, finalize, tap } from 'rxjs/operators';
+import { filter, finalize, take, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import {
@@ -61,7 +61,10 @@ export class CreateBudgetComponent implements OnInit {
       })
     );
 
-    this.categories$ = this.categoryFacade.expenseCategories$;
+    this.categories$ = this.categoryFacade.expenseCategories$.pipe(
+      filter((categories) => categories.length > 0),
+      take(1)
+    );
 
     this.isLoading$ = this.budgetFacade.isLoading$;
 

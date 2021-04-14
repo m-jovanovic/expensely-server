@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, finalize, map, tap } from 'rxjs/operators';
+import { filter, finalize, map, take, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import {
@@ -69,7 +69,10 @@ export class UpdateBudgetComponent implements OnInit {
       })
     );
 
-    this.categories$ = this.categoryFacade.expenseCategories$;
+    this.categories$ = this.categoryFacade.expenseCategories$.pipe(
+      filter((categories) => categories.length > 0),
+      take(1)
+    );
 
     this.currencies$ = this.userFacade.currencies$;
 
