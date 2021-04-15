@@ -14,7 +14,8 @@
     <meta name="robots" content="index, follow" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T350H6EC7X"></script>
     <script>
-      if (admin || localhost) {
+      const localDomains = ['localhost', '127.0.0.1'];
+      if (localDomains.includes(window.location.hostname)) {
         window['ga-disable-G-T350H6EC7X'] = true;
       }
       window.dataLayer = window.dataLayer || [];
