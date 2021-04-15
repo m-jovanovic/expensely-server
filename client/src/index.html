@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Expensely</title>
+    <title>Simple expense tracking - Expensely</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="icon" sizes="32x32" type="image/png" href="favicon.png" />
@@ -10,9 +10,13 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
     <meta name="theme-color" content="#1976d2" />
-    <meta name="description" content="Expensely is an easy to use, feature-rich expense tracking application." />
+    <meta name="description" content="Expensely is an expense tracking application that makes your life easier." />
+    <meta name="robots" content="index, follow" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T350H6EC7X"></script>
     <script>
+      if (admin || localhost) {
+        window['ga-disable-G-T350H6EC7X'] = true;
+      }
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
