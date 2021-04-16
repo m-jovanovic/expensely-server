@@ -53,7 +53,10 @@ namespace Expensely.Application.Commands.Handlers.Budgets.CreateBudget
                 return Result.Failure<EntityCreatedResponse>(ValidationErrors.User.NotFound);
             }
 
-            Category[] categories = request.Categories.Select(category => Category.FromValue(category).Value).ToArray();
+            Category[] categories = request.Categories
+                .Select(category => Category.FromValue(category).Value)
+                .Where(category => category.IsExpense)
+                .ToArray();
 
             var budget = new Budget(
                 maybeUser.Value,

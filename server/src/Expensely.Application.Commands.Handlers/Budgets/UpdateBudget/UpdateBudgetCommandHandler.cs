@@ -68,7 +68,10 @@ namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
 
             budget.ChangeDates(request.StartDate, request.EndDate);
 
-            Category[] categories = request.Categories.Select(category => Category.FromValue(category).Value).ToArray();
+            Category[] categories = request.Categories
+                .Select(category => Category.FromValue(category).Value)
+                .Where(category => category.IsExpense)
+                .ToArray();
 
             budget.ChangeCategories(categories);
 
