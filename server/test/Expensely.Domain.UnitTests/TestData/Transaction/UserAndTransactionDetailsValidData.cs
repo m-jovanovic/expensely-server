@@ -34,7 +34,7 @@ namespace Expensely.Domain.UnitTests.TestData.Transaction
             {
                 Description = DescriptionTestData.EmptyDescription,
                 Category = Category.None,
-                Money = new Money(-1, currency),
+                Money = new Money(1, currency),
                 OccurredOn = DateTime.UtcNow.Date,
                 TransactionType = TransactionType.Income
             };

@@ -2,6 +2,7 @@
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions.Contracts;
 using Expensely.Domain.Modules.Transactions.Events;
+using Expensely.Domain.Modules.Transactions.Exceptions;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.Utility;
@@ -37,6 +38,8 @@ namespace Expensely.Domain.Modules.Transactions
             Ensure.NotNull(money, "The monetary amount is required.", nameof(money));
             Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
             Ensure.NotNull(transactionType, "The transaction type is required.", nameof(transactionType));
+            ValidateAmount(transactionType, money);
+            ValidateCategory(transactionType, category);
 
             UserId = Ulid.Parse(user.Id);
             Description = description;
@@ -126,11 +129,29 @@ namespace Expensely.Domain.Modules.Transactions
             Ensure.NotNull(transactionDetails.Category, "The category is required", nameof(transactionDetails.Category));
             Ensure.NotNull(transactionDetails.Money, "The monetary amount is required.", nameof(transactionDetails.Money));
             Ensure.NotEmpty(transactionDetails.OccurredOn, "The occurred on date is required.", nameof(transactionDetails.OccurredOn));
+            ValidateAmount(TransactionType, transactionDetails.Money);
+            ValidateCategory(TransactionType, transactionDetails.Category);
 
             Description = transactionDetails.Description;
             Category = transactionDetails.Category;
             Money = transactionDetails.Money;
             OccurredOn = transactionDetails.OccurredOn;
+        }
+
+        private static void ValidateAmount(TransactionType transactionType, Money money)
+        {
+            if (transactionType.ValidateAmount(money).IsFailure)
+            {
+                throw new AmountNotValidForTransactionTypeDomainException();
+            }
+        }
+
+        private static void ValidateCategory(TransactionType transactionType, Category category)
+        {
+            if (transactionType.ValidateCategory(category).IsFailure)
+            {
+                throw new CategoryNotValidForTransactionTypeDomainException();
+            }
         }
     }
 }

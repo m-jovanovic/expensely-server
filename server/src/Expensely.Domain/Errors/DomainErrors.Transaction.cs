@@ -39,6 +39,20 @@ namespace Expensely.Domain.Errors
             public static Error IncomeAmountLessThanOrEqualToZero => new(
                 "Transaction.AmountLessThanOrEqualToZero",
                 "The income transaction amount can not be less than or equal to zero.");
+
+            /// <summary>
+            /// Gets the amount not valid for transaction type error.
+            /// </summary>
+            public static Error AmountNotValidForTransactionType => new(
+                "Transaction.AmountNotValidForTransactionType",
+                "The provided monetary amount is not valid for the current transaction type.");
+
+            /// <summary>
+            /// Gets the category not valid for transaction type error.
+            /// </summary>
+            public static Error CategoryNotValidForTransactionType => new(
+                "Transaction.CategoryNotValidForTransactionType",
+                "The provided category is not valid for the current transaction type.");
         }
     }
 }

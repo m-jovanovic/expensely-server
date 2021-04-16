@@ -84,7 +84,7 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
             var newTransactionDetails = new TransactionDetails
             {
                 Description = Description.Create("New description").Value,
-                Category = Category.Bills,
+                Category = transaction.TransactionType == TransactionType.Expense ? Category.Bills : Category.Cash,
                 Money = new Money(transactionDetails.Money.Amount * 2, CurrencyTestData.DefaultCurrency),
                 OccurredOn = DateTime.UtcNow.AddDays(5).Date
             };
