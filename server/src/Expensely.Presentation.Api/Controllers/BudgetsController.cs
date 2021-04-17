@@ -118,42 +118,6 @@ namespace Expensely.Presentation.Api.Controllers
                 .Match(Ok, BadRequest);
 
         /// <summary>
-        /// Adds the specified category to the budget's categories.
-        /// </summary>
-        /// <param name="budgetId">The budget identifier.</param>
-        /// <param name="category">The category value.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the category was added to the budget's categories successfully, otherwise 400 - Bad Request.</returns>
-        [HasPermission(Permission.BudgetModify)]
-        [HttpPut(ApiRoutes.Budgets.AddBudgetCategory)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> AddBudgetCategory(Ulid budgetId, int category, CancellationToken cancellationToken) =>
-            await Result.Success(new AddBudgetCategoryCommand(budgetId, category))
-                .Bind(command => Sender.Send(command, cancellationToken))
-                .Match(Ok, BadRequest);
-
-        /// <summary>
-        /// Removes the specified category to the budget's categories.
-        /// </summary>
-        /// <param name="budgetId">The budget identifier.</param>
-        /// <param name="category">The category value.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// 204 - No Content if the category was removed from the budget's categories successfully, otherwise 400 - Bad Request.
-        /// </returns>
-        [HasPermission(Permission.BudgetModify)]
-        [HttpDelete(ApiRoutes.Budgets.RemoveBudgetCategory)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> RemoveBudgetCategory(Ulid budgetId, int category, CancellationToken cancellationToken) =>
-            await Result.Success(new RemoveBudgetCategoryCommand(budgetId, category))
-                .Bind(command => Sender.Send(command, cancellationToken))
-                .Match(NoContent, BadRequest);
-
-        /// <summary>
         /// Deletes the budget with the specified identifier.
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
