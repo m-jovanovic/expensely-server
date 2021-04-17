@@ -25,7 +25,7 @@ namespace Expensely.Domain.Modules.Budgets
         /// <param name="categories">The categories for the budget.</param>
         /// <param name="startDate">The start date of the budget.</param>
         /// <param name="endDate">The end date of the budget.</param>
-        public Budget(User user, Name name, Money money, IReadOnlyCollection<Category> categories, DateTime startDate, DateTime endDate)
+        internal Budget(User user, Name name, Money money, IReadOnlyCollection<Category> categories, DateTime startDate, DateTime endDate)
             : base(Ulid.NewUlid())
         {
             Ensure.NotNull(user, "The user is required.", nameof(user));

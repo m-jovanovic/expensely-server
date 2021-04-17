@@ -9,7 +9,7 @@ namespace Expensely.Domain.Modules.Transactions
     public interface ITransactionFactory
     {
         /// <summary>
-        /// Creates a new transaction based on the provided transaction information.
+        /// Creates a new transaction based on the specified <see cref="CreateTransactionRequest"/> instance.
         /// </summary>
         /// <param name="createTransactionRequest">The create transaction request.</param>
         /// <returns>The result of the transaction creation process containing the transaction or an error.</returns>

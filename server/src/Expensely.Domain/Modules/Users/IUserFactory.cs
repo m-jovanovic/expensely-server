@@ -11,7 +11,7 @@ namespace Expensely.Domain.Modules.Users
     public interface IUserFactory
     {
         /// <summary>
-        /// Creates a new user based on the specified parameters.
+        /// Creates a new user based on the specified <see cref="CreateUserRequest"/> instance.
         /// </summary>
         /// <param name="createUserRequest">The create user request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
