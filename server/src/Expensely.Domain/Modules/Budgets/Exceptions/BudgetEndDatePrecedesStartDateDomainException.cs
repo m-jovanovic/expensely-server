@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Common.Primitives.Errors;
+using Expensely.Domain.Errors;
 using Expensely.Domain.Exceptions;
 
 namespace Expensely.Domain.Modules.Budgets.Exceptions
@@ -16,7 +16,7 @@ namespace Expensely.Domain.Modules.Budgets.Exceptions
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
         public BudgetEndDatePrecedesStartDateDomainException(DateTime startDate, DateTime endDate)
-            : base(new Error("Budget.EndDatePrecedesStartDate", $"The end date {endDate:d} precedes the start date {startDate:d}."))
+            : base(DomainErrors.Budget.EndDatePrecedesStartDate(startDate, endDate))
         {
         }
     }

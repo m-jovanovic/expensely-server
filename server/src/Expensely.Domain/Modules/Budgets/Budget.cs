@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Expensely.Common.Primitives.Result;
-using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Budgets.Exceptions;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Users;
@@ -33,10 +31,10 @@ namespace Expensely.Domain.Modules.Budgets
             Ensure.NotNull(user, "The user is required.", nameof(user));
             Ensure.NotEmpty(name, "The name is required.", nameof(name));
             Ensure.NotNull(money, "The monetary amount is required.", nameof(money));
-            EnsureMoneyIsGreaterThanZero(money);
             Ensure.NotNull(categories, "The categories are required", nameof(categories));
             Ensure.NotEmpty(startDate, "The start date is required.", nameof(startDate));
             Ensure.NotEmpty(endDate, "The end date is required.", nameof(endDate));
+            EnsureMoneyIsGreaterThanZero(money);
             EnsureStartDatePrecedesEndDate(startDate, endDate);
 
             UserId = Ulid.Parse(user.Id);
@@ -44,11 +42,7 @@ namespace Expensely.Domain.Modules.Budgets
             Money = money;
             StartDate = startDate.Date;
             EndDate = endDate.Date;
-
-            foreach (Category category in categories)
-            {
-                AddCategory(category);
-            }
+            ChangeCategories(categories);
         }
 
         /// <summary>
@@ -154,45 +148,15 @@ namespace Expensely.Domain.Modules.Budgets
         /// Changes the categories.
         /// </summary>
         /// <param name="categories">The categories.</param>
-        public void ChangeCategories(Category[] categories)
+        public void ChangeCategories(IReadOnlyCollection<Category> categories)
         {
             _categories.Clear();
 
             foreach (Category category in categories)
             {
-                AddCategory(category);
+                _categories.Add(category);
             }
         }
-
-        /// <summary>
-        /// Marks the budget as expired.
-        /// </summary>
-        /// <exception cref="BudgetAlreadyExpiredDomainException"> when the budget is already expired.</exception>
-        public void MarkAsExpired()
-        {
-            if (Expired)
-            {
-                throw new BudgetAlreadyExpiredDomainException();
-            }
-
-            Expired = true;
-        }
-
-        /// <summary>
-        /// Adds the specified category to the budget.
-        /// </summary>
-        /// <param name="category">The category to be added.</param>
-        /// <returns>The success result if the category was added, otherwise an error result.</returns>
-        public Result AddCategory(Category category) =>
-            _categories.Add(category) ? Result.Success() : Result.Failure(DomainErrors.Budget.CategoryAlreadyExists);
-
-        /// <summary>
-        /// Removes the specified category from the budget.
-        /// </summary>
-        /// <param name="category">The category to be removed.</param>
-        /// <returns>The success result if the category was removed, otherwise an error result.</returns>
-        public Result RemoveCategory(Category category) =>
-            _categories.Remove(category) ? Result.Success() : Result.Failure(DomainErrors.Budget.CategoryDoesNotExist);
 
         /// <summary>
         /// Ensures that the specified start date precedes the specified end date, otherwise throws an exception.
