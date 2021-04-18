@@ -13,5 +13,13 @@ namespace Expensely.Domain.Modules.Budgets.Contracts
         decimal Amount,
         int Currency,
         DateTime StartDate,
-        DateTime EndDate);
+        DateTime EndDate)
+    {
+        /// <summary>
+        /// Creates a new <see cref="ValidateBudgetDetailsRequest"/> from the current request instance.
+        /// </summary>
+        /// <returns>The new <see cref="ValidateBudgetDetailsRequest"/> instance.</returns>
+        internal ValidateBudgetDetailsRequest ToValidateBudgetDetailsRequest() =>
+            new(User, Name, Categories, Amount, Currency, StartDate, EndDate);
+    }
 }
