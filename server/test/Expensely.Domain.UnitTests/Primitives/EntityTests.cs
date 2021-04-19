@@ -156,5 +156,19 @@ namespace Expensely.Domain.UnitTests.Primitives
             // Assert
             result.Should().BeTrue();
         }
+
+        [Fact]
+        public void UnEqualityOperator_ShouldReturnTrue_WhenEntitiesAreNotEqual()
+        {
+            // Arrange
+            Entity entity1 = UserTestData.ValidUser;
+            Entity entity2 = UserTestData.ValidUser;
+
+            // Act
+            bool result = entity1 != entity2;
+
+            // Assert
+            result.Should().BeTrue();
+        }
     }
 }
