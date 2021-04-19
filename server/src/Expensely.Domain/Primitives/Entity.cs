@@ -62,6 +62,11 @@ namespace Expensely.Domain.Primitives
                 return false;
             }
 
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
             return ReferenceEquals(this, other) || Id == other.Id;
         }
 
@@ -76,11 +81,6 @@ namespace Expensely.Domain.Primitives
             if (ReferenceEquals(this, obj))
             {
                 return true;
-            }
-
-            if (obj.GetType() != GetType())
-            {
-                return false;
             }
 
             if (obj is not Entity other)
