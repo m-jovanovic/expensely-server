@@ -1,8 +1,10 @@
 ﻿using System;
+using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Transactions.Contracts;
 using Expensely.Domain.Modules.Transactions.Events;
+using Expensely.Domain.Modules.Transactions.Exceptions;
 using Expensely.Domain.Modules.Users;
 using Expensely.Domain.UnitTests.TestData.Currency;
 using Expensely.Domain.UnitTests.TestData.Transaction;
@@ -41,6 +43,36 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
 
             // Assert
             FluentActions.Invoking(action).Should().Throw<ArgumentException>().And.ParamName.Should().Be(paramName);
+        }
+
+        [Theory]
+        [ClassData(typeof(CreateTransactionInvalidAmountForTransactionTypeData))]
+        public void Create_ShouldThrowAmountNotValidForTransactionTypeDomainException_WhenAmountIsNotValidForTransactionType(
+            User user,
+            ITransactionDetails transactionDetails)
+        {
+            // Arrange
+            // Act
+            Action action = () => Transaction.Create(user, transactionDetails);
+
+            // Assert
+            FluentActions.Invoking(action).Should().Throw<AmountNotValidForTransactionTypeDomainException>()
+                .And.Error.Should().Be(DomainErrors.Transaction.AmountNotValidForTransactionType);
+        }
+
+        [Theory]
+        [ClassData(typeof(CreateTransactionInvalidCategoryForTransactionTypeData))]
+        public void Create_ShouldThrowCategoryNotValidForTransactionTypeDomainException_WhenCategoryIsNotValidForTransactionType(
+            User user,
+            ITransactionDetails transactionDetails)
+        {
+            // Arrange
+            // Act
+            Action action = () => Transaction.Create(user, transactionDetails);
+
+            // Assert
+            FluentActions.Invoking(action).Should().Throw<CategoryNotValidForTransactionTypeDomainException>()
+                .And.Error.Should().Be(DomainErrors.Transaction.CategoryNotValidForTransactionType);
         }
 
         [Theory]
@@ -86,7 +118,8 @@ namespace Expensely.Domain.UnitTests.Modules.Transactions
                 Description = Description.Create("New description").Value,
                 Category = transaction.TransactionType == TransactionType.Expense ? Category.Bills : Category.Cash,
                 Money = new Money(transactionDetails.Money.Amount * 2, CurrencyTestData.DefaultCurrency),
-                OccurredOn = DateTime.UtcNow.AddDays(5).Date
+                OccurredOn = DateTime.UtcNow.AddDays(5).Date,
+                TransactionType = transactionDetails.TransactionType
             };
 
             // Act

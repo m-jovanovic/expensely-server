@@ -32,14 +32,7 @@ namespace Expensely.Domain.Modules.Transactions
             TransactionType transactionType)
             : base(Ulid.NewUlid())
         {
-            Ensure.NotNull(user, "The user is required.", nameof(user));
-            Ensure.NotNull(description, "The description is required.", nameof(description));
-            Ensure.NotNull(category, "The category is required.", nameof(category));
-            Ensure.NotNull(money, "The monetary amount is required.", nameof(money));
-            Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
-            Ensure.NotNull(transactionType, "The transaction type is required.", nameof(transactionType));
-            ValidateAmount(transactionType, money);
-            ValidateCategory(transactionType, category);
+            EnsureValidDetails(user, description, category, money, occurredOn, transactionType);
 
             UserId = Ulid.Parse(user.Id);
             Description = description;
@@ -125,12 +118,12 @@ namespace Expensely.Domain.Modules.Transactions
         /// <param name="transactionDetails">The transaction details.</param>
         public void ChangeDetails(ITransactionDetails transactionDetails)
         {
-            Ensure.NotNull(transactionDetails.Description, "The description is required.", nameof(transactionDetails.Description));
-            Ensure.NotNull(transactionDetails.Category, "The category is required", nameof(transactionDetails.Category));
-            Ensure.NotNull(transactionDetails.Money, "The monetary amount is required.", nameof(transactionDetails.Money));
-            Ensure.NotEmpty(transactionDetails.OccurredOn, "The occurred on date is required.", nameof(transactionDetails.OccurredOn));
-            ValidateAmount(TransactionType, transactionDetails.Money);
-            ValidateCategory(TransactionType, transactionDetails.Category);
+            EnsureValidTransactionDetails(
+                transactionDetails.Description,
+                transactionDetails.Category,
+                transactionDetails.Money,
+                transactionDetails.OccurredOn,
+                transactionDetails.TransactionType);
 
             Description = transactionDetails.Description;
             Category = transactionDetails.Category;
@@ -138,7 +131,36 @@ namespace Expensely.Domain.Modules.Transactions
             OccurredOn = transactionDetails.OccurredOn;
         }
 
-        private static void ValidateAmount(TransactionType transactionType, Money money)
+        private static void EnsureValidDetails(
+            User user,
+            Description description,
+            Category category,
+            Money money,
+            DateTime occurredOn,
+            TransactionType transactionType)
+        {
+            Ensure.NotNull(user, "The user is required.", nameof(user));
+
+            EnsureValidTransactionDetails(description, category, money, occurredOn, transactionType);
+        }
+
+        private static void EnsureValidTransactionDetails(
+            Description description,
+            Category category,
+            Money money,
+            DateTime occurredOn,
+            TransactionType transactionType)
+        {
+            Ensure.NotNull(description, "The description is required.", nameof(description));
+            Ensure.NotNull(category, "The category is required.", nameof(category));
+            Ensure.NotNull(money, "The monetary amount is required.", nameof(money));
+            Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
+            Ensure.NotNull(transactionType, "The transaction type is required.", nameof(transactionType));
+            EnsureAmountValidForTransactionType(transactionType, money);
+            EnsureCategoryValidForTransactionType(transactionType, category);
+        }
+
+        private static void EnsureAmountValidForTransactionType(TransactionType transactionType, Money money)
         {
             if (transactionType.ValidateAmount(money).IsFailure)
             {
@@ -146,7 +168,7 @@ namespace Expensely.Domain.Modules.Transactions
             }
         }
 
-        private static void ValidateCategory(TransactionType transactionType, Category category)
+        private static void EnsureCategoryValidForTransactionType(TransactionType transactionType, Category category)
         {
             if (transactionType.ValidateCategory(category).IsFailure)
             {
