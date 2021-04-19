@@ -10,7 +10,10 @@ namespace Expensely.Domain.Modules.Budgets
     /// </summary>
     public sealed class Name : ValueObject
     {
-        private const int MaxLength = 100;
+        /// <summary>
+        /// The name maximum length.
+        /// </summary>
+        public const int MaxLength = 100;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Name"/> class.

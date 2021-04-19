@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
@@ -75,7 +74,7 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
                 .Select(x => x.Money)
                 .ToArrayAsync(cancellationToken);
 
-            Money totalExpense = expenseAmounts.Any() ? Money.Sum(expenseAmounts) : new Money(0.0m, budget.Money.Currency);
+            Money totalExpense = expenseAmounts.Any() ? Money.Sum(expenseAmounts) : Money.Zero(budget.Money.Currency);
 
             var budgetDetailsResponse = new BudgetDetailsResponse
             {
@@ -83,7 +82,7 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
                 Name = budget.Name,
                 Amount = budget.Money.Format(),
                 RemainingAmount = (budget.Money + totalExpense).Format(),
-                UsedPercentage = Math.Abs(totalExpense.Amount / budget.Money.Amount),
+                UsedPercentage = budget.Money.PercentFrom(totalExpense),
                 Categories = budget.Categories.Select(category => category.Name).ToArray(),
                 StartDate = budget.StartDate,
                 EndDate = budget.EndDate
