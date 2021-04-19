@@ -94,6 +94,7 @@ namespace Expensely.Domain.UnitTests.Modules.Budgets
             budget.Money.Should().Be(budgetDetails.Money);
             budget.StartDate.Should().Be(budgetDetails.StartDate);
             budget.EndDate.Should().Be(budgetDetails.EndDate);
+            budget.Expired.Should().BeFalse();
             budget.CreatedOnUtc.Should().Be(default);
             budget.ModifiedOnUtc.Should().BeNull();
         }
