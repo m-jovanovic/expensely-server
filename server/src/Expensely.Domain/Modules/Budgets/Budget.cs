@@ -26,17 +26,10 @@ namespace Expensely.Domain.Modules.Budgets
         /// <param name="categories">The categories for the budget.</param>
         /// <param name="startDate">The start date of the budget.</param>
         /// <param name="endDate">The end date of the budget.</param>
-        internal Budget(User user, Name name, Money money, IReadOnlyCollection<Category> categories, DateTime startDate, DateTime endDate)
+        private Budget(User user, Name name, Money money, IReadOnlyCollection<Category> categories, DateTime startDate, DateTime endDate)
             : base(Ulid.NewUlid())
         {
-            Ensure.NotNull(user, "The user is required.", nameof(user));
-            Ensure.NotEmpty(name, "The name is required.", nameof(name));
-            Ensure.NotNull(money, "The monetary amount is required.", nameof(money));
-            Ensure.NotNull(categories, "The categories are required", nameof(categories));
-            Ensure.NotEmpty(startDate, "The start date is required.", nameof(startDate));
-            Ensure.NotEmpty(endDate, "The end date is required.", nameof(endDate));
-            EnsureMoneyIsGreaterThanZero(money);
-            EnsureStartDatePrecedesEndDate(startDate, endDate);
+            EnsureValidDetails(user, name, money, categories, startDate, endDate);
 
             UserId = Ulid.Parse(user.Id);
             Name = name;
@@ -122,13 +115,12 @@ namespace Expensely.Domain.Modules.Budgets
         /// <param name="budgetDetails">The budget details.</param>
         public void ChangeDetails(IBudgetDetails budgetDetails)
         {
-            Ensure.NotEmpty(budgetDetails.Name, "The name is required.", nameof(budgetDetails.Name));
-            Ensure.NotNull(budgetDetails.Money, "The monetary amount is required.", nameof(budgetDetails.Money));
-            Ensure.NotNull(budgetDetails.Categories, "The categories are required", nameof(budgetDetails.Categories));
-            Ensure.NotEmpty(budgetDetails.StartDate, "The start date is required.", nameof(budgetDetails.StartDate));
-            Ensure.NotEmpty(budgetDetails.EndDate, "The end date is required.", nameof(budgetDetails.EndDate));
-            EnsureMoneyIsGreaterThanZero(budgetDetails.Money);
-            EnsureStartDatePrecedesEndDate(budgetDetails.StartDate, budgetDetails.EndDate);
+            EnsureBudgetDetailsValid(
+                budgetDetails.Name,
+                budgetDetails.Money,
+                budgetDetails.Categories,
+                budgetDetails.StartDate,
+                budgetDetails.EndDate);
 
             Name = budgetDetails.Name;
             StartDate = budgetDetails.StartDate;
@@ -136,26 +128,35 @@ namespace Expensely.Domain.Modules.Budgets
             ChangeCategories(budgetDetails.Categories);
         }
 
-        /// <summary>
-        /// Changes the categories.
-        /// </summary>
-        /// <param name="categories">The categories.</param>
-        public void ChangeCategories(IReadOnlyCollection<Category> categories)
+        private static void EnsureValidDetails(
+            User user,
+            Name name,
+            Money money,
+            IReadOnlyCollection<Category> categories,
+            DateTime startDate,
+            DateTime endDate)
         {
-            _categories.Clear();
+            Ensure.NotNull(user, "The user is required.", nameof(user));
 
-            foreach (Category category in categories)
-            {
-                _categories.Add(category);
-            }
+            EnsureBudgetDetailsValid(name, money, categories, startDate, endDate);
         }
 
-        /// <summary>
-        /// Ensures that the specified start date precedes the specified end date, otherwise throws an exception.
-        /// </summary>
-        /// <param name="startDate">The start date.</param>
-        /// <param name="endDate">The end date.</param>
-        /// <exception cref="BudgetEndDatePrecedesStartDateDomainException"> when the end date precedes the start date.</exception>
+        private static void EnsureBudgetDetailsValid(
+            Name name,
+            Money money,
+            IReadOnlyCollection<Category> categories,
+            DateTime startDate,
+            DateTime endDate)
+        {
+            Ensure.NotEmpty(name, "The name is required.", nameof(name));
+            Ensure.NotNull(money, "The monetary amount is required.", nameof(money));
+            Ensure.NotNull(categories, "The categories are required", nameof(categories));
+            Ensure.NotEmpty(startDate, "The start date is required.", nameof(startDate));
+            Ensure.NotEmpty(endDate, "The end date is required.", nameof(endDate));
+            EnsureMoneyIsGreaterThanZero(money);
+            EnsureStartDatePrecedesEndDate(startDate, endDate);
+        }
+
         private static void EnsureStartDatePrecedesEndDate(DateTime startDate, DateTime endDate)
         {
             if (endDate < startDate)
@@ -164,12 +165,21 @@ namespace Expensely.Domain.Modules.Budgets
             }
         }
 
-        /// <summary>
-        /// Ensures that the specified money amount is greater than zero.
-        /// </summary>
-        /// <param name="money">The monetary amount.</param>
-        /// <exception cref="ArgumentException"> if the monetary amount is less than or equal to zero.</exception>
         private static void EnsureMoneyIsGreaterThanZero(Money money) =>
             Ensure.NotLessThanOrEqualToZero(money.Amount, "The monetary amount must be greater than zero", nameof(money));
+
+        /// <summary>
+        /// Changes the categories.
+        /// </summary>
+        /// <param name="categories">The categories.</param>
+        private void ChangeCategories(IEnumerable<Category> categories)
+        {
+            _categories.Clear();
+
+            foreach (Category category in categories)
+            {
+                _categories.Add(category);
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace Expensely.Domain.Utility
         /// <exception cref="ArgumentException"> if the specified value is empty.</exception>
         public static void NotLessThanOrEqualToZero(decimal value, string message, string argumentName)
         {
-            if (value < decimal.Zero)
+            if (value <= decimal.Zero)
             {
                 throw new ArgumentException(message, argumentName);
             }
