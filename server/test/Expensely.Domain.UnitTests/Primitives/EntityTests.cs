@@ -1,5 +1,4 @@
 ﻿using System;
-using Expensely.Domain.Modules.Users;
 using Expensely.Domain.Primitives;
 using Expensely.Domain.UnitTests.TestData.Currencies;
 using Expensely.Domain.UnitTests.TestData.Transactions;
@@ -34,7 +33,7 @@ namespace Expensely.Domain.UnitTests.Primitives
             bool result = entity.Equals(TransactionTestData.ValidExpense);
 
             // Assert
-            result.Should().BeTrue();
+            result.Should().BeFalse();
         }
 
         [Fact]
@@ -45,20 +44,6 @@ namespace Expensely.Domain.UnitTests.Primitives
 
             // Act
             bool result = entity.Equals(entity);
-
-            // Assert
-            result.Should().BeTrue();
-        }
-
-        [Fact]
-        public void Equals_ShouldReturnTrue_WhenOtherEntityHasTheSameIdentifier()
-        {
-            // Arrange
-            Entity entity1 = UserTestData.ValidUser;
-            Entity entity2 = UserTestData.ValidUser;
-
-            // Act
-            bool result = entity1.Equals(entity2);
 
             // Assert
             result.Should().BeTrue();
@@ -100,21 +85,7 @@ namespace Expensely.Domain.UnitTests.Primitives
             bool result = entity.Equals(CurrencyTestData.DefaultCurrency);
 
             // Assert
-            result.Should().BeTrue();
-        }
-
-        [Fact]
-        public void Equals_ShouldReturnTrue_WhenOtherObjectHasTheSameIdentifier()
-        {
-            // Arrange
-            Entity entity1 = UserTestData.ValidUser;
-            Entity entity2 = UserTestData.ValidUser;
-
-            // Act
-            bool result = entity1.Equals((object)entity2);
-
-            // Assert
-            result.Should().BeTrue();
+            result.Should().BeFalse();
         }
 
         [Fact]
@@ -177,7 +148,7 @@ namespace Expensely.Domain.UnitTests.Primitives
         {
             // Arrange
             Entity entity1 = UserTestData.ValidUser;
-            Entity entity2 = UserTestData.ValidUser;
+            Entity entity2 = entity1;
 
             // Act
             bool result = entity1 == entity2;
