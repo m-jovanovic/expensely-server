@@ -1,6 +1,6 @@
 ﻿using System;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.UnitTests.TestData.RefreshToken;
+using Expensely.Domain.UnitTests.TestData.RefreshTokens;
 using FluentAssertions;
 using Xunit;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace Expensely.Domain.UnitTests.TestData.RefreshToken
+namespace Expensely.Domain.UnitTests.TestData.RefreshTokens
 {
     public class RefreshTokenArgumentExceptionData : TheoryData<string, DateTime, string>
     {

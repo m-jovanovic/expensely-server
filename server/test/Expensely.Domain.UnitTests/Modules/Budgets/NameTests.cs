@@ -1,7 +1,7 @@
 ﻿using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Budgets;
-using Expensely.Domain.UnitTests.TestData.Name;
+using Expensely.Domain.UnitTests.TestData.Names;
 using FluentAssertions;
 using Xunit;
 

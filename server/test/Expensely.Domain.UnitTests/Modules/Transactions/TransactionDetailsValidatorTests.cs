@@ -5,10 +5,10 @@ using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Transactions.Contracts;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.UnitTests.TestData.Currency;
-using Expensely.Domain.UnitTests.TestData.Description;
-using Expensely.Domain.UnitTests.TestData.Transaction;
-using Expensely.Domain.UnitTests.TestData.User;
+using Expensely.Domain.UnitTests.TestData.Currencies;
+using Expensely.Domain.UnitTests.TestData.Descriptions;
+using Expensely.Domain.UnitTests.TestData.Transactions;
+using Expensely.Domain.UnitTests.TestData.Users;
 using FluentAssertions;
 using Xunit;
 

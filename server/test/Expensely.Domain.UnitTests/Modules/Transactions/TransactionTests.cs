@@ -6,8 +6,8 @@ using Expensely.Domain.Modules.Transactions.Contracts;
 using Expensely.Domain.Modules.Transactions.Events;
 using Expensely.Domain.Modules.Transactions.Exceptions;
 using Expensely.Domain.Modules.Users;
-using Expensely.Domain.UnitTests.TestData.Currency;
-using Expensely.Domain.UnitTests.TestData.Transaction;
+using Expensely.Domain.UnitTests.TestData.Currencies;
+using Expensely.Domain.UnitTests.TestData.Transactions;
 using FluentAssertions;
 using Xunit;
 

@@ -1,7 +1,7 @@
 ﻿using Expensely.Domain.Modules.Users;
 using Moq;
 
-namespace Expensely.Domain.UnitTests.TestData.User
+namespace Expensely.Domain.UnitTests.TestData.Users
 {
     public static class UserTestData
     {
@@ -11,8 +11,8 @@ namespace Expensely.Domain.UnitTests.TestData.User
 
         public static readonly Email Email = Email.Create("test@expensely.net").Value;
 
-        public static readonly Domain.Modules.Users.Password Password = Domain.Modules.Users.Password.Create("123aA!").Value;
+        public static readonly Password Password = Password.Create("123aA!").Value;
 
-        public static Domain.Modules.Users.User ValidUser => Domain.Modules.Users.User.Create(FirstName, LastName, Email, Password, new Mock<IPasswordHasher>().Object);
+        public static User ValidUser => User.Create(FirstName, LastName, Email, Password, new Mock<IPasswordHasher>().Object);
     }
 }

@@ -3,19 +3,20 @@ using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Transactions.Contracts;
-using Expensely.Domain.UnitTests.TestData.Currency;
-using Expensely.Domain.UnitTests.TestData.User;
+using Expensely.Domain.Modules.Users;
+using Expensely.Domain.UnitTests.TestData.Currencies;
+using Expensely.Domain.UnitTests.TestData.Users;
 using Xunit;
 
-namespace Expensely.Domain.UnitTests.TestData.Transaction
+namespace Expensely.Domain.UnitTests.TestData.Transactions
 {
     public class ValidateTransactionDetailsWithInvalidAmountForTransactionTypeData : TheoryData<ValidateTransactionDetailsRequest, Error>
     {
         public ValidateTransactionDetailsWithInvalidAmountForTransactionTypeData()
         {
-            Domain.Modules.Users.User user = UserTestData.ValidUser;
+            User user = UserTestData.ValidUser;
 
-            Domain.Modules.Common.Currency currency = CurrencyTestData.DefaultCurrency;
+            Currency currency = CurrencyTestData.DefaultCurrency;
 
             Category category = Category.None;
 

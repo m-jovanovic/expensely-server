@@ -1,7 +1,7 @@
 ﻿using Expensely.Domain.Modules.Users.Contracts;
 using Xunit;
 
-namespace Expensely.Domain.UnitTests.TestData.User
+namespace Expensely.Domain.UnitTests.TestData.Users
 {
     public class CreateUserValidData : TheoryData<CreateUserRequest>
     {

@@ -4,7 +4,7 @@ using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Transactions.Contracts;
-using Expensely.Domain.UnitTests.TestData.Transaction;
+using Expensely.Domain.UnitTests.TestData.Transactions;
 using FluentAssertions;
 using Moq;
 using Xunit;

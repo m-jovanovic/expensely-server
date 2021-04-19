@@ -2,20 +2,21 @@
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Domain.Modules.Transactions.Contracts;
-using Expensely.Domain.UnitTests.TestData.Currency;
-using Expensely.Domain.UnitTests.TestData.Description;
-using Expensely.Domain.UnitTests.TestData.User;
+using Expensely.Domain.Modules.Users;
+using Expensely.Domain.UnitTests.TestData.Currencies;
+using Expensely.Domain.UnitTests.TestData.Descriptions;
+using Expensely.Domain.UnitTests.TestData.Users;
 using Xunit;
 
-namespace Expensely.Domain.UnitTests.TestData.Transaction
+namespace Expensely.Domain.UnitTests.TestData.Transactions
 {
-    public class UserAndTransactionDetailsValidData : TheoryData<Domain.Modules.Users.User, ITransactionDetails>
+    public class UserAndTransactionDetailsValidData : TheoryData<User, ITransactionDetails>
     {
         public UserAndTransactionDetailsValidData()
         {
-            Domain.Modules.Users.User user = UserTestData.ValidUser;
+            User user = UserTestData.ValidUser;
 
-            Domain.Modules.Common.Currency currency = CurrencyTestData.DefaultCurrency;
+            Currency currency = CurrencyTestData.DefaultCurrency;
 
             user.AddCurrency(currency);
 
