@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Data;
@@ -9,7 +8,8 @@ using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Domain.Modules.Budgets;
-using Expensely.Domain.Modules.Common;
+using Expensely.Domain.Modules.Budgets.Contracts;
+using Expensely.Domain.Modules.Users;
 
 namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
 {
@@ -18,22 +18,30 @@ namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
     /// </summary>
     public sealed class UpdateBudgetCommandHandler : ICommandHandler<UpdateBudgetCommand, Result>
     {
+        private readonly IUserRepository _userRepository;
         private readonly IBudgetRepository _budgetRepository;
+        private readonly IBudgetDetailsValidator _budgetDetailsValidator;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateBudgetCommandHandler"/> class.
         /// </summary>
+        /// <param name="userRepository">The user repository.</param>
         /// <param name="budgetRepository">The database context.</param>
+        /// <param name="budgetDetailsValidator">The budget details validator.</param>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
         public UpdateBudgetCommandHandler(
+            IUserRepository userRepository,
             IBudgetRepository budgetRepository,
-            IUserInformationProvider userInformationProvider,
-            IUnitOfWork unitOfWork)
+            IBudgetDetailsValidator budgetDetailsValidator,
+            IUnitOfWork unitOfWork,
+            IUserInformationProvider userInformationProvider)
         {
+            _userRepository = userRepository;
             _budgetRepository = budgetRepository;
+            _budgetDetailsValidator = budgetDetailsValidator;
             _unitOfWork = unitOfWork;
             _userInformationProvider = userInformationProvider;
         }
@@ -41,7 +49,7 @@ namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
         /// <inheritdoc />
         public async Task<Result> Handle(UpdateBudgetCommand request, CancellationToken cancellationToken)
         {
-            Maybe<Budget> maybeBudget = await _budgetRepository.GetByIdAsync(request.BudgetId, cancellationToken);
+            Maybe<Budget> maybeBudget = await _budgetRepository.GetByIdWithUserAsync(request.BudgetId, cancellationToken);
 
             if (maybeBudget.HasNoValue)
             {
@@ -55,25 +63,24 @@ namespace Expensely.Application.Commands.Handlers.Budgets.UpdateBudget
                 return Result.Failure(ValidationErrors.User.InvalidPermissions);
             }
 
-            Result<Name> nameResult = Name.Create(request.Name);
+            Maybe<User> maybeUser = await _userRepository.GetByIdAsync(budget.UserId, cancellationToken);
 
-            if (nameResult.IsFailure)
+            if (maybeUser.HasNoValue)
             {
-                return Result.Failure(nameResult.Error);
+                return Result.Failure(ValidationErrors.User.NotFound);
             }
 
-            budget.ChangeName(nameResult.Value);
+            var validateBudgetDetailsRequest = new ValidateBudgetDetailsRequest(
+                maybeUser.Value, request.Name, request.Categories, request.Amount, request.Currency, request.StartDate, request.EndDate);
 
-            budget.ChangeMoney(new Money(request.Amount, Currency.FromValue(request.Currency).Value));
+            Result<IBudgetDetails> budgetDetailsResult = _budgetDetailsValidator.Validate(validateBudgetDetailsRequest);
 
-            budget.ChangeDates(request.StartDate, request.EndDate);
+            if (budgetDetailsResult.IsFailure)
+            {
+                return Result.Failure(budgetDetailsResult.Error);
+            }
 
-            Category[] categories = request.Categories
-                .Select(category => Category.FromValue(category).Value)
-                .Where(category => category.IsExpense)
-                .ToArray();
-
-            budget.ChangeCategories(categories);
+            budget.ChangeDetails(budgetDetailsResult.Value);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Expensely.Common.Primitives.Result;
 using Expensely.Common.Primitives.ServiceLifetimes;
+using Expensely.Domain.Errors;
 using Expensely.Domain.Modules.Budgets.Contracts;
 using Expensely.Domain.Modules.Common;
 
@@ -28,6 +29,11 @@ namespace Expensely.Domain.Modules.Budgets
                 .ToArray();
 
             Currency currency = Currency.FromValue(validateBudgetDetailsRequest.Currency).Value;
+
+            if (!validateBudgetDetailsRequest.User.HasCurrency(currency))
+            {
+                return Result.Failure<IBudgetDetails>(DomainErrors.User.CurrencyDoesNotExist);
+            }
 
             var money = new Money(validateBudgetDetailsRequest.Amount, currency);
 

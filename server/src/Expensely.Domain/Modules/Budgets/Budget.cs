@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Expensely.Domain.Modules.Budgets.Contracts;
 using Expensely.Domain.Modules.Budgets.Exceptions;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Users;
@@ -97,51 +98,42 @@ namespace Expensely.Domain.Modules.Budgets
         public DateTime? ModifiedOnUtc { get; private set; }
 
         /// <summary>
-        /// Changes the name of the budget.
+        /// Creates a new budget for the specified user and budget details.
         /// </summary>
-        /// <param name="name">The new name.</param>
-        public void ChangeName(Name name)
+        /// <param name="user">The user.</param>
+        /// <param name="budgetDetails">The budget details.</param>
+        /// <returns>The newly created budget.</returns>
+        internal static Budget Create(User user, IBudgetDetails budgetDetails)
         {
-            if (name == Name)
-            {
-                return;
-            }
+            var budget = new Budget(
+                user,
+                budgetDetails.Name,
+                budgetDetails.Money,
+                budgetDetails.Categories,
+                budgetDetails.StartDate,
+                budgetDetails.EndDate);
 
-            Name = name;
+            return budget;
         }
 
         /// <summary>
-        /// Changes the monetary amount of the budget.
+        /// Updates the budget with the specified budget details.
         /// </summary>
-        /// <param name="money">The new money amount.</param>
-        public void ChangeMoney(Money money)
+        /// <param name="budgetDetails">The budget details.</param>
+        public void ChangeDetails(IBudgetDetails budgetDetails)
         {
-            EnsureMoneyIsGreaterThanZero(money);
+            Ensure.NotEmpty(budgetDetails.Name, "The name is required.", nameof(budgetDetails.Name));
+            Ensure.NotNull(budgetDetails.Money, "The monetary amount is required.", nameof(budgetDetails.Money));
+            Ensure.NotNull(budgetDetails.Categories, "The categories are required", nameof(budgetDetails.Categories));
+            Ensure.NotEmpty(budgetDetails.StartDate, "The start date is required.", nameof(budgetDetails.StartDate));
+            Ensure.NotEmpty(budgetDetails.EndDate, "The end date is required.", nameof(budgetDetails.EndDate));
+            EnsureMoneyIsGreaterThanZero(budgetDetails.Money);
+            EnsureStartDatePrecedesEndDate(budgetDetails.StartDate, budgetDetails.EndDate);
 
-            if (Money == money)
-            {
-                return;
-            }
-
-            Money = money;
-        }
-
-        /// <summary>
-        /// Changes the dates of the budget.
-        /// </summary>
-        /// <param name="startDate">The new start date.</param>
-        /// <param name="endDate">The new end date.</param>
-        public void ChangeDates(DateTime startDate, DateTime endDate)
-        {
-            EnsureStartDatePrecedesEndDate(startDate, endDate);
-
-            if (startDate == StartDate && endDate == EndDate)
-            {
-                return;
-            }
-
-            StartDate = startDate;
-            EndDate = endDate;
+            Name = budgetDetails.Name;
+            StartDate = budgetDetails.StartDate;
+            EndDate = budgetDetails.EndDate;
+            ChangeCategories(budgetDetails.Categories);
         }
 
         /// <summary>

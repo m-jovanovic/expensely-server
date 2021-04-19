@@ -25,6 +25,10 @@ namespace Expensely.Persistence.Repositories
             await _session.LoadAsync<Budget>(budgetId.ToString(), cancellationToken);
 
         /// <inheritdoc />
+        public async Task<Maybe<Budget>> GetByIdWithUserAsync(Ulid budgetId, CancellationToken cancellationToken = default) =>
+            await _session.Include(nameof(Budget.UserId)).LoadAsync<Budget>(budgetId.ToString(), cancellationToken);
+
+        /// <inheritdoc />
         public async Task AddAsync(Budget budget, CancellationToken cancellationToken = default) =>
             await _session.StoreAsync(budget, cancellationToken);
 

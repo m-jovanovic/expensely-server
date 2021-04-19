@@ -29,16 +29,8 @@ namespace Expensely.Domain.Modules.Budgets
                 return Result.Failure<Budget>(budgetDetailsResult.Error);
             }
 
-            IBudgetDetails budgetDetails = budgetDetailsResult.Value;
-
             // TODO: Create factory method.
-            var budget = new Budget(
-                createBudgetRequest.User,
-                budgetDetails.Name,
-                budgetDetails.Money,
-                budgetDetails.Categories,
-                budgetDetails.StartDate,
-                budgetDetails.EndDate);
+            var budget = Budget.Create(createBudgetRequest.User, budgetDetailsResult.Value);
 
             return budget;
         }

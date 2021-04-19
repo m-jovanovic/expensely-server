@@ -30,9 +30,7 @@ namespace Expensely.Domain.Modules.Transactions
                 return Result.Failure<Transaction>(transactionDetailsResult.Error);
             }
 
-            ITransactionDetails transactionDetails = transactionDetailsResult.Value;
-
-            var transaction = Transaction.Create(createTransactionRequest.User, transactionDetails);
+            var transaction = Transaction.Create(createTransactionRequest.User, transactionDetailsResult.Value);
 
             return transaction;
         }
