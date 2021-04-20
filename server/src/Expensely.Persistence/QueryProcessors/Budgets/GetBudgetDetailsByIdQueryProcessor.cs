@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
@@ -10,6 +12,7 @@ using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Budgets;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
+using Expensely.Persistence.Indexes.Transactions;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Session;
@@ -49,7 +52,11 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
                     x.UserId,
                     x.Name,
                     x.Money,
-                    x.Categories,
+                    Categories = x.Categories.Select(c => new
+                    {
+                        c.Value,
+                        c.Name
+                    }).ToList(),
                     x.StartDate,
                     x.EndDate
                 })
@@ -62,15 +69,15 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
 
             int[] categoryValues = budget.Categories.Select(x => x.Value).ToArray();
 
-            // TODO: Define index for this query.
-            Money[] expenseAmounts = await _session.Query<Transaction>()
-                .Where(x =>
-                    x.UserId == budget.UserId &&
-                    x.TransactionType.Value == TransactionType.Expense.Value &&
-                    x.OccurredOn >= budget.StartDate &&
-                    x.OccurredOn <= budget.EndDate &&
-                    x.Money.Currency.Value == budget.Money.Currency.Value &&
-                    (!categoryValues.Any() || x.Category.Value.In(categoryValues)))
+            Money[] expenseAmounts = await _session.Query<Transaction, Transactions_Search>()
+                .Where(
+                    TransactionsMatchExpression(
+                        budget.UserId,
+                        TransactionType.Expense.Value,
+                        budget.StartDate,
+                        budget.EndDate,
+                        budget.Money.Currency.Value,
+                        categoryValues))
                 .Select(x => x.Money)
                 .ToArrayAsync(cancellationToken);
 
@@ -89,6 +96,28 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
             };
 
             return budgetDetailsResponse;
+        }
+
+        private static Expression<Func<Transaction, bool>> TransactionsMatchExpression(
+            Ulid userId, int transactionType, DateTime startDate, DateTime endDate, int currency, int[] categories)
+        {
+            if (categories.Any())
+            {
+                return transaction =>
+                    transaction.UserId == userId &&
+                    transaction.TransactionType.Value == transactionType &&
+                    transaction.OccurredOn >= startDate &&
+                    transaction.OccurredOn <= endDate &&
+                    transaction.Money.Currency.Value == currency &&
+                    transaction.Category.Value.In(categories);
+            }
+
+            return transaction =>
+                transaction.UserId == userId &&
+                transaction.TransactionType.Value == transactionType &&
+                transaction.OccurredOn >= startDate &&
+                transaction.OccurredOn <= endDate &&
+                transaction.Money.Currency.Value == currency;
         }
     }
 }
