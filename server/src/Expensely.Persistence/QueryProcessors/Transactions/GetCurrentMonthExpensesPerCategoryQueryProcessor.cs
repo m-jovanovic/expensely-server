@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
@@ -16,19 +17,19 @@ using Raven.Client.Documents.Session;
 namespace Expensely.Persistence.QueryProcessors.Transactions
 {
     /// <summary>
-    /// Represents the <see cref="GetCurrentMonthTransactionSummaryQuery"/> processor.
+    /// Represents the <see cref="GetCurrentMonthExpensesPerCategoryQuery"/> processor.
     /// </summary>
-    internal sealed class GetCurrentMonthTransactionSummaryQueryProcessor : IGetCurrentMonthTransactionSummaryQueryProcessor
+    internal class GetCurrentMonthExpensesPerCategoryQueryProcessor : IGetCurrentMonthExpensesPerCategoryQueryProcessor
     {
         private readonly IAsyncDocumentSession _session;
         private readonly IUserInformationProvider _userInformationProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetCurrentMonthTransactionSummaryQueryProcessor"/> class.
+        /// Initializes a new instance of the <see cref="GetCurrentMonthExpensesPerCategoryQueryProcessor"/> class.
         /// </summary>
         /// <param name="session">The document session.</param>
         /// <param name="userInformationProvider">The user information provider.</param>
-        public GetCurrentMonthTransactionSummaryQueryProcessor(
+        public GetCurrentMonthExpensesPerCategoryQueryProcessor(
             IAsyncDocumentSession session,
             IUserInformationProvider userInformationProvider)
         {
@@ -37,13 +38,13 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
         }
 
         /// <inheritdoc />
-        public async Task<Maybe<TransactionSummaryResponse>> Process(
-            GetCurrentMonthTransactionSummaryQuery query,
+        public async Task<Maybe<ExpensesPerCategoryResponse>> Process(
+            GetCurrentMonthExpensesPerCategoryQuery query,
             CancellationToken cancellationToken = default)
         {
             if (query.UserId != _userInformationProvider.UserId)
             {
-                return Maybe<TransactionSummaryResponse>.None;
+                return Maybe<ExpensesPerCategoryResponse>.None;
             }
 
             Transactions_Monthly.Result[] monthlyTransactions = await _session
@@ -52,26 +53,20 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                     x.UserId == query.UserId &&
                     x.Year == query.StartOfMonth.Year &&
                     x.Month == query.StartOfMonth.Month &&
-                    x.Currency == query.Currency)
+                    x.Currency == query.Currency &&
+                    x.TransactionType == TransactionType.Expense.Value)
                 .ToArrayAsync(cancellationToken);
 
             Currency currency = Currency.FromValue(query.Currency).Value;
 
-            string FormatAmount(TransactionType transactionType)
-            {
-                Transactions_Monthly.Result monthlyTransaction = monthlyTransactions
-                    .FirstOrDefault(x => x.TransactionType == transactionType.Value);
+            ExpensesPerCategoryResponse.ExpensePerCategoryItem[] expensesPerCategory = monthlyTransactions
+                .Select(x => new ExpensesPerCategoryResponse.ExpensePerCategoryItem
+                {
+                    Category = Category.FromValue(x.Category).Value.Name,
+                    FormattedAmount = currency.Format(x.Amount)
+                }).ToArray();
 
-                return currency.Format(monthlyTransaction?.Amount ?? decimal.Zero);
-            }
-
-            var transactionSummaryResponse = new TransactionSummaryResponse
-            {
-                FormattedExpense = FormatAmount(TransactionType.Expense),
-                FormattedIncome = FormatAmount(TransactionType.Income)
-            };
-
-            return transactionSummaryResponse;
+            return new ExpensesPerCategoryResponse(expensesPerCategory);
         }
     }
 }

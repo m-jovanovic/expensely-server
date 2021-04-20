@@ -83,6 +83,11 @@
             public const string GetCurrentMonthTransactionSummary = "transactions/summary/current-month";
 
             /// <summary>
+            /// The get current month expenses per category route.
+            /// </summary>
+            public const string GetCurrentMonthExpensesPerCategory = "transactions/expenses/per-category/current-month";
+
+            /// <summary>
             /// The create transaction route.
             /// </summary>
             public const string CreateTransaction = "transactions";

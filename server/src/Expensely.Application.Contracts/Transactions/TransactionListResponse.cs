@@ -12,9 +12,9 @@ namespace Expensely.Application.Contracts.Transactions
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionListResponse"/> class.
         /// </summary>
-        /// <param name="items">The transactions.</param>
+        /// <param name="items">The items.</param>
         /// <param name="cursor">The cursor.</param>
-        public TransactionListResponse(IReadOnlyCollection<Item> items, string cursor = "")
+        public TransactionListResponse(IReadOnlyCollection<TransactionListItem> items, string cursor = "")
         {
             Cursor = cursor;
             Items = items;
@@ -23,7 +23,7 @@ namespace Expensely.Application.Contracts.Transactions
         /// <summary>
         /// Gets the items.
         /// </summary>
-        public IReadOnlyCollection<Item> Items { get; }
+        public IReadOnlyCollection<TransactionListItem> Items { get; }
 
         /// <summary>
         /// Gets the cursor.
@@ -33,17 +33,17 @@ namespace Expensely.Application.Contracts.Transactions
         /// <summary>
         /// Represents the <see cref="TransactionListResponse"/> item.
         /// </summary>
-        public sealed record Item
+        public sealed record TransactionListItem
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="Item"/> class.
+            /// Initializes a new instance of the <see cref="TransactionListItem"/> class.
             /// </summary>
             /// <param name="id">The identifier.</param>
             /// <param name="description">The description.</param>
             /// <param name="category">The category.</param>
             /// <param name="money">The money.</param>
             /// <param name="occurredOn">The occurred on date.</param>
-            public Item(string id, string description, string category, Money money, DateTime occurredOn)
+            public TransactionListItem(string id, string description, string category, Money money, DateTime occurredOn)
             {
                 Id = id;
                 Description = description;

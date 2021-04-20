@@ -22,22 +22,32 @@ namespace Expensely.Persistence.Indexes.Transactions
                     UserId = transaction.UserId,
                     Year = transaction.OccurredOn.Year,
                     Month = transaction.OccurredOn.Month,
-                    TransactionType = transaction.TransactionType.Value,
+                    Category = transaction.Category.Value,
                     Currency = transaction.Money.Currency.Value,
+                    TransactionType = transaction.TransactionType.Value,
                     Amount = transaction.Money.Amount
                 };
 
             Reduce = results =>
                 from result in results
-                group result by new { result.UserId, result.Year, result.Month, result.TransactionType, result.Currency }
+                group result by new
+                {
+                    result.UserId,
+                    result.Year,
+                    result.Month,
+                    result.Category,
+                    result.Currency,
+                    result.TransactionType
+                }
                 into grouped
                 select new Result
                 {
                     UserId = grouped.Key.UserId,
                     Year = grouped.Key.Year,
                     Month = grouped.Key.Month,
-                    TransactionType = grouped.Key.TransactionType,
+                    Category = grouped.Key.Category,
                     Currency = grouped.Key.Currency,
+                    TransactionType = grouped.Key.TransactionType,
                     Amount = grouped.Sum(x => x.Amount)
                 };
         }
@@ -63,14 +73,19 @@ namespace Expensely.Persistence.Indexes.Transactions
             public int Month { get; init; }
 
             /// <summary>
-            /// Gets the transaction type.
+            /// Gets the category.
             /// </summary>
-            public int TransactionType { get; init; }
+            public int Category { get; init; }
 
             /// <summary>
             /// Gets the currency.
             /// </summary>
             public int Currency { get; init; }
+
+            /// <summary>
+            /// Gets the transaction type.
+            /// </summary>
+            public int TransactionType { get; init; }
 
             /// <summary>
             /// Gets the amount.

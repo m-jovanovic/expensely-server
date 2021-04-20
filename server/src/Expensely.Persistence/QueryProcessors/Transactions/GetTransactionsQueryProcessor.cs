@@ -20,7 +20,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
     /// <summary>
     /// Represents the <see cref="GetTransactionsQuery"/> processor.
     /// </summary>
-    public sealed class GetTransactionsQueryProcessor : IGetTransactionsQueryProcessor
+    internal sealed class GetTransactionsQueryProcessor : IGetTransactionsQueryProcessor
     {
         private readonly IAsyncDocumentSession _session;
         private readonly IUserInformationProvider _userInformationProvider;
@@ -67,8 +67,9 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 .Take(query.Limit)
                 .ToArrayAsync(cancellationToken);
 
-            TransactionListResponse.Item[] transactionListItems = transactions
-                .Select(x => new TransactionListResponse.Item(x.Id, x.Description.Value, x.Category.Name, x.Money, x.OccurredOn))
+            TransactionListResponse.TransactionListItem[] transactionListItems = transactions
+                .Select(x =>
+                    new TransactionListResponse.TransactionListItem(x.Id, x.Description.Value, x.Category.Name, x.Money, x.OccurredOn))
                 .ToArray();
 
             if (transactionListItems.Length < query.Limit)
