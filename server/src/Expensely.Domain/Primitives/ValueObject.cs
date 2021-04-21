@@ -59,7 +59,8 @@ namespace Expensely.Domain.Primitives
         }
 
         /// <inheritdoc />
-        public override int GetHashCode() => GetAtomicValues().Aggregate(default(int), (obj, _) => HashCode.Combine(obj.GetHashCode()));
+        public override int GetHashCode() =>
+            GetAtomicValues().Aggregate(default(int), (hashcode, value) => HashCode.Combine(hashcode, value.GetHashCode()));
 
         /// <summary>
         /// Gets the atomic values of the value object.
