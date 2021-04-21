@@ -153,7 +153,7 @@
             /// <summary>
             /// The change user password route.
             /// </summary>
-            public const string ChangeUserPassword = "users/{userId}/change-password";
+            public const string ChangeUserPassword = "users/{userId}/password";
         }
     }
 }
