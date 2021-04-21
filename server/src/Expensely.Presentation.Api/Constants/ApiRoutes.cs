@@ -136,6 +136,11 @@
             public const string GetUserCurrencies = "users/{userId}/currencies";
 
             /// <summary>
+            /// The change user name route.
+            /// </summary>
+            public const string ChangeUserName = "users/{userId}/name";
+
+            /// <summary>
             /// The add user currency route.
             /// </summary>
             public const string AddUserCurrency = "users/{userId}/currencies/{currency:int}";

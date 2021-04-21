@@ -49,6 +49,25 @@ namespace Expensely.Presentation.Api.Controllers
                 .Match(Ok, NotFound);
 
         /// <summary>
+        /// Changes the user's name based on the specified request.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="request">The change name request.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>200 - OK if the user's name was changed successfully, otherwise 400 - Bad Request.</returns>
+        [HasPermission(Permission.UserModify)]
+        [HttpPut(ApiRoutes.Users.ChangeUserName)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> ChangeUserName(
+            Ulid userId, [FromBody] ChangeUserNameRequest request, CancellationToken cancellationToken) =>
+            await Result.Create(request, ApiErrors.UnProcessableRequest)
+                .Map(value => new ChangeUserNameCommand(userId, value.FirstName, value.LastName))
+                .Bind(command => Sender.Send(command, cancellationToken))
+                .Match(Ok, BadRequest);
+
+        /// <summary>
         /// Adds the specified currency to the user's currencies.
         /// </summary>
         /// <param name="userId">The user identifier.</param>

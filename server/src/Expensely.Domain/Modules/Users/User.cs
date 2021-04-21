@@ -137,6 +137,20 @@ namespace Expensely.Domain.Modules.Users
         public bool HasCurrency(Currency currency) => _currencies.Contains(currency);
 
         /// <summary>
+        /// Changes the user's first and last name to the specified values.
+        /// </summary>
+        /// <param name="firstName">The new first name.</param>
+        /// <param name="lastName">The new last name.</param>
+        public void ChangeName(FirstName firstName, LastName lastName)
+        {
+            Ensure.NotEmpty(firstName, "The first name is required.", nameof(firstName));
+            Ensure.NotEmpty(lastName, "The last name is required.", nameof(lastName));
+
+            FirstName = firstName;
+            LastName = lastName;
+        }
+
+        /// <summary>
         /// Changes the user's primary currency.
         /// </summary>
         /// <param name="currency">The new primary currency.</param>
