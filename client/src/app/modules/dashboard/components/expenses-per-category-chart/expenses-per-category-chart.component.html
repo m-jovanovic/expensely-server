@@ -1,0 +1,12 @@
+<div class="bg-white w-full mt-8 rounded-lg shadow-lg p-4">
+  <canvas
+    *ngIf="(isLoading$ | async) === false"
+    baseChart
+    [data]="chartData$ | async"
+    [labels]="chartLabels$ | async"
+    [chartType]="chartType"
+    [options]="chartOptions"
+    [legend]="chartLegend"
+  >
+  </canvas>
+</div>

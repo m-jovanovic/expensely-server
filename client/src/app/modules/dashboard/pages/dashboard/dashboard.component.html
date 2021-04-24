@@ -1,11 +1,15 @@
 <div class="flex flex-col md:flex-row w-full">
-  <exp-transaction-summary
-    [expense]="transactionSummaryFacade.expense$ | async"
-    [income]="transactionSummaryFacade.income$ | async"
-    [isLoading]="transactionSummaryFacade.isLoading$ | async"
-    [error]="transactionSummaryFacade.error$ | async"
-  >
-  </exp-transaction-summary>
+  <div>
+    <exp-transaction-summary
+      [expense]="transactionSummaryFacade.expense$ | async"
+      [income]="transactionSummaryFacade.income$ | async"
+      [isLoading]="transactionSummaryFacade.isLoading$ | async"
+      [error]="transactionSummaryFacade.error$ | async"
+    >
+    </exp-transaction-summary>
+
+    <exp-expenses-per-category-chart></exp-expenses-per-category-chart>
+  </div>
 
   <exp-recent-transaction-list
     class="flex-grow mt-4 md:mt-0 ml-0 md:ml-8"
