@@ -11,7 +11,8 @@ import {
   TransactionResponse,
   TransactionDetailsResponse,
   TransactionSummaryResponse,
-  EntityCreatedResponse
+  EntityCreatedResponse,
+  ExpensePerCategoryResponse
 } from '../../contracts';
 
 @Injectable({
@@ -36,6 +37,10 @@ export class TransactionService extends ApiService {
 
   getCurrentMonthTransactionSummary(userId: string, currency: number): Observable<TransactionSummaryResponse> {
     return this.get(`${ApiRoutes.Transactions.getCurrentMonthTransactionSummary}?userId=${userId}&currency=${currency}`);
+  }
+
+  getCurrentMonthExpensesPerCategory(userId: string, currency: number): Observable<ExpensePerCategoryResponse> {
+    return this.get(`${ApiRoutes.Transactions.getCurrentMonthExpensesPerCategory}?userId=${userId}&currency=${currency}`);
   }
 
   createTransaction(request: CreateTransactionRequest): Observable<EntityCreatedResponse> {

@@ -24,6 +24,7 @@ export namespace ApiRoutes {
     public static readonly getTransaction = 'transactions/{transactionId}';
     public static readonly getTransactionDetails = 'transactions/{transactionId}/details';
     public static readonly getCurrentMonthTransactionSummary = 'transactions/summary/current-month';
+    public static readonly getCurrentMonthExpensesPerCategory = 'transactions/expenses/per-category/current-month';
     public static readonly createTransaction = 'transactions';
     public static readonly updateTransaction = 'transactions/{transactionId}';
     public static readonly deleteTransaction = 'transactions/{transactionId}';

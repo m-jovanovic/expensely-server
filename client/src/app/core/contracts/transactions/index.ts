@@ -8,3 +8,4 @@ export * from './transaction-response';
 export * from './transaction-details-response';
 export * from './transaction-summary-response';
 export * from './transaction-type';
+export * from './expenses-per-category-response';
