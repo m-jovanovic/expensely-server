@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
@@ -63,6 +62,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 .Select(x => new ExpensesPerCategoryResponse.ExpensePerCategoryItem
                 {
                     Category = Category.FromValue(x.Category).Value.Name,
+                    Amount = x.Amount,
                     FormattedAmount = currency.Format(x.Amount)
                 }).ToArray();
 
