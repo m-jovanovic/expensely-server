@@ -8,3 +8,4 @@ export * from './transaction-list';
 export * from './transaction-summary';
 export * from './user';
 export * from './budget';
+export * from './expenses-per-category';
