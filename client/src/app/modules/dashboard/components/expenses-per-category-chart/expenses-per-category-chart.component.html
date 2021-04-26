@@ -1,12 +1,26 @@
-<div class="bg-white w-full mt-8 rounded-lg shadow-lg p-4">
-  <canvas
-    *ngIf="(isLoading$ | async) === false"
-    baseChart
-    [data]="chartData$ | async"
-    [labels]="chartLabels$ | async"
-    [chartType]="chartType"
-    [options]="chartOptions"
-    [legend]="chartLegend"
-  >
-  </canvas>
-</div>
+<ng-container
+  *ngIf="{
+    chartData: chartData$ | async,
+    chartLabels: chartLabels$ | async,
+    isLoading: isLoading$ | async
+  } as data"
+>
+  <div class="bg-white mt-8 rounded-lg shadow-lg p-4 w-full h-40">
+    <!-- Spinner -->
+    <div *ngIf="data.isLoading" class="flex items-center justify-center h-full">
+      <exp-spinner class="w-24 h-24"></exp-spinner>
+    </div>
+
+    <!-- Chart -->
+    <canvas
+      *ngIf="!data.isLoading"
+      baseChart
+      [data]="data.chartData"
+      [labels]="data.chartLabels"
+      [chartType]="chartType"
+      [options]="chartOptions"
+      [legend]="chartLegend"
+    >
+    </canvas>
+  </div>
+</ng-container>
