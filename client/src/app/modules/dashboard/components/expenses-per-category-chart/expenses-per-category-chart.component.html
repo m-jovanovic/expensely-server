@@ -5,7 +5,7 @@
     isLoading: isLoading$ | async
   } as data"
 >
-  <div class="bg-white mt-8 rounded-lg shadow-lg p-4 w-full h-40">
+  <div class="bg-white mt-8 rounded-lg shadow-lg p-4 w-full" [ngClass]="{ 'h-40': data.isLoading }">
     <!-- Spinner -->
     <div *ngIf="data.isLoading" class="flex items-center justify-center h-full">
       <exp-spinner class="w-24 h-24"></exp-spinner>
