@@ -10,5 +10,8 @@
     "timePeriod": "This month",
     "expensesError": "Expenses summary is currently unavailable.",
     "incomesError": "Incomes summary is currently unavailable."
+  },
+  "expensesPerCategory": {
+    "error": "Expenses per category chart is currently unavailable."
   }
 }

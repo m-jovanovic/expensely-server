@@ -10,5 +10,8 @@
     "timePeriod": "Ovog meseca",
     "expensesError": "Ukupni troškovi su trenutno nedostupni.",
     "incomesError": "Ukupni prihodi su trenutno nedostupni."
+  },
+  "expensesPerCategory": {
+    "error": "Grafik sa troškovima po kategorijama je trenutno nedostupan."
   }
 }
