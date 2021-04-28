@@ -42,6 +42,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="cursor">The cursor.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if any transactions are found, otherwise 404 - Not Found.</returns>
+        // TODO: Clean up HTTP status codes and return type.
         [HasPermission(Permission.TransactionRead)]
         [HttpGet(ApiRoutes.Transactions.GetTransactions)]
         [ProducesResponseType(typeof(TransactionListResponse), StatusCodes.Status200OK)]
@@ -111,6 +112,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="currency">The currency.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the expenses per category are found, otherwise 404 - Not Found.</returns>
+        // TODO: Clean up HTTP status codes and return type.
         [HasPermission(Permission.TransactionRead)]
         [HttpGet(ApiRoutes.Transactions.GetCurrentMonthExpensesPerCategory)]
         [ProducesResponseType(typeof(ExpensesPerCategoryResponse), StatusCodes.Status200OK)]

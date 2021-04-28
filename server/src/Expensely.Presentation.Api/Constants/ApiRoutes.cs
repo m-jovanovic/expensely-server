@@ -32,6 +32,11 @@
         public static class Budgets
         {
             /// <summary>
+            /// The get active budgets route.
+            /// </summary>
+            public const string GetActiveBudgets = "budgets/active";
+
+            /// <summary>
             /// The get budget by identifier route.
             /// </summary>
             public const string GetBudgetById = "budgets/{budgetId}";

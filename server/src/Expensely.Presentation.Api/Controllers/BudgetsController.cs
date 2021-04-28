@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Budgets;
@@ -30,6 +31,22 @@ namespace Expensely.Presentation.Api.Controllers
             : base(sender)
         {
         }
+
+        /// <summary>
+        /// Gets the active budgets for the specified user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>200 - OK with the list of active budgets for the specified user identifier.</returns>
+        // TODO: Clean up HTTP status codes and return type.
+        [HasPermission(Permission.BudgetRead)]
+        [HttpGet(ApiRoutes.Budgets.GetActiveBudgets)]
+        [ProducesResponseType(typeof(IEnumerable<BudgetListItemResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetActiveBudgets(Ulid userId, CancellationToken cancellationToken) =>
+            await Maybe<GetActiveBudgetsQuery>.From(new GetActiveBudgetsQuery(userId))
+                .Bind(query => Sender.Send(query, cancellationToken))
+                .Match(Ok, NotFound);
 
         /// <summary>
         /// Gets the budget for the specified identifier.
