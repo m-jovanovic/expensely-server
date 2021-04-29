@@ -1,7 +1,8 @@
 [[redirects]]
   from = "https://app.expensely.net/*"
   to = "https://www.app.expensely.net/:splat"
-  status = 301!
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/*"
