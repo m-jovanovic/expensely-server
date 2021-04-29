@@ -1,4 +1,9 @@
 [[redirects]]
+  from = "https://app.expensely.net/*"
+  to = "https://www.app.expensely.net/:splat"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/"
   status = 200
