@@ -14,6 +14,13 @@ export class ExpensesPerCategoryChartComponent implements OnInit {
     maintainAspectRatio: true,
     legend: {
       position: 'bottom'
+    },
+    tooltips: {
+      callbacks: {
+        label: (item) => {
+          return ` ${this.chartTooltips[item.index]}`;
+        }
+      }
     }
   };
   chartType: ChartType = 'pie';
@@ -21,6 +28,9 @@ export class ExpensesPerCategoryChartComponent implements OnInit {
 
   @Input()
   chartData: SingleDataSet;
+
+  @Input()
+  chartTooltips: string[];
 
   @Input()
   chartLabels: Label[];

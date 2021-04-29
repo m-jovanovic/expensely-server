@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
   transactionSummaryIsLoading$: Observable<boolean>;
   transactionSummaryError$: Observable<boolean>;
   expensesPerCategoryChartData$: Observable<SingleDataSet>;
+  expensesPerCategoryChartTooltips$: Observable<string[]>;
   expensesPerCategoryChartLabels$: Observable<Label[]>;
   expensesPerCategoryIsLoading$: Observable<boolean>;
   expensesPerCategoryError$: Observable<boolean>;
@@ -56,6 +57,11 @@ export class DashboardComponent implements OnInit {
     this.expensesPerCategoryChartData$ = expensesPerCategory$.pipe(
       map((expensesPerCategory: ExpensePerCategoryItem[]) =>
         expensesPerCategory.map((expensePerCategory: ExpensePerCategoryItem) => expensePerCategory.amount)
+      )
+    );
+    this.expensesPerCategoryChartTooltips$ = expensesPerCategory$.pipe(
+      map((expensesPerCategory: ExpensePerCategoryItem[]) =>
+        expensesPerCategory.map((expensePerCategory: ExpensePerCategoryItem) => expensePerCategory.formattedAmount)
       )
     );
     this.expensesPerCategoryChartLabels$ = combineLatest([expensesPerCategory$, this.languageFacade.currentLanguage$]).pipe(
