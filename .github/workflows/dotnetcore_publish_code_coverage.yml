@@ -1,11 +1,9 @@
-name: Server - Publish code coverage
+name: Publish code coverage
 
 on:
   push:
     branches:
       - main
-    paths:
-      - "server/**"
 
 env:
   DOTNET_VERSION: "5.0.202"
@@ -23,15 +21,15 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install dependencies
-        run: dotnet restore ./server/Expensely.sln
+        run: dotnet restore ./Expensely.sln
 
       - name: Build
-        run: dotnet build ./server/Expensely.sln --configuration Release --no-restore
+        run: dotnet build ./Expensely.sln --configuration Release --no-restore
 
       - name: Test
         run: |
-          dotnet test ./server/test/Expensely.Domain.UnitTests --configuration Release --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=json
-          dotnet test ./server/test/Expensely.Application.UnitTests --configuration Release --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=cobertura /p:MergeWith=../../TestResults/coverage.json
+          dotnet test ./test/Expensely.Domain.UnitTests --configuration Release --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=json
+          dotnet test ./test/Expensely.Application.UnitTests --configuration Release --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=../../TestResults/ /p:CoverletOutputFormat=cobertura /p:MergeWith=../../TestResults/coverage.json
 
       - name: Publish code coverage
         uses: codecov/codecov-action@v1

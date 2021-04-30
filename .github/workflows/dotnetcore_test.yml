@@ -1,9 +1,7 @@
-name: Server - Test
+name: Test
 
 on:
-  push:
-    paths:
-      - "server/**"
+ push
 
 env:
   DOTNET_VERSION: "5.0.202"
@@ -21,10 +19,10 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install dependencies
-        run: dotnet restore ./server/Expensely.sln
+        run: dotnet restore ./Expensely.sln
 
       - name: Build
-        run: dotnet build ./server/Expensely.sln --configuration Release --no-restore
+        run: dotnet build ./Expensely.sln --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test ./server/Expensely.sln --configuration Release --no-restore --verbosity normal
+        run: dotnet test ./Expensely.sln --configuration Release --no-restore --verbosity normal
