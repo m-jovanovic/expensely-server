@@ -64,7 +64,9 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                     Category = Category.FromValue(x.Category).Value.Name,
                     Amount = x.Amount,
                     FormattedAmount = currency.Format(x.Amount)
-                }).ToArray();
+                })
+                .OrderByDescending(x => x.Amount)
+                .ToArray();
 
             return new ExpensesPerCategoryResponse(expensesPerCategory);
         }
