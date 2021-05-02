@@ -33,13 +33,13 @@ namespace Expensely.Persistence.QueryProcessors.Users
         }
 
         /// <inheritdoc />
-        public async Task<Maybe<IReadOnlyCollection<UserCurrencyResponse>>> Process(
+        public async Task<Maybe<IEnumerable<UserCurrencyResponse>>> Process(
             GetUserCurrenciesQuery query,
             CancellationToken cancellationToken = default)
         {
             if (query.UserId != _userInformationProvider.UserId)
             {
-                return Maybe<IReadOnlyCollection<UserCurrencyResponse>>.None;
+                return Maybe<IEnumerable<UserCurrencyResponse>>.None;
             }
 
             var userCurrencies = await _session.Query<User>()
@@ -56,7 +56,7 @@ namespace Expensely.Persistence.QueryProcessors.Users
 
             if (userCurrencies is null)
             {
-                return Maybe<IReadOnlyCollection<UserCurrencyResponse>>.None;
+                return Maybe<IEnumerable<UserCurrencyResponse>>.None;
             }
 
             UserCurrencyResponse[] userCurrencyResponses = userCurrencies.Currencies

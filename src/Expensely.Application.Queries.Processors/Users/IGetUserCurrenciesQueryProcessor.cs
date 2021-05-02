@@ -10,7 +10,7 @@ namespace Expensely.Application.Queries.Processors.Users
     /// Represents the <see cref="GetUserCurrenciesQuery"/> processor interface.
     /// </summary>
     public interface IGetUserCurrenciesQueryProcessor
-        : IQueryProcessor<GetUserCurrenciesQuery, Maybe<IReadOnlyCollection<UserCurrencyResponse>>>
+        : IQueryProcessor<GetUserCurrenciesQuery, Maybe<IEnumerable<UserCurrencyResponse>>>
     {
     }
 }

@@ -40,7 +40,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <returns>200 - OK if the transaction with the specified identifier is found, otherwise 404 - Not Found.</returns>
         [HasPermission(Permission.UserRead)]
         [HttpGet(ApiRoutes.Users.GetUserCurrencies)]
-        [ProducesResponseType(typeof(IReadOnlyCollection<UserCurrencyResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<UserCurrencyResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserCurrencies(Ulid userId, CancellationToken cancellationToken) =>
             await Maybe<GetUserCurrenciesQuery>

@@ -9,7 +9,7 @@ namespace Expensely.Application.Queries.Users
     /// <summary>
     /// Represents the query for getting a user's currencies.
     /// </summary>
-    public sealed class GetUserCurrenciesQuery : IQuery<Maybe<IReadOnlyCollection<UserCurrencyResponse>>>
+    public sealed class GetUserCurrenciesQuery : IQuery<Maybe<IEnumerable<UserCurrencyResponse>>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetUserCurrenciesQuery"/> class.
