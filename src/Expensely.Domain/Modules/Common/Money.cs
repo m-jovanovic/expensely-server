@@ -102,7 +102,6 @@ namespace Expensely.Domain.Modules.Common
         /// </summary>
         /// <param name="money">The money amount.</param>
         /// <returns>The percentage of the specified money amount from the current amount.</returns>
-        // TODO: Check currencies are same.
         public decimal PercentFrom(Money money)
         {
             EnsureCurrenciesMatch(Currency, money.Currency);
