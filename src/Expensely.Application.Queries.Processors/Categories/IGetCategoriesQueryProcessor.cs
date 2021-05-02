@@ -8,7 +8,7 @@ namespace Expensely.Application.Queries.Processors.Categories
     /// <summary>
     /// Represents the <see cref="GetCategoriesQuery"/> processor interface.
     /// </summary>
-    public interface IGetCategoriesQueryProcessor : IQueryProcessor<GetCategoriesQuery, IReadOnlyCollection<CategoryResponse>>
+    public interface IGetCategoriesQueryProcessor : IQueryProcessor<GetCategoriesQuery, IEnumerable<CategoryResponse>>
     {
     }
 }

@@ -11,7 +11,7 @@ namespace Expensely.Application.Queries.Handlers.Categories
     /// <summary>
     /// Represents the <see cref="GetCategoriesQuery"/> handler.
     /// </summary>
-    public sealed class GetCategoriesQueryHandler : IQueryHandler<GetCategoriesQuery, IReadOnlyCollection<CategoryResponse>>
+    public sealed class GetCategoriesQueryHandler : IQueryHandler<GetCategoriesQuery, IEnumerable<CategoryResponse>>
     {
         private readonly IGetCategoriesQueryProcessor _processor;
 
@@ -22,7 +22,7 @@ namespace Expensely.Application.Queries.Handlers.Categories
         public GetCategoriesQueryHandler(IGetCategoriesQueryProcessor processor) => _processor = processor;
 
         /// <inheritdoc />
-        public async Task<IReadOnlyCollection<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken) =>
+        public async Task<IEnumerable<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken) =>
             await _processor.Process(request, cancellationToken);
     }
 }

@@ -34,7 +34,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <returns>The readonly collection of all supported categories.</returns>
         [HasPermission(Permission.CategoryRead)]
         [HttpGet(ApiRoutes.Categories.GetCategories)]
-        [ProducesResponseType(typeof(IReadOnlyCollection<CategoryResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<CategoryResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCategories(CancellationToken cancellationToken) =>
             Ok(await Sender.Send(new GetCategoriesQuery(), cancellationToken));
     }

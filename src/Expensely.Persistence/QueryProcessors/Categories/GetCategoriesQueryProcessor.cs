@@ -15,9 +15,9 @@ namespace Expensely.Persistence.QueryProcessors.Categories
     public sealed class GetCategoriesQueryProcessor : IGetCategoriesQueryProcessor
     {
         /// <inheritdoc />
-        public Task<IReadOnlyCollection<CategoryResponse>> Process(GetCategoriesQuery query, CancellationToken cancellationToken = default)
+        public Task<IEnumerable<CategoryResponse>> Process(GetCategoriesQuery query, CancellationToken cancellationToken = default)
         {
-            IReadOnlyCollection<CategoryResponse> categories = Category
+            IEnumerable<CategoryResponse> categories = Category
                 .List
                 .Select(x => new CategoryResponse
                 {
