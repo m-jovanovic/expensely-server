@@ -7,7 +7,7 @@ namespace Expensely.Application.Queries.Currencies
     /// <summary>
     /// Represents the query for getting a collection of all supported currencies.
     /// </summary>
-    public sealed class GetCurrenciesQuery : IQuery<IReadOnlyCollection<CurrencyResponse>>
+    public sealed class GetCurrenciesQuery : IQuery<IEnumerable<CurrencyResponse>>
     {
     }
 }

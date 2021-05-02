@@ -11,7 +11,7 @@ namespace Expensely.Application.Queries.Handlers.Currencies
     /// <summary>
     /// Represents the <see cref="GetCurrenciesQuery"/> handler.
     /// </summary>
-    public sealed class GetCurrenciesQueryHandler : IQueryHandler<GetCurrenciesQuery, IReadOnlyCollection<CurrencyResponse>>
+    public sealed class GetCurrenciesQueryHandler : IQueryHandler<GetCurrenciesQuery, IEnumerable<CurrencyResponse>>
     {
         private readonly IGetCurrenciesQueryProcessor _processor;
 
@@ -22,7 +22,7 @@ namespace Expensely.Application.Queries.Handlers.Currencies
         public GetCurrenciesQueryHandler(IGetCurrenciesQueryProcessor processor) => _processor = processor;
 
         /// <inheritdoc />
-        public async Task<IReadOnlyCollection<CurrencyResponse>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken) =>
+        public async Task<IEnumerable<CurrencyResponse>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken) =>
             await _processor.Process(request, cancellationToken);
     }
 }

@@ -34,7 +34,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <returns>The readonly collection of all supported currencies.</returns>
         [HasPermission(Permission.CurrencyRead)]
         [HttpGet(ApiRoutes.Currencies.GetCurrencies)]
-        [ProducesResponseType(typeof(IReadOnlyCollection<CurrencyResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<CurrencyResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCurrencies(CancellationToken cancellationToken) =>
             Ok(await Sender.Send(new GetCurrenciesQuery(), cancellationToken));
     }

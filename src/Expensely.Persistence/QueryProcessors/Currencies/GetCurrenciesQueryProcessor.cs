@@ -15,9 +15,9 @@ namespace Expensely.Persistence.QueryProcessors.Currencies
     public sealed class GetCurrenciesQueryProcessor : IGetCurrenciesQueryProcessor
     {
         /// <inheritdoc />
-        public Task<IReadOnlyCollection<CurrencyResponse>> Process(GetCurrenciesQuery query, CancellationToken cancellationToken = default)
+        public Task<IEnumerable<CurrencyResponse>> Process(GetCurrenciesQuery query, CancellationToken cancellationToken = default)
         {
-            IReadOnlyCollection<CurrencyResponse> categories = Currency
+            IEnumerable<CurrencyResponse> categories = Currency
                 .List
                 .Select(x => new CurrencyResponse
                 {
