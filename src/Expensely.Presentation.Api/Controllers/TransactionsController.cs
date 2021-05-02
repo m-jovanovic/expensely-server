@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Transactions;
@@ -115,7 +116,7 @@ namespace Expensely.Presentation.Api.Controllers
         // TODO: Clean up HTTP status codes and return type.
         [HasPermission(Permission.TransactionRead)]
         [HttpGet(ApiRoutes.Transactions.GetCurrentMonthExpensesPerCategory)]
-        [ProducesResponseType(typeof(ExpensesPerCategoryResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ExpensePerCategoryResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCurrentMonthExpensesPerCategory(
             Ulid userId,

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
@@ -37,13 +38,13 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
         }
 
         /// <inheritdoc />
-        public async Task<Maybe<ExpensesPerCategoryResponse>> Process(
+        public async Task<Maybe<IEnumerable<ExpensePerCategoryResponse>>> Process(
             GetCurrentMonthExpensesPerCategoryQuery query,
             CancellationToken cancellationToken = default)
         {
             if (query.UserId != _userInformationProvider.UserId)
             {
-                return Maybe<ExpensesPerCategoryResponse>.None;
+                return Maybe<IEnumerable<ExpensePerCategoryResponse>>.None;
             }
 
             Transactions_Monthly.Result[] monthlyTransactions = await _session
@@ -58,8 +59,8 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
 
             Currency currency = Currency.FromValue(query.Currency).Value;
 
-            ExpensesPerCategoryResponse.ExpensePerCategoryItem[] expensesPerCategory = monthlyTransactions
-                .Select(x => new ExpensesPerCategoryResponse.ExpensePerCategoryItem
+            ExpensePerCategoryResponse[] expensesPerCategory = monthlyTransactions
+                .Select(x => new ExpensePerCategoryResponse
                 {
                     Category = Category.FromValue(x.Category).Value.Name,
                     Amount = x.Amount,
@@ -68,7 +69,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
                 .OrderBy(x => x.Amount)
                 .ToArray();
 
-            return new ExpensesPerCategoryResponse(expensesPerCategory);
+            return expensesPerCategory;
         }
     }
 }

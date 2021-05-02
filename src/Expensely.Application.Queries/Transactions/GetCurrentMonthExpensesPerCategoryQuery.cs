@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Common.Abstractions.Messaging;
 using Expensely.Common.Primitives.Maybe;
@@ -8,7 +9,7 @@ namespace Expensely.Application.Queries.Transactions
     /// <summary>
     /// Represents the query for getting the monthly expenses per category.
     /// </summary>
-    public sealed class GetCurrentMonthExpensesPerCategoryQuery : IQuery<Maybe<ExpensesPerCategoryResponse>>
+    public sealed class GetCurrentMonthExpensesPerCategoryQuery : IQuery<Maybe<IEnumerable<ExpensePerCategoryResponse>>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetCurrentMonthExpensesPerCategoryQuery"/> class.

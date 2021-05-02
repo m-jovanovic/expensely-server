@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Queries.Processors.Transactions;
@@ -12,7 +13,7 @@ namespace Expensely.Application.Queries.Handlers.Transactions
     /// Represents the <see cref="GetCurrentMonthExpensesPerCategoryQuery"/> handler.
     /// </summary>
     internal sealed class GetCurrentMonthExpensesPerCategoryQueryHandler
-        : IQueryHandler<GetCurrentMonthExpensesPerCategoryQuery, Maybe<ExpensesPerCategoryResponse>>
+        : IQueryHandler<GetCurrentMonthExpensesPerCategoryQuery, Maybe<IEnumerable<ExpensePerCategoryResponse>>>
     {
         private readonly IGetCurrentMonthExpensesPerCategoryQueryProcessor _processor;
 
@@ -24,7 +25,7 @@ namespace Expensely.Application.Queries.Handlers.Transactions
             _processor = processor;
 
         /// <inheritdoc />
-        public async Task<Maybe<ExpensesPerCategoryResponse>> Handle(
+        public async Task<Maybe<IEnumerable<ExpensePerCategoryResponse>>> Handle(
             GetCurrentMonthExpensesPerCategoryQuery request,
             CancellationToken cancellationToken) =>
             await _processor.Process(request, cancellationToken);
