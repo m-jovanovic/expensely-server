@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Currencies;
 using Expensely.Application.Queries.Currencies;
-using Expensely.Application.Queries.Processors.Currencies;
 using Expensely.Common.Abstractions.Messaging;
+using Expensely.Domain.Modules.Common;
 
 namespace Expensely.Application.Queries.Handlers.Currencies
 {
@@ -13,16 +14,20 @@ namespace Expensely.Application.Queries.Handlers.Currencies
     /// </summary>
     public sealed class GetCurrenciesQueryHandler : IQueryHandler<GetCurrenciesQuery, IEnumerable<CurrencyResponse>>
     {
-        private readonly IGetCurrenciesQueryProcessor _processor;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GetCurrenciesQueryHandler"/> class.
-        /// </summary>
-        /// <param name="processor">The get currencies query processor.</param>
-        public GetCurrenciesQueryHandler(IGetCurrenciesQueryProcessor processor) => _processor = processor;
-
         /// <inheritdoc />
-        public async Task<IEnumerable<CurrencyResponse>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken) =>
-            await _processor.Process(request, cancellationToken);
+        public Task<IEnumerable<CurrencyResponse>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
+        {
+            IEnumerable<CurrencyResponse> categories = Currency
+                .List
+                .Select(x => new CurrencyResponse
+                {
+                    Id = x.Value,
+                    Name = x.Name,
+                    Code = x.Code
+                })
+                .ToList();
+
+            return Task.FromResult(categories);
+        }
     }
 }
