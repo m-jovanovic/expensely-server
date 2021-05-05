@@ -91,6 +91,11 @@ namespace Expensely.Domain.Modules.Users
         /// </summary>
         public Currency PrimaryCurrency { get; private set; }
 
+        /// <summary>
+        /// Gets the time zone identifier.
+        /// </summary>
+        public string TimeZoneId { get; private set; }
+
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; private set; }
 
@@ -292,5 +297,17 @@ namespace Expensely.Domain.Modules.Users
         /// </summary>
         /// <param name="refreshToken">The new refresh token.</param>
         public void ChangeRefreshToken(RefreshToken refreshToken) => RefreshToken = refreshToken;
+
+        /// <summary>
+        /// Changes the user's time zone based on the specified time zone information.
+        /// </summary>
+        /// <param name="timeZoneInfo">The time zone information.</param>
+        public void ChangeTimeZone(TimeZoneInfo timeZoneInfo) => TimeZoneId = timeZoneInfo.Id;
+
+        /// <summary>
+        /// Gets the value indicating whether or not the user setup is complete.
+        /// </summary>
+        /// <returns>True if the user's primary currency and time zone identifier are set, otherwise false.</returns>
+        public bool IsSetupComplete() => PrimaryCurrency is not null && !string.IsNullOrWhiteSpace(TimeZoneId);
     }
 }
