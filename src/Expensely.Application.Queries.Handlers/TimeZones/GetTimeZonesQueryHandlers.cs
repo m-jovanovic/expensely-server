@@ -20,6 +20,8 @@ namespace Expensely.Application.Queries.Handlers.TimeZones
         {
             IEnumerable<TimeZoneResponse> timeZones = TZConvert.KnownWindowsTimeZoneIds
                 .Select(TZConvert.GetTimeZoneInfo)
+                .GroupBy(timeZoneInfo => timeZoneInfo.DisplayName)
+                .Select(timeZoneInfoGroup => timeZoneInfoGroup.First())
                 .OrderBy(timeZoneInfo => timeZoneInfo.BaseUtcOffset.Hours)
                 .Select(timeZoneInfo => new TimeZoneResponse(timeZoneInfo.Id, timeZoneInfo.DisplayName));
 
