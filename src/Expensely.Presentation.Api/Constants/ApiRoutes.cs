@@ -161,6 +161,11 @@
             public const string ChangeUserPrimaryCurrency = "users/{userId}/currencies/{currency:int}/primary";
 
             /// <summary>
+            /// The change user time zone route.
+            /// </summary>
+            public const string ChangeUserTimeZone = "users/{userId}/time-zone/{timeZoneId}";
+
+            /// <summary>
             /// The change user password route.
             /// </summary>
             public const string ChangeUserPassword = "users/{userId}/password";

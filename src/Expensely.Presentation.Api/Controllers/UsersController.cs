@@ -121,6 +121,23 @@ namespace Expensely.Presentation.Api.Controllers
                 .Match(Ok, BadRequest);
 
         /// <summary>
+        /// Changes the user's time zone to the specified time zone.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="timeZoneId">The time zone identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>200 - OK if the user's time zone was changed successfully, otherwise 400 - Bad Request.</returns>
+        [HasPermission(Permission.UserModify)]
+        [HttpPut(ApiRoutes.Users.ChangeUserTimeZone)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> ChangeUserTimeZone(Ulid userId, string timeZoneId, CancellationToken cancellationToken) =>
+            await Result.Success(new ChangeUserTimeZoneCommand(userId, timeZoneId))
+                .Bind(command => Sender.Send(command, cancellationToken))
+                .Match(Ok, BadRequest);
+
+        /// <summary>
         /// Changes the user's password based on the specified request.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
