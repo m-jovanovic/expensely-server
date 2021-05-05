@@ -163,7 +163,7 @@
             /// <summary>
             /// The change user time zone route.
             /// </summary>
-            public const string ChangeUserTimeZone = "users/{userId}/time-zone/{timeZoneId}";
+            public const string ChangeUserTimeZone = "users/{userId}/time-zone";
 
             /// <summary>
             /// The change user password route.
