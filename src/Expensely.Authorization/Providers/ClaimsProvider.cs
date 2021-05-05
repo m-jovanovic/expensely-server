@@ -23,6 +23,8 @@ namespace Expensely.Authorization.Providers
 
             yield return new Claim(CustomJwtClaimTypes.FullName, user.GetFullName());
 
+            yield return new Claim(CustomJwtClaimTypes.IsSetupComplete, user.IsSetupComplete().ToString());
+
             yield return new Claim(
                 CustomJwtClaimTypes.PrimaryCurrency,
                 user.PrimaryCurrency is null ? string.Empty : user.PrimaryCurrency.Value.ToString(CultureInfo.InvariantCulture));

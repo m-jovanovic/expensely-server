@@ -11,6 +11,11 @@
         public const string FullName = "full_name";
 
         /// <summary>
+        /// The is setup complete claim type.
+        /// </summary>
+        public const string IsSetupComplete = "is_setup_complete";
+
+        /// <summary>
         /// The primary currency claim type.
         /// </summary>
         public const string PrimaryCurrency = "primary_currency";
