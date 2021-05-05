@@ -165,5 +165,16 @@
             /// </summary>
             public const string ChangeUserPassword = "users/{userId}/password";
         }
+
+        /// <summary>
+        /// Contains the time zones routes.
+        /// </summary>
+        public static class TimeZones
+        {
+            /// <summary>
+            /// The get time zones route.
+            /// </summary>
+            public const string GetTimeZones = "time-zones";
+        }
     }
 }

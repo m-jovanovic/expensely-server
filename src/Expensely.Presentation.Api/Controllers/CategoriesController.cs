@@ -31,7 +31,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// Gets the readonly collection of all supported categories.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The readonly collection of all supported categories.</returns>
+        /// <returns>The collection of all supported categories.</returns>
         [HasPermission(Permission.CategoryRead)]
         [HttpGet(ApiRoutes.Categories.GetCategories)]
         [ProducesResponseType(typeof(IEnumerable<CategoryResponse>), StatusCodes.Status200OK)]

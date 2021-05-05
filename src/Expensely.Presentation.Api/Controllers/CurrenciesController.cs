@@ -31,7 +31,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// Gets the readonly collection of all supported currencies.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The readonly collection of all supported currencies.</returns>
+        /// <returns>The collection of all supported currencies.</returns>
         [HasPermission(Permission.CurrencyRead)]
         [HttpGet(ApiRoutes.Currencies.GetCurrencies)]
         [ProducesResponseType(typeof(IEnumerable<CurrencyResponse>), StatusCodes.Status200OK)]

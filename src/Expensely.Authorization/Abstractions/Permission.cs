@@ -41,6 +41,11 @@
         CurrencyRead = 30,
 
         /// <summary>
+        ///  The time zone read permission.
+        /// </summary>
+        TimeZoneRead = 35,
+
+        /// <summary>
         /// The budget read permission.
         /// </summary>
         BudgetRead = 40,

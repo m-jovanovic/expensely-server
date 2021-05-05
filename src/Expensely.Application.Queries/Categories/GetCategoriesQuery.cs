@@ -5,7 +5,7 @@ using Expensely.Common.Abstractions.Messaging;
 namespace Expensely.Application.Queries.Categories
 {
     /// <summary>
-    /// Represents the query for getting a collection of all supported categories.
+    /// Represents the query for getting the collection of all supported categories.
     /// </summary>
     public sealed class GetCategoriesQuery : IQuery<IEnumerable<CategoryResponse>>
     {

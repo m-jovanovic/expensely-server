@@ -52,6 +52,7 @@ namespace Expensely.Authorization.Abstractions
                 yield return Permission.BudgetModify;
                 yield return Permission.CategoryRead;
                 yield return Permission.CurrencyRead;
+                yield return Permission.TimeZoneRead;
             }
         }
 
