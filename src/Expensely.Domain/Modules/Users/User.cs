@@ -307,7 +307,7 @@ namespace Expensely.Domain.Modules.Users
         /// <summary>
         /// Gets the value indicating whether or not the user setup is complete.
         /// </summary>
-        /// <returns>True if the user's primary currency and time zone identifier are set, otherwise false.</returns>
+        /// <returns>True if the user's primary currency and time zone identifier are not null, otherwise false.</returns>
         public bool IsSetupComplete() => PrimaryCurrency is not null && !string.IsNullOrWhiteSpace(TimeZoneId);
     }
 }
