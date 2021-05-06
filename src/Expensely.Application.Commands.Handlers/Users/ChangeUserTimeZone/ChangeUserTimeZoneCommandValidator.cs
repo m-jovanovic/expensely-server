@@ -1,4 +1,5 @@
-﻿using Expensely.Application.Abstractions.Authentication;
+﻿using System;
+using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Commands.Users;
@@ -19,7 +20,10 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserTimeZone
         {
             RuleFor(x => x.UserId).NotEmpty().WithError(ValidationErrors.User.IdentifierIsRequired);
 
-            RuleFor(x => x.UserId).Must(x => x == userInformationProvider.UserId).WithError(ValidationErrors.User.InvalidPermissions);
+            RuleFor(x => x.UserId)
+                .Must(x => x == userInformationProvider.UserId)
+                .When(x => x.UserId != Ulid.Empty)
+                .WithError(ValidationErrors.User.InvalidPermissions);
 
             RuleFor(x => x.TimeZoneId).NotEmpty().WithError(ValidationErrors.TimeZone.IdentifierIsRequired);
         }
