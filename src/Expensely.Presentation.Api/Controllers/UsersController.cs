@@ -141,7 +141,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// Changes the user's password based on the specified request.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <param name="request">The change password request.</param>
+        /// <param name="request">The change user password request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>200 - OK if the user's password was changed successfully, otherwise 400 - Bad Request.</returns>
         [HasPermission(Permission.UserModify)]
@@ -150,9 +150,28 @@ namespace Expensely.Presentation.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> ChangeUserPassword(
-            Ulid userId, [FromBody] ChangePasswordRequest request, CancellationToken cancellationToken) =>
+            Ulid userId, [FromBody] ChangeUserPasswordRequest request, CancellationToken cancellationToken) =>
             await Result.Create(request, ApiErrors.UnProcessableRequest)
                 .Map(value => new ChangeUserPasswordCommand(userId, value.CurrentPassword, value.NewPassword, value.ConfirmationPassword))
+                .Bind(command => Sender.Send(command, cancellationToken))
+                .Match(Ok, BadRequest);
+
+        /// <summary>
+        /// Sets up the user's primary currency and time zone identifier based on the specified request.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="request">The setup user request.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>200 - OK if the user's password was changed successfully, otherwise 400 - Bad Request.</returns>
+        [HasPermission(Permission.UserModify)]
+        [HttpPut(ApiRoutes.Users.SetupUser)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> SetupUser(
+            Ulid userId, [FromBody] SetupUserRequest request, CancellationToken cancellationToken) =>
+            await Result.Create(request, ApiErrors.UnProcessableRequest)
+                .Map(value => new SetupUserCommand(userId, value.Currency, value.TimeZoneId))
                 .Bind(command => Sender.Send(command, cancellationToken))
                 .Match(Ok, BadRequest);
     }

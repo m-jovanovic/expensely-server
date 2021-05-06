@@ -1,9 +1,9 @@
 ﻿namespace Expensely.Application.Contracts.Users
 {
     /// <summary>
-    /// Represents the change password request.
+    /// Represents the change user password request.
     /// </summary>
-    public sealed class ChangePasswordRequest
+    public sealed class ChangeUserPasswordRequest
     {
         /// <summary>
         /// Gets the current password.

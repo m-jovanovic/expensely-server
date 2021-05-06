@@ -169,6 +169,11 @@
             /// The change user password route.
             /// </summary>
             public const string ChangeUserPassword = "users/{userId}/password";
+
+            /// <summary>
+            /// The setup user route.
+            /// </summary>
+            public const string SetupUser = "users/{userId}/setup";
         }
 
         /// <summary>
