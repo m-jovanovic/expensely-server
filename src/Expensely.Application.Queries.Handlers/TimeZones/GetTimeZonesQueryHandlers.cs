@@ -19,7 +19,7 @@ namespace Expensely.Application.Queries.Handlers.TimeZones
         {
             IEnumerable<TimeZoneResponse> timeZones = TZConvert.KnownWindowsTimeZoneIds
                 .Select(TZConvert.GetTimeZoneInfo)
-                .GroupBy(timeZoneInfo => timeZoneInfo.DisplayName)
+                .GroupBy(timeZoneInfo => new { timeZoneInfo.DisplayName, timeZoneInfo.SupportsDaylightSavingTime })
                 .Select(timeZoneInfoGroup => timeZoneInfoGroup.First())
                 .OrderBy(timeZoneInfo => timeZoneInfo.BaseUtcOffset.Hours)
                 .Select(timeZoneInfo => new TimeZoneResponse(timeZoneInfo.Id, timeZoneInfo.DisplayName));
