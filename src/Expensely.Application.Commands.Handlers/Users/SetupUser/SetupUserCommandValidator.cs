@@ -5,6 +5,7 @@ using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Commands.Users;
 using Expensely.Domain.Modules.Common;
 using FluentValidation;
+using TimeZoneConverter;
 
 namespace Expensely.Application.Commands.Handlers.Users.SetupUser
 {
@@ -29,6 +30,11 @@ namespace Expensely.Application.Commands.Handlers.Users.SetupUser
             RuleFor(x => x.Currency).Must(Currency.ContainsValue).WithError(ValidationErrors.Currency.NotFound);
 
             RuleFor(x => x.TimeZoneId).NotEmpty().WithError(ValidationErrors.TimeZone.IdentifierIsRequired);
+
+            RuleFor(x => x.TimeZoneId)
+                .Must(x => TZConvert.TryGetTimeZoneInfo(x, out _))
+                .When(x => !string.IsNullOrWhiteSpace(x.TimeZoneId))
+                .WithError(ValidationErrors.TimeZone.NotFound);
         }
     }
 }
