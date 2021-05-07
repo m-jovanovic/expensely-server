@@ -4,6 +4,7 @@ using Expensely.Application.Commands.Handlers.Extensions;
 using Expensely.Application.Commands.Handlers.Validation;
 using Expensely.Application.Commands.Users;
 using FluentValidation;
+using TimeZoneConverter;
 
 namespace Expensely.Application.Commands.Handlers.Users.ChangeUserTimeZone
 {
@@ -26,6 +27,11 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserTimeZone
                 .WithError(ValidationErrors.User.InvalidPermissions);
 
             RuleFor(x => x.TimeZoneId).NotEmpty().WithError(ValidationErrors.TimeZone.IdentifierIsRequired);
+
+            RuleFor(x => x.TimeZoneId)
+                .Must(x => TZConvert.TryGetTimeZoneInfo(x, out _))
+                .When(x => !string.IsNullOrWhiteSpace(x.TimeZoneId))
+                .WithError(ValidationErrors.TimeZone.NotFound);
         }
     }
 }

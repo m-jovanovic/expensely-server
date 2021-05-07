@@ -41,10 +41,7 @@ namespace Expensely.Application.Commands.Handlers.Users.ChangeUserTimeZone
                 return Result.Failure(ValidationErrors.User.NotFound);
             }
 
-            if (!TZConvert.TryGetTimeZoneInfo(request.TimeZoneId, out TimeZoneInfo timeZoneInfo))
-            {
-                return Result.Failure(ValidationErrors.TimeZone.NotFound);
-            }
+            TimeZoneInfo timeZoneInfo = TZConvert.GetTimeZoneInfo(request.TimeZoneId);
 
             maybeUser.Value.ChangeTimeZone(timeZoneInfo);
 
