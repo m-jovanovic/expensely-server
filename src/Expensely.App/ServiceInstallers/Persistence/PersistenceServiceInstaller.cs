@@ -17,6 +17,7 @@ namespace Expensely.App.ServiceInstallers.Persistence
     {
         private const string RepositoryPostfix = "Repository";
         private const string QueryProcessorPostfix = "QueryProcessor";
+        private const string DataRequestsPostfix = "DataRequest";
 
         /// <inheritdoc />
         public void InstallServices(IServiceCollection services)
@@ -34,6 +35,8 @@ namespace Expensely.App.ServiceInstallers.Persistence
             AddRepositories(services);
 
             AddQueryProcessors(services);
+
+            AddDataRequests(services);
         }
 
         private static void AddRepositories(IServiceCollection services) =>
@@ -48,6 +51,14 @@ namespace Expensely.App.ServiceInstallers.Persistence
             services.Scan(scan =>
                 scan.FromAssemblies(PersistenceAssembly.Assembly)
                     .AddClasses(filter => filter.Where(type => type.Name.EndsWith(QueryProcessorPostfix, StringComparison.Ordinal)))
+                    .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                    .AsMatchingInterface()
+                    .WithScopedLifetime());
+
+        private static void AddDataRequests(IServiceCollection services) =>
+            services.Scan(scan =>
+                scan.FromAssemblies(PersistenceAssembly.Assembly)
+                    .AddClasses(filter => filter.Where(type => type.Name.EndsWith(DataRequestsPostfix, StringComparison.Ordinal)))
                     .UsingRegistrationStrategy(RegistrationStrategy.Throw)
                     .AsMatchingInterface()
                     .WithScopedLifetime());
