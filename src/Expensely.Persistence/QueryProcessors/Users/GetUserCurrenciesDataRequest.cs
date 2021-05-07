@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Queries.Handlers.Users;
 using Expensely.Application.Queries.Handlers.Users.GetUserCurrencies;
 using Expensely.Application.Queries.Users;
 using Expensely.Domain.Modules.Users;
