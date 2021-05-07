@@ -1,4 +1,4 @@
-﻿namespace Expensely.Application.Contracts.TimeZone
+﻿namespace Expensely.Application.Contracts.TimeZones
 {
     /// <summary>
     /// Represents the time zone response.

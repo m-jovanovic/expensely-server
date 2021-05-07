@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Queries.TimeZone;
+using Expensely.Application.Queries.TimeZones;
 using Expensely.Authorization.Abstractions;
 using Expensely.Authorization.Attributes;
 using Expensely.Presentation.Api.Constants;
