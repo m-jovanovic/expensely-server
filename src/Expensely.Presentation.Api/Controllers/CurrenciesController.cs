@@ -5,6 +5,7 @@ using Expensely.Application.Contracts.Currencies;
 using Expensely.Application.Queries.Currencies;
 using Expensely.Authorization.Abstractions;
 using Expensely.Authorization.Attributes;
+using Expensely.Common.Primitives.Extensions;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Infrastructure;
 using MediatR;
@@ -36,6 +37,6 @@ namespace Expensely.Presentation.Api.Controllers
         [HttpGet(ApiRoutes.Currencies.GetCurrencies)]
         [ProducesResponseType(typeof(IEnumerable<CurrencyResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCurrencies(CancellationToken cancellationToken) =>
-            Ok(await Sender.Send(new GetCurrenciesQuery(), cancellationToken));
+            await Sender.Send(new GetCurrenciesQuery(), cancellationToken).Map(Ok);
     }
 }
