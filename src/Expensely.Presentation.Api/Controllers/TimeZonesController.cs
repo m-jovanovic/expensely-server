@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Queries.TimeZones;
 using Expensely.Authorization.Abstractions;
 using Expensely.Authorization.Attributes;
+using Expensely.Common.Primitives.Extensions;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Infrastructure;
 using MediatR;
@@ -35,6 +36,6 @@ namespace Expensely.Presentation.Api.Controllers
         [HttpGet(ApiRoutes.TimeZones.GetTimeZones)]
         [ProducesResponseType(typeof(IEnumerable<GetTimeZonesQuery>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTimeZones(CancellationToken cancellationToken) =>
-            Ok(await Sender.Send(new GetTimeZonesQuery(), cancellationToken));
+            await Sender.Send(new GetTimeZonesQuery(), cancellationToken).Map(Ok);
     }
 }
