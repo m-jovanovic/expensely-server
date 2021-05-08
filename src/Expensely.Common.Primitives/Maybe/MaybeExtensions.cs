@@ -13,10 +13,10 @@ namespace Expensely.Common.Primitives.Maybe
         /// </summary>
         /// <typeparam name="TIn">The result type.</typeparam>
         /// <typeparam name="TOut">The output result type.</typeparam>
-        /// <param name="maybe">The result.</param>
+        /// <param name="maybe">The maybe value.</param>
         /// <param name="func">The bind function.</param>
         /// <returns>
-        /// The success result with the bound value if the current result is a success result, otherwise a failure result.
+        /// The bound value if the maybe has a value, otherwise an empty maybe instance.
         /// </returns>
         public static async Task<Maybe<TOut>> Bind<TIn, TOut>(this Maybe<TIn> maybe, Func<TIn, Task<Maybe<TOut>>> func) =>
             maybe.HasValue ? await func(maybe.Value) : Maybe<TOut>.None;
