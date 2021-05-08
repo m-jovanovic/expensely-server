@@ -6,7 +6,6 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Queries.Processors.Transactions;
 using Expensely.Application.Queries.Transactions;
-using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Persistence.Indexes.Transactions;
@@ -38,13 +37,13 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
         }
 
         /// <inheritdoc />
-        public async Task<Maybe<IEnumerable<ExpensePerCategoryResponse>>> Process(
+        public async Task<IEnumerable<ExpensePerCategoryResponse>> Process(
             GetCurrentMonthExpensesPerCategoryQuery query,
             CancellationToken cancellationToken = default)
         {
             if (query.UserId != _userInformationProvider.UserId)
             {
-                return Maybe<IEnumerable<ExpensePerCategoryResponse>>.None;
+                return Enumerable.Empty<ExpensePerCategoryResponse>();
             }
 
             Transactions_Monthly.Result[] monthlyTransactions = await _session

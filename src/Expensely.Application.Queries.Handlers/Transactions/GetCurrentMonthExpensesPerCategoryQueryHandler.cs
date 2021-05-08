@@ -5,7 +5,6 @@ using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Queries.Processors.Transactions;
 using Expensely.Application.Queries.Transactions;
 using Expensely.Common.Abstractions.Messaging;
-using Expensely.Common.Primitives.Maybe;
 
 namespace Expensely.Application.Queries.Handlers.Transactions
 {
@@ -13,7 +12,7 @@ namespace Expensely.Application.Queries.Handlers.Transactions
     /// Represents the <see cref="GetCurrentMonthExpensesPerCategoryQuery"/> handler.
     /// </summary>
     internal sealed class GetCurrentMonthExpensesPerCategoryQueryHandler
-        : IQueryHandler<GetCurrentMonthExpensesPerCategoryQuery, Maybe<IEnumerable<ExpensePerCategoryResponse>>>
+        : IQueryHandler<GetCurrentMonthExpensesPerCategoryQuery, IEnumerable<ExpensePerCategoryResponse>>
     {
         private readonly IGetCurrentMonthExpensesPerCategoryQueryProcessor _processor;
 
@@ -25,7 +24,7 @@ namespace Expensely.Application.Queries.Handlers.Transactions
             _processor = processor;
 
         /// <inheritdoc />
-        public async Task<Maybe<IEnumerable<ExpensePerCategoryResponse>>> Handle(
+        public async Task<IEnumerable<ExpensePerCategoryResponse>> Handle(
             GetCurrentMonthExpensesPerCategoryQuery request,
             CancellationToken cancellationToken) =>
             await _processor.Process(request, cancellationToken);

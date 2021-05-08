@@ -108,20 +108,17 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the expenses per category are found, otherwise 404 - Not Found.</returns>
-        // TODO: Clean up HTTP status codes and return type.
+        /// <returns>The expenses per category with 200 - OK status code.</returns>
         [HasPermission(Permission.TransactionRead)]
         [HttpGet(ApiRoutes.Transactions.GetCurrentMonthExpensesPerCategory)]
         [ProducesResponseType(typeof(IEnumerable<ExpensePerCategoryResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCurrentMonthExpensesPerCategory(
             Ulid userId,
             int currency,
             CancellationToken cancellationToken) =>
-            await Maybe<GetCurrentMonthExpensesPerCategoryQuery>
-                .From(new GetCurrentMonthExpensesPerCategoryQuery(userId, currency, _systemTime.UtcNow))
-                .Bind(query => Sender.Send(query, cancellationToken))
-                .Match(Ok, NotFound);
+            await Sender
+                .Send(new GetCurrentMonthExpensesPerCategoryQuery(userId, currency, _systemTime.UtcNow), cancellationToken)
+                .Map(Ok);
 
         /// <summary>
         /// Creates the transaction based on the specified request.
