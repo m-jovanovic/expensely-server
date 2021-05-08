@@ -8,7 +8,6 @@ using Expensely.Application.Queries.Users;
 using Expensely.Authorization.Abstractions;
 using Expensely.Authorization.Attributes;
 using Expensely.Common.Primitives.Extensions;
-using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Errors;
@@ -38,7 +37,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// </summary>
         /// <param name="userId">The transaction identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the transaction with the specified identifier is found, otherwise 404 - Not Found.</returns>
+        /// <returns>The collection of user's currencies.</returns>
         [HasPermission(Permission.UserRead)]
         [HttpGet(ApiRoutes.Users.GetUserCurrencies)]
         [ProducesResponseType(typeof(IEnumerable<UserCurrencyResponse>), StatusCodes.Status200OK)]
@@ -51,7 +50,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="userId">The user identifier.</param>
         /// <param name="request">The change name request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the user's name was changed successfully, otherwise 400 - Bad Request.</returns>
+        /// <returns>The empty response if the operation was successful, otherwise an error response.</returns>
         [HasPermission(Permission.UserModify)]
         [HttpPut(ApiRoutes.Users.ChangeUserName)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -70,7 +69,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the currency was added to the user's currencies successfully, otherwise 400 - Bad Request.</returns>
+        /// <returns>The empty response if the operation was successful, otherwise an error response.</returns>
         [HasPermission(Permission.UserModify)]
         [HttpPut(ApiRoutes.Users.AddUserCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -87,9 +86,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// 204 - No Content if the currency was removed from the user's currencies successfully, otherwise 400 - Bad Request.
-        /// </returns>
+        /// <returns>The empty response if the operation was successful, otherwise an error response.</returns>
         [HasPermission(Permission.UserModify)]
         [HttpDelete(ApiRoutes.Users.RemoveUserCurrency)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -106,7 +103,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="userId">The user identifier.</param>
         /// <param name="currency">The currency value.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the user's primary currency was changed successfully, otherwise 400 - Bad Request.</returns>
+        /// <returns>The empty response if the operation was successful, otherwise an error response.</returns>
         [HasPermission(Permission.UserModify)]
         [HttpPut(ApiRoutes.Users.ChangeUserPrimaryCurrency)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -123,7 +120,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="userId">The user identifier.</param>
         /// <param name="timeZoneId">The time zone identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the user's time zone was changed successfully, otherwise 400 - Bad Request.</returns>
+        /// <returns>The empty response if the operation was successful, otherwise an error response.</returns>
         [HasPermission(Permission.UserModify)]
         [HttpPut(ApiRoutes.Users.ChangeUserTimeZone)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -140,7 +137,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="userId">The user identifier.</param>
         /// <param name="request">The change user password request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the user's password was changed successfully, otherwise 400 - Bad Request.</returns>
+        /// <returns>The empty response if the operation was successful, otherwise an error response.</returns>
         [HasPermission(Permission.UserModify)]
         [HttpPut(ApiRoutes.Users.ChangeUserPassword)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -159,7 +156,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="userId">The user identifier.</param>
         /// <param name="request">The setup user request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the user's password was changed successfully, otherwise 400 - Bad Request.</returns>
+        /// <returns>The empty response if the operation was successful, otherwise an error response.</returns>
         [HasPermission(Permission.UserModify)]
         [HttpPut(ApiRoutes.Users.SetupUser)]
         [ProducesResponseType(StatusCodes.Status200OK)]

@@ -33,7 +33,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// </summary>
         /// <param name="loginRequest">The login request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The JWT if the login was successful, or an error response otherwise.</returns>
+        /// <returns>The JWT if the login was successful, otherwise an error response.</returns>
         [HttpPost(ApiRoutes.Authentication.Login)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
@@ -49,7 +49,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// </summary>
         /// <param name="registerRequest">The register request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The JWT if the registration was successful, or an error response otherwise.</returns>
+        /// <returns>The empty response if the operation was successful, otherwise an error response.</returns>
         [HttpPost(ApiRoutes.Authentication.Register)]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
@@ -70,7 +70,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// </summary>
         /// <param name="refreshTokenRequest">The refresh token request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The JWT if the token was refreshed successful, or an error response otherwise.</returns>
+        /// <returns>The JWT if the token was refreshed successful, otherwise an error response.</returns>
         [HttpPost(ApiRoutes.Authentication.RefreshToken)]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]

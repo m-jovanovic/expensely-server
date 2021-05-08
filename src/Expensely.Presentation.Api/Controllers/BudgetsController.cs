@@ -38,7 +38,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK with the list of active budgets for the specified user identifier.</returns>
+        /// <returns>The collection of active budgets for the specified user identifier.</returns>
         [HasPermission(Permission.BudgetRead)]
         [HttpGet(ApiRoutes.Budgets.GetActiveBudgets)]
         [ProducesResponseType(typeof(IEnumerable<BudgetListItemResponse>), StatusCodes.Status200OK)]
@@ -50,7 +50,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the budget with the specified identifier is found, otherwise 404 - Not Found.</returns>
+        /// <returns>The budget with the specified identifier, if it exists.</returns>
         [HasPermission(Permission.BudgetRead)]
         [HttpGet(ApiRoutes.Budgets.GetBudgetById)]
         [ProducesResponseType(typeof(BudgetResponse), StatusCodes.Status200OK)]
@@ -66,7 +66,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the budget with the specified identifier is found, otherwise 404 - Not Found.</returns>
+        /// <returns>The details of the budget with the specified identifier, if it exists.</returns>
         [HasPermission(Permission.BudgetRead)]
         [HttpGet(ApiRoutes.Budgets.GetBudgetDetailsById)]
         [ProducesResponseType(typeof(BudgetDetailsResponse), StatusCodes.Status200OK)]
@@ -82,7 +82,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// </summary>
         /// <param name="createBudgetRequest">The create budget request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the budget was created successfully, otherwise 400 - Bad Request.</returns>
+        /// <returns>The empty response if the operation was successful, otherwise an error response.</returns>
         [HasPermission(Permission.BudgetModify)]
         [HttpPost(ApiRoutes.Budgets.CreateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -109,7 +109,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="budgetId">The budget identifier.</param>
         /// <param name="updateBudgetRequest">The update budget request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if the budget was updated successfully, otherwise 400 - Bad Request.</returns>
+        /// <returns>The empty response if the operation was successful, otherwise an error response.</returns>
         [HasPermission(Permission.BudgetModify)]
         [HttpPut(ApiRoutes.Budgets.UpdateBudget)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -136,7 +136,7 @@ namespace Expensely.Presentation.Api.Controllers
         /// </summary>
         /// <param name="budgetId">The budget identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>204 - No Content if the budget was deleted successfully, otherwise 404 - Not Found.</returns>
+        /// <returns>The empty response if the operation was successful, otherwise an error response.</returns>
         [HasPermission(Permission.BudgetModify)]
         [HttpDelete(ApiRoutes.Budgets.DeleteBudget)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
