@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using Expensely.Application.Contracts.Budgets;
 using Expensely.Common.Abstractions.Messaging;
-using Expensely.Common.Primitives.Maybe;
 
 namespace Expensely.Application.Queries.Budgets
 {
     /// <summary>
     /// Represents the query for getting a list of active budgets.
     /// </summary>
-    public sealed class GetActiveBudgetsQuery : IQuery<Maybe<IEnumerable<BudgetListItemResponse>>>
+    public sealed class GetActiveBudgetsQuery : IQuery<IEnumerable<BudgetListItemResponse>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetActiveBudgetsQuery"/> class.

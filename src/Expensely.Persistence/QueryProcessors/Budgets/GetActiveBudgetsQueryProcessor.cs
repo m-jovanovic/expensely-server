@@ -8,7 +8,6 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Contracts.Budgets;
 using Expensely.Application.Queries.Budgets;
 using Expensely.Application.Queries.Processors.Budgets;
-using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Budgets;
 using Expensely.Domain.Modules.Common;
 using Expensely.Domain.Modules.Transactions;
@@ -39,13 +38,13 @@ namespace Expensely.Persistence.QueryProcessors.Budgets
         }
 
         /// <inheritdoc />
-        public async Task<Maybe<IEnumerable<BudgetListItemResponse>>> Process(
+        public async Task<IEnumerable<BudgetListItemResponse>> Process(
             GetActiveBudgetsQuery query,
             CancellationToken cancellationToken = default)
         {
             if (_userInformationProvider.UserId != query.UserId)
             {
-                return Maybe<IEnumerable<BudgetListItemResponse>>.None;
+                return Enumerable.Empty<BudgetListItemResponse>();
             }
 
             var budgets = await _session.Query<Budget>()
