@@ -40,7 +40,7 @@ namespace Expensely.Persistence.QueryProcessors.Users
                 })
                 .FirstOrDefaultAsync(cancellationToken);
 
-            return userCurrencies.Currencies;
+            return userCurrencies?.Currencies;
         }
     }
 }

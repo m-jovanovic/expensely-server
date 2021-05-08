@@ -7,6 +7,7 @@ using Expensely.Application.Contracts.Users;
 using Expensely.Application.Queries.Users;
 using Expensely.Authorization.Abstractions;
 using Expensely.Authorization.Attributes;
+using Expensely.Common.Primitives.Extensions;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Presentation.Api.Constants;
@@ -41,12 +42,8 @@ namespace Expensely.Presentation.Api.Controllers
         [HasPermission(Permission.UserRead)]
         [HttpGet(ApiRoutes.Users.GetUserCurrencies)]
         [ProducesResponseType(typeof(IEnumerable<UserCurrencyResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserCurrencies(Ulid userId, CancellationToken cancellationToken) =>
-            await Maybe<GetUserCurrenciesQuery>
-                .From(new GetUserCurrenciesQuery(userId))
-                .Bind(query => Sender.Send(query, cancellationToken))
-                .Match(Ok, NotFound);
+            await Sender.Send(new GetUserCurrenciesQuery(userId), cancellationToken).Map(Ok);
 
         /// <summary>
         /// Changes the user's name based on the specified request.

@@ -6,14 +6,13 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Contracts.Users;
 using Expensely.Application.Queries.Users;
 using Expensely.Common.Abstractions.Messaging;
-using Expensely.Common.Primitives.Maybe;
 
 namespace Expensely.Application.Queries.Handlers.Users.GetUserCurrencies
 {
     /// <summary>
     /// Represents the <see cref="GetUserCurrenciesQuery"/> handler.
     /// </summary>
-    public sealed class GetUserCurrenciesQueryHandler : IQueryHandler<GetUserCurrenciesQuery, Maybe<IEnumerable<UserCurrencyResponse>>>
+    public sealed class GetUserCurrenciesQueryHandler : IQueryHandler<GetUserCurrenciesQuery, IEnumerable<UserCurrencyResponse>>
     {
         private readonly IUserInformationProvider _userInformationProvider;
         private readonly IGetUserCurrenciesDataRequest _request;
@@ -30,13 +29,13 @@ namespace Expensely.Application.Queries.Handlers.Users.GetUserCurrencies
         }
 
         /// <inheritdoc />
-        public async Task<Maybe<IEnumerable<UserCurrencyResponse>>> Handle(
+        public async Task<IEnumerable<UserCurrencyResponse>> Handle(
             GetUserCurrenciesQuery request,
             CancellationToken cancellationToken)
         {
             if (request.UserId != _userInformationProvider.UserId)
             {
-                return Maybe<IEnumerable<UserCurrencyResponse>>.None;
+                return Enumerable.Empty<UserCurrencyResponse>();
             }
 
             IEnumerable<UserCurrencyModel> userCurrencyModels = await _request.GetAsync(
@@ -45,7 +44,7 @@ namespace Expensely.Application.Queries.Handlers.Users.GetUserCurrencies
 
             if (userCurrencyModels is null)
             {
-                return Maybe<IEnumerable<UserCurrencyResponse>>.None;
+                return Enumerable.Empty<UserCurrencyResponse>();
             }
 
             UserCurrencyResponse[] userCurrencyResponses = userCurrencyModels

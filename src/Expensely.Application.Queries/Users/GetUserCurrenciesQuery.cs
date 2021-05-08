@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using Expensely.Application.Contracts.Users;
 using Expensely.Common.Abstractions.Messaging;
-using Expensely.Common.Primitives.Maybe;
 
 namespace Expensely.Application.Queries.Users
 {
     /// <summary>
     /// Represents the query for getting a user's currencies.
     /// </summary>
-    public sealed class GetUserCurrenciesQuery : IQuery<Maybe<IEnumerable<UserCurrencyResponse>>>
+    public sealed class GetUserCurrenciesQuery : IQuery<IEnumerable<UserCurrencyResponse>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetUserCurrenciesQuery"/> class.
