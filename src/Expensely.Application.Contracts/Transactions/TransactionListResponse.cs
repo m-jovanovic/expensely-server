@@ -14,7 +14,7 @@ namespace Expensely.Application.Contracts.Transactions
         /// </summary>
         /// <param name="items">The items.</param>
         /// <param name="cursor">The cursor.</param>
-        public TransactionListResponse(IReadOnlyCollection<TransactionListItem> items, string cursor = "")
+        public TransactionListResponse(IEnumerable<TransactionListItem> items, string cursor = "")
         {
             Cursor = cursor;
             Items = items;
@@ -23,7 +23,7 @@ namespace Expensely.Application.Contracts.Transactions
         /// <summary>
         /// Gets the items.
         /// </summary>
-        public IReadOnlyCollection<TransactionListItem> Items { get; }
+        public IEnumerable<TransactionListItem> Items { get; }
 
         /// <summary>
         /// Gets the cursor.

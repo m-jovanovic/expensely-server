@@ -8,6 +8,7 @@ using Expensely.Application.Queries.Transactions;
 using Expensely.Authorization.Abstractions;
 using Expensely.Authorization.Attributes;
 using Expensely.Common.Abstractions.Clock;
+using Expensely.Common.Primitives.Extensions;
 using Expensely.Common.Primitives.Maybe;
 using Expensely.Common.Primitives.Result;
 using Expensely.Presentation.Api.Constants;
@@ -42,17 +43,12 @@ namespace Expensely.Presentation.Api.Controllers
         /// <param name="limit">The limit.</param>
         /// <param name="cursor">The cursor.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>200 - OK if any transactions are found, otherwise 404 - Not Found.</returns>
-        // TODO: Clean up HTTP status codes and return type.
+        /// <returns>The transaction list response with 200 - OK status code.</returns>
         [HasPermission(Permission.TransactionRead)]
         [HttpGet(ApiRoutes.Transactions.GetTransactions)]
         [ProducesResponseType(typeof(TransactionListResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetTransactions(Ulid userId, int limit, string cursor, CancellationToken cancellationToken) =>
-            await Maybe<GetTransactionsQuery>
-                .From(new GetTransactionsQuery(userId, limit, cursor, _systemTime.UtcNow))
-                .Bind(query => Sender.Send(query, cancellationToken))
-                .Match(Ok, NotFound);
+            await Sender.Send(new GetTransactionsQuery(userId, limit, cursor, _systemTime.UtcNow), cancellationToken).Map(Ok);
 
         /// <summary>
         /// Gets the transaction for the specified identifier.

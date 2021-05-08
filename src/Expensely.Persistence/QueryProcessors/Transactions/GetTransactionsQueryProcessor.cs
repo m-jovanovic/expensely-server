@@ -8,7 +8,6 @@ using Expensely.Application.Queries.Processors.Transactions;
 using Expensely.Application.Queries.Transactions;
 using Expensely.Application.Queries.Utility;
 using Expensely.Common.Abstractions.Constants;
-using Expensely.Common.Primitives.Maybe;
 using Expensely.Domain.Modules.Transactions;
 using Expensely.Persistence.Indexes.Transactions;
 using Raven.Client.Documents;
@@ -37,11 +36,11 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
         }
 
         /// <inheritdoc />
-        public async Task<Maybe<TransactionListResponse>> Process(GetTransactionsQuery query, CancellationToken cancellationToken = default)
+        public async Task<TransactionListResponse> Process(GetTransactionsQuery query, CancellationToken cancellationToken = default)
         {
             if (query.UserId != _userInformationProvider.UserId)
             {
-                return Maybe<TransactionListResponse>.None;
+                return new TransactionListResponse(Enumerable.Empty<TransactionListResponse.TransactionListItem>());
             }
 
             var transactions = await _session

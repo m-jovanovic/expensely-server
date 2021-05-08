@@ -2,14 +2,13 @@
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Queries.Utility;
 using Expensely.Common.Abstractions.Messaging;
-using Expensely.Common.Primitives.Maybe;
 
 namespace Expensely.Application.Queries.Transactions
 {
     /// <summary>
     /// Represents the query for getting a list of transactions.
     /// </summary>
-    public sealed class GetTransactionsQuery : IQuery<Maybe<TransactionListResponse>>
+    public sealed class GetTransactionsQuery : IQuery<TransactionListResponse>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetTransactionsQuery"/> class.
