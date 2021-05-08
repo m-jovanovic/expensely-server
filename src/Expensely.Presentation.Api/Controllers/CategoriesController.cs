@@ -5,6 +5,7 @@ using Expensely.Application.Contracts.Categories;
 using Expensely.Application.Queries.Categories;
 using Expensely.Authorization.Abstractions;
 using Expensely.Authorization.Attributes;
+using Expensely.Common.Primitives.Extensions;
 using Expensely.Presentation.Api.Constants;
 using Expensely.Presentation.Api.Infrastructure;
 using MediatR;
@@ -36,6 +37,6 @@ namespace Expensely.Presentation.Api.Controllers
         [HttpGet(ApiRoutes.Categories.GetCategories)]
         [ProducesResponseType(typeof(IEnumerable<CategoryResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCategories(CancellationToken cancellationToken) =>
-            Ok(await Sender.Send(new GetCategoriesQuery(), cancellationToken));
+            await Sender.Send(new GetCategoriesQuery(), cancellationToken).Map(Ok);
     }
 }
