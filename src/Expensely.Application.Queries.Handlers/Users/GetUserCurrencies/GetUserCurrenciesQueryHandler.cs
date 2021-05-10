@@ -48,13 +48,7 @@ namespace Expensely.Application.Queries.Handlers.Users.GetUserCurrencies
             }
 
             UserCurrencyResponse[] userCurrencyResponses = userCurrencyModels
-                .Select(x => new UserCurrencyResponse
-                {
-                    Id = x.Value,
-                    Name = x.Name,
-                    Code = x.Code,
-                    IsPrimary = x.IsPrimary
-                })
+                .Select(x => new UserCurrencyResponse(x.Value, x.Name, x.Code, x.IsPrimary))
                 .OrderByDescending(x => x.IsPrimary)
                 .ToArray();
 

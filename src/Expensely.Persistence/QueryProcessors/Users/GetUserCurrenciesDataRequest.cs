@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Queries.Handlers.Users.GetUserCurrencies;
-using Expensely.Application.Queries.Users;
 using Expensely.Domain.Modules.Users;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
@@ -11,7 +10,7 @@ using Raven.Client.Documents.Session;
 namespace Expensely.Persistence.QueryProcessors.Users
 {
     /// <summary>
-    /// Represents the <see cref="GetUserCurrenciesQuery"/> processor.
+    /// Represents the data request for getting a user's currencies.
     /// </summary>
     public sealed class GetUserCurrenciesDataRequest : IGetUserCurrenciesDataRequest
     {
