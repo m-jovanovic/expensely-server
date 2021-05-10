@@ -5,41 +5,12 @@ namespace Expensely.Application.Contracts.Transactions
     /// <summary>
     /// Represents the transaction response.
     /// </summary>
-    public sealed class TransactionResponse
-    {
-        /// <summary>
-        /// Gets the identifier.
-        /// </summary>
-        public string Id { get; init; }
-
-        /// <summary>
-        /// Gets the description.
-        /// </summary>
-        public string Description { get; init; }
-
-        /// <summary>
-        /// Gets the category.
-        /// </summary>
-        public int Category { get; init; }
-
-        /// <summary>
-        /// Gets the amount.
-        /// </summary>
-        public decimal Amount { get; init; }
-
-        /// <summary>
-        /// Gets the currency.
-        /// </summary>
-        public int Currency { get; init; }
-
-        /// <summary>
-        /// Gets the occurred on date.
-        /// </summary>
-        public DateTime OccurredOn { get; init; }
-
-        /// <summary>
-        /// Gets the transaction type.
-        /// </summary>
-        public int TransactionType { get; init; }
-    }
+    public sealed record TransactionResponse(
+        string Id,
+        string Description,
+        int Category,
+        decimal Amount,
+        int Currency,
+        DateTime OccurredOn,
+        int TransactionType);
 }

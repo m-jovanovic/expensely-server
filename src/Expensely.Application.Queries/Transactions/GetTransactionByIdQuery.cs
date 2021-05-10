@@ -14,11 +14,11 @@ namespace Expensely.Application.Queries.Transactions
         /// Initializes a new instance of the <see cref="GetTransactionByIdQuery"/> class.
         /// </summary>
         /// <param name="transactionId">The transaction identifier.</param>
-        public GetTransactionByIdQuery(Ulid transactionId) => TransactionId = transactionId.ToString();
+        public GetTransactionByIdQuery(Ulid transactionId) => TransactionId = transactionId;
 
         /// <summary>
         /// Gets the transaction identifier.
         /// </summary>
-        public string TransactionId { get; }
+        public Ulid TransactionId { get; }
     }
 }
