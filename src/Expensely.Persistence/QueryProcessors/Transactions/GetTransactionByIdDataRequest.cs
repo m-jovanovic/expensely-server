@@ -22,7 +22,7 @@ namespace Expensely.Persistence.QueryProcessors.Transactions
         public GetTransactionByIdDataRequest(IAsyncDocumentSession session) => _session = session;
 
         /// <inheritdoc />
-        public async Task<TransactionModel> GetAsync(GetTransactionRequest request, CancellationToken cancellationToken = default)
+        public async Task<TransactionModel> GetAsync(GetTransactionByIdRequest request, CancellationToken cancellationToken = default)
         {
             TransactionModel transaction = await _session
                 .Query<Transaction>()

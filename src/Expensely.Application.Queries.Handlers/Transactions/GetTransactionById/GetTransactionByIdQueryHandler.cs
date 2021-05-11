@@ -31,7 +31,7 @@ namespace Expensely.Application.Queries.Handlers.Transactions.GetTransactionById
         public async Task<Maybe<TransactionResponse>> Handle(GetTransactionByIdQuery request, CancellationToken cancellationToken)
         {
             TransactionModel transactionModel = await _request.GetAsync(
-                new GetTransactionRequest(request.TransactionId.ToString()),
+                new GetTransactionByIdRequest(request.TransactionId.ToString()),
                 cancellationToken);
 
             if (transactionModel is null || transactionModel.UserId != _userInformationProvider.UserId)
