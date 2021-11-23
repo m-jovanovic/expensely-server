@@ -20,7 +20,7 @@ namespace Expensely.Infrastructure.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="PasswordHasher"/> class.
         /// </summary>
-        public PasswordHasher() => _rng = new RNGCryptoServiceProvider();
+        public PasswordHasher() => _rng = RandomNumberGenerator.Create(nameof(RandomNumberGenerator));
 
         /// <inheritdoc />
         public string Hash(Password password)

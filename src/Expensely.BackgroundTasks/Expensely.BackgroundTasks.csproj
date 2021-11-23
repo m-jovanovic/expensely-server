@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <Import Project="..\..\CodeAnalysis.targets" />
 
   <ItemGroup>
-    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.3.2" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.3.3" />
   </ItemGroup>
 
   <ItemGroup>
