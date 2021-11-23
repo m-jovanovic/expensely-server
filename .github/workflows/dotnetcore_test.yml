@@ -4,7 +4,7 @@ on:
  push
 
 env:
-  DOTNET_VERSION: "5.0.202"
+  DOTNET_VERSION: "6.0.100"
 
 jobs:
   test:
