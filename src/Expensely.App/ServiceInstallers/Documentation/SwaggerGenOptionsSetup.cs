@@ -32,7 +32,7 @@ namespace Expensely.App.ServiceInstallers.Documentation
             {
                 Name = "Authorization",
                 In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
+                Type = SecuritySchemeType.Http,
                 Scheme = "Bearer",
                 Description = "JWT Authorization header using the Bearer scheme."
             });
