@@ -23,7 +23,11 @@ namespace Expensely.App
         {
             try
             {
+                Log.Information("Creating host.");
+
                 IHost host = CreateHostBuilder(args).Build();
+
+                Log.Information("Configuring logger.");
 
                 using (IServiceScope scope = host.Services.CreateScope())
                 {
@@ -35,6 +39,8 @@ namespace Expensely.App
                 Log.Information("Application starting.");
 
                 host.Run();
+
+                Log.Information("Application started.");
             }
             catch (Exception exception)
             {
